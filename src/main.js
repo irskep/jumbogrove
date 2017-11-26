@@ -3,12 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import JumboGroveDirector from "@/jg";
+import example from "@/example";
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 
-const runJumboGrove = (data, selector = '#app') => {
+const run = (selector, data) => {
   new Vue({
     el: selector,
     template: '<App :director="director" />',
@@ -20,5 +21,14 @@ const runJumboGrove = (data, selector = '#app') => {
 };
 
 
-import example from "@/game";
-runJumboGrove(example)
+window.JumboGrove = {
+  run,
+};
+
+if (window.jumboGroveExample) {
+  run(window.jumboGroveExample, example);
+}
+
+export {
+  run,
+}
