@@ -1,27 +1,28 @@
-# ifeng
+# Jumbo Grove
+An interactive fiction engine
 
-> A Vue.js project
+## Setup
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
+```sh
+npm install -g yarn  # yarn is the best, please install it!
+yarn install
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Developing
+
+You can run a local auto-reloading server like this:
+```sh
+yarn run dev
+```
+
+You can run the tests like this:
+```sh
+yarn run test
+yarn run watchtest  # re-run tests when files change
+```
+
+## Deploying to a web site
+
+```sh
+yarn run build
+```
