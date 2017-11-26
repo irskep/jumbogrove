@@ -1,13 +1,15 @@
 <template>
   <div class="JumboGrove">
-    <router-view :director="director"></router-view>
+    <JGUI :director="director"></JGUI>
   </div>
 </template>
 
 <script>
+import JGUI from '@/components/JGUI'
 export default {
   name: 'app',
   props: ['director'],
+  components: { JGUI },
 }
 </script>
 
