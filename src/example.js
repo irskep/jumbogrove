@@ -88,12 +88,7 @@ export default {
             optionText: 'Play the Bob Game',
             content: `
             ## The Bob Game
-            
-
             `,
-            enter: (model, ui, fromSituation) => {
-                ui.logQualities();
-            },
             choices: ['longboye', 'demo', 'hello'],
         },
         {

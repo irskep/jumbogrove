@@ -57,6 +57,9 @@ class JumboGroveDirector {
     }
 
     start() {
+        if (this.currentSituation) {
+            throw new Error("You may only start once!");
+        }
         this.goTo(this._initialSituationId);
     }
 
@@ -68,7 +71,8 @@ class JumboGroveDirector {
     situations(idOrTag) {
         if (idOrTag.startsWith("#")) {
             const tag = idOrTag.slice(1);
-            return Object.values(this._situations).filter((s) => s.tags.indexOf(tag) !== -1);
+            return Object.values(this._situations)
+                .filter((s) => s.tags.indexOf(tag) !== -1);
         } else {
             return [this._situations[idOrTag]];
         }
@@ -115,12 +119,14 @@ class JumboGroveDirector {
 
     interpretChoices(arrayOfSituationIdsOrTags, atLeast = 0, atMost = Number.MAX_VALUE) {
         const host = this.model.currentSituation;
-        const situations = [].concat.apply([], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));
+        const situations = [].concat.apply(
+            [], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));
         // remove invisible situations
         const visibleSituations = situations.filter((s) => s.getCanSee(this.model, host));
 
         // sort by display order
-        const sortedSituations = _.sortBy(visibleSituations, (s) => s.getDisplayOrder(this.model, host));
+        const sortedSituations = _.sortBy(
+            visibleSituations, (s) => s.getDisplayOrder(this.model, host));
 
         // index by priority; figure out what priorities are being used
         const sortedSituationsByPriority = {};

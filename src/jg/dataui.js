@@ -41,12 +41,12 @@ export default class DataUI {
     return {
       ...this.director.model,
       model: this.director.model,
-      logQualities: this.logQualities.bind(this),
+      ui: this,
     };
   }
 
-  logQualities(character = null) {
-    this.logHTML(`
+  qualitiesHTML(character = null) {
+    return this.renderTemplate(`
       <ul class="CharacterQualities">
         <% character.sortedQualityGroups.forEach((group) => { %>
           <% if (group.hidden) return; %>
@@ -61,7 +61,7 @@ export default class DataUI {
                   <li><%- character.formatQuality(quality.id) %></li>
                 <% } else { %>
                   <li><strong><%- quality.name %>:</strong> <%- character.formatQuality(quality.id) %></li>
-                  <% } %>
+                <% } %>
               <% }); %>
             </ul>
           </li>
