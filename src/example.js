@@ -88,8 +88,25 @@ export default {
             optionText: 'Play the Bob Game',
             content: `
             ## The Bob Game
+
+            [Read more about Bob](>write_aboutBob)
+
+            [Change favorite color](>replace_favoriteColor)
+
+            [What am I?](>replaceself_teapot)
+
+            Favorite color: **red**{#favoriteColor}
             `,
             choices: ['longboye', 'demo', 'hello'],
+            writers: {
+                aboutBob: `
+                    Bob is a nice guy. You should get to know him.
+                `
+            },
+            replacers: {
+                favoriteColor: "[blue](>replaceself_teapot)",
+                teapot: "I'm a teapot!",
+            },
         },
         {
             id: 'demo',

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import MarkdownIt from 'markdown-it';
+import MarkdownItAttrs from 'markdown-it-attrs';
 
 function normalizeIndent(text) {
   if (!text) return text;
@@ -27,6 +28,8 @@ export default class DataUI {
     this.currentItemId = null;
     this.currentGroupId = 0;
     this.md = new MarkdownIt();
+
+    this.md.use(MarkdownItAttrs);
   }
 
   bind(director) {
@@ -74,6 +77,10 @@ export default class DataUI {
     return _.template(src)({...args, ...this.templateContext()});
   }
 
+  renderMarkdownTemplate(src, args = null) {
+    return this.renderMarkdown(this.renderTemplate(src, args));
+  }
+
   nextGroup() {
     this.currentGroupId += 1;
   }
@@ -95,7 +102,7 @@ export default class DataUI {
   logMarkdown(markdown, args = null) {
     this.append({
       'type': 'html',
-      html: this.renderMarkdown(this.renderTemplate(markdown, args))});
+      html: this.renderMarkdownTemplate(markdown, args)});
   }
 
   presentChoices(choices) {

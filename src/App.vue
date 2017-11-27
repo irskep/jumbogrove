@@ -71,4 +71,9 @@ h4 {
     }
   }
 }
+
+.JumboGrove .m-disabled-link {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
 </style>

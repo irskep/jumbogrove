@@ -82,15 +82,44 @@ class JumboGroveDirector {
         return href.startsWith('@') || href.startsWith('>');
     }
 
-    goToSmart(href) {
+    goToSmart(href, itemId, targetEl) {
         if (href.startsWith('@')) {
             this.goTo(href.slice(1));
         } else if (href.startsWith('>')) {
-            this.runAction(href.slice(1));
+            this.runAction(href.slice(1), itemId, targetEl);
         }
     }
 
-    runAction(action) {
+    runAction(action, itemId, targetEl) {
+        if (action.startsWith('write_')) {
+            const id = action.slice('write_'.length);
+            if (!id) return;
+            this.ui.bus.$emit('write', {
+                'itemId': itemId,
+                'id': id,
+                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.writers[id]),
+            });
+            return;
+        } else if (action.startsWith('replace_')) {
+            const id = action.slice('replace_'.length);
+            if (!id) return;
+            this.ui.bus.$emit('replace', {
+                'itemId': itemId,
+                'id': id,
+                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.replacers[id]),
+            });
+            return;
+        } else if (action.startsWith('replaceself_')) {
+            const id = action.slice('replaceself_'.length);
+            if (!id) return;
+            this.ui.bus.$emit('replaceself', {
+                'itemId': itemId,
+                'targetEl': targetEl,
+                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.replacers[id]),
+            });
+            return;
+        }
+
         this.willAct(this.model, this.ui, this.model.currentSituation, action);
         this.model.currentSituation.doAct(this.model, this.ui, action);
         this.didAct(this.model, this.ui, this.model.currentSituation, action);
