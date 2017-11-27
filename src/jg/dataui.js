@@ -36,8 +36,12 @@ export default class DataUI {
     this.director = director;
   }
 
-  renderMarkdown(text) {
-    return this.md.render(normalizeIndent(text));
+  renderMarkdown(text, inline = false) {
+    if (inline) {
+      return this.md.renderInline(normalizeIndent(text));
+    } else {
+      return this.md.render(normalizeIndent(text));
+    }
   }
 
   templateContext() {
@@ -77,8 +81,8 @@ export default class DataUI {
     return _.template(src)({...args, ...this.templateContext()});
   }
 
-  renderMarkdownTemplate(src, args = null) {
-    return this.renderMarkdown(this.renderTemplate(src, args));
+  renderMarkdownTemplate(src, args = null, inline = false) {
+    return this.renderMarkdown(this.renderTemplate(src, args), inline);
   }
 
   nextGroup() {

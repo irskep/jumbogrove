@@ -47,6 +47,8 @@ export default {
     },
     bindLinks: function(anchors) {
       anchors.forEach((el) => {
+        if (el.dataset.isbound) return;
+        el.dataset.isbound = "true";
         el.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -86,7 +88,7 @@ export default {
   },
 
   updated: function() {
-    console.error('re-rendering html item!');
+    // console.error('re-rendering html item!');
   },
 
   watch: {

@@ -106,7 +106,7 @@ class JumboGroveDirector {
             this.ui.bus.$emit('replace', {
                 'itemId': itemId,
                 'id': id,
-                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.replacers[id]),
+                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.replacers[id], null, true),
             });
             return;
         } else if (action.startsWith('replaceself_')) {
@@ -115,7 +115,7 @@ class JumboGroveDirector {
             this.ui.bus.$emit('replaceself', {
                 'itemId': itemId,
                 'targetEl': targetEl,
-                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.replacers[id]),
+                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.replacers[id], null, true),
             });
             return;
         }
