@@ -29,13 +29,12 @@ export default class Situation {
         content = null,
         // [str] (if specified, presentChoices() will happen automatically)
         choices = null,
-        writers = {},
-        replacers = {},
+        snippets = {},
     }) {
         Object.assign(this, {
             id, tags, totalVisits, getCanChoose, getCanSee, priority,
             displayOrder, optionText, enter, act, exit, content, actions, choices,
-            writers, replacers,
+            snippets,
         });
     }
 

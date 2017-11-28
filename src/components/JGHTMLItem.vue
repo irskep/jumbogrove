@@ -1,7 +1,7 @@
 <template>
   <section class="JGHTMLItem">
     <div v-html="item.html"></div>
-    <div v-for="html in writerOutputs" v-html="html"></div>
+    <div v-for="html in writerOutputs" v-html="html" class="JGHTMLAddition m-addition"></div>
   </section>
 </template>
 
@@ -10,7 +10,7 @@ import _ from 'lodash';
 
 function removeLink(el) {
   const sibling = document.createElement('span');
-  sibling.className = "m-disabled-link"
+  sibling.className = "JGHTMLAddition m-disabled-link";
   el.style.display = 'none';
   while (el.childNodes.length > 0) sibling.appendChild(el.childNodes[0]);
   el.parentElement.insertBefore(sibling, el);
@@ -20,6 +20,7 @@ function removeLink(el) {
 
 function replace(el, html) {
   const sibling = document.createElement('span');
+  sibling.className = "JGHTMLAddition m-replacement";
   sibling.innerHTML = html;
   el.style.display = 'none';
   el.parentElement.insertBefore(sibling, el);
@@ -76,8 +77,8 @@ export default {
         console.warn("id not found:", id);
         return;
       }
-      el.innerHTML = html;
-      this.bindLinks(this.getManagedAnchors(el));
+      const replacement = replace(el, html);
+      this.bindLinks(this.getManagedAnchors(replacement));
     });
 
     this.ui.bus.$on('replaceself', ({itemId, html, targetEl}) => {
@@ -100,5 +101,16 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="css">
+.JGHTMLAddition {
+  animation: JGAdditionOpacity 1s;
+}
+.JGHTMLAddition.m-addition {
+  animation-duration: 2s;
+}
+
+@keyframes JGAdditionOpacity {
+  0% { opacity: 0; }
+  100%: { opacity: 1; }
+}
 </style>

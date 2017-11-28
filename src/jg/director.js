@@ -97,7 +97,8 @@ class JumboGroveDirector {
             this.ui.bus.$emit('write', {
                 'itemId': itemId,
                 'id': id,
-                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.writers[id]),
+                'html': this.ui.renderMarkdownTemplateMaybeInline(
+                    this.model.currentSituation.snippets[id]),
             });
             return;
         } else if (action.startsWith('replace_')) {
@@ -106,7 +107,8 @@ class JumboGroveDirector {
             this.ui.bus.$emit('replace', {
                 'itemId': itemId,
                 'id': id,
-                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.replacers[id], null, true),
+                'html': this.ui.renderMarkdownTemplateMaybeInline(
+                    this.model.currentSituation.snippets[id], null, true),
             });
             return;
         } else if (action.startsWith('replaceself_')) {
@@ -115,7 +117,8 @@ class JumboGroveDirector {
             this.ui.bus.$emit('replaceself', {
                 'itemId': itemId,
                 'targetEl': targetEl,
-                'html': this.ui.renderMarkdownTemplate(this.model.currentSituation.replacers[id], null, true),
+                'html': this.ui.renderMarkdownTemplateMaybeInline(
+                    this.model.currentSituation.snippets[id], null, true),
             });
             return;
         }

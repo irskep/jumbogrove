@@ -85,6 +85,11 @@ export default class DataUI {
     return this.renderMarkdown(this.renderTemplate(src, args), inline);
   }
 
+  renderMarkdownTemplateMaybeInline(src, args = null) {
+    const inline = src.indexOf('\n\n') === -1;
+    return this.renderMarkdownTemplate(src, args, inline);
+  }
+
   nextGroup() {
     this.currentGroupId += 1;
   }
