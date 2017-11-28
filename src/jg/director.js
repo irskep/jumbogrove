@@ -90,6 +90,21 @@ class JumboGroveDirector {
         }
     }
 
+    getSnippetHTML(id) {
+        if (!this.model.currentSituation.snippets[id]) {
+            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);
+        }
+        return this.ui.renderMarkdownTemplateMaybeInline(
+            this.model.currentSituation.snippets[id]);
+    }
+
+    getSnippet(id) {
+        if (!this.model.currentSituation.snippets[id]) {
+            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);
+        }
+        return this.ui.renderTemplate(this.model.currentSituation.snippets[id]);
+    }
+
     runAction(action, itemId, targetEl) {
         if (action.startsWith('write_')) {
             const id = action.slice('write_'.length);
@@ -97,8 +112,7 @@ class JumboGroveDirector {
             this.ui.bus.$emit('write', {
                 'itemId': itemId,
                 'id': id,
-                'html': this.ui.renderMarkdownTemplateMaybeInline(
-                    this.model.currentSituation.snippets[id]),
+                'html': this.getSnippetHTML(id),
             });
             return;
         } else if (action.startsWith('replace_')) {
@@ -107,8 +121,7 @@ class JumboGroveDirector {
             this.ui.bus.$emit('replace', {
                 'itemId': itemId,
                 'id': id,
-                'html': this.ui.renderMarkdownTemplateMaybeInline(
-                    this.model.currentSituation.snippets[id], null, true),
+                'html': this.getSnippetHTML(id),
             });
             return;
         } else if (action.startsWith('replaceself_')) {
@@ -117,8 +130,7 @@ class JumboGroveDirector {
             this.ui.bus.$emit('replaceself', {
                 'itemId': itemId,
                 'targetEl': targetEl,
-                'html': this.ui.renderMarkdownTemplateMaybeInline(
-                    this.model.currentSituation.snippets[id], null, true),
+                'html': this.getSnippetHTML(id),
             });
             return;
         }

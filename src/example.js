@@ -141,8 +141,14 @@ game.situations.push({
         **You made your first choice**
 
         Howdy, <%- model.player.name %>!
+
+        <%- ifThen(player.name === 'Bob', 'favoritism', 'pessimism') %>
     `,
     choices: ['start', 'longboye'],
+    snippets: {
+        favoritism: "I like you best.\n\n",
+        pessimism: "You're...alright, I guess.\n\n",
+    },
 });
 
 game.situations.push({

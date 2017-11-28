@@ -27,13 +27,28 @@ export default class DataUI {
     this.content = [];
     this.currentItemId = null;
     this.currentGroupId = 0;
-    this.md = new MarkdownIt();
 
+    this.md = new MarkdownIt();
     this.md.use(MarkdownItAttrs);
+
+    this.templateHelperFunctions = {
+      ifThen: (condition, snippetTrue, snippetFalse) => {
+        return this.director.getSnippet(condition ? snippetTrue : snippetFalse);
+      },
+    }
   }
 
   bind(director) {
     this.director = director;
+  }
+
+  templateContext() {
+    return {
+      ...this.director.model,
+      model: this.director.model,
+      ui: this,
+      ...this.templateHelperFunctions,
+    };
   }
 
   renderMarkdown(text, inline = false) {
@@ -44,12 +59,17 @@ export default class DataUI {
     }
   }
 
-  templateContext() {
-    return {
-      ...this.director.model,
-      model: this.director.model,
-      ui: this,
-    };
+  renderTemplate(src, args = null) {
+    return _.template(src)({...args, ...this.templateContext()});
+  }
+
+  renderMarkdownTemplate(src, args = null, inline = false) {
+    return this.renderMarkdown(this.renderTemplate(src, args), inline);
+  }
+
+  renderMarkdownTemplateMaybeInline(src, args = null) {
+    const inline = src.indexOf('\n\n') === -1;
+    return this.renderMarkdownTemplate(src, args, inline);
   }
 
   qualitiesHTML(character = null) {
@@ -75,19 +95,6 @@ export default class DataUI {
         <% }); %>
       </ul>
     `, {character: character || this.director.model.player});
-  }
-
-  renderTemplate(src, args = null) {
-    return _.template(src)({...args, ...this.templateContext()});
-  }
-
-  renderMarkdownTemplate(src, args = null, inline = false) {
-    return this.renderMarkdown(this.renderTemplate(src, args), inline);
-  }
-
-  renderMarkdownTemplateMaybeInline(src, args = null) {
-    const inline = src.indexOf('\n\n') === -1;
-    return this.renderMarkdownTemplate(src, args, inline);
   }
 
   nextGroup() {
