@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Situation from './situation';
 import WorldModel from './model';
 import commands from "./commands";
+import Vue from 'vue';
 
 const nop = () => { };
 class JumboGroveDirector {
@@ -43,6 +44,7 @@ class JumboGroveDirector {
 
         this.model = new WorldModel({characters, globalState});
         this.model.goTo = this.goTo.bind(this);
+        this.interactive = true;
     }
 
     toString() {
@@ -61,7 +63,45 @@ class JumboGroveDirector {
         if (this.currentSituation) {
             throw new Error("You may only start once!");
         }
-        this.goTo(this._initialSituationId);
+        if (!this.load()) {
+            this.goTo(this._initialSituationId);
+        }
+    }
+
+    save() {
+        localStorage[this.id] = JSON.stringify(this.history);
+    }
+    
+    load() {
+        return false;
+        this.interactive = false;
+        this.history = [];
+        if (localStorage[this.id]) {
+            try {
+                const entries = JSON.parse(localStorage[this.id]);
+                this.goTo(this._initialSituationId);
+
+                console.log(entries);
+                const step = () => {
+                    if (entries.length <= 0) {
+                        this.interactive = true;
+                        return;
+                    }
+                    Vue.nextTick(() => {
+                        this.handleCommandString(...entries.shift());
+                        step();
+                    });
+                }
+                step();
+                return true
+            } catch (e) {
+                this.interactive = true;
+                console.warn(e);
+                return false;
+            }
+        }
+        this.interactive = true;
+        return false
     }
 
     situation(id) {
@@ -104,6 +144,11 @@ class JumboGroveDirector {
             restore = true;
             this.activeItemId = itemId;
             this.activeSourceElId = sourceElId;
+            console.log(this.interactive);
+            if (this.interactive) {
+                this.history.push(_.toArray(arguments));
+                this.save();
+            }
         }
         for (const cmd of commandsFromString(s, this.activeItemId, this.activeSourceElId)) {
             this.handleCommand(cmd);

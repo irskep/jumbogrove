@@ -69,6 +69,8 @@ export default {
   mounted: function() {
     this.bindLinks(this.getManagedAnchors());
 
+    this.ui.bus.$emit('mounted', this.item.id);
+
     this.ui.bus.$on('write', ({itemId, html}) => {
       if (itemId !== this.item.id) return;
       this.writerOutputs.push(html);
@@ -82,12 +84,6 @@ export default {
         return;
       }
       const replacement = replace(el, html);
-      this.bindLinks(this.getManagedAnchors(replacement));
-    });
-
-    this.ui.bus.$on('replaceEl', ({itemId, html, targetEl}) => {
-      if (itemId !== this.item.id) return;
-      const replacement = replace(targetEl, html);
       this.bindLinks(this.getManagedAnchors(replacement));
     });
   },
