@@ -44,8 +44,8 @@ export default class Situation {
         }
         this.enter.apply(this, arguments);
         if (this.choices) {
-            ui.presentChoices(this.choices).then((situationId) => {
-                model.goTo(situationId);
+            ui.presentChoices(this.choices).then(({situationId, itemId}) => {
+                ui.simulateLink(`@${situationId}`, itemId, 'fake');
             });
         }
     }

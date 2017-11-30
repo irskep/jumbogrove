@@ -73,9 +73,9 @@ class JumboGroveDirector {
     }
     
     load() {
+        this.history = [];
         return false;
         this.interactive = false;
-        this.history = [];
         if (localStorage[this.id]) {
             try {
                 const entries = JSON.parse(localStorage[this.id]);
@@ -149,6 +149,8 @@ class JumboGroveDirector {
                 this.history.push(_.toArray(arguments));
                 this.save();
             }
+        } else {
+            debugger;
         }
         for (const cmd of commandsFromString(s, this.activeItemId, this.activeSourceElId)) {
             this.handleCommand(cmd);
@@ -217,7 +219,7 @@ class JumboGroveDirector {
         }
 
         this.model.currentSituation = next;
-        next.doEnter(this.model, this.ui, previous);
+        next.doEnter(this.model, this.ui, this, previous);
         this.didEnter(this.model, this.ui, previousId, id);
     }
 

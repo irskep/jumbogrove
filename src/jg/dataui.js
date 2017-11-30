@@ -31,6 +31,8 @@ export default class DataUI {
     this.md = new MarkdownIt();
     this.md.use(MarkdownItAttrs);
 
+    this.nextItemId = 0;
+
     this.templateHelperFunctions = {
       ifThen: (condition, snippetTrue, snippetFalse) => {
         return this.director.getSnippet(condition ? snippetTrue : snippetFalse);
@@ -51,6 +53,10 @@ export default class DataUI {
 
   bind(director) {
     this.director = director;
+  }
+
+  simulateLink() {
+    this.director.handleCommandString.apply(this.director, arguments);
   }
 
   templateContext() {
@@ -113,7 +119,8 @@ export default class DataUI {
   }
 
   append(item) {
-    item.id = _.uniqueId();
+    item.id = this.nextItemId;
+    this.nextItemId += 1;
     item.groupId = this.currentGroupId;
     this.content.push(item);
     this.currentItemId = item.id;
@@ -148,7 +155,7 @@ export default class DataUI {
       };
       item.callback = (situationId) => {
         item.situationId = situationId;
-        resolve(situationId);
+        resolve({situationId, itemId: item.id});
       };
       this.append(item);
     });

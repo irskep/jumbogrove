@@ -1,5 +1,5 @@
 <template>
-  <section class="JGChoiceItem">
+  <section class="JGChoiceItem" :data-itemid="item.id">
     <ul>
       <li v-for="choice in item.choices" v-bind:key="choice.situationId">
         <a v-if="isActiveGroup"

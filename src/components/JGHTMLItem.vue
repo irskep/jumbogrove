@@ -1,5 +1,5 @@
 <template>
-  <section class="JGHTMLItem">
+  <section class="JGHTMLItem" :data-itemid="item.id">
     <div v-html="item.html"></div>
     <div v-for="(html, i) in writerOutputs" :key="i" v-html="html" class="JGHTMLAddition m-addition"></div>
   </section>
@@ -69,7 +69,7 @@ export default {
   mounted: function() {
     this.bindLinks(this.getManagedAnchors());
 
-    this.ui.bus.$emit('mounted', this.item.id);
+    console.log('mounted', this.item.id);
 
     this.ui.bus.$on('write', ({itemId, html}) => {
       if (itemId !== this.item.id) return;
