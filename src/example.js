@@ -92,20 +92,27 @@ game.situations.push({
     content: `
     ## The Bob Game
 
-    [Read more about Bob](>write_aboutBob)
+    [Read more about Bob](>write:aboutBob)
 
-    [Change favorite color](>replace_favoriteColor)
+    [Change favorite color](>replace:favoriteColor)
 
-    [What am I?](>replaceself_teapot)
+    [What am I?](>replaceself:teapot)
 
     Favorite color: **red**{#favoriteColor}
+
+    [Test](>test)
     `,
     choices: ['longboye', 'demo', 'hello'],
+    actions: {
+        test: (...args) => {
+            console.log('test', ...args);
+        },
+    },
     snippets: {
         aboutBob: `
             Bob is a nice guy. You should get to know him.
         `,
-        favoriteColor: `[blue](>replaceself_teapot)`,
+        favoriteColor: `[blue](>replaceself:teapot)`,
         teapot: "I'm a teapot!",
     },
 });
@@ -119,6 +126,8 @@ game.situations.push({
         <% } else { %>
         What is your [name](>bob)?
         <% } %>
+
+        Name presents: <%- listWithAction('name', 'or', 'Andy', 'Kevin', 'Steve') %>
     `,
     enter: (model, ui, fromSituation) => {
         ui.promptInput({placeholder: 'Enter your name'})
@@ -128,10 +137,13 @@ game.situations.push({
             });
     },
     actions: {
+        name: (model, ui, value) => {
+            console.log(value);
+        },
         bob: (model, ui) => {
             model.player.name = 'Bob';
             model.goTo('hello');
-        }
+        },
     }
 });
 

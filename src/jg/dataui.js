@@ -35,6 +35,17 @@ export default class DataUI {
       ifThen: (condition, snippetTrue, snippetFalse) => {
         return this.director.getSnippet(condition ? snippetTrue : snippetFalse);
       },
+      list: (conjunction, ...items) => {
+        if (items.length < 1) return '';
+        if (items.length === 1) return items[0];
+        return `${_.initial(items).join(', ')}, ${conjunction} ${_.last(items)}`;
+      },
+      listWithAction: (action, conjunction, ...items) => {
+        if (items.length < 1) return '';
+        items = items.map((item) => `[${item}](>${action}:${window.encodeURIComponent(item)})`)
+        if (items.length === 1) return items[0];
+        return `${_.initial(items).join(', ')}, ${conjunction} ${_.last(items)}`;
+      },
     }
   }
 
@@ -106,6 +117,14 @@ export default class DataUI {
     item.groupId = this.currentGroupId;
     this.content.push(item);
     this.currentItemId = item.id;
+  }
+
+  /**
+   * Encode the given string so it doesn't mess up Markdown link parsing
+   * @param {String} s 
+   */
+  encode(s) {
+    return window.encodeURIComponent;
   }
 
   logHTML(html, args = null) {

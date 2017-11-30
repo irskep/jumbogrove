@@ -120,7 +120,7 @@ describe('director lifecycle', () => {
     expect(seenCallbacks.willAct).toEqual([]);
     expect(seenCallbacks.didAct).toEqual([]);
 
-    d.runAction('foo');
+    d.runAction('foo', []);
     expect(seenCallbacks.init).toEqual([[d.model, ui, ui.md]]);
     expect(seenCallbacks.willEnter).toEqual([
       [d.model, ui, null, 'start'],
@@ -136,7 +136,7 @@ describe('director lifecycle', () => {
     expect(seenCallbacks.didAct).toEqual([[d.model, ui, d.situation('not_start'), 'foo']]);
   });
 
-  test('goToSmart', () => {
+  test('handleCommandString', () => {
     const seenCallbacks = {
       init: [],
       willEnter: [],
@@ -161,7 +161,7 @@ describe('director lifecycle', () => {
     const ui = new DataUI();
     d.bindToUI(ui);
     d.start();
-    d.goToSmart('@not_start');
+    d.handleCommandString('@not_start');
     expect(seenCallbacks.init).toEqual([[d.model, ui, ui.md]]);
     expect(seenCallbacks.willEnter).toEqual([
       [d.model, ui, null, 'start'],
@@ -176,7 +176,7 @@ describe('director lifecycle', () => {
     expect(seenCallbacks.willAct).toEqual([]);
     expect(seenCallbacks.didAct).toEqual([]);
 
-    d.goToSmart('>foo');
+    d.handleCommandString('>foo');
     expect(seenCallbacks.init).toEqual([[d.model, ui, ui.md]]);
     expect(seenCallbacks.willEnter).toEqual([
       [d.model, ui, null, 'start'],

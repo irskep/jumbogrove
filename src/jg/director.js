@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Situation from './situation';
 import WorldModel from './model';
+import commands from "./commands";
 
 const nop = () => { };
 class JumboGroveDirector {
@@ -79,15 +80,7 @@ class JumboGroveDirector {
     }
 
     isManagedLink(href) {
-        return href.startsWith('@') || href.startsWith('>');
-    }
-
-    goToSmart(href, itemId, targetEl) {
-        if (href.startsWith('@')) {
-            this.goTo(href.slice(1));
-        } else if (href.startsWith('>')) {
-            this.runAction(href.slice(1), itemId, targetEl);
-        }
+        return commandsFromString(href).length > 0;
     }
 
     getSnippetHTML(id) {
@@ -105,39 +98,61 @@ class JumboGroveDirector {
         return this.ui.renderTemplate(this.model.currentSituation.snippets[id]);
     }
 
-    runAction(action, itemId, targetEl) {
-        if (action.startsWith('write_')) {
-            const id = action.slice('write_'.length);
-            if (!id) return;
-            this.ui.bus.$emit('write', {
-                'itemId': itemId,
-                'id': id,
-                'html': this.getSnippetHTML(id),
-            });
-            return;
-        } else if (action.startsWith('replace_')) {
-            const id = action.slice('replace_'.length);
-            if (!id) return;
-            this.ui.bus.$emit('replace', {
-                'itemId': itemId,
-                'id': id,
-                'html': this.getSnippetHTML(id),
-            });
-            return;
-        } else if (action.startsWith('replaceself_')) {
-            const id = action.slice('replaceself_'.length);
-            if (!id) return;
-            this.ui.bus.$emit('replaceself', {
-                'itemId': itemId,
-                'targetEl': targetEl,
-                'html': this.getSnippetHTML(id),
-            });
-            return;
+    handleCommandString(s, itemId = null, sourceElId = null) {
+        let restore = false;
+        if (itemId !== null) {
+            restore = true;
+            this.activeItemId = itemId;
+            this.activeSourceElId = sourceElId;
         }
+        for (const cmd of commandsFromString(s, this.activeItemId, this.activeSourceElId)) {
+            this.handleCommand(cmd);
+        }
+        if (restore) {
+            this.activeItemId = null;
+            this.activeSourceElId = null;
+        }
+    }
 
-        this.willAct(this.model, this.ui, this.model.currentSituation, action);
-        this.model.currentSituation.doAct(this.model, this.ui, action);
-        this.didAct(this.model, this.ui, this.model.currentSituation, action);
+    handleCommand(cmd) {
+        console.log(cmd);
+        switch (cmd.type) {
+        case commands.runAction.name:
+            this.runAction(cmd.name, cmd.args);
+            break;
+        case commands.goToSituation.name:
+            this.goTo(cmd.id);
+            break;
+        case commands.write.name:
+            this.performWrite(cmd);
+            break;
+        case commands.replace.name:
+            this.performReplace(cmd);
+            break;
+        default:
+            throw new Error("Unknown command: " + cmd);
+        }
+    }
+
+    performWrite({itemId, snippetId}) {
+        this.ui.bus.$emit('write', {
+            'itemId': itemId,
+            'html': this.getSnippetHTML(snippetId),
+        });
+    }
+
+    performReplace({itemId, snippetId, elId}) {
+        this.ui.bus.$emit('replace', {
+            'itemId': itemId,
+            'id': elId,
+            'html': this.getSnippetHTML(snippetId),
+        });
+    }
+
+    runAction(name, args) {
+        this.willAct(this.model, this.ui, this.model.currentSituation, name, ...args);
+        this.model.currentSituation.doAct(this.model, this.ui, name, ...args);
+        this.didAct(this.model, this.ui, this.model.currentSituation, name, ...args);
     }
 
     goTo(id) {
@@ -210,6 +225,33 @@ class JumboGroveDirector {
             };
         });
     }
+}
+
+function parseAction(s) {
+    return s.split(':');
+}
+
+function commandsFromString(str, itemId = null, elId = null) {
+    str = window.decodeURIComponent(str);
+    return str.split(';')
+        .map((s) => {
+            if (s.startsWith('@')) {
+                return commands.goToSituation.create(s.slice(1))
+            }
+            if (s.startsWith('>')) {
+                const nameAndArgs = parseAction(s.slice(1));
+                const name = nameAndArgs[0];
+                const args = _.tail(nameAndArgs);
+                switch (name) {
+                case 'write': return commands.write.create(itemId, args[0]);
+                case 'replace': return commands.replace.create(itemId, args[0], args[0]);
+                case 'replaceself': return commands.replace.create(itemId, args[0], elId);
+                default: return commands.runAction.create(name, args);
+                }
+            }
+            return null;
+        })
+        .filter((cmd) => cmd !== null);
 }
 
 export default JumboGroveDirector;

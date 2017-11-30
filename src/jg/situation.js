@@ -56,9 +56,9 @@ export default class Situation {
         this.exit.apply(this, arguments);
     }
 
-    doAct(model, ui, action) {
+    doAct(model, ui, action, ...args) {
         if (this.actions && this.actions[action]) {
-            this.actions[action](model, ui);
+            this.actions[action](model, ui, ...args);
         } else {
             this.act(model, ui, action);
         }
