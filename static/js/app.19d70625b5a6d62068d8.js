@@ -1897,7 +1897,7 @@ function commandsFromString(str) {
 
 /* harmony default export */ var jg = (director);
 // CONCATENATED MODULE: ./src/ld40/hour0.js
-
+// import _ from 'lodash';
 
 /* harmony default export */ var hour0 = ([{
   id: 'start',
@@ -2159,4 +2159,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.bd8a96eae0b5808d08bc.js.map
+//# sourceMappingURL=app.19d70625b5a6d62068d8.js.map
