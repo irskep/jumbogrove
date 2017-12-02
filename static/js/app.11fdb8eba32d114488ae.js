@@ -21,7 +21,7 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 
 /***/ }),
 
-/***/ "F0tj":
+/***/ "5P+2":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -295,14 +295,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director', 'ui'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-65a0b414","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-48d44442","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director,"ui":_vm.ui}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("F0tj")
+  __webpack_require__("5P+2")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1415,10 +1415,10 @@ var dataui_DataUI = function () {
       var inline = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
       if (inline) {
-        console.log('inline', text, '---', this.md.renderInline(normalizeIndent(text)));
+        // console.log('inline', text, '---', this.md.renderInline(normalizeIndent(text)))
         return this.md.renderInline(normalizeIndent(text));
       } else {
-        console.log('div', text, '---', this.md.render(normalizeIndent(text)));
+        // console.log('div', text, '---', this.md.render(normalizeIndent(text)));
         return this.md.render(normalizeIndent(text));
       }
     }
@@ -2235,4 +2235,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.cd19a259a1d570bf587a.js.map
+//# sourceMappingURL=app.11fdb8eba32d114488ae.js.map
