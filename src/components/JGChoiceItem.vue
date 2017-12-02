@@ -48,6 +48,7 @@ export default {
 
 <style lang="scss" scoped>
 .m-disabled-link.m-selected::after {
-  content: " ←";
+  // content: " ←";
+  content: " ✔";
 }
 </style>

@@ -50,6 +50,7 @@ export default {
     hour: 0,
     scheduledArrivals: [],
   },
+
   characters: [
     {id: 'player', showInSidebar: false, qualities: {}, state: {}},
     {id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
@@ -58,15 +59,24 @@ export default {
     {id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false, state: {room: null}},
     {id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false, state: {room: null}},
   ],
+
   init(model, ui, md) {
+
+    // Define some helpers for rendering text and doing stuff, so we have to write as little JS as possible
+    // in the content field
     const templateFns = {
+      // Print some text in the style of a character name
       chr: (name) => `*${name}*{.character}`,
+
+      // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
       formatTime: (hour) => {
         hour = 18 + hour;
         const amPm = hour > 12 ? 'pm' : 'am';
         if (amPm === 'pm') hour -= 12;
         return `${hour}:00${amPm}`;
       },
+
+      // Print a list of things, styled as character names.
       chrs: (conj, ...names) => {
         names = names.map((n) => `*${n}*{.character}`);
         if (names.length < 1) return '';
@@ -74,15 +84,21 @@ export default {
         if (names.length === 2) return `${names[0]} ${conj} ${names[1]}`;
         return `${_.initial(names).join(', ')}, ${conj} ${_.last(names)}`;
       },
+      
+      // Adjust a character quality by the given amount.
       stat: (chr, q, amt) => {
         chr = model.character(chr);
         chr.addToQuality(q, amt);
         return `\`${chr.name} ${chr.formatQualityName(q)} ${amt}\``;
       },
+
+      // Schedule a character for later arrival.
       scheduleArrival: (id, hour) => {
         model.globalState.scheduledArrivals.push({id, hour});
         return `> ${templateFns.chr(model.character(id).name)} is scheduled to arrive at ${templateFns.formatTime(hour)}.`
       },
+
+      // Returns the list of guests who have just arrived. Assigns their room to 'porch'.
       arrivingGuests: () => {
         const chars = model.globalState.scheduledArrivals
           .filter(({hour}) => model.globalState.hour >= hour)
@@ -101,11 +117,15 @@ export default {
     ui.addTemplateFunctions(templateFns);
 
     ui.addTemplateGetters({
+      // write <%=time%> to print the current time.
       time: () => templateFns.formatTime(model.globalState.hour),
+
+      // write <%=pl%> to print the player's name.
       pl: () => `*${model.character('player').name}*{.character}`,
     });
 
     for (const c of model.allCharacters) {
+      // write<%=<CHARACTER ID>%> to print that character's name.
       ui.addTemplateGetters({[c.id]: () => ui.templateHelperFunctions.chr(c.name)});
     }
   },
@@ -124,7 +144,7 @@ export default {
     {
       id: 'hour1',
       content: `
-      # Please, Come In
+      # Please, Come In{.title}
       ## A game for Ludum Dare 40 that I probably won't finish
       ### by irskep and rbatistadelima
 
@@ -154,7 +174,7 @@ export default {
       `,
       snippets: {
       },
-      choices: [],
+      choices: ['#newguests'],
     },
 
     {

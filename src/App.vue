@@ -98,6 +98,13 @@ blockquote {
   // background-color: #fffaee;
 }
 
+// ld40 stuff
+.title {
+  text-align: center;
+  border-top: 1px solid black;
+  padding-top: 1rem;
+  font-size: 2rem;
+}
 .character {
   font-style: normal;
   font-weight: bold;
