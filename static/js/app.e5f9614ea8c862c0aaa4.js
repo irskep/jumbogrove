@@ -1768,149 +1768,69 @@ function commandsFromString(str) {
 // CONCATENATED MODULE: ./src/jg/index.js
 
 /* harmony default export */ var jg = (director);
-// CONCATENATED MODULE: ./src/example.js
-// https://github.com/idmillington/undum/blob/master/docs/src/API.md
-// http://raconteur.readthedocs.io/en/latest/oneOf/
-// https://github.com/sequitur/improv
-// https://www.npmjs.com/package/markdown-it-attrs
-// https://www.npmjs.com/package/markdown-it-block-embed
-// https://www.npmjs.com/package/markdown-it-html5-embed
-// https://www.npmjs.com/package/markdown-it-html5-media
-// https://github.com/adam-p/markdown-it-smartarrows
-// https://www.npmjs.com/package/markdown-it-classy
-// https://www.npmjs.com/package/markdown-it-external-links
-// https://www.npmjs.com/package/markdown-it-strikethrough-alt
-// https://www.npmjs.com/package/markdown-it-replacements
-
-
-var game = {
-    id: 'jg-example',
-    version: 1,
-    // initialSituation: 'demo', 
-    navHeader: '\n    # Example game\n\n    An example game for Jumbo Grove by Steve Johnson\n    ',
-    asideHeader: '\n    # Characters\n    ',
+// CONCATENATED MODULE: ./src/example2.js
+/* harmony default export */ var example2 = ({
+    id: 'my-game',
+    navHeader: '\n        # My Game\n\n        This text appears in the left sidebar.\n    ',
+    asideHeader: '\n        # Stats\n\n        This text appears in the right sidebar.\n    ',
     globalState: {
-        aliensHaveInvaded: false
+        foo: 'bar' // you may put anything JSON-safe in here
     },
-    willEnter: function willEnter(model, ui, oldSituationId, newSituationId) {
-        if (oldSituationId) {
-            ui.logHTML('<hr>');
-        }
-        return true;
-    },
-    init: function init(model, ui, md) {
-        // configure markdown here!
-    }
-};
+    characters: [
+        // this section is a work in progress
+    ],
+    situations: [
+    /*
+    This is where the meat of the library is.
+     A "situation" can be thought of as a room, a section, or
+    some other conceptual unit. It has:
+     * Markdown text displayed when you enter
+    * "snippets" which can be inserted based on the user
+        clicking links
+    * "choices" which are automatically displayed after the text
+    * JavaScript callbacks for all kinds of things
+    * So much more, but I haven't had time to write docs yet
+     */
+    {
+        id: 'start', // first situation
+        content: '\n                # Welcome to Jumbo Grove\n\n                [Normal links](https://google.com) work normally.\n\n                [Links with an @](@frog) transition to another situation.\n\n                [Links with a >](>debug_log) run an "action" within the\n                situation. You can provide arguments to the action function\n                using [colon separators](>debug_log:whats:up).\n            ',
+        actions: {
+            debug_log: function debug_log() {
+                var _console;
 
-game.characters = [{
-    id: 'player',
-    name: 'Bob',
-    description: 'It is you',
-    showInSidebar: true,
-    priority: 0,
-    qualities: {
-        util: {
-            hidden: true
-        },
-        attributes: {
-            name: 'Attributes',
-            priority: 0,
-            hair: {
-                type: 'onOff',
-                name: "widow's peak",
-                words: ["no", "yes"],
-                priority: 0,
-                initialValue: false
-            },
-            stealthy: {
-                type: 'flag',
-                name: "Stealthy",
-                priority: 1,
-                initialValue: false
+                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                    args[_key] = arguments[_key];
+                }
+
+                (_console = console).log.apply(_console, ["HELLO!"].concat(args));
             }
         },
-        states: {
-            name: 'States',
-            priority: 1,
-            hunger: {
-                type: 'wordScale',
-                name: 'Hunger',
-                words: ['ravenous', 'hungry', 'neutral', 'sated', 'stuffed'],
-                priority: 0,
-                offset: 2,
-                initialValue: 0
-            }
+        choices: ['snippets_demo', 'state_demo'],
+        // if this situation shows up in another choices array,
+        // use this text:
+        optionText: 'Go back to start'
+    }, {
+        id: 'frog',
+        optionText: 'Look at the cool frog',
+        content: '\n                There is a cool frog sitting on a stump.\n            ',
+        choices: ['start']
+    }, {
+        id: 'snippets_demo',
+        optionText: 'Snippets demo',
+        choices: ['start', 'state_demo'],
+        content: '\n                There are a few built-in special actions.\n\n                1. `write` appends the snippet contents to the end of the\n                    current section. [Try it](>write:poem)\n                2. `replace` replaces the HTML element with the same ID as the\n                    snippet, with the contents of the snippet. [Try it](>replace:ghost)\n\n                    _This text will be replaced_{#ghost}\n                3. `replaceself` replaces the clicked link with the contents of\n                    the snippet. [Try it](>replaceself:robot)\n            ',
+        snippets: {
+            poem: '\n                    ### A poem\n\n                    > Higgledy-piggledy Emily Dickinson  \n                    > Liked to use dashes instead of full stops.  \n                    > Nowadays, faced with such idiosyncrasies,  \n                    > Critics and editors run for the cops.  \n                ',
+            ghost: '**BOO!**',
+            robot: "Beep boop I'm a robot"
         }
-    },
-    state: {
-        inventory: []
-    }
-}];
-game.situations = [];
-
-game.situations.push({
-    id: 'start',
-    optionText: 'Play the Bob Game',
-    content: '\n    ## The Bob Game\n\n    [Read more about Bob](>write:aboutBob)\n\n    [Change favorite color](>replace:favoriteColor)\n\n    [What am I?](>replaceself:teapot)\n\n    Favorite color: **red**{#favoriteColor}\n\n    [Test](>test)\n    ',
-    choices: ['longboye', 'demo', 'hello'],
-    actions: {
-        test: function test() {
-            var _console;
-
-            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-            }
-
-            (_console = console).log.apply(_console, ['test'].concat(args));
-        }
-    },
-    snippets: {
-        aboutBob: '\n            Bob is a nice guy. You should get to know him.\n        ',
-        favoriteColor: '[blue](>replaceself:teapot)',
-        teapot: "I'm a teapot!"
-    }
+    }, {
+        id: 'state_demo',
+        optionText: 'State demo',
+        choices: ['start', 'snippets_demo'],
+        content: '\n            This section is not yet finished.\n            '
+    }]
 });
-
-game.situations.push({
-    id: 'demo',
-    optionText: 'Go back to start',
-    content: '\n        <% if (model.currentSituation.totalVisits > 0) { %>\n        You have visited <%- model.currentSituation.totalVisits %> times.\n        <% } else { %>\n        What is your [name](>bob)?\n        <% } %>\n\n        Name presents: <%- listWithAction(\'name\', \'or\', \'Andy\', \'Kevin\', \'Steve\') %>\n    ',
-    enter: function enter(model, ui, fromSituation) {
-        ui.promptInput({ placeholder: 'Enter your name' }).then(function (name) {
-            model.player.name = name;
-            model.goTo('hello');
-        });
-    },
-    actions: {
-        name: function name(model, ui, value) {
-            console.log(value);
-        },
-        bob: function bob(model, ui) {
-            model.player.name = 'Bob';
-            model.goTo('hello');
-        }
-    }
-});
-
-game.situations.push({
-    id: 'hello',
-    content: '\n        **You made your first choice**\n\n        Howdy, <%- model.player.name %>!\n\n        <%- ifThen(player.name === \'Bob\', \'favoritism\', \'pessimism\') %>\n    ',
-    choices: ['start', 'longboye'],
-    snippets: {
-        favoritism: "I like you best.\n\n",
-        pessimism: "You're...alright, I guess.\n\n"
-    }
-});
-
-game.situations.push({
-    id: 'longboye',
-    content: lodash_default.a.range(0, 100).map(function () {
-        return '|';
-    }).join('\n\n'),
-    choices: ['start', 'demo', 'hello']
-});
-/* harmony default export */ var example = (game);
 // CONCATENATED MODULE: ./src/main.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "run", function() { return main_run; });
 // The Vue build version to load with the `import` command
@@ -1940,7 +1860,7 @@ window.JumboGrove = {
 };
 
 if (window.jumboGroveExample) {
-  main_run(window.jumboGroveExample, example);
+  main_run(window.jumboGroveExample, example2);
 }
 
 
@@ -1983,4 +1903,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.ae14d85fff2f99c11b7b.js.map
+//# sourceMappingURL=app.e5f9614ea8c862c0aaa4.js.map
