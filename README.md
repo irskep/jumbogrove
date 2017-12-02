@@ -55,9 +55,9 @@ Eventually, this will be available as a library. You'll do something like this:
                 globalState: {
                     foo: 'bar',  // you may put anything JSON-safe in here
                 },
-                characters: {
+                characters: [
                     // this section is a work in progress
-                },
+                ],
                 situations: [
                     /*
                     This is where the meat of the library is.
@@ -67,7 +67,7 @@ Eventually, this will be available as a library. You'll do something like this:
 
                     * Markdown text displayed when you enter
                     * "snippets" which can be inserted based on the user
-                      clicking links
+                        clicking links
                     * "choices" which are automatically displayed after the text
                     * JavaScript callbacks for all kinds of things
                     * So much more, but I haven't had time to write docs yet
@@ -99,7 +99,7 @@ Eventually, this will be available as a library. You'll do something like this:
                         id: 'frog',
                         optionText: 'Look at the cool frog',
                         content: `
-                           There is a cool frog sitting on a stump.
+                            There is a cool frog sitting on a stump.
                         `,
                         choices: ['start'],
                     },
@@ -112,20 +112,22 @@ Eventually, this will be available as a library. You'll do something like this:
                             There are a few built-in special actions.
 
                             1. \`write\` appends the snippet contents to the end of the
-                               current section. [Try it](>write:poem)
+                                current section. [Try it](>write:poem)
                             2. \`replace\` replaces the HTML element with the same ID as the
-                               snippet, with the contents of the snippet. [Try it](>replace:ghost)
+                                snippet, with the contents of the snippet. [Try it](>replace:ghost)
 
-                               _This text will be replaced_{#ghost}
+                                _This text will be replaced_{#ghost}
                             3. \`replaceself\` replaces the clicked link with the contents of
-                               the snippet. [Try it](>replaceself:robot)
+                                the snippet. [Try it](>replaceself:robot)
                         `,
                         snippets: {
                             poem: `
-                                > Higgledy-piggledy Emily Dickinson
-                                > Liked to use dashes instead of full stops.
-                                > Nowadays, faced with such idiosyncrasies,
-                                > Critics and editors run for the cops.
+                                ### A poem
+
+                                > Higgledy-piggledy Emily Dickinson  
+                                > Liked to use dashes instead of full stops.  
+                                > Nowadays, faced with such idiosyncrasies,  
+                                > Critics and editors run for the cops.  
                             `,
                             ghost: '**BOO!**',
                             robot: "Beep boop I'm a robot",

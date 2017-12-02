@@ -85,7 +85,7 @@ export default class DataUI {
   }
 
   renderMarkdownTemplateMaybeInline(src, args = null) {
-    const inline = src.indexOf('\n\n') === -1;
+    const inline = src.indexOf('\n') === -1;
     return this.renderMarkdownTemplate(src, args, inline);
   }
 

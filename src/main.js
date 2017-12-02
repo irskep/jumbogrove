@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import JumboGroveDirector from "@/jg";
-import example from "@/example";
+import example from "@/example2";
 
 Vue.config.productionTip = false
 

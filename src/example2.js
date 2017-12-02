@@ -13,9 +13,9 @@ export default {
     globalState: {
         foo: 'bar',  // you may put anything JSON-safe in here
     },
-    characters: {
+    characters: [
         // this section is a work in progress
-    },
+    ],
     situations: [
         /*
         This is where the meat of the library is.
@@ -80,10 +80,12 @@ export default {
             `,
             snippets: {
                 poem: `
-                    > Higgledy-piggledy Emily Dickinson
-                    > Liked to use dashes instead of full stops.
-                    > Nowadays, faced with such idiosyncrasies,
-                    > Critics and editors run for the cops.
+                    ### A poem
+
+                    > Higgledy-piggledy Emily Dickinson  
+                    > Liked to use dashes instead of full stops.  
+                    > Nowadays, faced with such idiosyncrasies,  
+                    > Critics and editors run for the cops.  
                 `,
                 ghost: '**BOO!**',
                 robot: "Beep boop I'm a robot",
