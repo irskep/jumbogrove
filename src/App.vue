@@ -34,6 +34,11 @@ h4 {
   font-weight: normal;
 }
 
+blockquote {
+  font-style: italic;
+  color: #888;
+}
+
 .JumboGrove {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

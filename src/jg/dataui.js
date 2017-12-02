@@ -86,10 +86,10 @@ export default class DataUI {
 
   renderMarkdown(text, inline = false) {
     if (inline) {
-      console.log('inline', text, '---', this.md.renderInline(normalizeIndent(text)))
+      // console.log('inline', text, '---', this.md.renderInline(normalizeIndent(text)))
       return this.md.renderInline(normalizeIndent(text));
     } else {
-      console.log('div', text, '---', this.md.render(normalizeIndent(text)));
+      // console.log('div', text, '---', this.md.render(normalizeIndent(text)));
       return this.md.render(normalizeIndent(text));
     }
   }
