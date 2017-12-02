@@ -150,7 +150,7 @@ class JumboGroveDirector {
                 this.save();
             }
         } else {
-            debugger;
+            throw new Error(`Missing ${itemId}`)
         }
         for (const cmd of commandsFromString(s, this.activeItemId, this.activeSourceElId)) {
             this.handleCommand(cmd);

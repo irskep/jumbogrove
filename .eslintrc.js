@@ -29,6 +29,7 @@ module.exports = {
     'no-multiple-empty-lines': 0,
     'import/first': 0,
     'object-property-newline': 0,
+    'no-unreachable': 0,
 
     // allow paren-less arrow functions
     'arrow-parens': 0,
