@@ -14,7 +14,21 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 
 /***/ }),
 
-/***/ "C5k1":
+/***/ "8sr0":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "FRkk":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "GWq7":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -103,6 +117,7 @@ function normalizeIndent(text) {
     if (m === null) return '';
     return m[0];
   });
+  if (!indents.length) return text;
   var smallestIndent = indents.reduce(function (max, curr) {
     if (curr.length < max.length) return curr;
     return max;
@@ -304,9 +319,11 @@ var dataui_DataUI = function () {
 
 
 function removeLink(el) {
+  var extraClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
   var sibling = document.createElement('span');
   sibling.id = el.id;
-  sibling.className = "JGHTMLAddition m-disabled-link";
+  sibling.className = "JGHTMLAddition m-disabled-link " + extraClass;
   el.style.display = 'none';
   el.id = null;
   while (el.childNodes.length > 0) {
@@ -360,7 +377,7 @@ function replace(el, html) {
           // somehow dead elements are getting click events. Stop the madness.
           if (!el.parentElement) return;
           var href = el.attributes.href;
-          var replacement = removeLink(el);
+          var replacement = removeLink(el, 'm-unavailable');
           _this2.director.handleCommandString(href.value, _this2.item.id, replacement.id);
         });
       });
@@ -370,8 +387,6 @@ function replace(el, html) {
     var _this3 = this;
 
     this.bindLinks(this.getManagedAnchors());
-
-    console.log('mounted', this.item.id);
 
     this.ui.bus.$on('write', function (_ref) {
       var itemId = _ref.itemId,
@@ -408,14 +423,14 @@ function replace(el, html) {
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-61db0c76","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGHTMLItem.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1e554728","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGHTMLItem.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"JGHTMLItem",attrs:{"data-itemid":_vm.item.id}},[_c('div',{domProps:{"innerHTML":_vm._s(_vm.item.html)}}),_vm._v(" "),_vm._l((_vm.writerOutputs),function(html,i){return _c('div',{key:i,staticClass:"JGHTMLAddition m-addition",domProps:{"innerHTML":_vm._s(html)}})})],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_JGHTMLItem = (esExports);
 // CONCATENATED MODULE: ./src/components/JGHTMLItem.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("QsXP")
+  __webpack_require__("FRkk")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -462,6 +477,10 @@ var Component = normalizeComponent(
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ var JGChoiceItem = ({
   name: 'JGChoiceItem',
@@ -487,14 +506,18 @@ var Component = normalizeComponent(
     this.focus();
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-7ce2e8ba","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGChoiceItem.vue
-var JGChoiceItem_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"JGChoiceItem",attrs:{"data-itemid":_vm.item.id}},[_c('ul',_vm._l((_vm.item.choices),function(choice){return _c('li',{key:choice.situationId},[(_vm.isActiveGroup)?_c('a',{class:{ 'm-disabled': !choice.isEnabled },attrs:{"data-situationid":choice.situationId,"data-isenabled":choice.isEnabled,"href":'@' + choice.situationId},on:{"click":function($event){$event.preventDefault();_vm.onClick($event)}}},[_vm._v("\n         "+_vm._s(choice.text)+"\n      ")]):_c('span',{class:{'m-disabled-link': true, 'm-selected': _vm.item.situationId === choice.situationId}},[_vm._v("\n        "+_vm._s(choice.text)+"\n      ")])])}))])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-853581ac","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGChoiceItem.vue
+var JGChoiceItem_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"JGChoiceItem",attrs:{"data-itemid":_vm.item.id}},[_c('ul',_vm._l((_vm.item.choices),function(choice){return _c('li',{key:choice.situationId},[(_vm.isActiveGroup)?_c('a',{class:{ 'm-disabled': !choice.isEnabled },attrs:{"data-situationid":choice.situationId,"data-isenabled":choice.isEnabled,"href":'@' + choice.situationId},on:{"click":function($event){$event.preventDefault();_vm.onClick($event)}}},[_vm._v("\n         "+_vm._s(choice.text)+"\n      ")]):_c('span',{class:{
+        'm-disabled-link': true,
+        'm-selected': _vm.item.situationId === choice.situationId,
+        'm-unavailable': _vm.item.situationId !== choice.situationId,
+      }},[_vm._v("\n        "+_vm._s(choice.text)+"\n      ")])])}))])}
 var JGChoiceItem_staticRenderFns = []
 var JGChoiceItem_esExports = { render: JGChoiceItem_render, staticRenderFns: JGChoiceItem_staticRenderFns }
 /* harmony default export */ var components_JGChoiceItem = (JGChoiceItem_esExports);
 // CONCATENATED MODULE: ./src/components/JGChoiceItem.vue
 function JGChoiceItem_injectStyle (ssrContext) {
-  __webpack_require__("C5k1")
+  __webpack_require__("GWq7")
 }
 var JGChoiceItem_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -506,7 +529,7 @@ var JGChoiceItem___vue_template_functional__ = false
 /* styles */
 var JGChoiceItem___vue_styles__ = JGChoiceItem_injectStyle
 /* scopeId */
-var JGChoiceItem___vue_scopeId__ = "data-v-7ce2e8ba"
+var JGChoiceItem___vue_scopeId__ = "data-v-853581ac"
 /* moduleIdentifier (server only) */
 var JGChoiceItem___vue_module_identifier__ = null
 var JGChoiceItem_Component = JGChoiceItem_normalizeComponent(
@@ -827,14 +850,14 @@ var animated_scroll_to_default = /*#__PURE__*/__webpack_require__.n(animated_scr
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-777c3230","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGUI.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-4b75ed48","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGUI.vue
 var JGUI_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JGUI"},[_c('JGNav',{attrs:{"model":_vm.model}}),_vm._v(" "),_c('article',[_c('hgroup',_vm._l((_vm.ui.content),function(item){return _c(_vm.ui.componentMap[item.type],{key:item.id,tag:"component",class:{ 'm-active': item.id === _vm.currentItemId, 'm-inactive': item.id !== _vm.currentItemId, 'm-active-group': item.groupId == _vm.ui.currentGroupId },attrs:{"isActive":item.id === _vm.currentItemId,"isActiveGroup":item.groupId === _vm.ui.currentGroupId,"item":item,"director":_vm.director,"ui":_vm.ui}})})),_vm._v(" "),_c('div',{staticClass:"JGUIScrollSpacer"})]),_vm._v(" "),_c('JGAside',{attrs:{"model":_vm.model}})],1)}
 var JGUI_staticRenderFns = []
 var JGUI_esExports = { render: JGUI_render, staticRenderFns: JGUI_staticRenderFns }
 /* harmony default export */ var components_JGUI = (JGUI_esExports);
 // CONCATENATED MODULE: ./src/components/JGUI.vue
 function JGUI_injectStyle (ssrContext) {
-  __webpack_require__("s5/6")
+  __webpack_require__("8sr0")
 }
 var JGUI_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -846,7 +869,7 @@ var JGUI___vue_template_functional__ = false
 /* styles */
 var JGUI___vue_styles__ = JGUI_injectStyle
 /* scopeId */
-var JGUI___vue_scopeId__ = "data-v-777c3230"
+var JGUI___vue_scopeId__ = "data-v-4b75ed48"
 /* moduleIdentifier (server only) */
 var JGUI___vue_module_identifier__ = null
 var JGUI_Component = JGUI_normalizeComponent(
@@ -874,14 +897,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-0e624d5e","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-b9ee3a2c","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("Uq1Q")
+  __webpack_require__("dhIo")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -955,6 +978,8 @@ var situation_Situation = function () {
             displayOrder = _ref$displayOrder === undefined ? 0 : _ref$displayOrder,
             _ref$optionText = _ref.optionText,
             optionText = _ref$optionText === undefined ? null : _ref$optionText,
+            _ref$willEnter = _ref.willEnter,
+            willEnter = _ref$willEnter === undefined ? tru : _ref$willEnter,
             _ref$enter = _ref.enter,
             enter = _ref$enter === undefined ? nop : _ref$enter,
             _ref$act = _ref.act,
@@ -968,24 +993,34 @@ var situation_Situation = function () {
             _ref$choices = _ref.choices,
             choices = _ref$choices === undefined ? null : _ref$choices,
             _ref$snippets = _ref.snippets,
-            snippets = _ref$snippets === undefined ? {} : _ref$snippets;
+            snippets = _ref$snippets === undefined ? {} : _ref$snippets,
+            _ref$input = _ref.input,
+            input = _ref$input === undefined ? null : _ref$input;
 
         classCallCheck_default()(this, Situation);
 
         assign_default()(this, {
             id: id, tags: tags, totalVisits: totalVisits, getCanChoose: getCanChoose, getCanSee: getCanSee, priority: priority,
             displayOrder: displayOrder, optionText: optionText, enter: enter, act: act, exit: exit, content: content, actions: actions, choices: choices,
-            snippets: snippets
+            snippets: snippets, input: input, willEnter: willEnter
         });
     }
 
     createClass_default()(Situation, [{
         key: 'doEnter',
         value: function doEnter(model, ui) {
+            var _this = this;
+
             if (this.content) {
                 ui.logMarkdown(this.content);
             }
             this.enter.apply(this, arguments);
+            if (this.input) {
+                ui.promptInput({ placeholder: this.input.placeholder }).then(function (value) {
+                    _this.input.store(model, value);
+                    model.handleCommandString(_this.input.next);
+                });
+            }
             if (this.choices) {
                 ui.presentChoices(this.choices).then(function (_ref2) {
                     var situationId = _ref2.situationId,
@@ -1218,9 +1253,20 @@ var character_Character = function () {
             return jg_qualities[quality.type].format(this, quality, quality.value);
         }
     }, {
+        key: 'formatQualityName',
+        value: function formatQualityName(name) {
+            var quality = this._shallowQualities[name];
+            return quality.name;
+        }
+    }, {
         key: 'setQuality',
         value: function setQuality(name, value) {
             this._shallowQualities[name].value = value;
+        }
+    }, {
+        key: 'addToQuality',
+        value: function addToQuality(name, delta) {
+            this._shallowQualities[name].value += delta;
         }
     }]);
 
@@ -1275,6 +1321,10 @@ var model_WorldModel = function () {
         goTo(id) is injected into this class by JumboGroveDirector.
         */
 
+        /*
+        handleCommandString(str) is injected into this class by JumboGroveDirector.
+        */
+
     }, {
         key: 'character',
         value: function character(id) {
@@ -1300,7 +1350,7 @@ var model_WorldModel = function () {
     return WorldModel;
 }();
 
-/* harmony default export */ var model = (model_WorldModel);
+/* harmony default export */ var jg_model = (model_WorldModel);
 // CONCATENATED MODULE: ./src/jg/commands.js
 /* harmony default export */ var commands = ({
   runAction: {
@@ -1395,8 +1445,10 @@ var director_JumboGroveDirector = function () {
 
         this._initialSituationId = initialSituation;
 
-        this.model = new model({ characters: characters, globalState: globalState });
+        this.model = new jg_model({ characters: characters, globalState: globalState });
         this.model.goTo = this.goTo.bind(this);
+        this.model.handleCommandString = this.handleCommandString.bind(this);
+        this.model.do = this.handleCommandString.bind(this);
         this.interactive = true;
     }
 
@@ -1517,13 +1569,10 @@ var director_JumboGroveDirector = function () {
                 restore = true;
                 this.activeItemId = itemId;
                 this.activeSourceElId = sourceElId;
-                console.log(this.interactive);
                 if (this.interactive) {
                     this.history.push(lodash_default.a.toArray(arguments));
                     this.save();
                 }
-            } else {
-                throw new Error('Missing ' + itemId);
             }
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
@@ -1624,6 +1673,9 @@ var director_JumboGroveDirector = function () {
 
             // willEnter() may redirect us
             if (!this.willEnter(this.model, this.ui, previousId, id)) {
+                return;
+            }
+            if (!next.willEnter(this.model, this.ui, previousId, id)) {
                 return;
             }
 
@@ -1776,68 +1828,123 @@ function commandsFromString(str) {
 // CONCATENATED MODULE: ./src/jg/index.js
 
 /* harmony default export */ var jg = (director);
-// CONCATENATED MODULE: ./src/example2.js
-/* harmony default export */ var example2 = ({
-    id: 'my-game',
-    navHeader: '\n        # My Game\n\n        This text appears in the left sidebar.\n    ',
-    asideHeader: '\n        # Stats\n\n        This text appears in the right sidebar.\n    ',
-    globalState: {
-        foo: 'bar' // you may put anything JSON-safe in here
+// CONCATENATED MODULE: ./src/ld40.js
+
+
+function standardQualities() {
+  return {
+    core: {
+      friendliness: {
+        type: 'integer',
+        name: "Friendliness",
+        priority: 0,
+        initialValue: 5
+      },
+      fun: {
+        type: 'integer',
+        name: "Fun",
+        priority: 1,
+        initialValue: 3
+      },
+      stress: {
+        type: 'integer',
+        name: "Stress",
+        priority: 1,
+        initialValue: 0
+      }
+    }
+  };
+};
+
+/* harmony default export */ var ld40 = ({
+  id: 'my-game',
+  navHeader: '\n      # Please, Come In\n\n      Made for [Ludum Dare 40](https://ldjam.com) with\n      [Jumbo Grove](https://github.com/irskep/jumbogrove)\n  ',
+  asideHeader: '\n  ',
+  globalState: {},
+  characters: [{ id: 'player', showInSidebar: false, qualities: {}, state: {} }, { id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: {} }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(), showInSidebar: true, state: {} }, { id: 'federico', name: 'Federico', qualities: standardQualities(), showInSidebar: true, state: {} }],
+  init: function init(model, ui, md) {
+    ui.templateHelperFunctions.pl = function () {
+      return '*' + model.character('player').name + '*{.character}';
+    };
+
+    ui.templateHelperFunctions.chr = function (name) {
+      return '*' + name + '*{.character}';
+    };
+
+    ui.templateHelperFunctions.chrs = function (conj) {
+      for (var _len = arguments.length, names = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        names[_key - 1] = arguments[_key];
+      }
+
+      names = names.map(function (n) {
+        return '*' + n + '*{.character}';
+      });
+      if (names.length < 1) return '';
+      if (names.length === 1) return names[0];
+      if (names.length === 2) return names[0] + ' ' + conj + ' ' + names[1];
+      return lodash_default.a.initial(names).join(', ') + ', ' + conj + ' ' + lodash_default.a.last(names);
+    };
+
+    ui.templateHelperFunctions.stat = function (chr, q, amt) {
+      chr = model.character(chr);
+      chr.addToQuality(q, amt);
+      return '`' + chr.name + ' ' + chr.formatQualityName(q) + ' ' + amt + '`';
+    };
+  },
+
+  willEnter: function willEnter(model, ui, oldSituationId, newSituationId) {
+    if (oldSituationId) {
+      if (oldSituationId === newSituationId) {
+        debugger;
+      }
+      // ui.logHTML('<hr>');
+    }
+    return true;
+  },
+  situations: [{
+    id: 'start',
+    content: 'Please enter your name.',
+    input: {
+      placeholder: 'Your name',
+      next: '@prologue',
+      store: function store(model, value) {
+        model.character('player').name = value;
+        localStorage.playerName = value;
+      }
     },
-    characters: [
-        // this section is a work in progress
-    ],
-    situations: [
-    /*
-    This is where the meat of the library is.
-     A "situation" can be thought of as a room, a section, or
-    some other conceptual unit. It has:
-     * Markdown text displayed when you enter
-    * "snippets" which can be inserted based on the user
-        clicking links
-    * "choices" which are automatically displayed after the text
-    * JavaScript callbacks for all kinds of things
-    * So much more, but I haven't had time to write docs yet
-     */
-    {
-        id: 'start', // first situation
-        content: '\n                # Welcome to Jumbo Grove\n\n                [Normal links](https://google.com) work normally.\n\n                [Links with an @](@frog) transition to another situation.\n\n                [Links with a >](>debug_log) run an "action" within the\n                situation. You can provide arguments to the action function\n                using [colon separators](>debug_log:whats:up).\n            ',
-        actions: {
-            debug_log: function debug_log() {
-                var _console;
-
-                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                    args[_key] = arguments[_key];
-                }
-
-                (_console = console).log.apply(_console, ["HELLO!"].concat(args));
-            }
-        },
-        choices: ['snippets_demo', 'state_demo'],
-        // if this situation shows up in another choices array,
-        // use this text:
-        optionText: 'Go back to start'
-    }, {
-        id: 'frog',
-        optionText: 'Look at the cool frog',
-        content: '\n                There is a cool frog sitting on a stump.\n            ',
-        choices: ['start']
-    }, {
-        id: 'snippets_demo',
-        optionText: 'Snippets demo',
-        choices: ['start', 'state_demo'],
-        content: '\n                There are a few built-in special actions.\n\n                1. `write` appends the snippet contents to the end of the\n                    current section. [Try it](>write:poem)\n                2. `replace` replaces the HTML element with the same ID as the\n                    snippet, with the contents of the snippet. [Try it](>replace:ghost)\n\n                    _This text will be replaced_{#ghost}\n                3. `replaceself` replaces the clicked link with the contents of\n                    the snippet. [Try it](>replaceself:robot)\n            ',
-        snippets: {
-            poem: '\n                    ### A poem\n\n                    > Higgledy-piggledy Emily Dickinson  \n                    > Liked to use dashes instead of full stops.  \n                    > Nowadays, faced with such idiosyncrasies,  \n                    > Critics and editors run for the cops.  \n                ',
-            ghost: '**BOO!**',
-            robot: "Beep boop I'm a robot"
-        }
-    }, {
-        id: 'state_demo',
-        optionText: 'State demo',
-        choices: ['start', 'snippets_demo'],
-        content: '\n            This section is not yet finished.\n            '
-    }]
+    willEnter: function willEnter(model, ui) {
+      if (localStorage.playerName) {
+        model.character('player').name = localStorage.playerName;
+        model.do('@prologue');
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }, {
+    id: 'prologue',
+    content: '\n        # Prologue\n\n        It\'s a quiet Friday evening in your two bedroom flat in San Francisco.\n        Your friend <%-chr(\'Maria\')%> is visiting from Seattle tonight, so you\'ve\n        decided to throw a small dinner party with <%-chrs(\'and\', \'Maria\', \'Kevin\', \'Federico\') %>.\n\n        "Wow, it\'s really been a while!" says Kevin, [your friend from college.](>replace:college) [](){#college}\n\n        "Yeah, Maria, I haven\'t seen you in years," says [Federico.](>replace:work) [](){#work}\n\n        "What about you, <%-pl()%>, when was the last time you saw Maria?"\n        ',
+    choices: ['#prologue-how-long-has-it-been'],
+    snippets: {
+      college: 'You, Kevin, and Maria used to hang out at the student union between classes.',
+      work: 'You know Federico from work, but not well. He and Mario went to high school together, though, so you decided to invite him.'
+    }
+  }, {
+    id: 'prologue-i-forget', tags: ['prologue-how-long-has-it-been'],
+    optionText: "Oh, I can't even remember",
+    content: '\n      Maria furrows her brow. "Come on, <%-pl()%>, it\'s only been a couple of months.\n\n      <%- stat(\'maria\', \'friendliness\', -1) %>\n      ',
+    choices: []
+  }, {
+    id: 'prologue-1-year', tags: ['prologue-how-long-has-it-been'],
+    optionText: "More than a year ago",
+    content: '\n      "Yeah, it would have been that Tahoe trip. That was so much fun!" <%-chr(\'Maria\')%> leans back and looks up at the ceiling.\n      ',
+    choices: []
+  }, {
+    id: 'prologue-10-years', tags: ['prologue-how-long-has-it-been'],
+    optionText: "At least ten years ago",
+    content: '\n      "Yeah, must have been back in college. Wow." <%-chr(\'Maria\')%> leans back and looks up at the ceiling. "So much has happened..."\n      ',
+    choices: []
+  }]
 });
 // CONCATENATED MODULE: ./src/main.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "run", function() { return main_run; });
@@ -1868,24 +1975,10 @@ window.JumboGrove = {
 };
 
 if (window.jumboGroveExample) {
-  main_run(window.jumboGroveExample, example2);
+  main_run(window.jumboGroveExample, ld40);
 }
 
 
-
-/***/ }),
-
-/***/ "QsXP":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "Uq1Q":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -1896,7 +1989,7 @@ if (window.jumboGroveExample) {
 
 /***/ }),
 
-/***/ "s5/6":
+/***/ "dhIo":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -1904,4 +1997,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.c3acb406aec1f975fb59.js.map
+//# sourceMappingURL=app.02da1b4c5fbae2cac9d7.js.map
