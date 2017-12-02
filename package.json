@@ -10,7 +10,8 @@
     "test": "jest '.*.test.js' --coverage",
     "watchtest": "jest '.*.test.js' --watch",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "deploy": "yarn build && ghp-import -np dist"
   },
   "dependencies": {
     "animated-scroll-to": "^1.1.7",
