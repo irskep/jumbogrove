@@ -71,13 +71,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .JGUIScrollSpacer {
-    height: 2000px;
-  }
-  .m-active {
-    background-color: #fffacc;
-  }
-  .m-active-group {
-    background-color: #fffaee;
-  }
 </style>

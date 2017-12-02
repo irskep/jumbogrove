@@ -47,7 +47,16 @@ export default class Character {
         return qualities[quality.type].format(this, quality, quality.value);
     }
 
+    formatQualityName(name) {
+        const quality = this._shallowQualities[name];
+        return quality.name;
+    }
+
     setQuality(name, value) {
         this._shallowQualities[name].value = value;
+    }
+
+    addToQuality(name, delta) {
+        this._shallowQualities[name].value += delta;
     }
 }

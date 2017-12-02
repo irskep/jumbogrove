@@ -25,6 +25,10 @@ export default class WorldModel {
     goTo(id) is injected into this class by JumboGroveDirector.
     */
 
+    /*
+    handleCommandString(str) is injected into this class by JumboGroveDirector.
+    */
+
     character(id) {
         return this._characters[id];
     }

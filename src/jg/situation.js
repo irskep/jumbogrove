@@ -18,6 +18,8 @@ export default class Situation {
         // str or (model, hostSituation)
         optionText = null,
         // (model, ui, fromSituation)
+        willEnter = tru,
+        // (model, ui, fromSituation)
         enter = nop,
         // (model, ui, action)
         act = nop,
@@ -30,11 +32,12 @@ export default class Situation {
         // [str] (if specified, presentChoices() will happen automatically)
         choices = null,
         snippets = {},
+        input = null,
     }) {
         Object.assign(this, {
             id, tags, totalVisits, getCanChoose, getCanSee, priority,
             displayOrder, optionText, enter, act, exit, content, actions, choices,
-            snippets,
+            snippets, input, willEnter,
         });
     }
 
@@ -43,6 +46,13 @@ export default class Situation {
             ui.logMarkdown(this.content);
         }
         this.enter.apply(this, arguments);
+        if (this.input) {
+            ui.promptInput({placeholder: this.input.placeholder})
+                .then((value) => { 
+                    this.input.store(model, value);
+                    model.handleCommandString(this.input.next);
+                });
+        }
         if (this.choices) {
             ui.presentChoices(this.choices).then(({situationId, itemId}) => {
                 ui.simulateLink(`@${situationId}`, itemId, 'fake');

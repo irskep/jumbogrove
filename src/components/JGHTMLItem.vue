@@ -8,10 +8,10 @@
 <script>
 import _ from 'lodash';
 
-function removeLink(el) {
+function removeLink(el, extraClass = '') {
   const sibling = document.createElement('span');
   sibling.id = el.id;
-  sibling.className = "JGHTMLAddition m-disabled-link";
+  sibling.className = "JGHTMLAddition m-disabled-link " + extraClass;
   el.style.display = 'none';
   el.id = null;
   while (el.childNodes.length > 0) sibling.appendChild(el.childNodes[0]);
@@ -60,7 +60,7 @@ export default {
           // somehow dead elements are getting click events. Stop the madness.
           if (!el.parentElement) return;
           const href = el.attributes.href;
-          const replacement = removeLink(el);
+          const replacement = removeLink(el, 'm-unavailable');
           this.director.handleCommandString(href.value, this.item.id, replacement.id);
         });
       });
@@ -68,8 +68,6 @@ export default {
   },
   mounted: function() {
     this.bindLinks(this.getManagedAnchors());
-
-    console.log('mounted', this.item.id);
 
     this.ui.bus.$on('write', ({itemId, html}) => {
       if (itemId !== this.item.id) return;

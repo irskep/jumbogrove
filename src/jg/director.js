@@ -44,6 +44,8 @@ class JumboGroveDirector {
 
         this.model = new WorldModel({characters, globalState});
         this.model.goTo = this.goTo.bind(this);
+        this.model.handleCommandString = this.handleCommandString.bind(this);
+        this.model.do = this.handleCommandString.bind(this);
         this.interactive = true;
     }
 
@@ -147,13 +149,10 @@ class JumboGroveDirector {
             restore = true;
             this.activeItemId = itemId;
             this.activeSourceElId = sourceElId;
-            console.log(this.interactive);
             if (this.interactive) {
                 this.history.push(_.toArray(arguments));
                 this.save();
             }
-        } else {
-            throw new Error(`Missing ${itemId}`)
         }
         for (const cmd of commandsFromString(s, this.activeItemId, this.activeSourceElId)) {
             this.handleCommand(cmd);
@@ -218,6 +217,9 @@ class JumboGroveDirector {
 
         // willEnter() may redirect us
         if (!this.willEnter(this.model, this.ui, previousId, id)) {
+            return;
+        }
+        if (!next.willEnter(this.model, this.ui, previousId, id)) {
             return;
         }
 

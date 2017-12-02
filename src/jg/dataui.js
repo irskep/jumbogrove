@@ -13,6 +13,7 @@ function normalizeIndent(text) {
       if (m === null) return '';
       return m[0];
     });
+  if (!indents.length) return text;
   var smallestIndent = indents.reduce(function(max, curr) {
     if (curr.length < max.length) return curr;
     return max;

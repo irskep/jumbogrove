@@ -10,7 +10,11 @@
            :href="'@' + choice.situationId">
            {{ choice.text }}
         </a>
-        <span v-else :class="{'m-disabled-link': true, 'm-selected': item.situationId === choice.situationId}">
+        <span v-else :class="{
+          'm-disabled-link': true,
+          'm-selected': item.situationId === choice.situationId,
+          'm-unavailable': item.situationId !== choice.situationId,
+        }">
           {{ choice.text }}
         </span>
       </li>

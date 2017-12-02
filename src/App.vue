@@ -73,7 +73,24 @@ h4 {
 }
 
 .JumboGrove .m-disabled-link {
-  text-decoration: line-through;
-  opacity: 0.5;
+  &.m-unavailable {
+    // text-decoration: line-through;
+    // opacity: 0.5;
+  }
+}
+
+.JGUIScrollSpacer {
+  height: 2000px;
+}
+.m-active {
+  // background-color: #fffacc;
+}
+.m-active-group {
+  // background-color: #fffaee;
+}
+
+.character {
+  font-style: normal;
+  font-weight: bold;
 }
 </style>
