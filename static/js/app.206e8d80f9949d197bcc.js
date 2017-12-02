@@ -21,13 +21,6 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 
 /***/ }),
 
-/***/ "FRkk":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "GWq7":
 /***/ (function(module, exports) {
 
@@ -35,7 +28,14 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 
 /***/ }),
 
-/***/ "JMRT":
+/***/ "Knr6":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "MWdA":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -79,6 +79,14 @@ var inherits_default = /*#__PURE__*/__webpack_require__.n(inherits);
 var promise = __webpack_require__("//Fk");
 var promise_default = /*#__PURE__*/__webpack_require__.n(promise);
 
+// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/object/keys.js
+var keys = __webpack_require__("fZjL");
+var keys_default = /*#__PURE__*/__webpack_require__.n(keys);
+
+// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/get-iterator.js
+var get_iterator = __webpack_require__("BO1k");
+var get_iterator_default = /*#__PURE__*/__webpack_require__.n(get_iterator);
+
 // EXTERNAL MODULE: ./node_modules/babel-runtime/helpers/extends.js
 var helpers_extends = __webpack_require__("Dd8w");
 var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
@@ -96,6 +104,8 @@ var markdown_it_attrs = __webpack_require__("1jPL");
 var markdown_it_attrs_default = /*#__PURE__*/__webpack_require__.n(markdown_it_attrs);
 
 // CONCATENATED MODULE: ./src/jg/dataui.js
+
+
 
 
 
@@ -142,6 +152,8 @@ var dataui_DataUI = function () {
 
     this.nextItemId = 0;
 
+    this.templateHelperGetters = {};
+
     this.templateHelperFunctions = {
       ifThen: function ifThen(condition, snippetTrue, snippetFalse) {
         return _this.director.getSnippet(condition ? snippetTrue : snippetFalse);
@@ -183,10 +195,36 @@ var dataui_DataUI = function () {
   }, {
     key: 'templateContext',
     value: function templateContext() {
+      var getters = {};
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = get_iterator_default()(keys_default()(this.templateHelperGetters)), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var k = _step.value;
+
+          getters[k] = this.templateHelperGetters[k]();
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
       return extends_default()({}, this.director.model, {
         model: this.director.model,
         ui: this
-      }, this.templateHelperFunctions);
+      }, getters, this.templateHelperFunctions);
     }
   }, {
     key: 'renderMarkdown',
@@ -307,6 +345,10 @@ var dataui_DataUI = function () {
 }();
 
 /* harmony default export */ var dataui = (dataui_DataUI);
+// EXTERNAL MODULE: ./node_modules/animated-scroll-to/animated-scroll-to.js
+var animated_scroll_to = __webpack_require__("+so2");
+var animated_scroll_to_default = /*#__PURE__*/__webpack_require__.n(animated_scroll_to);
+
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/JGHTMLItem.vue
 //
 //
@@ -315,6 +357,7 @@ var dataui_DataUI = function () {
 //
 //
 //
+
 
 
 
@@ -333,8 +376,8 @@ function removeLink(el) {
   return sibling;
 }
 
-function replace(el, html) {
-  var sibling = document.createElement('span');
+function replace(el, tag, html) {
+  var sibling = document.createElement(tag);
   sibling.className = "JGHTMLAddition m-replacement";
   sibling.innerHTML = html;
   el.style.display = 'none';
@@ -349,6 +392,7 @@ function replace(el, html) {
     return { writerOutputs: [], uniqueId: 0 };
   },
   methods: {
+
     getManagedAnchors: function getManagedAnchors(parent) {
       var _this = this;
 
@@ -360,9 +404,11 @@ function replace(el, html) {
         return true;
       });
     },
+
     removeLinks: function removeLinks() {
       this.getManagedAnchors().forEach(removeLink);
     },
+
     bindLinks: function bindLinks(anchors) {
       var _this2 = this;
 
@@ -381,12 +427,25 @@ function replace(el, html) {
           _this2.director.handleCommandString(href.value, _this2.item.id, replacement.id);
         });
       });
+    },
+
+    doAnimations: function doAnimations() {
+      lodash_default.a.toArray(this.$el.querySelectorAll('.JGHTMLAddition')).forEach(function (child) {
+        if (child.className.indexOf('m-animated') === -1) {
+          child.className += ' m-animated';
+        }
+      });
+
+      if (this.$el.className.indexOf('m-animated') === -1) {
+        this.$el.className += ' m-animated';
+      }
     }
   },
   mounted: function mounted() {
     var _this3 = this;
 
     this.bindLinks(this.getManagedAnchors());
+    this.doAnimations();
 
     this.ui.bus.$on('write', function (_ref) {
       var itemId = _ref.itemId,
@@ -394,12 +453,20 @@ function replace(el, html) {
 
       if (itemId !== _this3.item.id) return;
       _this3.writerOutputs.push(html);
+      _this3.$nextTick(function () {
+        _this3.doAnimations();
+        var bottomEl = lodash_default.a.last(document.querySelectorAll('.m-addition'));
+        if (!bottomEl) return;
+        var bottomBottom = bottomEl.offsetTop + bottomEl.offsetHeight + 16;
+        animated_scroll_to_default()(bottomBottom - window.innerHeight);
+      });
     });
 
     this.ui.bus.$on('replace', function (_ref2) {
       var itemId = _ref2.itemId,
           html = _ref2.html,
-          id = _ref2.id;
+          id = _ref2.id,
+          tag = _ref2.tag;
 
       if (itemId !== _this3.item.id) return;
       var el = _this3.$el.querySelector('#' + id);
@@ -407,13 +474,16 @@ function replace(el, html) {
         console.warn("id not found:", id);
         return;
       }
-      var replacement = replace(el, html);
+      var replacement = replace(el, tag, html);
       _this3.bindLinks(_this3.getManagedAnchors(replacement));
+      _this3.$nextTick(function () {
+        return _this3.doAnimations();
+      });
     });
   },
 
   updated: function updated() {
-    // console.error('re-rendering html item!');
+    this.doAnimations();
   },
 
   watch: {
@@ -423,14 +493,14 @@ function replace(el, html) {
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1e554728","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGHTMLItem.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-370cea41","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGHTMLItem.vue
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"JGHTMLItem",attrs:{"data-itemid":_vm.item.id}},[_c('div',{domProps:{"innerHTML":_vm._s(_vm.item.html)}}),_vm._v(" "),_vm._l((_vm.writerOutputs),function(html,i){return _c('div',{key:i,staticClass:"JGHTMLAddition m-addition",domProps:{"innerHTML":_vm._s(html)}})})],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ var components_JGHTMLItem = (esExports);
 // CONCATENATED MODULE: ./src/components/JGHTMLItem.vue
 function injectStyle (ssrContext) {
-  __webpack_require__("FRkk")
+  __webpack_require__("Knr6")
 }
 var normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -695,14 +765,14 @@ var vueui_VueUI = function (_DataUI) {
   name: 'JGAside',
   props: ['model']
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-564c230a","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGAside.vue
-var JGAside_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('aside',{staticClass:"JGAside"},[_c('hgroup',[_c('div',{domProps:{"innerHTML":_vm._s(_vm.model.asideHeaderHTML)}}),_vm._v(" "),_c('ul',{staticClass:"Characters"},_vm._l((_vm.model.sidebarCharacters),function(character){return _c('li',{key:character.id},[_c('h2',[_vm._v(_vm._s(character.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualityGroups"},_vm._l((character.sortedQualityGroups),function(group){return (!group.hidden)?_c('li',{key:group.id},[_c('h3',[_vm._v(_vm._s(group.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualities"},_vm._l((character.sortedQualities(group.id)),function(quality){return (!quality.hidden && (quality.type != 'flag' || quality.value))?_c('li',{key:quality.id},[(quality.type == 'flag')?[_vm._v(_vm._s(character.formatQuality(quality.id)))]:[_c('strong',[_vm._v(_vm._s(quality.name)+":")]),_vm._v(" "+_vm._s(character.formatQuality(quality.id)))]],2):_vm._e()}))]):_vm._e()}))])}))])])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-f777f270","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGAside.vue
+var JGAside_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('aside',{staticClass:"JGAside"},[_c('hgroup',[_c('div',{domProps:{"innerHTML":_vm._s(_vm.model.asideHeaderHTML())}}),_vm._v(" "),_c('ul',{staticClass:"Characters"},_vm._l((_vm.model.allCharacters),function(character){return (character.showInSidebar)?_c('li',{key:character.id},[_c('h2',[_vm._v(_vm._s(character.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualityGroups"},_vm._l((character.sortedQualityGroups),function(group){return (!group.hidden)?_c('li',{key:group.id},[_c('h3',[_vm._v(_vm._s(group.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualities"},_vm._l((character.sortedQualities(group.id)),function(quality){return (!quality.hidden && (quality.type != 'flag' || quality.value))?_c('li',{key:quality.id},[(quality.type == 'flag')?[_vm._v(_vm._s(character.formatQuality(quality.id)))]:[_c('strong',[_vm._v(_vm._s(quality.name)+":")]),_vm._v(" "+_vm._s(character.formatQuality(quality.id)))]],2):_vm._e()}))]):_vm._e()}))]):_vm._e()}))])])}
 var JGAside_staticRenderFns = []
 var JGAside_esExports = { render: JGAside_render, staticRenderFns: JGAside_staticRenderFns }
 /* harmony default export */ var components_JGAside = (JGAside_esExports);
 // CONCATENATED MODULE: ./src/components/JGAside.vue
 function JGAside_injectStyle (ssrContext) {
-  __webpack_require__("JMRT")
+  __webpack_require__("MWdA")
 }
 var JGAside_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -714,7 +784,7 @@ var JGAside___vue_template_functional__ = false
 /* styles */
 var JGAside___vue_styles__ = JGAside_injectStyle
 /* scopeId */
-var JGAside___vue_scopeId__ = "data-v-564c230a"
+var JGAside___vue_scopeId__ = "data-v-f777f270"
 /* moduleIdentifier (server only) */
 var JGAside___vue_module_identifier__ = null
 var JGAside_Component = JGAside_normalizeComponent(
@@ -772,10 +842,6 @@ var JGNav_Component = JGNav_normalizeComponent(
 )
 
 /* harmony default export */ var src_components_JGNav = (JGNav_Component.exports);
-
-// EXTERNAL MODULE: ./node_modules/animated-scroll-to/animated-scroll-to.js
-var animated_scroll_to = __webpack_require__("+so2");
-var animated_scroll_to_default = /*#__PURE__*/__webpack_require__.n(animated_scroll_to);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/JGUI.vue
 //
@@ -930,10 +996,6 @@ var App_Component = App_normalizeComponent(
 
 /* harmony default export */ var src_App = (App_Component.exports);
 
-// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/get-iterator.js
-var get_iterator = __webpack_require__("BO1k");
-var get_iterator_default = /*#__PURE__*/__webpack_require__.n(get_iterator);
-
 // EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/object/values.js
 var values = __webpack_require__("gRE1");
 var values_default = /*#__PURE__*/__webpack_require__.n(values);
@@ -1085,10 +1147,6 @@ var situation_Situation = function () {
 }();
 
 /* harmony default export */ var situation = (situation_Situation);
-// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/object/keys.js
-var keys = __webpack_require__("fZjL");
-var keys_default = /*#__PURE__*/__webpack_require__.n(keys);
-
 // CONCATENATED MODULE: ./src/jg/qualities.js
 
 
@@ -1302,12 +1360,9 @@ var model_WorldModel = function () {
         this.navHeaderHTML = null;
         this.asideHeaderHTML = null;
 
-        this.sidebarCharacters = lodash_default.a.sortBy(values_default()(this._characters), function (_ref2) {
+        this.allCharacters = lodash_default.a.sortBy(values_default()(this._characters), function (_ref2) {
             var priority = _ref2.priority;
             return priority || 0;
-        }).filter(function (_ref3) {
-            var showInSidebar = _ref3.showInSidebar;
-            return showInSidebar;
         });
     }
 
@@ -1460,11 +1515,15 @@ var director_JumboGroveDirector = function () {
     }, {
         key: 'bindToUI',
         value: function bindToUI(ui) {
+            var _this2 = this;
+
             var wasBound = !!this.ui;
             this.ui = ui;
             ui.bind(this);
             this.model.navHeaderHTML = ui.renderMarkdown(this.navHeader);
-            this.model.asideHeaderHTML = ui.renderMarkdown(this.asideHeader);
+            this.model.asideHeaderHTML = function () {
+                return ui.renderMarkdownTemplate(_this2.asideHeader);
+            };
             if (!wasBound) {
                 this.init(this.model, this.ui, this.ui.md);
             }
@@ -1487,7 +1546,7 @@ var director_JumboGroveDirector = function () {
     }, {
         key: 'load',
         value: function load() {
-            var _this2 = this;
+            var _this3 = this;
 
             this.history = [];
             return false;
@@ -1500,11 +1559,11 @@ var director_JumboGroveDirector = function () {
                     console.log(entries);
                     var step = function step() {
                         if (entries.length <= 0) {
-                            _this2.interactive = true;
+                            _this3.interactive = true;
                             return;
                         }
                         vue_esm["a" /* default */].nextTick(function () {
-                            _this2.handleCommandString.apply(_this2, toConsumableArray_default()(entries.shift()));
+                            _this3.handleCommandString.apply(_this3, toConsumableArray_default()(entries.shift()));
                             step();
                         });
                     };
@@ -1541,6 +1600,14 @@ var director_JumboGroveDirector = function () {
         key: 'isManagedLink',
         value: function isManagedLink(href) {
             return commandsFromString(href).length > 0;
+        }
+    }, {
+        key: 'getSnippetWrapperTag',
+        value: function getSnippetWrapperTag(id) {
+            if (!this.model.currentSituation.snippets[id]) {
+                throw new Error('Snippet ' + this.model.currentSituation.id + '.' + id + ' doesn\'t exist');
+            }
+            return this.model.currentSituation.snippets[id].indexOf('\n') === -1 ? 'span' : 'div';
         }
     }, {
         key: 'getSnippetHTML',
@@ -1646,6 +1713,7 @@ var director_JumboGroveDirector = function () {
             this.ui.bus.$emit('replace', {
                 'itemId': itemId,
                 'id': elId,
+                'tag': this.getSnippetWrapperTag(snippetId),
                 'html': this.getSnippetHTML(snippetId)
             });
         }
@@ -1686,7 +1754,7 @@ var director_JumboGroveDirector = function () {
     }, {
         key: 'interpretChoices',
         value: function interpretChoices(arrayOfSituationIdsOrTags) {
-            var _this3 = this;
+            var _this4 = this;
 
             var atLeast = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
             var atMost = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Number.MAX_VALUE;
@@ -1695,12 +1763,12 @@ var director_JumboGroveDirector = function () {
             var situations = [].concat.apply([], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));
             // remove invisible situations
             var visibleSituations = situations.filter(function (s) {
-                return s.getCanSee(_this3.model, host);
+                return s.getCanSee(_this4.model, host);
             });
 
             // sort by display order
             var sortedSituations = lodash_default.a.sortBy(visibleSituations, function (s) {
-                return s.getDisplayOrder(_this3.model, host);
+                return s.getDisplayOrder(_this4.model, host);
             });
 
             // index by priority; figure out what priorities are being used
@@ -1780,8 +1848,8 @@ var director_JumboGroveDirector = function () {
             return chosenSituations.map(function (s) {
                 return {
                     situationId: s.id,
-                    text: s.getOptionText(_this3.model, host),
-                    isEnabled: s.getCanChoose(_this3.model, host)
+                    text: s.getOptionText(_this4.model, host),
+                    isEnabled: s.getCanChoose(_this4.model, host)
                 };
             });
         }
@@ -1828,8 +1896,90 @@ function commandsFromString(str) {
 // CONCATENATED MODULE: ./src/jg/index.js
 
 /* harmony default export */ var jg = (director);
+// CONCATENATED MODULE: ./src/ld40/hour0.js
+
+
+/* harmony default export */ var hour0 = ([{
+  id: 'start',
+  content: 'Please enter your name.',
+  input: {
+    placeholder: 'Your name',
+    next: '@prologue',
+    store: function store(model, value) {
+      model.character('player').name = value;
+      localStorage.playerName = value;
+    }
+  },
+  willEnter: function willEnter(model, ui) {
+    if (localStorage.playerName) {
+      model.character('player').name = localStorage.playerName;
+      model.do('@prologue');
+      return false;
+    } else {
+      return true;
+    }
+  }
+}, {
+  id: 'prologue',
+  content: '\n      # Prologue: 6:00pm\n\n      It\'s a quiet Friday evening in your three bedroom flat in San Francisco.\n      Your friend <%-maria%> is visiting from Seattle tonight, so you\'ve\n      decided to throw a small dinner party with <%-chrs(\'and\', \'Maria\', \'Kevin\', \'Federico\') %>.\n\n      "Wow, it\'s really been a while!" says <%-kevin%>, [your friend from college.](>replace:college) [](){#college}\n\n      "Yeah, <%-maria%>, I haven\'t seen you in years," says [<%-federico%>.](>replace:work) [](){#work}\n\n      "What about you, <%-pl%>, when was the last time you saw <%-maria%>?"\n      ',
+  choices: ['#prologue-how-long-has-it-been'],
+  snippets: {
+    college: 'You, Kevin, and Maria used to hang out at the student union between classes.',
+    work: 'You know Federico from work, but not well. He and Mario went to high school together, though, so you decided to invite him.'
+  }
+}, {
+  id: 'prologue-i-forget', tags: ['prologue-how-long-has-it-been'],
+  optionText: "Oh, I can't even remember",
+  /*
+  To do: require more unfriendliness before inviting Amy
+  */
+  content: '\n    <%-maria%> furrows her brow. "Come on, <%-pl%>, it\'s only been a couple of months. I stopped here on my way to LA.\n\n    <%- stat(\'maria\', \'friendliness\', -1) %>\n    ',
+  choices: ['#invite-amy']
+}, {
+  id: 'maybe-invite-amy', tags: ['invite-amy'],
+  optionText: "Sorry...",
+  content: '\n    You see the wheels turn in <%-maria%>\'s head. She would clearly prefer the company of better friends.\n\n    "Hey, would you guys mind if I brought Amy over? I haven\'t seen her in ages either."\n\n    You would really rather [not](>write:amy), but you can\'t say no to your guest.\n    ',
+  choices: ['invite-amy'],
+  snippets: {
+    amy: '\n      Amy is Maria\'s ex. Amy is much, much cooler than you. Every time you\'ve hung out in a group that Amy was in,\n      everyone ended up ignoring you. She and Maria are still on good, if complicated, terms.\n      '
+  }
+}, {
+  id: 'invite-amy',
+  optionText: "Sounds great!",
+  content: '\n    "Thanks!" <%-maria%> says. "She\'ll be here at 7."\n    ',
+  choices: ['advance-time']
+}, {
+  id: 'prologue-1-year', tags: ['prologue-how-long-has-it-been'],
+  optionText: "More than a year ago",
+  content: '\n    "Yeah, it would have been that Tahoe trip. That was so much fun!" <%-maria%> leans back and looks up at the ceiling.\n\n    "You know, that reminds me of [Jen](>replace:jen). She\'s still around, right?"\n\n    [](){#jen}\n    ',
+  choices: ['#invite-jen'],
+  snippets: {
+    jen: '\n      When Maria lived in SF, she used to work at a bar downtown. Jen was a drummer in one of the bands that came through,\n      and they\'ve been friends ever since.\n      '
+  }
+}, {
+  id: 'maybe-invite-jen', tags: ['invite-jen'],
+  optionText: "Last I heard, she moved to the East Bay.",
+  content: '\n    "Awesome! I\'m going to text her. I would love to see her again."\n    ',
+  choices: ['invite-jen']
+}, {
+  id: 'invite-jen',
+  optionText: "Sounds great!",
+  content: '\n    "OK. She\'ll be here at 7."\n    ',
+  choices: ['advance-time']
+}]);
 // CONCATENATED MODULE: ./src/ld40.js
 
+
+
+
+
+var ROOMS = {
+  kitchen: 'kitchen',
+  dining: 'dining',
+  living: 'living',
+  bedroom1: 'bedroom1',
+  bedroom2: 'bedroom2'
+};
 
 function standardQualities() {
   return {
@@ -1859,14 +2009,12 @@ function standardQualities() {
 /* harmony default export */ var ld40 = ({
   id: 'my-game',
   navHeader: '\n      # Please, Come In\n\n      Made for [Ludum Dare 40](https://ldjam.com) with\n      [Jumbo Grove](https://github.com/irskep/jumbogrove)\n  ',
-  asideHeader: '\n  ',
-  globalState: {},
-  characters: [{ id: 'player', showInSidebar: false, qualities: {}, state: {} }, { id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: {} }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(), showInSidebar: true, state: {} }, { id: 'federico', name: 'Federico', qualities: standardQualities(), showInSidebar: true, state: {} }],
+  asideHeader: '\n  Time: <%-time%>\n  ',
+  globalState: {
+    hour: 0
+  },
+  characters: [{ id: 'player', showInSidebar: false, qualities: {}, state: {} }, { id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: { room: ROOMS.dining } }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(), showInSidebar: true, state: { room: ROOMS.dining } }, { id: 'federico', name: 'Federico', qualities: standardQualities(), showInSidebar: true, state: { room: ROOMS.dining } }],
   init: function init(model, ui, md) {
-    ui.templateHelperFunctions.pl = function () {
-      return '*' + model.character('player').name + '*{.character}';
-    };
-
     ui.templateHelperFunctions.chr = function (name) {
       return '*' + name + '*{.character}';
     };
@@ -1890,6 +2038,48 @@ function standardQualities() {
       chr.addToQuality(q, amt);
       return '`' + chr.name + ' ' + chr.formatQualityName(q) + ' ' + amt + '`';
     };
+
+    ui.templateHelperGetters.time = function () {
+      var hour = 18 + model.globalState.hour;
+      var amPm = hour > 12 ? 'pm' : 'am';
+      if (amPm === 'pm') hour -= 12;
+      return hour + ':00' + amPm;
+    };
+
+    var _loop = function _loop(c) {
+      ui.templateHelperGetters[c.id] = function () {
+        return ui.templateHelperFunctions.chr(c.name);
+      };
+    };
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = get_iterator_default()(model.allCharacters), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var c = _step.value;
+
+        _loop(c);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    ui.templateHelperGetters.pl = function () {
+      return '*' + model.character('player').name + '*{.character}';
+    };
   },
 
   willEnter: function willEnter(model, ui, oldSituationId, newSituationId) {
@@ -1901,50 +2091,22 @@ function standardQualities() {
     }
     return true;
   },
-  situations: [{
-    id: 'start',
-    content: 'Please enter your name.',
-    input: {
-      placeholder: 'Your name',
-      next: '@prologue',
-      store: function store(model, value) {
-        model.character('player').name = value;
-        localStorage.playerName = value;
-      }
-    },
-    willEnter: function willEnter(model, ui) {
-      if (localStorage.playerName) {
-        model.character('player').name = localStorage.playerName;
-        model.do('@prologue');
-        return false;
-      } else {
-        return true;
-      }
-    }
-  }, {
-    id: 'prologue',
-    content: '\n        # Prologue\n\n        It\'s a quiet Friday evening in your two bedroom flat in San Francisco.\n        Your friend <%-chr(\'Maria\')%> is visiting from Seattle tonight, so you\'ve\n        decided to throw a small dinner party with <%-chrs(\'and\', \'Maria\', \'Kevin\', \'Federico\') %>.\n\n        "Wow, it\'s really been a while!" says Kevin, [your friend from college.](>replace:college) [](){#college}\n\n        "Yeah, Maria, I haven\'t seen you in years," says [Federico.](>replace:work) [](){#work}\n\n        "What about you, <%-pl()%>, when was the last time you saw Maria?"\n        ',
-    choices: ['#prologue-how-long-has-it-been'],
+  situations: [].concat(toConsumableArray_default()(hour0), [{
+    id: 'hour1',
+    content: '\n      # Please, Come In\n      ## A game for Ludum Dare 40 that I probably won\'t finish\n      ### by irskep and rbatistadelima\n\n      The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you\n      are hosting a party. Your guests keep inviting more people, and you are unable to say no.\n\n      Your goal is to make it to morning without property damage or lost friends.\n\n      [Continue](>write:unfinished)\n      ',
     snippets: {
-      college: 'You, Kevin, and Maria used to hang out at the student union between classes.',
-      work: 'You know Federico from work, but not well. He and Mario went to high school together, though, so you decided to invite him.'
+      unfinished: 'I have 54 hours left, surely I will finish this, hehehe...'
     }
   }, {
-    id: 'prologue-i-forget', tags: ['prologue-how-long-has-it-been'],
-    optionText: "Oh, I can't even remember",
-    content: '\n      Maria furrows her brow. "Come on, <%-pl()%>, it\'s only been a couple of months.\n\n      <%- stat(\'maria\', \'friendliness\', -1) %>\n      ',
-    choices: []
-  }, {
-    id: 'prologue-1-year', tags: ['prologue-how-long-has-it-been'],
-    optionText: "More than a year ago",
-    content: '\n      "Yeah, it would have been that Tahoe trip. That was so much fun!" <%-chr(\'Maria\')%> leans back and looks up at the ceiling.\n      ',
-    choices: []
-  }, {
-    id: 'prologue-10-years', tags: ['prologue-how-long-has-it-been'],
-    optionText: "At least ten years ago",
-    content: '\n      "Yeah, must have been back in college. Wow." <%-chr(\'Maria\')%> leans back and looks up at the ceiling. "So much has happened..."\n      ',
-    choices: []
-  }]
+    id: 'advance-time',
+    optionText: 'Hang out for an hour',
+    willEnter: function willEnter(model, ui) {
+      model.globalState.hour += 1;
+      if (model.globalState.hour < 2) {
+        model.do('@hour' + model.globalState.hour);
+      }
+    }
+  }])
 });
 // CONCATENATED MODULE: ./src/main.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "run", function() { return main_run; });
@@ -1997,4 +2159,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.02da1b4c5fbae2cac9d7.js.map
+//# sourceMappingURL=app.206e8d80f9949d197bcc.js.map
