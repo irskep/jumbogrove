@@ -141,11 +141,11 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/";
+/******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/ })
 /************************************************************************/
 /******/ ([]);
-//# sourceMappingURL=manifest.a10d2f729f81cc4131de.js.map
+//# sourceMappingURL=manifest.8cb3a7f88fe744200086.js.map
