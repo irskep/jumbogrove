@@ -1,7 +1,7 @@
 <template>
   <aside class="JGAside">
     <hgroup>
-      <h1 v-html="model.asideHeaderHTML"></h1>
+      <div v-html="model.asideHeaderHTML"></div>
       <ul class="Characters">
         <li v-for="character in model.sidebarCharacters" :key="character.id">
           <h2>{{ character.name }}</h2>

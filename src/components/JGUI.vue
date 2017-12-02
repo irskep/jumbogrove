@@ -26,6 +26,7 @@ import VueUI from "../jg/vueui";
 import JGAside from "./JGAside";
 import JGNav from "./JGNav";
 import animatedScrollTo from "animated-scroll-to";
+import _ from 'lodash';
 
 export default {
   name: 'JGUI',
