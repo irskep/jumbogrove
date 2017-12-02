@@ -52,11 +52,14 @@ class JumboGroveDirector {
     }
 
     bindToUI(ui) {
-      this.ui = ui;
-      ui.bind(this);
-      this.model.navHeaderHTML = ui.renderMarkdown(this.navHeader);
-      this.model.asideHeaderHTML = ui.renderMarkdown(this.asideHeader);
-      this.init(this.model, this.ui, this.ui.md);
+        const wasBound = !!this.ui;
+        this.ui = ui;
+        ui.bind(this);
+        this.model.navHeaderHTML = ui.renderMarkdown(this.navHeader);
+        this.model.asideHeaderHTML = ui.renderMarkdown(this.asideHeader);
+        if (!wasBound) {
+            this.init(this.model, this.ui, this.ui.md);
+        }
     }
 
     start() {

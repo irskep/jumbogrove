@@ -54,9 +54,15 @@ export default {
   watch: {
     currentItemId: function() {
       this.$nextTick(() => {
-        const el = document.querySelector('.m-active-group');
-        if (!el) return;
-        animatedScrollTo(el);
+        const topEl = _.first(document.querySelectorAll('.m-active-group'));
+        const bottomEl = _.last(document.querySelectorAll('.m-active-group'));
+        if (!bottomEl) return;
+        const bottomBottom = bottomEl.offsetTop + bottomEl.offsetHeight + 16;
+        if (bottomBottom - topEl.offsetTop > window.innerHeight) {
+          animatedScrollTo(topEl);
+        } else {
+          animatedScrollTo(bottomBottom - window.innerHeight);
+        }
       });
     },
   },
