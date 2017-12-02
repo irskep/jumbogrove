@@ -67,8 +67,8 @@ class JumboGroveDirector {
     }
 
     start() {
-        if (this.currentSituation) {
-            throw new Error("You may only start once!");
+        if (this.model.currentSituation) {
+            return;
         }
         if (!this.load()) {
             this.goTo(this._initialSituationId);

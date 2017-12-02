@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import VueUI from "../jg/vueui";
 import JGAside from "./JGAside";
 import JGNav from "./JGNav";
 import animatedScrollTo from "animated-scroll-to";
@@ -30,13 +29,10 @@ import _ from 'lodash';
 
 export default {
   name: 'JGUI',
-  props: ['director'],
+  props: ['director', 'ui'],
   components: { JGAside, JGNav },
   data: function() {
-    const ui = new VueUI();
-    this.director.bindToUI(ui);
     return {
-      ui,
       model: this.director.model,
       mobileSelectedTab: 'log',  // or 'menu', 'aside'
     };

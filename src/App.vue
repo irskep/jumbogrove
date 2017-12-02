@@ -1,6 +1,6 @@
 <template>
   <div class="JumboGrove">
-    <JGUI :director="director"></JGUI>
+    <JGUI :director="director" :ui="ui"></JGUI>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import JGUI from '@/components/JGUI'
 export default {
   name: 'app',
-  props: ['director'],
+  props: ['director', 'ui'],
   components: { JGUI },
 }
 </script>
@@ -48,17 +48,21 @@ h4 {
 
 .JumboGrove .JGUI > nav {
   padding: 0 1rem;
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
   right: calc(50% + 20rem);
 }
 
 .JumboGrove .JGUI > aside {
   padding: 0 1rem;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
+  bottom: 0;
+  overflow: auto;
   left: calc(50% + 20rem);
 
   ul {

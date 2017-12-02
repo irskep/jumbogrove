@@ -1,4 +1,4 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 
 export default [
   {
@@ -40,8 +40,8 @@ export default [
       `,
     choices: ['#prologue-how-long-has-it-been'],
     snippets: {
-      college: `You, Kevin, and Maria used to hang out at the student union between classes.`,
-      work: `You know Federico from work, but not well. He and Mario went to high school together, though, so you decided to invite him.`
+      college: `You, <%-kevin%>, and <%-maria%> used to hang out at the student union between classes.`,
+      work: `You know <%-federico%> from work, but not well. He and <%-maria%> went to high school together, though, so you decided to invite him.`
     }
   },
 
@@ -65,15 +65,15 @@ export default [
     content: `
     You see the wheels turn in <%-maria%>'s head. She would clearly prefer the company of better friends.
 
-    "Hey, would you guys mind if I brought Amy over? I haven't seen her in ages either."
+    "Hey, would you guys mind if I brought <%-amy%> over? I haven't seen her in ages either."
 
     You would really rather [not](>write:amy), but you can't say no to your guest.
     `,
     choices: ['invite-amy'],
     snippets: {
       amy: `
-      Amy is Maria's ex. Amy is much, much cooler than you. Every time you've hung out in a group that Amy was in,
-      everyone ended up ignoring you. She and Maria are still on good, if complicated, terms.
+      <%-amy%> is <%-maria%>'s ex. Amy is much, much cooler than you. Every time you've hung out in a group that <%-amy%> was in,
+      everyone ended up ignoring you. She and <%-maria%> are still on good, if complicated, terms.
       `
     },
   },
@@ -83,6 +83,8 @@ export default [
     optionText: "Sounds great!",
     content: `
     "Thanks!" <%-maria%> says. "She'll be here at 7."
+
+    <% print(scheduleArrival('amy', 1)) %>
     `,
     choices: ['advance-time'],
   },
@@ -93,14 +95,14 @@ export default [
     content: `
     "Yeah, it would have been that Tahoe trip. That was so much fun!" <%-maria%> leans back and looks up at the ceiling.
 
-    "You know, that reminds me of [Jen](>replace:jen). She's still around, right?"
+    "You know, that reminds me of [<%-jen%>](>replace:jen). She's still around, right?"
 
     [](){#jen}
     `,
     choices: ['#invite-jen'],
     snippets: {
       jen: `
-      When Maria lived in SF, she used to work at a bar downtown. Jen was a drummer in one of the bands that came through,
+      When <%-maria%> lived in SF, she used to work at a bar downtown. <%-jen%> was a drummer in one of the bands that came through,
       and they've been friends ever since.
       `
     }
@@ -120,6 +122,8 @@ export default [
     optionText: "Sounds great!",
     content: `
     "OK. She'll be here at 7."
+
+    <% print(scheduleArrival('jen', 1)) %>
     `,
     choices: ['advance-time'],
   },

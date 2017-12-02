@@ -29,7 +29,7 @@ export default class DataUI {
     this.currentItemId = null;
     this.currentGroupId = 0;
 
-    this.md = new MarkdownIt();
+    this.md = new MarkdownIt({html: true, linkify: false, typographer: true});
     this.md.use(MarkdownItAttrs);
 
     this.nextItemId = 0;
@@ -52,6 +52,14 @@ export default class DataUI {
         return `${_.initial(items).join(', ')}, ${conjunction} ${_.last(items)}`;
       },
     }
+  }
+
+  addTemplateFunctions(fns) {
+    this.templateHelperFunctions = {...this.templateHelperFunctions, ...fns};
+  }
+
+  addTemplateGetters(fns) {
+    this.templateHelperGetters = {...this.templateHelperGetters, ...fns};
   }
 
   bind(director) {
@@ -78,8 +86,10 @@ export default class DataUI {
 
   renderMarkdown(text, inline = false) {
     if (inline) {
+      console.log('inline', text, '---', this.md.renderInline(normalizeIndent(text)))
       return this.md.renderInline(normalizeIndent(text));
     } else {
+      console.log('div', text, '---', this.md.render(normalizeIndent(text)));
       return this.md.render(normalizeIndent(text));
     }
   }

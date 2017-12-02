@@ -2,6 +2,7 @@ import _ from 'lodash';
 import hour0 from "./ld40/hour0";
 
 const ROOMS = {
+  porch: 'porch',
   kitchen: 'kitchen',
   dining: 'dining',
   living: 'living',
@@ -43,49 +44,75 @@ export default {
       [Jumbo Grove](https://github.com/irskep/jumbogrove)
   `,
   asideHeader: `
-  Time: <%-time%>
+  # Time: <%-time%>
   `,
   globalState: {
     hour: 0,
+    scheduledArrivals: [],
   },
   characters: [
     {id: 'player', showInSidebar: false, qualities: {}, state: {}},
     {id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
     {id: 'kevin', name: 'Kevin', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
     {id: 'federico', name: 'Federico', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
+    {id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false, state: {room: null}},
+    {id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false, state: {room: null}},
   ],
   init(model, ui, md) {
-    ui.templateHelperFunctions.chr = (name) => `*${name}*{.character}`;
+    const templateFns = {
+      chr: (name) => `*${name}*{.character}`,
+      formatTime: (hour) => {
+        hour = 18 + hour;
+        const amPm = hour > 12 ? 'pm' : 'am';
+        if (amPm === 'pm') hour -= 12;
+        return `${hour}:00${amPm}`;
+      },
+      chrs: (conj, ...names) => {
+        names = names.map((n) => `*${n}*{.character}`);
+        if (names.length < 1) return '';
+        if (names.length === 1) return names[0];
+        if (names.length === 2) return `${names[0]} ${conj} ${names[1]}`;
+        return `${_.initial(names).join(', ')}, ${conj} ${_.last(names)}`;
+      },
+      stat: (chr, q, amt) => {
+        chr = model.character(chr);
+        chr.addToQuality(q, amt);
+        return `\`${chr.name} ${chr.formatQualityName(q)} ${amt}\``;
+      },
+      scheduleArrival: (id, hour) => {
+        model.globalState.scheduledArrivals.push({id, hour});
+        return `> ${templateFns.chr(model.character(id).name)} is scheduled to arrive at ${templateFns.formatTime(hour)}.`
+      },
+      arrivingGuests: () => {
+        const chars = model.globalState.scheduledArrivals
+          .filter(({hour}) => model.globalState.hour >= hour)
+          .map(({id}) => model.character(id));
+        
+        model.globalState.scheduledArrivals = model.globalState.scheduledArrivals
+          .filter(({hour}) => hour > model.globalState.hour);
 
-    ui.templateHelperFunctions.chrs = (conj, ...names) => {
-      names = names.map((n) => `*${n}*{.character}`);
-      if (names.length < 1) return '';
-      if (names.length === 1) return names[0];
-      if (names.length === 2) return `${names[0]} ${conj} ${names[1]}`;
-      return `${_.initial(names).join(', ')}, ${conj} ${_.last(names)}`;
-    };
+        for (const c of chars) {
+          c.state.room = ROOMS.porch;
+        }
 
-    ui.templateHelperFunctions.stat = (chr, q, amt) => {
-      chr = model.character(chr);
-      chr.addToQuality(q, amt);
-      return `\`${chr.name} ${chr.formatQualityName(q)} ${amt}\``;
-    };
-
-    ui.templateHelperGetters.time = () => {
-      let hour = 18 + model.globalState.hour;
-      const amPm = hour > 12 ? 'pm' : 'am';
-      if (amPm === 'pm') hour -= 12;
-      return `${hour}:00${amPm}`;
-    };
-    for (const c of model.allCharacters) {
-      ui.templateHelperGetters[c.id] = () => ui.templateHelperFunctions.chr(c.name);
+        return chars.map((c) => c.name);
+      }
     }
-    ui.templateHelperGetters.pl = () => `*${model.character('player').name}*{.character}`;
+    ui.addTemplateFunctions(templateFns);
+
+    ui.addTemplateGetters({
+      time: () => templateFns.formatTime(model.globalState.hour),
+      pl: () => `*${model.character('player').name}*{.character}`,
+    });
+
+    for (const c of model.allCharacters) {
+      ui.addTemplateGetters({[c.id]: () => ui.templateHelperFunctions.chr(c.name)});
+    }
   },
   willEnter: (model, ui, oldSituationId, newSituationId) => {
     if (oldSituationId) {
       if (oldSituationId === newSituationId) {
-        debugger;
+        throw new Error("This shouldn't happen in most games");
       }
       // ui.logHTML('<hr>');
     }
@@ -105,12 +132,29 @@ export default {
       are hosting a party. Your guests keep inviting more people, and you are unable to say no.
 
       Your goal is to make it to morning without property damage or lost friends.
-
-      [Continue](>write:unfinished)
       `,
       snippets: {
         unfinished: `I have 54 hours left, surely I will finish this, hehehe...`,
       },
+      choices: ['hour1b'],
+    },
+
+    {
+      id: 'hour1b',
+      optionText: 'Continue',
+      content: `
+      # 7:00pm
+
+      <% var guests = arrivingGuests();
+      if (guests.length > 1) { %>
+        <%= chrs('and', guests) %> have arrived and are waiting on the porch.
+      <% } else { %>
+        <%= chr(guests[0]) %> has arrived and is waiting on the porch.
+      <% } %>
+      `,
+      snippets: {
+      },
+      choices: [],
     },
 
     {
