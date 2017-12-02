@@ -21,20 +21,6 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 
 /***/ }),
 
-/***/ "5P+2":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "GWq7":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "Knr6":
 /***/ (function(module, exports) {
 
@@ -295,14 +281,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director', 'ui'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-48d44442","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1e3e92aa","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director,"ui":_vm.ui}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("5P+2")
+  __webpack_require__("zR2m")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1757,7 +1743,7 @@ var JGHTMLItem_Component = JGHTMLItem_normalizeComponent(
     this.focus();
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-853581ac","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGChoiceItem.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-8dbc74e8","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGChoiceItem.vue
 var JGChoiceItem_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"JGChoiceItem",attrs:{"data-itemid":_vm.item.id}},[_c('ul',_vm._l((_vm.item.choices),function(choice){return _c('li',{key:choice.situationId},[(_vm.isActiveGroup)?_c('a',{class:{ 'm-disabled': !choice.isEnabled },attrs:{"data-situationid":choice.situationId,"data-isenabled":choice.isEnabled,"href":'@' + choice.situationId},on:{"click":function($event){$event.preventDefault();_vm.onClick($event)}}},[_vm._v("\n         "+_vm._s(choice.text)+"\n      ")]):_c('span',{class:{
         'm-disabled-link': true,
         'm-selected': _vm.item.situationId === choice.situationId,
@@ -1768,7 +1754,7 @@ var JGChoiceItem_esExports = { render: JGChoiceItem_render, staticRenderFns: JGC
 /* harmony default export */ var components_JGChoiceItem = (JGChoiceItem_esExports);
 // CONCATENATED MODULE: ./src/components/JGChoiceItem.vue
 function JGChoiceItem_injectStyle (ssrContext) {
-  __webpack_require__("GWq7")
+  __webpack_require__("Pu1X")
 }
 var JGChoiceItem_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1780,7 +1766,7 @@ var JGChoiceItem___vue_template_functional__ = false
 /* styles */
 var JGChoiceItem___vue_styles__ = JGChoiceItem_injectStyle
 /* scopeId */
-var JGChoiceItem___vue_scopeId__ = "data-v-853581ac"
+var JGChoiceItem___vue_scopeId__ = "data-v-8dbc74e8"
 /* moduleIdentifier (server only) */
 var JGChoiceItem___vue_module_identifier__ = null
 var JGChoiceItem_Component = JGChoiceItem_normalizeComponent(
@@ -2035,18 +2021,28 @@ function standardQualities() {
     hour: 0,
     scheduledArrivals: []
   },
+
   characters: [{ id: 'player', showInSidebar: false, qualities: {}, state: {} }, { id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: { room: ROOMS.dining } }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(), showInSidebar: true, state: { room: ROOMS.dining } }, { id: 'federico', name: 'Federico', qualities: standardQualities(), showInSidebar: true, state: { room: ROOMS.dining } }, { id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false, state: { room: null } }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false, state: { room: null } }],
+
   init: function init(model, ui, md) {
+
+    // Define some helpers for rendering text and doing stuff, so we have to write as little JS as possible
+    // in the content field
     var templateFns = {
+      // Print some text in the style of a character name
       chr: function chr(name) {
         return '*' + name + '*{.character}';
       },
+
+      // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
       formatTime: function formatTime(hour) {
         hour = 18 + hour;
         var amPm = hour > 12 ? 'pm' : 'am';
         if (amPm === 'pm') hour -= 12;
         return hour + ':00' + amPm;
       },
+
+      // Print a list of things, styled as character names.
       chrs: function chrs(conj) {
         for (var _len = arguments.length, names = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
           names[_key - 1] = arguments[_key];
@@ -2060,15 +2056,21 @@ function standardQualities() {
         if (names.length === 2) return names[0] + ' ' + conj + ' ' + names[1];
         return lodash_default.a.initial(names).join(', ') + ', ' + conj + ' ' + lodash_default.a.last(names);
       },
+
+      // Adjust a character quality by the given amount.
       stat: function stat(chr, q, amt) {
         chr = model.character(chr);
         chr.addToQuality(q, amt);
         return '`' + chr.name + ' ' + chr.formatQualityName(q) + ' ' + amt + '`';
       },
+
+      // Schedule a character for later arrival.
       scheduleArrival: function scheduleArrival(id, hour) {
         model.globalState.scheduledArrivals.push({ id: id, hour: hour });
         return '> ' + templateFns.chr(model.character(id).name) + ' is scheduled to arrive at ' + templateFns.formatTime(hour) + '.';
       },
+
+      // Returns the list of guests who have just arrived. Assigns their room to 'porch'.
       arrivingGuests: function arrivingGuests() {
         var chars = model.globalState.scheduledArrivals.filter(function (_ref) {
           var hour = _ref.hour;
@@ -2116,15 +2118,19 @@ function standardQualities() {
     ui.addTemplateFunctions(templateFns);
 
     ui.addTemplateGetters({
+      // write <%=time%> to print the current time.
       time: function time() {
         return templateFns.formatTime(model.globalState.hour);
       },
+
+      // write <%=pl%> to print the player's name.
       pl: function pl() {
         return '*' + model.character('player').name + '*{.character}';
       }
     });
 
     var _loop = function _loop(c) {
+      // write<%=<CHARACTER ID>%> to print that character's name.
       ui.addTemplateGetters(defineProperty_default()({}, c.id, function () {
         return ui.templateHelperFunctions.chr(c.name);
       }));
@@ -2167,7 +2173,7 @@ function standardQualities() {
   },
   situations: [].concat(toConsumableArray_default()(hour0), [{
     id: 'hour1',
-    content: '\n      # Please, Come In\n      ## A game for Ludum Dare 40 that I probably won\'t finish\n      ### by irskep and rbatistadelima\n\n      The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you\n      are hosting a party. Your guests keep inviting more people, and you are unable to say no.\n\n      Your goal is to make it to morning without property damage or lost friends.\n      ',
+    content: '\n      # Please, Come In{.title}\n      ## A game for Ludum Dare 40 that I probably won\'t finish\n      ### by irskep and rbatistadelima\n\n      The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you\n      are hosting a party. Your guests keep inviting more people, and you are unable to say no.\n\n      Your goal is to make it to morning without property damage or lost friends.\n      ',
     snippets: {
       unfinished: 'I have 54 hours left, surely I will finish this, hehehe...'
     },
@@ -2177,7 +2183,7 @@ function standardQualities() {
     optionText: 'Continue',
     content: '\n      # 7:00pm\n\n      <% var guests = arrivingGuests();\n      if (guests.length > 1) { %>\n        <%= chrs(\'and\', guests) %> have arrived and are waiting on the porch.\n      <% } else { %>\n        <%= chr(guests[0]) %> has arrived and is waiting on the porch.\n      <% } %>\n      ',
     snippets: {},
-    choices: []
+    choices: ['#newguests']
   }, {
     id: 'advance-time',
     optionText: 'Hang out for an hour',
@@ -2227,7 +2233,21 @@ if (window.jumboGroveExample) {
 
 /***/ }),
 
+/***/ "Pu1X":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "WsSS":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "zR2m":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -2235,4 +2255,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.11fdb8eba32d114488ae.js.map
+//# sourceMappingURL=app.8620e23ea5ee8c7752cd.js.map
