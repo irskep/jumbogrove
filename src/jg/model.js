@@ -13,8 +13,7 @@ export default class WorldModel {
         this.navHeaderHTML = null;
         this.asideHeaderHTML = null;
 
-        this.sidebarCharacters = _.sortBy(Object.values(this._characters), ({priority}) => priority || 0)
-            .filter(({showInSidebar}) => showInSidebar);
+        this.allCharacters = _.sortBy(Object.values(this._characters), ({priority}) => priority || 0);
     }
 
     toString() {

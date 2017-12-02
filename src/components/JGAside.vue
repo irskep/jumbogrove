@@ -1,9 +1,9 @@
 <template>
   <aside class="JGAside">
     <hgroup>
-      <div v-html="model.asideHeaderHTML"></div>
+      <div v-html="model.asideHeaderHTML()"></div>
       <ul class="Characters">
-        <li v-for="character in model.sidebarCharacters" :key="character.id">
+        <li v-for="character in model.allCharacters" v-if="character.showInSidebar" :key="character.id">
           <h2>{{ character.name }}</h2>
           <ul class="CharacterQualityGroups">
             <li v-for="group in character.sortedQualityGroups"

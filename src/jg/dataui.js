@@ -34,6 +34,8 @@ export default class DataUI {
 
     this.nextItemId = 0;
 
+    this.templateHelperGetters = {};
+
     this.templateHelperFunctions = {
       ifThen: (condition, snippetTrue, snippetFalse) => {
         return this.director.getSnippet(condition ? snippetTrue : snippetFalse);
@@ -61,10 +63,15 @@ export default class DataUI {
   }
 
   templateContext() {
+    const getters = {};
+    for (const k of Object.keys(this.templateHelperGetters)) {
+      getters[k] = this.templateHelperGetters[k]();
+    }
     return {
       ...this.director.model,
       model: this.director.model,
       ui: this,
+      ...getters,
       ...this.templateHelperFunctions,
     };
   }

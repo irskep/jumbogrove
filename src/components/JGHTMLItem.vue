@@ -7,6 +7,7 @@
 
 <script>
 import _ from 'lodash';
+import animatedScrollTo from "animated-scroll-to";
 
 function removeLink(el, extraClass = '') {
   const sibling = document.createElement('span');
@@ -20,8 +21,8 @@ function removeLink(el, extraClass = '') {
   return sibling;
 }
 
-function replace(el, html) {
-  const sibling = document.createElement('span');
+function replace(el, tag, html) {
+  const sibling = document.createElement(tag);
   sibling.className = "JGHTMLAddition m-replacement";
   sibling.innerHTML = html;
   el.style.display = 'none';
@@ -36,6 +37,7 @@ export default {
     return {writerOutputs: [], uniqueId: 0};
   },
   methods: {
+
     getManagedAnchors: function(parent) {
       parent = parent || this.$el;
       return _.toArray(this.$el.querySelectorAll('a')).filter((el) => {
@@ -45,9 +47,11 @@ export default {
         return true;
       });
     },
+
     removeLinks: function() {
       this.getManagedAnchors().forEach(removeLink);
     },
+
     bindLinks: function(anchors) {
       anchors.forEach((el) => {
         if (el.dataset.isbound) return;
@@ -64,30 +68,47 @@ export default {
           this.director.handleCommandString(href.value, this.item.id, replacement.id);
         });
       });
+    },
+
+    doAnimations: function() {
+      _.toArray(this.$el.querySelectorAll('.JGHTMLAddition')).forEach((child) => {
+        if (child.className.indexOf('m-animated') === -1) { child.className += ' m-animated'; }
+      });
+
+      if (this.$el.className.indexOf('m-animated') === -1) { this.$el.className += ' m-animated'; }
     }
   },
   mounted: function() {
     this.bindLinks(this.getManagedAnchors());
+    this.doAnimations();
 
     this.ui.bus.$on('write', ({itemId, html}) => {
       if (itemId !== this.item.id) return;
       this.writerOutputs.push(html);
+      this.$nextTick(() => {
+        this.doAnimations();
+        const bottomEl = _.last(document.querySelectorAll('.m-addition'));
+        if (!bottomEl) return;
+        const bottomBottom = bottomEl.offsetTop + bottomEl.offsetHeight + 16;
+        animatedScrollTo(bottomBottom - window.innerHeight);
+      });
     });
 
-    this.ui.bus.$on('replace', ({itemId, html, id}) => {
+    this.ui.bus.$on('replace', ({itemId, html, id, tag}) => {
       if (itemId !== this.item.id) return;
       const el = this.$el.querySelector(`#${id}`);
       if (!el) {
         console.warn("id not found:", id);
         return;
       }
-      const replacement = replace(el, html);
+      const replacement = replace(el, tag, html);
       this.bindLinks(this.getManagedAnchors(replacement));
+      this.$nextTick(() => this.doAnimations());
     });
   },
 
   updated: function() {
-    // console.error('re-rendering html item!');
+    this.doAnimations();
   },
 
   watch: {
@@ -100,11 +121,18 @@ export default {
 </script>
 
 <style lang="css">
-.JGHTMLAddition {
-  animation: JGAdditionOpacity 1s;
+.JGHTMLAddition, .JGHTMLItem {
+  opacity: 0;
 }
-.JGHTMLAddition.m-addition {
-  animation-duration: 2s;
+.m-inactive .JGHTMLAddition, .m-inactive .JGHTMLItem {
+  opacity: 1;
+}
+.JGHTMLItem.m-inactive {
+  opacity: 1;
+}
+.JGHTMLAddition.m-animated, .JGHTMLItem.m-animated {
+  animation: JGAdditionOpacity 1s;
+  opacity: 1;
 }
 
 @keyframes JGAdditionOpacity {

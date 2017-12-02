@@ -1,4 +1,13 @@
 import _ from 'lodash';
+import hour0 from "./ld40/hour0";
+
+const ROOMS = {
+  kitchen: 'kitchen',
+  dining: 'dining',
+  living: 'living',
+  bedroom1: 'bedroom1',
+  bedroom2: 'bedroom2',
+}
 
 function standardQualities() {
   return {
@@ -34,18 +43,18 @@ export default {
       [Jumbo Grove](https://github.com/irskep/jumbogrove)
   `,
   asideHeader: `
+  Time: <%-time%>
   `,
   globalState: {
+    hour: 0,
   },
   characters: [
     {id: 'player', showInSidebar: false, qualities: {}, state: {}},
-    {id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: {}},
-    {id: 'kevin', name: 'Kevin', qualities: standardQualities(), showInSidebar: true, state: {}},
-    {id: 'federico', name: 'Federico', qualities: standardQualities(), showInSidebar: true, state: {}},
+    {id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
+    {id: 'kevin', name: 'Kevin', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
+    {id: 'federico', name: 'Federico', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
   ],
   init(model, ui, md) {
-    ui.templateHelperFunctions.pl = () => `*${model.character('player').name}*{.character}`;
-
     ui.templateHelperFunctions.chr = (name) => `*${name}*{.character}`;
 
     ui.templateHelperFunctions.chrs = (conj, ...names) => {
@@ -61,6 +70,17 @@ export default {
       chr.addToQuality(q, amt);
       return `\`${chr.name} ${chr.formatQualityName(q)} ${amt}\``;
     };
+
+    ui.templateHelperGetters.time = () => {
+      let hour = 18 + model.globalState.hour;
+      const amPm = hour > 12 ? 'pm' : 'am';
+      if (amPm === 'pm') hour -= 12;
+      return `${hour}:00${amPm}`;
+    };
+    for (const c of model.allCharacters) {
+      ui.templateHelperGetters[c.id] = () => ui.templateHelperFunctions.chr(c.name);
+    }
+    ui.templateHelperGetters.pl = () => `*${model.character('player').name}*{.character}`;
   },
   willEnter: (model, ui, oldSituationId, newSituationId) => {
     if (oldSituationId) {
@@ -72,78 +92,36 @@ export default {
     return true;
   },
   situations: [
-    {
-      id: 'start',
-      content: 'Please enter your name.',
-      input: {
-        placeholder: 'Your name',
-        next: '@prologue',
-        store: (model, value) => {
-          model.character('player').name = value;
-          localStorage.playerName = value;
-        }
-      },
-      willEnter: (model, ui) => {
-        if (localStorage.playerName) {
-          model.character('player').name = localStorage.playerName;
-          model.do('@prologue');
-          return false;
-        } else {
-          return true;
-        }
-      },
-    },
+    ...hour0,
 
     {
-      id: 'prologue',
+      id: 'hour1',
       content: `
-        # Prologue
+      # Please, Come In
+      ## A game for Ludum Dare 40 that I probably won't finish
+      ### by irskep and rbatistadelima
 
-        It's a quiet Friday evening in your two bedroom flat in San Francisco.
-        Your friend <%-chr('Maria')%> is visiting from Seattle tonight, so you've
-        decided to throw a small dinner party with <%-chrs('and', 'Maria', 'Kevin', 'Federico') %>.
+      The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you
+      are hosting a party. Your guests keep inviting more people, and you are unable to say no.
 
-        "Wow, it's really been a while!" says Kevin, [your friend from college.](>replace:college) [](){#college}
+      Your goal is to make it to morning without property damage or lost friends.
 
-        "Yeah, Maria, I haven't seen you in years," says [Federico.](>replace:work) [](){#work}
-
-        "What about you, <%-pl()%>, when was the last time you saw Maria?"
-        `,
-      choices: ['#prologue-how-long-has-it-been'],
+      [Continue](>write:unfinished)
+      `,
       snippets: {
-        college: `You, Kevin, and Maria used to hang out at the student union between classes.`,
-        work: `You know Federico from work, but not well. He and Mario went to high school together, though, so you decided to invite him.`
-      }
+        unfinished: `I have 54 hours left, surely I will finish this, hehehe...`,
+      },
     },
 
     {
-      id: 'prologue-i-forget', tags: ['prologue-how-long-has-it-been'],
-      optionText: "Oh, I can't even remember",
-      content: `
-      Maria furrows her brow. "Come on, <%-pl()%>, it's only been a couple of months.
-
-      <%- stat('maria', 'friendliness', -1) %>
-      `,
-      choices: [],
-    },
-
-    {
-      id: 'prologue-1-year', tags: ['prologue-how-long-has-it-been'],
-      optionText: "More than a year ago",
-      content: `
-      "Yeah, it would have been that Tahoe trip. That was so much fun!" <%-chr('Maria')%> leans back and looks up at the ceiling.
-      `,
-      choices: [],
-    },
-
-    {
-      id: 'prologue-10-years', tags: ['prologue-how-long-has-it-been'],
-      optionText: "At least ten years ago",
-      content: `
-      "Yeah, must have been back in college. Wow." <%-chr('Maria')%> leans back and looks up at the ceiling. "So much has happened..."
-      `,
-      choices: [],
-    },
-
+      id: 'advance-time',
+      optionText: 'Hang out for an hour',
+      willEnter: (model, ui) => {
+        model.globalState.hour += 1;
+        if (model.globalState.hour < 2) {
+          model.do(`@hour${model.globalState.hour}`);
+        }
+      },
+    }
   ],
 };

@@ -58,7 +58,9 @@ class JumboGroveDirector {
         this.ui = ui;
         ui.bind(this);
         this.model.navHeaderHTML = ui.renderMarkdown(this.navHeader);
-        this.model.asideHeaderHTML = ui.renderMarkdown(this.asideHeader);
+        this.model.asideHeaderHTML = () => {
+            return ui.renderMarkdownTemplate(this.asideHeader);
+        }
         if (!wasBound) {
             this.init(this.model, this.ui, this.ui.md);
         }
@@ -128,6 +130,13 @@ class JumboGroveDirector {
         return commandsFromString(href).length > 0;
     }
 
+    getSnippetWrapperTag(id) {
+        if (!this.model.currentSituation.snippets[id]) {
+            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);
+        }
+        return this.model.currentSituation.snippets[id].indexOf('\n') === -1 ? 'span' : 'div';
+    }
+
     getSnippetHTML(id) {
         if (!this.model.currentSituation.snippets[id]) {
             throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);
@@ -194,6 +203,7 @@ class JumboGroveDirector {
         this.ui.bus.$emit('replace', {
             'itemId': itemId,
             'id': elId,
+            'tag': this.getSnippetWrapperTag(snippetId),
             'html': this.getSnippetHTML(snippetId),
         });
     }
