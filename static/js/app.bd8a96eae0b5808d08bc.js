@@ -2085,7 +2085,7 @@ function standardQualities() {
   willEnter: function willEnter(model, ui, oldSituationId, newSituationId) {
     if (oldSituationId) {
       if (oldSituationId === newSituationId) {
-        debugger;
+        throw new Error("This shouldn't happen in most games");
       }
       // ui.logHTML('<hr>');
     }
@@ -2159,4 +2159,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.206e8d80f9949d197bcc.js.map
+//# sourceMappingURL=app.bd8a96eae0b5808d08bc.js.map
