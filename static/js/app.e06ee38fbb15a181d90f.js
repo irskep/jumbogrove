@@ -1,12 +1,5 @@
 webpackJsonp([1],{
 
-/***/ "/FNn":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "356t":
 /***/ (function(module, exports) {
 
@@ -18,6 +11,13 @@ webpackJsonp([1],{
 /***/ (function(module, exports) {
 
 module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"∾","acd":"∿","acE":"∾̳","Acirc":"Â","acirc":"â","acute":"´","Acy":"А","acy":"а","AElig":"Æ","aelig":"æ","af":"⁡","Afr":"𝔄","afr":"𝔞","Agrave":"À","agrave":"à","alefsym":"ℵ","aleph":"ℵ","Alpha":"Α","alpha":"α","Amacr":"Ā","amacr":"ā","amalg":"⨿","amp":"&","AMP":"&","andand":"⩕","And":"⩓","and":"∧","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angmsd":"∡","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","Aogon":"Ą","aogon":"ą","Aopf":"𝔸","aopf":"𝕒","apacir":"⩯","ap":"≈","apE":"⩰","ape":"≊","apid":"≋","apos":"'","ApplyFunction":"⁡","approx":"≈","approxeq":"≊","Aring":"Å","aring":"å","Ascr":"𝒜","ascr":"𝒶","Assign":"≔","ast":"*","asymp":"≈","asympeq":"≍","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","awconint":"∳","awint":"⨑","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","Backslash":"∖","Barv":"⫧","barvee":"⊽","barwed":"⌅","Barwed":"⌆","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","Bcy":"Б","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","Because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","Bernoullis":"ℬ","Beta":"Β","beta":"β","beth":"ℶ","between":"≬","Bfr":"𝔅","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bNot":"⫭","bnot":"⌐","Bopf":"𝔹","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxbox":"⧉","boxdl":"┐","boxdL":"╕","boxDl":"╖","boxDL":"╗","boxdr":"┌","boxdR":"╒","boxDr":"╓","boxDR":"╔","boxh":"─","boxH":"═","boxhd":"┬","boxHd":"╤","boxhD":"╥","boxHD":"╦","boxhu":"┴","boxHu":"╧","boxhU":"╨","boxHU":"╩","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxul":"┘","boxuL":"╛","boxUl":"╜","boxUL":"╝","boxur":"└","boxuR":"╘","boxUr":"╙","boxUR":"╚","boxv":"│","boxV":"║","boxvh":"┼","boxvH":"╪","boxVh":"╫","boxVH":"╬","boxvl":"┤","boxvL":"╡","boxVl":"╢","boxVL":"╣","boxvr":"├","boxvR":"╞","boxVr":"╟","boxVR":"╠","bprime":"‵","breve":"˘","Breve":"˘","brvbar":"¦","bscr":"𝒷","Bscr":"ℬ","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsolb":"⧅","bsol":"\\","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","Bumpeq":"≎","bumpeq":"≏","Cacute":"Ć","cacute":"ć","capand":"⩄","capbrcup":"⩉","capcap":"⩋","cap":"∩","Cap":"⋒","capcup":"⩇","capdot":"⩀","CapitalDifferentialD":"ⅅ","caps":"∩︀","caret":"⁁","caron":"ˇ","Cayleys":"ℭ","ccaps":"⩍","Ccaron":"Č","ccaron":"č","Ccedil":"Ç","ccedil":"ç","Ccirc":"Ĉ","ccirc":"ĉ","Cconint":"∰","ccups":"⩌","ccupssm":"⩐","Cdot":"Ċ","cdot":"ċ","cedil":"¸","Cedilla":"¸","cemptyv":"⦲","cent":"¢","centerdot":"·","CenterDot":"·","cfr":"𝔠","Cfr":"ℭ","CHcy":"Ч","chcy":"ч","check":"✓","checkmark":"✓","Chi":"Χ","chi":"χ","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","CircleDot":"⊙","circledR":"®","circledS":"Ⓢ","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","cir":"○","cirE":"⧃","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","clubs":"♣","clubsuit":"♣","colon":":","Colon":"∷","Colone":"⩴","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","Congruent":"≡","conint":"∮","Conint":"∯","ContourIntegral":"∮","copf":"𝕔","Copf":"ℂ","coprod":"∐","Coproduct":"∐","copy":"©","COPY":"©","copysr":"℗","CounterClockwiseContourIntegral":"∳","crarr":"↵","cross":"✗","Cross":"⨯","Cscr":"𝒞","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cupbrcap":"⩈","cupcap":"⩆","CupCap":"≍","cup":"∪","Cup":"⋓","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dagger":"†","Dagger":"‡","daleth":"ℸ","darr":"↓","Darr":"↡","dArr":"⇓","dash":"‐","Dashv":"⫤","dashv":"⊣","dbkarow":"⤏","dblac":"˝","Dcaron":"Ď","dcaron":"ď","Dcy":"Д","dcy":"д","ddagger":"‡","ddarr":"⇊","DD":"ⅅ","dd":"ⅆ","DDotrahd":"⤑","ddotseq":"⩷","deg":"°","Del":"∇","Delta":"Δ","delta":"δ","demptyv":"⦱","dfisht":"⥿","Dfr":"𝔇","dfr":"𝔡","dHar":"⥥","dharl":"⇃","dharr":"⇂","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","diam":"⋄","diamond":"⋄","Diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","DifferentialD":"ⅆ","digamma":"ϝ","disin":"⋲","div":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","DJcy":"Ђ","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","Dopf":"𝔻","dopf":"𝕕","Dot":"¨","dot":"˙","DotDot":"⃜","doteq":"≐","doteqdot":"≑","DotEqual":"≐","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrowBar":"⤓","downarrow":"↓","DownArrow":"↓","Downarrow":"⇓","DownArrowUpArrow":"⇵","DownBreve":"̑","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVectorBar":"⥖","DownLeftVector":"↽","DownRightTeeVector":"⥟","DownRightVectorBar":"⥗","DownRightVector":"⇁","DownTeeArrow":"↧","DownTee":"⊤","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","Dscr":"𝒟","dscr":"𝒹","DScy":"Ѕ","dscy":"ѕ","dsol":"⧶","Dstrok":"Đ","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","DZcy":"Џ","dzcy":"џ","dzigrarr":"⟿","Eacute":"É","eacute":"é","easter":"⩮","Ecaron":"Ě","ecaron":"ě","Ecirc":"Ê","ecirc":"ê","ecir":"≖","ecolon":"≕","Ecy":"Э","ecy":"э","eDDot":"⩷","Edot":"Ė","edot":"ė","eDot":"≑","ee":"ⅇ","efDot":"≒","Efr":"𝔈","efr":"𝔢","eg":"⪚","Egrave":"È","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","Element":"∈","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","Emacr":"Ē","emacr":"ē","empty":"∅","emptyset":"∅","EmptySmallSquare":"◻","emptyv":"∅","EmptyVerySmallSquare":"▫","emsp13":" ","emsp14":" ","emsp":" ","ENG":"Ŋ","eng":"ŋ","ensp":" ","Eogon":"Ę","eogon":"ę","Eopf":"𝔼","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","Epsilon":"Ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","Equal":"⩵","equals":"=","EqualTilde":"≂","equest":"≟","Equilibrium":"⇌","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erarr":"⥱","erDot":"≓","escr":"ℯ","Escr":"ℰ","esdot":"≐","Esim":"⩳","esim":"≂","Eta":"Η","eta":"η","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","euro":"€","excl":"!","exist":"∃","Exists":"∃","expectation":"ℰ","exponentiale":"ⅇ","ExponentialE":"ⅇ","fallingdotseq":"≒","Fcy":"Ф","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","Ffr":"𝔉","ffr":"𝔣","filig":"ﬁ","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","Fopf":"𝔽","fopf":"𝕗","forall":"∀","ForAll":"∀","fork":"⋔","forkv":"⫙","Fouriertrf":"ℱ","fpartint":"⨍","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","Fscr":"ℱ","gacute":"ǵ","Gamma":"Γ","gamma":"γ","Gammad":"Ϝ","gammad":"ϝ","gap":"⪆","Gbreve":"Ğ","gbreve":"ğ","Gcedil":"Ģ","Gcirc":"Ĝ","gcirc":"ĝ","Gcy":"Г","gcy":"г","Gdot":"Ġ","gdot":"ġ","ge":"≥","gE":"≧","gEl":"⪌","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","gescc":"⪩","ges":"⩾","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","Gfr":"𝔊","gfr":"𝔤","gg":"≫","Gg":"⋙","ggg":"⋙","gimel":"ℷ","GJcy":"Ѓ","gjcy":"ѓ","gla":"⪥","gl":"≷","glE":"⪒","glj":"⪤","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gnE":"≩","gneq":"⪈","gneqq":"≩","gnsim":"⋧","Gopf":"𝔾","gopf":"𝕘","grave":"`","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","gtcc":"⪧","gtcir":"⩺","gt":">","GT":">","Gt":"≫","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","Hacek":"ˇ","hairsp":" ","half":"½","hamilt":"ℋ","HARDcy":"Ъ","hardcy":"ъ","harrcir":"⥈","harr":"↔","hArr":"⇔","harrw":"↭","Hat":"^","hbar":"ℏ","Hcirc":"Ĥ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","Hfr":"ℌ","HilbertSpace":"ℋ","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","Hopf":"ℍ","horbar":"―","HorizontalLine":"─","hscr":"𝒽","Hscr":"ℋ","hslash":"ℏ","Hstrok":"Ħ","hstrok":"ħ","HumpDownHump":"≎","HumpEqual":"≏","hybull":"⁃","hyphen":"‐","Iacute":"Í","iacute":"í","ic":"⁣","Icirc":"Î","icirc":"î","Icy":"И","icy":"и","Idot":"İ","IEcy":"Е","iecy":"е","iexcl":"¡","iff":"⇔","ifr":"𝔦","Ifr":"ℑ","Igrave":"Ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","IJlig":"Ĳ","ijlig":"ĳ","Imacr":"Ī","imacr":"ī","image":"ℑ","ImaginaryI":"ⅈ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","Im":"ℑ","imof":"⊷","imped":"Ƶ","Implies":"⇒","incare":"℅","in":"∈","infin":"∞","infintie":"⧝","inodot":"ı","intcal":"⊺","int":"∫","Int":"∬","integers":"ℤ","Integral":"∫","intercal":"⊺","Intersection":"⋂","intlarhk":"⨗","intprod":"⨼","InvisibleComma":"⁣","InvisibleTimes":"⁢","IOcy":"Ё","iocy":"ё","Iogon":"Į","iogon":"į","Iopf":"𝕀","iopf":"𝕚","Iota":"Ι","iota":"ι","iprod":"⨼","iquest":"¿","iscr":"𝒾","Iscr":"ℐ","isin":"∈","isindot":"⋵","isinE":"⋹","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","Itilde":"Ĩ","itilde":"ĩ","Iukcy":"І","iukcy":"і","Iuml":"Ï","iuml":"ï","Jcirc":"Ĵ","jcirc":"ĵ","Jcy":"Й","jcy":"й","Jfr":"𝔍","jfr":"𝔧","jmath":"ȷ","Jopf":"𝕁","jopf":"𝕛","Jscr":"𝒥","jscr":"𝒿","Jsercy":"Ј","jsercy":"ј","Jukcy":"Є","jukcy":"є","Kappa":"Κ","kappa":"κ","kappav":"ϰ","Kcedil":"Ķ","kcedil":"ķ","Kcy":"К","kcy":"к","Kfr":"𝔎","kfr":"𝔨","kgreen":"ĸ","KHcy":"Х","khcy":"х","KJcy":"Ќ","kjcy":"ќ","Kopf":"𝕂","kopf":"𝕜","Kscr":"𝒦","kscr":"𝓀","lAarr":"⇚","Lacute":"Ĺ","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","Lambda":"Λ","lambda":"λ","lang":"⟨","Lang":"⟪","langd":"⦑","langle":"⟨","lap":"⪅","Laplacetrf":"ℒ","laquo":"«","larrb":"⇤","larrbfs":"⤟","larr":"←","Larr":"↞","lArr":"⇐","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","latail":"⤙","lAtail":"⤛","lat":"⪫","late":"⪭","lates":"⪭︀","lbarr":"⤌","lBarr":"⤎","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","Lcaron":"Ľ","lcaron":"ľ","Lcedil":"Ļ","lcedil":"ļ","lceil":"⌈","lcub":"{","Lcy":"Л","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","lE":"≦","LeftAngleBracket":"⟨","LeftArrowBar":"⇤","leftarrow":"←","LeftArrow":"←","Leftarrow":"⇐","LeftArrowRightArrow":"⇆","leftarrowtail":"↢","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVectorBar":"⥙","LeftDownVector":"⇃","LeftFloor":"⌊","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","LeftRightArrow":"↔","Leftrightarrow":"⇔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","LeftRightVector":"⥎","LeftTeeArrow":"↤","LeftTee":"⊣","LeftTeeVector":"⥚","leftthreetimes":"⋋","LeftTriangleBar":"⧏","LeftTriangle":"⊲","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVectorBar":"⥘","LeftUpVector":"↿","LeftVectorBar":"⥒","LeftVector":"↼","lEg":"⪋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","lescc":"⪨","les":"⩽","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","lessgtr":"≶","LessLess":"⪡","lesssim":"≲","LessSlantEqual":"⩽","LessTilde":"≲","lfisht":"⥼","lfloor":"⌊","Lfr":"𝔏","lfr":"𝔩","lg":"≶","lgE":"⪑","lHar":"⥢","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","LJcy":"Љ","ljcy":"љ","llarr":"⇇","ll":"≪","Ll":"⋘","llcorner":"⌞","Lleftarrow":"⇚","llhard":"⥫","lltri":"◺","Lmidot":"Ŀ","lmidot":"ŀ","lmoustache":"⎰","lmoust":"⎰","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lnE":"≨","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","LongLeftArrow":"⟵","Longleftarrow":"⟸","longleftrightarrow":"⟷","LongLeftRightArrow":"⟷","Longleftrightarrow":"⟺","longmapsto":"⟼","longrightarrow":"⟶","LongRightArrow":"⟶","Longrightarrow":"⟹","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","Lopf":"𝕃","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","LowerLeftArrow":"↙","LowerRightArrow":"↘","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","Lscr":"ℒ","lsh":"↰","Lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","Lstrok":"Ł","lstrok":"ł","ltcc":"⪦","ltcir":"⩹","lt":"<","LT":"<","Lt":"≪","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltri":"◃","ltrie":"⊴","ltrif":"◂","ltrPar":"⦖","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","macr":"¯","male":"♂","malt":"✠","maltese":"✠","Map":"⤅","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","Mcy":"М","mcy":"м","mdash":"—","mDDot":"∺","measuredangle":"∡","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","mfr":"𝔪","mho":"℧","micro":"µ","midast":"*","midcir":"⫰","mid":"∣","middot":"·","minusb":"⊟","minus":"−","minusd":"∸","minusdu":"⨪","MinusPlus":"∓","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","Mopf":"𝕄","mopf":"𝕞","mp":"∓","mscr":"𝓂","Mscr":"ℳ","mstpos":"∾","Mu":"Μ","mu":"μ","multimap":"⊸","mumap":"⊸","nabla":"∇","Nacute":"Ń","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natural":"♮","naturals":"ℕ","natur":"♮","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","Ncaron":"Ň","ncaron":"ň","Ncedil":"Ņ","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","Ncy":"Н","ncy":"н","ndash":"–","nearhk":"⤤","nearr":"↗","neArr":"⇗","nearrow":"↗","ne":"≠","nedot":"≐̸","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","nequiv":"≢","nesear":"⤨","nesim":"≂̸","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\n","nexist":"∄","nexists":"∄","Nfr":"𝔑","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","nGg":"⋙̸","ngsim":"≵","nGt":"≫⃒","ngt":"≯","ngtr":"≯","nGtv":"≫̸","nharr":"↮","nhArr":"⇎","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","NJcy":"Њ","njcy":"њ","nlarr":"↚","nlArr":"⇍","nldr":"‥","nlE":"≦̸","nle":"≰","nleftarrow":"↚","nLeftarrow":"⇍","nleftrightarrow":"↮","nLeftrightarrow":"⇎","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nLl":"⋘̸","nlsim":"≴","nLt":"≪⃒","nlt":"≮","nltri":"⋪","nltrie":"⋬","nLtv":"≪̸","nmid":"∤","NoBreak":"⁠","NonBreakingSpace":" ","nopf":"𝕟","Nopf":"ℕ","Not":"⫬","not":"¬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","notin":"∉","notindot":"⋵̸","notinE":"⋹̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","NotLeftTriangleBar":"⧏̸","NotLeftTriangle":"⋪","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangleBar":"⧐̸","NotRightTriangle":"⋫","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","nparallel":"∦","npar":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","nprec":"⊀","npreceq":"⪯̸","npre":"⪯̸","nrarrc":"⤳̸","nrarr":"↛","nrArr":"⇏","nrarrw":"↝̸","nrightarrow":"↛","nRightarrow":"⇏","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","Nscr":"𝒩","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","Ntilde":"Ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","Nu":"Ν","nu":"ν","num":"#","numero":"№","numsp":" ","nvap":"≍⃒","nvdash":"⊬","nvDash":"⊭","nVdash":"⊮","nVDash":"⊯","nvge":"≥⃒","nvgt":">⃒","nvHarr":"⤄","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwarhk":"⤣","nwarr":"↖","nwArr":"⇖","nwarrow":"↖","nwnear":"⤧","Oacute":"Ó","oacute":"ó","oast":"⊛","Ocirc":"Ô","ocirc":"ô","ocir":"⊚","Ocy":"О","ocy":"о","odash":"⊝","Odblac":"Ő","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","OElig":"Œ","oelig":"œ","ofcir":"⦿","Ofr":"𝔒","ofr":"𝔬","ogon":"˛","Ograve":"Ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","Omacr":"Ō","omacr":"ō","Omega":"Ω","omega":"ω","Omicron":"Ο","omicron":"ο","omid":"⦶","ominus":"⊖","Oopf":"𝕆","oopf":"𝕠","opar":"⦷","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","operp":"⦹","oplus":"⊕","orarr":"↻","Or":"⩔","or":"∨","ord":"⩝","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oS":"Ⓢ","Oscr":"𝒪","oscr":"ℴ","Oslash":"Ø","oslash":"ø","osol":"⊘","Otilde":"Õ","otilde":"õ","otimesas":"⨶","Otimes":"⨷","otimes":"⊗","Ouml":"Ö","ouml":"ö","ovbar":"⌽","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","para":"¶","parallel":"∥","par":"∥","parsim":"⫳","parsl":"⫽","part":"∂","PartialD":"∂","Pcy":"П","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","Pfr":"𝔓","pfr":"𝔭","Phi":"Φ","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","Pi":"Π","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plus":"+","plusdo":"∔","plusdu":"⨥","pluse":"⩲","PlusMinus":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","Poincareplane":"ℌ","pointint":"⨕","popf":"𝕡","Popf":"ℙ","pound":"£","prap":"⪷","Pr":"⪻","pr":"≺","prcue":"≼","precapprox":"⪷","prec":"≺","preccurlyeq":"≼","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","pre":"⪯","prE":"⪳","precsim":"≾","prime":"′","Prime":"″","primes":"ℙ","prnap":"⪹","prnE":"⪵","prnsim":"⋨","prod":"∏","Product":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","Proportional":"∝","Proportion":"∷","propto":"∝","prsim":"≾","prurel":"⊰","Pscr":"𝒫","pscr":"𝓅","Psi":"Ψ","psi":"ψ","puncsp":" ","Qfr":"𝔔","qfr":"𝔮","qint":"⨌","qopf":"𝕢","Qopf":"ℚ","qprime":"⁗","Qscr":"𝒬","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quot":"\"","QUOT":"\"","rAarr":"⇛","race":"∽̱","Racute":"Ŕ","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","Rang":"⟫","rangd":"⦒","range":"⦥","rangle":"⟩","raquo":"»","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarr":"→","Rarr":"↠","rArr":"⇒","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","Rarrtl":"⤖","rarrtl":"↣","rarrw":"↝","ratail":"⤚","rAtail":"⤜","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rBarr":"⤏","RBarr":"⤐","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","Rcaron":"Ř","rcaron":"ř","Rcedil":"Ŗ","rcedil":"ŗ","rceil":"⌉","rcub":"}","Rcy":"Р","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","Re":"ℜ","rect":"▭","reg":"®","REG":"®","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","Rfr":"ℜ","rHar":"⥤","rhard":"⇁","rharu":"⇀","rharul":"⥬","Rho":"Ρ","rho":"ρ","rhov":"ϱ","RightAngleBracket":"⟩","RightArrowBar":"⇥","rightarrow":"→","RightArrow":"→","Rightarrow":"⇒","RightArrowLeftArrow":"⇄","rightarrowtail":"↣","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVectorBar":"⥕","RightDownVector":"⇂","RightFloor":"⌋","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","RightTeeArrow":"↦","RightTee":"⊢","RightTeeVector":"⥛","rightthreetimes":"⋌","RightTriangleBar":"⧐","RightTriangle":"⊳","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVectorBar":"⥔","RightUpVector":"↾","RightVectorBar":"⥓","RightVector":"⇀","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoustache":"⎱","rmoust":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","Ropf":"ℝ","roplus":"⨮","rotimes":"⨵","RoundImplies":"⥰","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","Rrightarrow":"⇛","rsaquo":"›","rscr":"𝓇","Rscr":"ℛ","rsh":"↱","Rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","RuleDelayed":"⧴","ruluhar":"⥨","rx":"℞","Sacute":"Ś","sacute":"ś","sbquo":"‚","scap":"⪸","Scaron":"Š","scaron":"š","Sc":"⪼","sc":"≻","sccue":"≽","sce":"⪰","scE":"⪴","Scedil":"Ş","scedil":"ş","Scirc":"Ŝ","scirc":"ŝ","scnap":"⪺","scnE":"⪶","scnsim":"⋩","scpolint":"⨓","scsim":"≿","Scy":"С","scy":"с","sdotb":"⊡","sdot":"⋅","sdote":"⩦","searhk":"⤥","searr":"↘","seArr":"⇘","searrow":"↘","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","Sfr":"𝔖","sfr":"𝔰","sfrown":"⌢","sharp":"♯","SHCHcy":"Щ","shchcy":"щ","SHcy":"Ш","shcy":"ш","ShortDownArrow":"↓","ShortLeftArrow":"←","shortmid":"∣","shortparallel":"∥","ShortRightArrow":"→","ShortUpArrow":"↑","shy":"­","Sigma":"Σ","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","SmallCircle":"∘","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","SOFTcy":"Ь","softcy":"ь","solbar":"⌿","solb":"⧄","sol":"/","Sopf":"𝕊","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","Sqrt":"√","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","square":"□","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","squarf":"▪","squ":"□","squf":"▪","srarr":"→","Sscr":"𝒮","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","Star":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","Sub":"⋐","subdot":"⪽","subE":"⫅","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","Subset":"⋐","subseteq":"⊆","subseteqq":"⫅","SubsetEqual":"⊆","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succapprox":"⪸","succ":"≻","succcurlyeq":"≽","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","SuchThat":"∋","sum":"∑","Sum":"∑","sung":"♪","sup1":"¹","sup2":"²","sup3":"³","sup":"⊃","Sup":"⋑","supdot":"⪾","supdsub":"⫘","supE":"⫆","supe":"⊇","supedot":"⫄","Superset":"⊃","SupersetEqual":"⊇","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","Supset":"⋑","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swarhk":"⤦","swarr":"↙","swArr":"⇙","swarrow":"↙","swnwar":"⤪","szlig":"ß","Tab":"\t","target":"⌖","Tau":"Τ","tau":"τ","tbrk":"⎴","Tcaron":"Ť","tcaron":"ť","Tcedil":"Ţ","tcedil":"ţ","Tcy":"Т","tcy":"т","tdot":"⃛","telrec":"⌕","Tfr":"𝔗","tfr":"𝔱","there4":"∴","therefore":"∴","Therefore":"∴","Theta":"Θ","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","ThickSpace":"  ","ThinSpace":" ","thinsp":" ","thkap":"≈","thksim":"∼","THORN":"Þ","thorn":"þ","tilde":"˜","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","timesbar":"⨱","timesb":"⊠","times":"×","timesd":"⨰","tint":"∭","toea":"⤨","topbot":"⌶","topcir":"⫱","top":"⊤","Topf":"𝕋","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","TRADE":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","TripleDot":"⃛","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","Tscr":"𝒯","tscr":"𝓉","TScy":"Ц","tscy":"ц","TSHcy":"Ћ","tshcy":"ћ","Tstrok":"Ŧ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","Uacute":"Ú","uacute":"ú","uarr":"↑","Uarr":"↟","uArr":"⇑","Uarrocir":"⥉","Ubrcy":"Ў","ubrcy":"ў","Ubreve":"Ŭ","ubreve":"ŭ","Ucirc":"Û","ucirc":"û","Ucy":"У","ucy":"у","udarr":"⇅","Udblac":"Ű","udblac":"ű","udhar":"⥮","ufisht":"⥾","Ufr":"𝔘","ufr":"𝔲","Ugrave":"Ù","ugrave":"ù","uHar":"⥣","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","Umacr":"Ū","umacr":"ū","uml":"¨","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","uogon":"ų","Uopf":"𝕌","uopf":"𝕦","UpArrowBar":"⤒","uparrow":"↑","UpArrow":"↑","Uparrow":"⇑","UpArrowDownArrow":"⇅","updownarrow":"↕","UpDownArrow":"↕","Updownarrow":"⇕","UpEquilibrium":"⥮","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","UpperLeftArrow":"↖","UpperRightArrow":"↗","upsi":"υ","Upsi":"ϒ","upsih":"ϒ","Upsilon":"Υ","upsilon":"υ","UpTeeArrow":"↥","UpTee":"⊥","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","Uring":"Ů","uring":"ů","urtri":"◹","Uscr":"𝒰","uscr":"𝓊","utdot":"⋰","Utilde":"Ũ","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","Uuml":"Ü","uuml":"ü","uwangle":"⦧","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","vArr":"⇕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vBar":"⫨","Vbar":"⫫","vBarv":"⫩","Vcy":"В","vcy":"в","vdash":"⊢","vDash":"⊨","Vdash":"⊩","VDash":"⊫","Vdashl":"⫦","veebar":"⊻","vee":"∨","Vee":"⋁","veeeq":"≚","vellip":"⋮","verbar":"|","Verbar":"‖","vert":"|","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","Vopf":"𝕍","vopf":"𝕧","vprop":"∝","vrtri":"⊳","Vscr":"𝒱","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","Vvdash":"⊪","vzigzag":"⦚","Wcirc":"Ŵ","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","Wedge":"⋀","wedgeq":"≙","weierp":"℘","Wfr":"𝔚","wfr":"𝔴","Wopf":"𝕎","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","Wscr":"𝒲","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","Xfr":"𝔛","xfr":"𝔵","xharr":"⟷","xhArr":"⟺","Xi":"Ξ","xi":"ξ","xlarr":"⟵","xlArr":"⟸","xmap":"⟼","xnis":"⋻","xodot":"⨀","Xopf":"𝕏","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrarr":"⟶","xrArr":"⟹","Xscr":"𝒳","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","Yacute":"Ý","yacute":"ý","YAcy":"Я","yacy":"я","Ycirc":"Ŷ","ycirc":"ŷ","Ycy":"Ы","ycy":"ы","yen":"¥","Yfr":"𝔜","yfr":"𝔶","YIcy":"Ї","yicy":"ї","Yopf":"𝕐","yopf":"𝕪","Yscr":"𝒴","yscr":"𝓎","YUcy":"Ю","yucy":"ю","yuml":"ÿ","Yuml":"Ÿ","Zacute":"Ź","zacute":"ź","Zcaron":"Ž","zcaron":"ž","Zcy":"З","zcy":"з","Zdot":"Ż","zdot":"ż","zeetrf":"ℨ","ZeroWidthSpace":"​","Zeta":"Ζ","zeta":"ζ","zfr":"𝔷","Zfr":"ℨ","ZHcy":"Ж","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","Zopf":"ℤ","Zscr":"𝒵","zscr":"𝓏","zwj":"‍","zwnj":"‌"}
+
+/***/ }),
+
+/***/ "Jz3y":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -112,6 +112,10 @@ var Component = normalizeComponent(
 
 /* harmony default export */ var src_components_JGAside = (Component.exports);
 
+// EXTERNAL MODULE: ./node_modules/lodash/lodash.js
+var lodash = __webpack_require__("M4fF");
+var lodash_default = /*#__PURE__*/__webpack_require__.n(lodash);
+
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/JGNav.vue
 //
 //
@@ -120,18 +124,52 @@ var Component = normalizeComponent(
 //
 //
 
+
+
 /* harmony default export */ var JGNav = ({
   name: 'JGNav',
-  props: ['model']
+  props: ['model'],
+  methods: {
+    getManagedAnchors: function getManagedAnchors(parent) {
+      var _this = this;
+
+      parent = parent || this.$el;
+      return lodash_default.a.toArray(this.$el.querySelectorAll('a')).filter(function (el) {
+        var href = el.attributes.href;
+        if (!href) return false;
+        if (!_this.model.isManagedLink(href.value)) return false;
+        return true;
+      });
+    },
+
+    bindLinks: function bindLinks(anchors) {
+      var _this2 = this;
+
+      anchors.forEach(function (el) {
+        if (el.dataset.isbound) return;
+        el.dataset.isbound = "true";
+        el.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!el.parentElement) return;
+          var href = el.attributes.href;
+          _this2.model.do(href.value);
+        });
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.bindLinks(this.getManagedAnchors());
+  }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-21709afd","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGNav.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2c405e44","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGNav.vue
 var JGNav_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('nav',[_c('div',{staticClass:"NavHeader",domProps:{"innerHTML":_vm._s(_vm.model.navHeaderHTML)}})])}
 var JGNav_staticRenderFns = []
 var JGNav_esExports = { render: JGNav_render, staticRenderFns: JGNav_staticRenderFns }
 /* harmony default export */ var components_JGNav = (JGNav_esExports);
 // CONCATENATED MODULE: ./src/components/JGNav.vue
 function JGNav_injectStyle (ssrContext) {
-  __webpack_require__("/FNn")
+  __webpack_require__("Jz3y")
 }
 var JGNav_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -143,7 +181,7 @@ var JGNav___vue_template_functional__ = false
 /* styles */
 var JGNav___vue_styles__ = JGNav_injectStyle
 /* scopeId */
-var JGNav___vue_scopeId__ = "data-v-21709afd"
+var JGNav___vue_scopeId__ = "data-v-2c405e44"
 /* moduleIdentifier (server only) */
 var JGNav___vue_module_identifier__ = null
 var JGNav_Component = JGNav_normalizeComponent(
@@ -160,10 +198,6 @@ var JGNav_Component = JGNav_normalizeComponent(
 // EXTERNAL MODULE: ./node_modules/animated-scroll-to/animated-scroll-to.js
 var animated_scroll_to = __webpack_require__("+so2");
 var animated_scroll_to_default = /*#__PURE__*/__webpack_require__.n(animated_scroll_to);
-
-// EXTERNAL MODULE: ./node_modules/lodash/lodash.js
-var lodash = __webpack_require__("M4fF");
-var lodash_default = /*#__PURE__*/__webpack_require__.n(lodash);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/JGUI.vue
 //
@@ -314,17 +348,13 @@ var App_Component = App_normalizeComponent(
 
 /* harmony default export */ var src_App = (App_Component.exports);
 
-// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/get-iterator.js
-var get_iterator = __webpack_require__("BO1k");
-var get_iterator_default = /*#__PURE__*/__webpack_require__.n(get_iterator);
-
-// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/object/values.js
-var values = __webpack_require__("gRE1");
-var values_default = /*#__PURE__*/__webpack_require__.n(values);
-
 // EXTERNAL MODULE: ./node_modules/babel-runtime/helpers/toConsumableArray.js
 var toConsumableArray = __webpack_require__("Gu7T");
 var toConsumableArray_default = /*#__PURE__*/__webpack_require__.n(toConsumableArray);
+
+// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/get-iterator.js
+var get_iterator = __webpack_require__("BO1k");
+var get_iterator_default = /*#__PURE__*/__webpack_require__.n(get_iterator);
 
 // EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/json/stringify.js
 var stringify = __webpack_require__("mvHQ");
@@ -342,141 +372,10 @@ var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck);
 var createClass = __webpack_require__("wxAW");
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass);
 
-// CONCATENATED MODULE: ./src/jg/situation.js
+// EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/object/values.js
+var values = __webpack_require__("gRE1");
+var values_default = /*#__PURE__*/__webpack_require__.n(values);
 
-
-
-
-
-var nop = function nop() {};
-var tru = function tru() {
-    return true;
-};
-
-var situation_Situation = function () {
-    function Situation(_ref) {
-        var id = _ref.id,
-            _ref$tags = _ref.tags,
-            tags = _ref$tags === undefined ? [] : _ref$tags,
-            _ref$totalVisits = _ref.totalVisits,
-            totalVisits = _ref$totalVisits === undefined ? 0 : _ref$totalVisits,
-            _ref$getCanChoose = _ref.getCanChoose,
-            getCanChoose = _ref$getCanChoose === undefined ? tru : _ref$getCanChoose,
-            _ref$getCanSee = _ref.getCanSee,
-            getCanSee = _ref$getCanSee === undefined ? tru : _ref$getCanSee,
-            _ref$priority = _ref.priority,
-            priority = _ref$priority === undefined ? 0 : _ref$priority,
-            _ref$displayOrder = _ref.displayOrder,
-            displayOrder = _ref$displayOrder === undefined ? 0 : _ref$displayOrder,
-            _ref$optionText = _ref.optionText,
-            optionText = _ref$optionText === undefined ? null : _ref$optionText,
-            _ref$willEnter = _ref.willEnter,
-            willEnter = _ref$willEnter === undefined ? tru : _ref$willEnter,
-            _ref$enter = _ref.enter,
-            enter = _ref$enter === undefined ? nop : _ref$enter,
-            _ref$act = _ref.act,
-            act = _ref$act === undefined ? nop : _ref$act,
-            _ref$actions = _ref.actions,
-            actions = _ref$actions === undefined ? {} : _ref$actions,
-            _ref$exit = _ref.exit,
-            exit = _ref$exit === undefined ? nop : _ref$exit,
-            _ref$content = _ref.content,
-            content = _ref$content === undefined ? null : _ref$content,
-            _ref$choices = _ref.choices,
-            choices = _ref$choices === undefined ? null : _ref$choices,
-            _ref$snippets = _ref.snippets,
-            snippets = _ref$snippets === undefined ? {} : _ref$snippets,
-            _ref$input = _ref.input,
-            input = _ref$input === undefined ? null : _ref$input;
-
-        classCallCheck_default()(this, Situation);
-
-        assign_default()(this, {
-            id: id, tags: tags, totalVisits: totalVisits, getCanChoose: getCanChoose, getCanSee: getCanSee, priority: priority,
-            displayOrder: displayOrder, optionText: optionText, enter: enter, act: act, exit: exit, content: content, actions: actions, choices: choices,
-            snippets: snippets, input: input, willEnter: willEnter
-        });
-    }
-
-    createClass_default()(Situation, [{
-        key: 'doEnter',
-        value: function doEnter(model, ui) {
-            var _this = this;
-
-            if (this.content) {
-                ui.logMarkdown(this.content);
-            }
-            this.enter.apply(this, arguments);
-            if (this.input) {
-                ui.promptInput({ placeholder: this.input.placeholder }).then(function (value) {
-                    _this.input.store(model, value);
-                    model.handleCommandString(_this.input.next);
-                });
-            }
-            if (this.choices) {
-                ui.presentChoices(this.choices).then(function (_ref2) {
-                    var situationId = _ref2.situationId,
-                        itemId = _ref2.itemId;
-
-                    ui.simulateLink('@' + situationId, itemId, 'fake');
-                });
-            }
-        }
-    }, {
-        key: 'doExit',
-        value: function doExit(model, ui, toSituation) {
-            this.totalVisits += 1;
-            ui.nextGroup();
-            this.exit.apply(this, arguments);
-        }
-    }, {
-        key: 'doAct',
-        value: function doAct(model, ui, action) {
-            if (this.actions && this.actions[action]) {
-                var _actions;
-
-                for (var _len = arguments.length, args = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
-                    args[_key - 3] = arguments[_key];
-                }
-
-                (_actions = this.actions)[action].apply(_actions, [model, ui].concat(args));
-            } else {
-                this.act(model, ui, action);
-            }
-        }
-    }, {
-        key: 'getOptionText',
-        value: function getOptionText() {
-            if (lodash_default.a.isFunction(this.optionText)) {
-                return this.optionText.apply(this, arguments);
-            } else {
-                return this.optionText || this.id;
-            }
-        }
-    }, {
-        key: 'getPriority',
-        value: function getPriority() {
-            if (lodash_default.a.isFunction(this.priority)) {
-                return this.priority.apply(this, arguments);
-            } else {
-                return this.priority;
-            }
-        }
-    }, {
-        key: 'getDisplayOrder',
-        value: function getDisplayOrder() {
-            if (lodash_default.a.isFunction(this.displayOrder)) {
-                return this.displayOrder.apply(this, arguments);
-            } else {
-                return this.displayOrder;
-            }
-        }
-    }]);
-
-    return Situation;
-}();
-
-/* harmony default export */ var situation = (situation_Situation);
 // EXTERNAL MODULE: ./node_modules/babel-runtime/core-js/object/keys.js
 var keys = __webpack_require__("fZjL");
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys);
@@ -625,6 +524,16 @@ var character_Character = function () {
     }
 
     createClass_default()(Character, [{
+        key: 'toSave',
+        value: function toSave() {
+            return lodash_default.a.pick(this, ['id', 'qualities', 'name', 'showInSidebar', 'description', 'state']);
+        }
+    }, {
+        key: 'loadSave',
+        value: function loadSave(obj) {
+            lodash_default.a.assign(this, obj);
+        }
+    }, {
         key: 'getDescription',
         value: function getDescription() {
             if (lodash_default.a.isFunction(this.description)) {
@@ -670,7 +579,156 @@ var character_Character = function () {
 }();
 
 /* harmony default export */ var jg_character = (character_Character);
+// CONCATENATED MODULE: ./src/jg/situation.js
+
+
+
+
+
+var nop = function nop() {};
+var tru = function tru() {
+    return true;
+};
+
+var situation_Situation = function () {
+    function Situation(_ref) {
+        var id = _ref.id,
+            _ref$tags = _ref.tags,
+            tags = _ref$tags === undefined ? [] : _ref$tags,
+            _ref$totalVisits = _ref.totalVisits,
+            totalVisits = _ref$totalVisits === undefined ? 0 : _ref$totalVisits,
+            _ref$autosave = _ref.autosave,
+            autosave = _ref$autosave === undefined ? false : _ref$autosave,
+            _ref$getCanChoose = _ref.getCanChoose,
+            getCanChoose = _ref$getCanChoose === undefined ? tru : _ref$getCanChoose,
+            _ref$getCanSee = _ref.getCanSee,
+            getCanSee = _ref$getCanSee === undefined ? tru : _ref$getCanSee,
+            _ref$priority = _ref.priority,
+            priority = _ref$priority === undefined ? 0 : _ref$priority,
+            _ref$displayOrder = _ref.displayOrder,
+            displayOrder = _ref$displayOrder === undefined ? 0 : _ref$displayOrder,
+            _ref$optionText = _ref.optionText,
+            optionText = _ref$optionText === undefined ? null : _ref$optionText,
+            _ref$willEnter = _ref.willEnter,
+            willEnter = _ref$willEnter === undefined ? tru : _ref$willEnter,
+            _ref$enter = _ref.enter,
+            enter = _ref$enter === undefined ? nop : _ref$enter,
+            _ref$act = _ref.act,
+            act = _ref$act === undefined ? nop : _ref$act,
+            _ref$actions = _ref.actions,
+            actions = _ref$actions === undefined ? {} : _ref$actions,
+            _ref$exit = _ref.exit,
+            exit = _ref$exit === undefined ? nop : _ref$exit,
+            _ref$content = _ref.content,
+            content = _ref$content === undefined ? null : _ref$content,
+            _ref$choices = _ref.choices,
+            choices = _ref$choices === undefined ? null : _ref$choices,
+            _ref$snippets = _ref.snippets,
+            snippets = _ref$snippets === undefined ? {} : _ref$snippets,
+            _ref$input = _ref.input,
+            input = _ref$input === undefined ? null : _ref$input;
+
+        classCallCheck_default()(this, Situation);
+
+        assign_default()(this, {
+            id: id, tags: tags, totalVisits: totalVisits, getCanChoose: getCanChoose, getCanSee: getCanSee, priority: priority,
+            displayOrder: displayOrder, optionText: optionText, enter: enter, act: act, exit: exit, content: content, actions: actions, choices: choices,
+            snippets: snippets, input: input, willEnter: willEnter, autosave: autosave
+        });
+    }
+
+    createClass_default()(Situation, [{
+        key: 'toSave',
+        value: function toSave() {
+            return lodash_default.a.pick(this, ['totalVisits']);
+        }
+    }, {
+        key: 'loadSave',
+        value: function loadSave(obj) {
+            lodash_default.a.assign(this, obj);
+        }
+    }, {
+        key: 'doEnter',
+        value: function doEnter(model, ui) {
+            var _this = this;
+
+            if (this.content) {
+                ui.logMarkdown(this.content);
+            }
+            this.enter.apply(this, arguments);
+            if (this.input) {
+                ui.promptInput({ placeholder: this.input.placeholder }).then(function (value) {
+                    _this.input.store(model, value);
+                    model.handleCommandString(_this.input.next);
+                });
+            }
+            if (this.choices) {
+                ui.presentChoices(this.choices).then(function (_ref2) {
+                    var situationId = _ref2.situationId,
+                        itemId = _ref2.itemId;
+
+                    ui.simulateLink('@' + situationId, itemId, 'fake');
+                });
+            }
+        }
+    }, {
+        key: 'doExit',
+        value: function doExit(model, ui, toSituation) {
+            this.totalVisits += 1;
+            ui.nextGroup();
+            this.exit.apply(this, arguments);
+        }
+    }, {
+        key: 'doAct',
+        value: function doAct(model, ui, action) {
+            if (this.actions && this.actions[action]) {
+                var _actions;
+
+                for (var _len = arguments.length, args = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
+                    args[_key - 3] = arguments[_key];
+                }
+
+                (_actions = this.actions)[action].apply(_actions, [model, ui].concat(args));
+            } else {
+                this.act(model, ui, action);
+            }
+        }
+    }, {
+        key: 'getOptionText',
+        value: function getOptionText() {
+            if (lodash_default.a.isFunction(this.optionText)) {
+                return this.optionText.apply(this, arguments);
+            } else {
+                return this.optionText || this.id;
+            }
+        }
+    }, {
+        key: 'getPriority',
+        value: function getPriority() {
+            if (lodash_default.a.isFunction(this.priority)) {
+                return this.priority.apply(this, arguments);
+            } else {
+                return this.priority;
+            }
+        }
+    }, {
+        key: 'getDisplayOrder',
+        value: function getDisplayOrder() {
+            if (lodash_default.a.isFunction(this.displayOrder)) {
+                return this.displayOrder.apply(this, arguments);
+            } else {
+                return this.displayOrder;
+            }
+        }
+    }]);
+
+    return Situation;
+}();
+
+/* harmony default export */ var situation = (situation_Situation);
 // CONCATENATED MODULE: ./src/jg/model.js
+
+
 
 
 
@@ -682,7 +740,9 @@ var model_WorldModel = function () {
         var _this = this;
 
         var characters = _ref.characters,
-            globalState = _ref.globalState;
+            globalState = _ref.globalState,
+            situations = _ref.situations,
+            initialSituation = _ref.initialSituation;
 
         classCallCheck_default()(this, WorldModel);
 
@@ -693,6 +753,12 @@ var model_WorldModel = function () {
         });
         this.globalState = lodash_default.a.cloneDeep(globalState);
         this.player = this.character('player') || null;
+        this._situations = {};
+        situations.forEach(function (s) {
+            return _this._situations[s.id] = new situation(s);
+        });
+
+        this._initialSituationId = initialSituation;
 
         // These will be injected when the UI is bound to the director
         this.navHeaderHTML = null;
@@ -705,6 +771,47 @@ var model_WorldModel = function () {
     }
 
     createClass_default()(WorldModel, [{
+        key: 'toSave',
+        value: function toSave() {
+            return {
+                globalState: this.globalState,
+                currentSituationId: this.currentSituation ? this.currentSituation.id : null,
+                characters: this.allCharacters.map(function (c) {
+                    return c.toSave();
+                })
+            };
+        }
+    }, {
+        key: 'loadSave',
+        value: function loadSave(obj) {
+            this.globalState = obj.globalState;
+            this.currentSituation = this._situations[obj.currentSituationId] || null;
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = get_iterator_default()(obj.characters), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var data = _step.value;
+
+                    this.character(data.id).loadSave(data);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+        }
+    }, {
         key: 'toString',
         value: function toString() {
             return 'Model(globalState=' + this.globalState + ', characters=' + this.characters + ')';
@@ -718,6 +825,24 @@ var model_WorldModel = function () {
         handleCommandString(str) is injected into this class by JumboGroveDirector.
         */
 
+    }, {
+        key: 'situation',
+        value: function situation(id) {
+            if (!this._situations[id]) throw new Error('Situation not found: ' + id);
+            return this._situations[id];
+        }
+    }, {
+        key: 'situations',
+        value: function situations(idOrTag) {
+            if (idOrTag.startsWith("#")) {
+                var tag = idOrTag.slice(1);
+                return values_default()(this._situations).filter(function (s) {
+                    return s.tags.indexOf(tag) !== -1;
+                });
+            } else {
+                return [this._situations[idOrTag]];
+            }
+        }
     }, {
         key: 'character',
         value: function character(id) {
@@ -738,375 +863,24 @@ var model_WorldModel = function () {
         value: function setCharacterState(id, k, v) {
             this.character(id)[k] = v;
         }
-    }]);
-
-    return WorldModel;
-}();
-
-/* harmony default export */ var jg_model = (model_WorldModel);
-// CONCATENATED MODULE: ./src/jg/commands.js
-/* harmony default export */ var commands = ({
-  runAction: {
-    name: 'runAction',
-    create: function create(name, args) {
-      return { 'type': 'runAction', name: name, args: args };
-    }
-  },
-  write: {
-    name: 'write',
-    create: function create(itemId, snippetId) {
-      return { 'type': 'write', itemId: itemId, snippetId: snippetId };
-    }
-  },
-  replace: {
-    name: 'replace',
-    create: function create(itemId, snippetId, elId) {
-      return { 'type': 'replace', itemId: itemId, snippetId: snippetId, elId: elId };
-    }
-  },
-  goToSituation: {
-    name: 'goToSituation',
-    create: function create(id) {
-      return { 'type': 'goToSituation', id: id };
-    }
-  }
-});
-// CONCATENATED MODULE: ./src/jg/director.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-var director_nop = function nop() {};
-
-var director_JumboGroveDirector = function () {
-    function JumboGroveDirector(_ref) {
-        var _this = this;
-
-        var id = _ref.id,
-            _ref$version = _ref.version,
-            version = _ref$version === undefined ? 1 : _ref$version,
-            _ref$initialSituation = _ref.initialSituation,
-            initialSituation = _ref$initialSituation === undefined ? 'start' : _ref$initialSituation,
-            _ref$navHeader = _ref.navHeader,
-            navHeader = _ref$navHeader === undefined ? '' : _ref$navHeader,
-            _ref$asideHeader = _ref.asideHeader,
-            asideHeader = _ref$asideHeader === undefined ? '' : _ref$asideHeader,
-            _ref$globalState = _ref.globalState,
-            globalState = _ref$globalState === undefined ? {} : _ref$globalState,
-            _ref$characters = _ref.characters,
-            characters = _ref$characters === undefined ? [] : _ref$characters,
-            _ref$situations = _ref.situations,
-            situations = _ref$situations === undefined ? [] : _ref$situations,
-            _ref$init = _ref.init,
-            init = _ref$init === undefined ? director_nop : _ref$init,
-            _ref$willEnter = _ref.willEnter,
-            willEnter = _ref$willEnter === undefined ? function () {
-            return true;
-        } : _ref$willEnter,
-            _ref$didEnter = _ref.didEnter,
-            didEnter = _ref$didEnter === undefined ? director_nop : _ref$didEnter,
-            _ref$willExit = _ref.willExit,
-            willExit = _ref$willExit === undefined ? director_nop : _ref$willExit,
-            _ref$didExit = _ref.didExit,
-            didExit = _ref$didExit === undefined ? director_nop : _ref$didExit,
-            _ref$willAct = _ref.willAct,
-            willAct = _ref$willAct === undefined ? director_nop : _ref$willAct,
-            _ref$didAct = _ref.didAct,
-            didAct = _ref$didAct === undefined ? director_nop : _ref$didAct;
-
-        classCallCheck_default()(this, JumboGroveDirector);
-
-        if (!id) throw new Error("You must provide an id");
-        assign_default()(this, {
-            id: id, willEnter: willEnter, didEnter: didEnter, willExit: willExit, didExit: didExit, willAct: willAct, didAct: didAct,
-            navHeader: navHeader, asideHeader: asideHeader, init: init
-        });
-
-        this._situations = {};
-        situations.forEach(function (s) {
-            return _this._situations[s.id] = new situation(s);
-        });
-
-        this._initialSituationId = initialSituation;
-
-        this.model = new jg_model({ characters: characters, globalState: globalState });
-        this.model.goTo = this.goTo.bind(this);
-        this.model.handleCommandString = this.handleCommandString.bind(this);
-        this.model.do = this.handleCommandString.bind(this);
-        this.interactive = true;
-    }
-
-    createClass_default()(JumboGroveDirector, [{
-        key: 'toString',
-        value: function toString() {
-            return 'Director(id=' + this.id + ')';
-        }
-    }, {
-        key: 'bindToUI',
-        value: function bindToUI(ui) {
-            var _this2 = this;
-
-            var wasBound = !!this.ui;
-            this.ui = ui;
-            ui.bind(this);
-            this.model.navHeaderHTML = ui.renderMarkdown(this.navHeader);
-            this.model.asideHeaderHTML = function () {
-                return ui.renderMarkdownTemplate(_this2.asideHeader);
-            };
-            if (!wasBound) {
-                this.init(this.model, this.ui, this.ui.md);
-            }
-        }
-    }, {
-        key: 'start',
-        value: function start() {
-            if (this.model.currentSituation) {
-                return;
-            }
-            if (!this.load()) {
-                this.goTo(this._initialSituationId);
-            }
-        }
-    }, {
-        key: 'save',
-        value: function save() {
-            localStorage[this.id] = stringify_default()(this.history);
-        }
-    }, {
-        key: 'load',
-        value: function load() {
-            var _this3 = this;
-
-            this.history = [];
-            return false;
-            this.interactive = false;
-            if (localStorage[this.id]) {
-                try {
-                    var entries = JSON.parse(localStorage[this.id]);
-                    this.goTo(this._initialSituationId);
-
-                    console.log(entries);
-                    var step = function step() {
-                        if (entries.length <= 0) {
-                            _this3.interactive = true;
-                            return;
-                        }
-                        vue_esm["a" /* default */].nextTick(function () {
-                            _this3.handleCommandString.apply(_this3, toConsumableArray_default()(entries.shift()));
-                            step();
-                        });
-                    };
-                    step();
-                    return true;
-                } catch (e) {
-                    this.interactive = true;
-                    console.warn(e);
-                    return false;
-                }
-            }
-            this.interactive = true;
-            return false;
-        }
-    }, {
-        key: 'situation',
-        value: function situation(id) {
-            if (!this._situations[id]) throw new Error('Situation not found: ' + id);
-            return this._situations[id];
-        }
-    }, {
-        key: 'situations',
-        value: function situations(idOrTag) {
-            if (idOrTag.startsWith("#")) {
-                var tag = idOrTag.slice(1);
-                return values_default()(this._situations).filter(function (s) {
-                    return s.tags.indexOf(tag) !== -1;
-                });
-            } else {
-                return [this._situations[idOrTag]];
-            }
-        }
-    }, {
-        key: 'isManagedLink',
-        value: function isManagedLink(href) {
-            return commandsFromString(href).length > 0;
-        }
-    }, {
-        key: 'getSnippetWrapperTag',
-        value: function getSnippetWrapperTag(id) {
-            if (!this.model.currentSituation.snippets[id]) {
-                throw new Error('Snippet ' + this.model.currentSituation.id + '.' + id + ' doesn\'t exist');
-            }
-            return this.model.currentSituation.snippets[id].indexOf('\n') === -1 ? 'span' : 'div';
-        }
-    }, {
-        key: 'getSnippetHTML',
-        value: function getSnippetHTML(id) {
-            if (!this.model.currentSituation.snippets[id]) {
-                throw new Error('Snippet ' + this.model.currentSituation.id + '.' + id + ' doesn\'t exist');
-            }
-            return this.ui.renderMarkdownTemplateMaybeInline(this.model.currentSituation.snippets[id]);
-        }
-    }, {
-        key: 'getSnippet',
-        value: function getSnippet(id) {
-            if (!this.model.currentSituation.snippets[id]) {
-                throw new Error('Snippet ' + this.model.currentSituation.id + '.' + id + ' doesn\'t exist');
-            }
-            return this.ui.renderTemplate(this.model.currentSituation.snippets[id]);
-        }
-    }, {
-        key: 'handleCommandString',
-        value: function handleCommandString(s) {
-            var itemId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-            var sourceElId = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-            var restore = false;
-            if (itemId !== null) {
-                restore = true;
-                this.activeItemId = itemId;
-                this.activeSourceElId = sourceElId;
-                if (this.interactive) {
-                    this.history.push(lodash_default.a.toArray(arguments));
-                    this.save();
-                }
-            }
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = get_iterator_default()(commandsFromString(s, this.activeItemId, this.activeSourceElId)), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var cmd = _step.value;
-
-                    this.handleCommand(cmd);
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
-            if (restore) {
-                this.activeItemId = null;
-                this.activeSourceElId = null;
-            }
-        }
-    }, {
-        key: 'handleCommand',
-        value: function handleCommand(cmd) {
-            console.log(cmd);
-            switch (cmd.type) {
-                case commands.runAction.name:
-                    this.runAction(cmd.name, cmd.args);
-                    break;
-                case commands.goToSituation.name:
-                    this.goTo(cmd.id);
-                    break;
-                case commands.write.name:
-                    this.performWrite(cmd);
-                    break;
-                case commands.replace.name:
-                    this.performReplace(cmd);
-                    break;
-                default:
-                    throw new Error("Unknown command: " + cmd);
-            }
-        }
-    }, {
-        key: 'performWrite',
-        value: function performWrite(_ref2) {
-            var itemId = _ref2.itemId,
-                snippetId = _ref2.snippetId;
-
-            this.ui.bus.$emit('write', {
-                'itemId': itemId,
-                'html': this.getSnippetHTML(snippetId)
-            });
-        }
-    }, {
-        key: 'performReplace',
-        value: function performReplace(_ref3) {
-            var itemId = _ref3.itemId,
-                snippetId = _ref3.snippetId,
-                elId = _ref3.elId;
-
-            this.ui.bus.$emit('replace', {
-                'itemId': itemId,
-                'id': elId,
-                'tag': this.getSnippetWrapperTag(snippetId),
-                'html': this.getSnippetHTML(snippetId)
-            });
-        }
-    }, {
-        key: 'runAction',
-        value: function runAction(name, args) {
-            var _model$currentSituati;
-
-            this.willAct.apply(this, [this.model, this.ui, this.model.currentSituation, name].concat(toConsumableArray_default()(args)));
-            (_model$currentSituati = this.model.currentSituation).doAct.apply(_model$currentSituati, [this.model, this.ui, name].concat(toConsumableArray_default()(args)));
-            this.didAct.apply(this, [this.model, this.ui, this.model.currentSituation, name].concat(toConsumableArray_default()(args)));
-        }
-    }, {
-        key: 'goTo',
-        value: function goTo(id) {
-            var next = this.situation(id);
-            var previous = this.model.currentSituation;
-            var previousId = previous ? previous.id : null;
-            if (this.model.currentSituation) {
-                this.willExit(this.model, this.ui, previousId, id);
-                this.model.currentSituation.doExit(this.model, this.ui, next);
-                this.didExit(this.model, this.ui, previousId, id);
-            }
-            this.model.currentSituation = null;
-
-            // willEnter() may redirect us
-            if (!this.willEnter(this.model, this.ui, previousId, id)) {
-                return;
-            }
-            if (!next.willEnter(this.model, this.ui, previousId, id)) {
-                return;
-            }
-
-            this.model.currentSituation = next;
-            next.doEnter(this.model, this.ui, this, previous);
-            this.didEnter(this.model, this.ui, previousId, id);
-        }
     }, {
         key: 'interpretChoices',
         value: function interpretChoices(arrayOfSituationIdsOrTags) {
-            var _this4 = this;
+            var _this2 = this;
 
             var atLeast = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
             var atMost = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Number.MAX_VALUE;
 
-            var host = this.model.currentSituation;
+            var host = this.currentSituation;
             var situations = [].concat.apply([], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));
             // remove invisible situations
             var visibleSituations = situations.filter(function (s) {
-                return s.getCanSee(_this4.model, host);
+                return s.getCanSee(_this2.model, host);
             });
 
             // sort by display order
             var sortedSituations = lodash_default.a.sortBy(visibleSituations, function (s) {
-                return s.getDisplayOrder(_this4.model, host);
+                return s.getDisplayOrder(_this2.model, host);
             });
 
             // index by priority; figure out what priorities are being used
@@ -1186,10 +960,343 @@ var director_JumboGroveDirector = function () {
             return chosenSituations.map(function (s) {
                 return {
                     situationId: s.id,
-                    text: s.getOptionText(_this4.model, host),
-                    isEnabled: s.getCanChoose(_this4.model, host)
+                    text: s.getOptionText(_this2.model, host),
+                    isEnabled: s.getCanChoose(_this2.model, host)
                 };
             });
+        }
+    }]);
+
+    return WorldModel;
+}();
+
+/* harmony default export */ var jg_model = (model_WorldModel);
+// CONCATENATED MODULE: ./src/jg/commands.js
+/* harmony default export */ var commands = ({
+  runAction: {
+    name: 'runAction',
+    create: function create(name, args) {
+      return { 'type': 'runAction', name: name, args: args };
+    }
+  },
+  write: {
+    name: 'write',
+    create: function create(itemId, snippetId) {
+      return { 'type': 'write', itemId: itemId, snippetId: snippetId };
+    }
+  },
+  replace: {
+    name: 'replace',
+    create: function create(itemId, snippetId, elId) {
+      return { 'type': 'replace', itemId: itemId, snippetId: snippetId, elId: elId };
+    }
+  },
+  goToSituation: {
+    name: 'goToSituation',
+    create: function create(id) {
+      return { 'type': 'goToSituation', id: id };
+    }
+  },
+  resetGame: {
+    name: 'resetGame',
+    create: function create() {
+      return { 'type': 'resetGame' };
+    }
+  }
+});
+// CONCATENATED MODULE: ./src/jg/director.js
+
+
+
+
+
+
+
+
+
+
+var director_nop = function nop() {};
+
+var director_JumboGroveDirector = function () {
+    function JumboGroveDirector(_ref) {
+        var id = _ref.id,
+            _ref$version = _ref.version,
+            version = _ref$version === undefined ? 1 : _ref$version,
+            _ref$initialSituation = _ref.initialSituation,
+            initialSituation = _ref$initialSituation === undefined ? 'start' : _ref$initialSituation,
+            _ref$navHeader = _ref.navHeader,
+            navHeader = _ref$navHeader === undefined ? '' : _ref$navHeader,
+            _ref$asideHeader = _ref.asideHeader,
+            asideHeader = _ref$asideHeader === undefined ? '' : _ref$asideHeader,
+            _ref$globalState = _ref.globalState,
+            globalState = _ref$globalState === undefined ? {} : _ref$globalState,
+            _ref$characters = _ref.characters,
+            characters = _ref$characters === undefined ? [] : _ref$characters,
+            _ref$situations = _ref.situations,
+            situations = _ref$situations === undefined ? [] : _ref$situations,
+            _ref$init = _ref.init,
+            init = _ref$init === undefined ? director_nop : _ref$init,
+            _ref$willEnter = _ref.willEnter,
+            willEnter = _ref$willEnter === undefined ? function () {
+            return true;
+        } : _ref$willEnter,
+            _ref$didEnter = _ref.didEnter,
+            didEnter = _ref$didEnter === undefined ? director_nop : _ref$didEnter,
+            _ref$willExit = _ref.willExit,
+            willExit = _ref$willExit === undefined ? director_nop : _ref$willExit,
+            _ref$didExit = _ref.didExit,
+            didExit = _ref$didExit === undefined ? director_nop : _ref$didExit,
+            _ref$willAct = _ref.willAct,
+            willAct = _ref$willAct === undefined ? director_nop : _ref$willAct,
+            _ref$didAct = _ref.didAct,
+            didAct = _ref$didAct === undefined ? director_nop : _ref$didAct;
+
+        classCallCheck_default()(this, JumboGroveDirector);
+
+        if (!id) throw new Error("You must provide an id");
+        assign_default()(this, {
+            id: id, willEnter: willEnter, didEnter: didEnter, willExit: willExit, didExit: didExit, willAct: willAct, didAct: didAct,
+            navHeader: navHeader, asideHeader: asideHeader, init: init
+        });
+        this.modelArgs = { characters: characters, globalState: globalState, situations: situations, initialSituation: initialSituation };
+
+        this.recreateModel();
+        this.interactive = true;
+    }
+
+    createClass_default()(JumboGroveDirector, [{
+        key: 'recreateModel',
+        value: function recreateModel() {
+            this.model = new jg_model(this.modelArgs);
+            var _arr = ['goTo', 'handleCommandString', 'isManagedLink'];
+            for (var _i = 0; _i < _arr.length; _i++) {
+                var k = _arr[_i];
+                this.model[k] = this[k].bind(this);
+            }
+            this.model.do = this.handleCommandString.bind(this);
+        }
+    }, {
+        key: 'toString',
+        value: function toString() {
+            return 'Director(id=' + this.id + ')';
+        }
+    }, {
+        key: 'bindToUI',
+        value: function bindToUI(ui) {
+            var _this = this;
+
+            var wasBound = !!this.ui;
+            this.ui = ui;
+            ui.bind(this);
+            this.model.navHeaderHTML = ui.renderMarkdown(this.navHeader);
+            this.model.asideHeaderHTML = function () {
+                return ui.renderMarkdownTemplate(_this.asideHeader);
+            };
+            if (!wasBound) {
+                this.init(this.model, this.ui, this.ui.md);
+            }
+        }
+    }, {
+        key: 'start',
+        value: function start() {
+            if (this.model.currentSituation) {
+                return; // vue.js is hot-reloading us
+            }
+            if (!this.load()) {
+                this.goTo(this.model._initialSituationId);
+            }
+        }
+    }, {
+        key: 'save',
+        value: function save(toSituationId) {
+            localStorage[this.id] = stringify_default()({ toSituationId: toSituationId, model: this.model.toSave() });
+        }
+    }, {
+        key: 'load',
+        value: function load() {
+            if (!localStorage[this.id]) return false;
+            var json = null;
+            try {
+                json = JSON.parse(localStorage[this.id]);
+            } catch (e) {
+                return false;
+            }
+            if (!json.model) return false;
+            if (!json.toSituationId) return false;
+
+            try {
+                this.model.loadSave(json.model);
+                this.goTo(json.toSituationId);
+            } catch (e) {
+                delete localStorage[this.id];
+                this.recreateModel();
+                this.start();
+                return false;
+            }
+            return true;
+        }
+    }, {
+        key: 'isManagedLink',
+        value: function isManagedLink(href) {
+            return commandsFromString(href).length > 0;
+        }
+    }, {
+        key: 'getSnippetWrapperTag',
+        value: function getSnippetWrapperTag(id) {
+            if (!this.model.currentSituation.snippets[id]) {
+                throw new Error('Snippet ' + this.model.currentSituation.id + '.' + id + ' doesn\'t exist');
+            }
+            return this.model.currentSituation.snippets[id].indexOf('\n') === -1 ? 'span' : 'div';
+        }
+    }, {
+        key: 'getSnippetHTML',
+        value: function getSnippetHTML(id) {
+            if (!this.model.currentSituation.snippets[id]) {
+                throw new Error('Snippet ' + this.model.currentSituation.id + '.' + id + ' doesn\'t exist');
+            }
+            return this.ui.renderMarkdownTemplateMaybeInline(this.model.currentSituation.snippets[id]);
+        }
+    }, {
+        key: 'getSnippet',
+        value: function getSnippet(id) {
+            if (!this.model.currentSituation.snippets[id]) {
+                throw new Error('Snippet ' + this.model.currentSituation.id + '.' + id + ' doesn\'t exist');
+            }
+            return this.ui.renderTemplate(this.model.currentSituation.snippets[id]);
+        }
+    }, {
+        key: 'handleCommandString',
+        value: function handleCommandString(s) {
+            var itemId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            var sourceElId = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+            var restore = false;
+            if (itemId !== null) {
+                restore = true;
+                this.activeItemId = itemId;
+                this.activeSourceElId = sourceElId;
+            }
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = get_iterator_default()(commandsFromString(s, this.activeItemId, this.activeSourceElId)), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var cmd = _step.value;
+
+                    this.handleCommand(cmd);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            if (restore) {
+                this.activeItemId = null;
+                this.activeSourceElId = null;
+            }
+        }
+    }, {
+        key: 'handleCommand',
+        value: function handleCommand(cmd) {
+            console.log(cmd);
+            switch (cmd.type) {
+                case commands.runAction.name:
+                    this.runAction(cmd.name, cmd.args);
+                    break;
+                case commands.goToSituation.name:
+                    this.goTo(cmd.id);
+                    break;
+                case commands.write.name:
+                    this.performWrite(cmd);
+                    break;
+                case commands.replace.name:
+                    this.performReplace(cmd);
+                    break;
+                case commands.resetGame.name:
+                    this.performResetGame(cmd);
+                    break;
+                default:
+                    throw new Error("Unknown command: " + cmd);
+            }
+        }
+    }, {
+        key: 'performWrite',
+        value: function performWrite(_ref2) {
+            var itemId = _ref2.itemId,
+                snippetId = _ref2.snippetId;
+
+            this.ui.bus.$emit('write', {
+                'itemId': itemId,
+                'html': this.getSnippetHTML(snippetId)
+            });
+        }
+    }, {
+        key: 'performReplace',
+        value: function performReplace(_ref3) {
+            var itemId = _ref3.itemId,
+                snippetId = _ref3.snippetId,
+                elId = _ref3.elId;
+
+            this.ui.bus.$emit('replace', {
+                'itemId': itemId,
+                'id': elId,
+                'tag': this.getSnippetWrapperTag(snippetId),
+                'html': this.getSnippetHTML(snippetId)
+            });
+        }
+    }, {
+        key: 'runAction',
+        value: function runAction(name, args) {
+            var _model$currentSituati;
+
+            this.willAct.apply(this, [this.model, this.ui, this.model.currentSituation, name].concat(toConsumableArray_default()(args)));
+            (_model$currentSituati = this.model.currentSituation).doAct.apply(_model$currentSituati, [this.model, this.ui, name].concat(toConsumableArray_default()(args)));
+            this.didAct.apply(this, [this.model, this.ui, this.model.currentSituation, name].concat(toConsumableArray_default()(args)));
+        }
+    }, {
+        key: 'performResetGame',
+        value: function performResetGame() {
+            delete localStorage[this.id];
+            location.reload();
+        }
+    }, {
+        key: 'goTo',
+        value: function goTo(id) {
+            var next = this.model.situation(id);
+            var previous = this.model.currentSituation;
+            var previousId = previous ? previous.id : null;
+            if (next.autosave) {
+                this.save(id);
+            }
+            if (this.model.currentSituation) {
+                this.willExit(this.model, this.ui, previousId, id);
+                this.model.currentSituation.doExit(this.model, this.ui, next);
+                this.didExit(this.model, this.ui, previousId, id);
+            }
+            this.model.currentSituation = null;
+
+            // willEnter() may redirect us
+            if (!this.willEnter(this.model, this.ui, previousId, id)) {
+                return;
+            }
+            if (!next.willEnter(this.model, this.ui, previousId, id)) {
+                return;
+            }
+
+            this.model.currentSituation = next;
+            next.doEnter(this.model, this.ui, this, previous);
+            this.didEnter(this.model, this.ui, previousId, id);
         }
     }]);
 
@@ -1213,13 +1320,15 @@ function commandsFromString(str) {
             var nameAndArgs = parseAction(s.slice(1));
             var name = nameAndArgs[0];
             var args = lodash_default.a.tail(nameAndArgs);
-            switch (name) {
+            switch (name.toLowerCase()) {
                 case 'write':
                     return commands.write.create(itemId, args[0]);
                 case 'replace':
                     return commands.replace.create(itemId, args[0], args[0]);
                 case 'replaceself':
                     return commands.replace.create(itemId, args[0], elId);
+                case 'resetgame':
+                    return commands.resetGame.create();
                 default:
                     return commands.runAction.create(name, args);
             }
@@ -1490,7 +1599,7 @@ var dataui_DataUI = function () {
       return new promise_default.a(function (resolve, reject) {
         var item = {
           'type': 'choice',
-          choices: _this2.director.interpretChoices(choices)
+          choices: _this2.director.model.interpretChoices(choices)
         };
         item.callback = function (situationId) {
           item.situationId = situationId;
@@ -1946,7 +2055,7 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
   content: '\n    You see the wheels turn in <%-maria%>\'s head. She would clearly prefer the company of better friends.\n\n    "Hey, would you guys mind if I brought <%-amy%> over? I haven\'t seen her in ages either."\n\n    You would really rather [not](>write:amy), but you can\'t say no to your guest.\n    ',
   choices: ['invite-amy'],
   snippets: {
-    amy: '\n      <%-amy%> is <%-maria%>\'s ex. Amy is much, much cooler than you. Every time you\'ve hung out in a group that <%-amy%> was in,\n      everyone ended up ignoring you. She and <%-maria%> are still on good, if complicated, terms.\n      '
+    amy: '\n      <%-amy%> is <%-maria%>\'s ex. <%=amy%> is much, much cooler than you. Every time you\'ve hung out in a group that <%-amy%> was in,\n      everyone ended up ignoring you. She and <%-maria%> are still on good, if complicated, terms.\n      '
   }
 }, {
   id: 'invite-amy',
@@ -2015,7 +2124,7 @@ function standardQualities() {
 
 /* harmony default export */ var ld40 = ({
   id: 'my-game',
-  navHeader: '\n      # Please, Come In\n\n      Made for [Ludum Dare 40](https://ldjam.com) with\n      [Jumbo Grove](https://github.com/irskep/jumbogrove)\n  ',
+  navHeader: '\n      # Please, Come In\n\n      Made for [Ludum Dare 40](https://ldjam.com) with\n      [Jumbo Grove](https://github.com/irskep/jumbogrove)\n\n      [Reset game](>resetGame)\n  ',
   asideHeader: '\n  # Time: <%-time%>\n  ',
   globalState: {
     hour: 0,
@@ -2180,6 +2289,7 @@ function standardQualities() {
     choices: ['hour1b']
   }, {
     id: 'hour1b',
+    autosave: true,
     optionText: 'Continue',
     content: '\n      # 7:00pm\n\n      <% var guests = arrivingGuests();\n      if (guests.length > 1) { %>\n        <%= chrs(\'and\', guests) %> have arrived and are waiting on the porch.\n      <% } else { %>\n        <%= chr(guests[0]) %> has arrived and is waiting on the porch.\n      <% } %>\n      ',
     snippets: {},
@@ -2255,4 +2365,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.8620e23ea5ee8c7752cd.js.map
+//# sourceMappingURL=app.e06ee38fbb15a181d90f.js.map
