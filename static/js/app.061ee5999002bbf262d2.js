@@ -2117,7 +2117,7 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 }, {
   id: 'prologue-1-year', tags: ['prologue-how-long-has-it-been'],
   optionText: "More than a year ago",
-  content: '\n    "Yeah, it would have been that Tahoe trip. That was so much fun!" <%-maria%> leans back and looks up at the ceiling.\n\n    "You know, that reminds me of [<%-jen%>](>replace:jen). She\'s still around, right?"\n\n    [](){#jen}\n    ',
+  content: '\n    <%=img(\'maria\')%>\n    "Yeah, it would have been that Tahoe trip. That was so much fun!" <%-maria%> leans back and looks up at the ceiling.\n\n    "You know, that reminds me of [<%-jen%>](>replace:jen). She\'s still around, right?"\n\n    [](){#jen}\n    ',
   choices: ['#invite-jen'],
   snippets: {
     jen: '\n      When <%-maria%> lived in SF, she used to work at a bar downtown. <%-jen%> was a drummer in one of the bands that came through,\n      and they\'ve been friends ever since.\n      '
@@ -2605,4 +2605,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.bf8abcb9cfc1d2384b04.js.map
+//# sourceMappingURL=app.061ee5999002bbf262d2.js.map
