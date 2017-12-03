@@ -28,13 +28,6 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 
 /***/ }),
 
-/***/ "MuaH":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "NHnr":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -332,14 +325,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director', 'ui'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-7fcf5414","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2d5ffaf0","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director,"ui":_vm.ui}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("MuaH")
+  __webpack_require__("Si47")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -2579,6 +2572,13 @@ if (window.jumboGroveExample) {
 
 /***/ }),
 
+/***/ "Si47":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "ToLL":
 /***/ (function(module, exports) {
 
@@ -2601,4 +2601,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.a2c0a90b450a9e483852.js.map
+//# sourceMappingURL=app.fa98423d9e270990db9d.js.map
