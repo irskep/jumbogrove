@@ -6,29 +6,49 @@ const ROOMS = {
   kitchen: 'kitchen',
   dining: 'dining',
   living: 'living',
+  bathroom: 'bathroom',
   bedroom1: 'bedroom1',
   bedroom2: 'bedroom2',
+  bedroom3: 'bedroom3',
 }
 
-function standardQualities() {
+const ROOM_NAMES = {
+  porch: 'on the front porch',
+  kitchen: 'in the kitchen',
+  dining: 'in the dining room',
+  living: 'in the living room',
+  bathroom: 'in the bathroom',
+  bedroom1: "in your room",
+  bedroom2: "in Liz's room",
+  bedroom3: "in Chris's room",
+}
+
+function standardQualities(room = null) {
   return {
     core: {
+      room: {
+        type: 'namedChoice',
+        labelMap: ROOM_NAMES,
+        name: 'Location',
+        priority: 0,
+        initialValue: room,
+      },
       friendliness: {
           type: 'integer',
           name: "Friendliness",
-          priority: 0,
+          priority: 1,
           initialValue: 5,
       },
       fun: {
           type: 'integer',
           name: "Fun",
-          priority: 1,
+          priority: 2,
           initialValue: 3,
       },
       stress: {
           type: 'integer',
           name: "Stress",
-          priority: 1,
+          priority: 3,
           initialValue: 0,
       },
     },
@@ -54,12 +74,12 @@ export default {
   },
 
   characters: [
-    {id: 'player', showInSidebar: false, qualities: {}, state: {}},
-    {id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
-    {id: 'kevin', name: 'Kevin', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
-    {id: 'federico', name: 'Federico', qualities: standardQualities(), showInSidebar: true, state: {room: ROOMS.dining}},
-    {id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false, state: {room: null}},
-    {id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false, state: {room: null}},
+    {id: 'player', showInSidebar: false, qualities: {}},
+    {id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true},
+    {id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true},
+    {id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true},
+    {id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false},
+    {id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false},
   ],
 
   init(model, ui, md) {
@@ -67,6 +87,9 @@ export default {
     // Define some helpers for rendering text and doing stuff, so we have to write as little JS as possible
     // in the content field
     const templateFns = {
+      // make ROOMS constant accessible
+      ROOMS,
+
       // Print some text in the style of a character name
       chr: (name) => `*${name}*{.character}`,
 
@@ -100,6 +123,12 @@ export default {
         return `> ${templateFns.chr(model.character(id).name)} is scheduled to arrive at ${templateFns.formatTime(hour)}.`
       },
 
+      // Move a character into a room.
+      moveCharacter: (id, room) => {
+        model.character(id).setQuality('room', room);
+        return `> ${templateFns.chr(model.character(id).name)} is ${ROOM_NAMES[room]}.`
+      },
+
       // Returns the list of guests who have just arrived. Assigns their room to 'porch'.
       arrivingGuests: () => {
         const chars = model.globalState.scheduledArrivals
@@ -110,10 +139,11 @@ export default {
           .filter(({hour}) => hour > model.globalState.hour);
 
         for (const c of chars) {
-          c.state.room = ROOMS.porch;
+          c.setQuality('room', ROOMS.porch);
+          c.showInSidebar = true;
         }
 
-        return chars.map((c) => c.name);
+        return chars;
       }
     }
     ui.addTemplateFunctions(templateFns);
@@ -170,9 +200,9 @@ export default {
 
       <% var guests = arrivingGuests();
       if (guests.length > 1) { %>
-        <%= chrs('and', guests) %> have arrived and are waiting on the porch.
+        <%= chrs('and', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality('room')%>.
       <% } else { %>
-        <%= chr(guests[0]) %> has arrived and is waiting on the porch.
+        <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality('room')%>.
       <% } %>
       `,
       snippets: {
@@ -189,6 +219,20 @@ export default {
           model.do(`@hour${model.globalState.hour}`);
         }
       },
-    }
+    },
+
+    {
+      id: 'arrive-amy',
+      tags: ['newguests'],
+      optionText: 'Invite Amy in',
+      content: `
+      "HIIIIII, IT'S SO GOOD TO SEE YOUUUUUU!" <%=amy%> screams as she dives intensely into your arms for an overly-friendly hug.
+      "How have you BEEEEEN? You MUST let me see <%=maria%>!!!!!!!"
+
+      Without waiting for your answer, <%=amy%> rotates past you and scurries into the dining room.
+
+      <% print(moveCharacter('amy', ROOMS.dining)) %>
+      `
+    },
   ],
 };

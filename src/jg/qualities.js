@@ -58,5 +58,10 @@ const qualities = {
             return qualities.onOff.format(character, {words: ['no', 'yes']}, value);
         }
     },
+    namedChoice: {
+        format: (character, quality, value) => {
+            return quality.labelMap[value];
+        },
+    },
 };
 export default qualities;
