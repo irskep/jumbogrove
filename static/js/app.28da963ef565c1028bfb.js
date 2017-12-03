@@ -1,12 +1,5 @@
 webpackJsonp([1],{
 
-/***/ "/EHi":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "356t":
 /***/ (function(module, exports) {
 
@@ -35,13 +28,6 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 
 /***/ }),
 
-/***/ "MWdA":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "NHnr":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -50,74 +36,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.esm.js
 var vue_esm = __webpack_require__("7+uW");
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/JGAside.vue
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ var JGAside = ({
-  name: 'JGAside',
-  props: ['model']
-});
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-f777f270","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGAside.vue
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('aside',{staticClass:"JGAside"},[_c('hgroup',[_c('div',{domProps:{"innerHTML":_vm._s(_vm.model.asideHeaderHTML())}}),_vm._v(" "),_c('ul',{staticClass:"Characters"},_vm._l((_vm.model.allCharacters),function(character){return (character.showInSidebar)?_c('li',{key:character.id},[_c('h2',[_vm._v(_vm._s(character.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualityGroups"},_vm._l((character.sortedQualityGroups),function(group){return (!group.hidden)?_c('li',{key:group.id},[_c('h3',[_vm._v(_vm._s(group.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualities"},_vm._l((character.sortedQualities(group.id)),function(quality){return (!quality.hidden && (quality.type != 'flag' || quality.value))?_c('li',{key:quality.id},[(quality.type == 'flag')?[_vm._v(_vm._s(character.formatQuality(quality.id)))]:[_c('strong',[_vm._v(_vm._s(quality.name)+":")]),_vm._v(" "+_vm._s(character.formatQuality(quality.id)))]],2):_vm._e()}))]):_vm._e()}))]):_vm._e()}))])])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ var components_JGAside = (esExports);
-// CONCATENATED MODULE: ./src/components/JGAside.vue
-function injectStyle (ssrContext) {
-  __webpack_require__("MWdA")
-}
-var normalizeComponent = __webpack_require__("VU/8")
-/* script */
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-f777f270"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  JGAside,
-  components_JGAside,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-
-/* harmony default export */ var src_components_JGAside = (Component.exports);
 
 // EXTERNAL MODULE: ./node_modules/lodash/lodash.js
 var lodash = __webpack_require__("M4fF");
@@ -170,37 +88,122 @@ var lodash_default = /*#__PURE__*/__webpack_require__.n(lodash);
   }
 });
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2c405e44","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGNav.vue
-var JGNav_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('nav',[_c('div',{staticClass:"NavHeader",domProps:{"innerHTML":_vm._s(_vm.model.navHeaderHTML)}})])}
-var JGNav_staticRenderFns = []
-var JGNav_esExports = { render: JGNav_render, staticRenderFns: JGNav_staticRenderFns }
-/* harmony default export */ var components_JGNav = (JGNav_esExports);
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('nav',[_c('div',{staticClass:"NavHeader",domProps:{"innerHTML":_vm._s(_vm.model.navHeaderHTML)}})])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ var components_JGNav = (esExports);
 // CONCATENATED MODULE: ./src/components/JGNav.vue
-function JGNav_injectStyle (ssrContext) {
+function injectStyle (ssrContext) {
   __webpack_require__("Jz3y")
 }
-var JGNav_normalizeComponent = __webpack_require__("VU/8")
+var normalizeComponent = __webpack_require__("VU/8")
 /* script */
 
 /* template */
 
 /* template functional */
-var JGNav___vue_template_functional__ = false
+var __vue_template_functional__ = false
 /* styles */
-var JGNav___vue_styles__ = JGNav_injectStyle
+var __vue_styles__ = injectStyle
 /* scopeId */
-var JGNav___vue_scopeId__ = "data-v-2c405e44"
+var __vue_scopeId__ = "data-v-2c405e44"
 /* moduleIdentifier (server only) */
-var JGNav___vue_module_identifier__ = null
-var JGNav_Component = JGNav_normalizeComponent(
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
   JGNav,
   components_JGNav,
-  JGNav___vue_template_functional__,
-  JGNav___vue_styles__,
-  JGNav___vue_scopeId__,
-  JGNav___vue_module_identifier__
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
 )
 
-/* harmony default export */ var src_components_JGNav = (JGNav_Component.exports);
+/* harmony default export */ var src_components_JGNav = (Component.exports);
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/JGAside.vue
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ var JGAside = ({
+  name: 'JGAside',
+  components: { JGNav: src_components_JGNav },
+  props: ['model'],
+  data: function data() {
+    return { isOpen: false };
+  },
+  methods: {
+    onToggleVisibility: function onToggleVisibility() {
+      console.log("Go");
+      this.isOpen = !this.isOpen;
+    }
+  }
+});
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-5d441e1c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGAside.vue
+var JGAside_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('aside',{class:{'JGAside': true, 'm-open': _vm.isOpen, 'm-closed': !_vm.isOpen}},[_c('div',{staticClass:"JGAsideToggle",on:{"click":function($event){$event.stopPropagation();_vm.onToggleVisibility($event)}}},[_vm._v("\n    "+_vm._s(_vm.isOpen ? '×' : 'i')+"\n  ")]),_vm._v(" "),_c('div',{staticClass:"JGAsideContents"},[_c('JGNav',{staticClass:"m-within-aside",attrs:{"model":_vm.model}}),_vm._v(" "),_c('hgroup',[_c('div',{domProps:{"innerHTML":_vm._s(_vm.model.asideHeaderHTML())}}),_vm._v(" "),_c('ul',{staticClass:"Characters"},_vm._l((_vm.model.allCharacters),function(character){return (character.showInSidebar)?_c('li',{key:character.id},[_c('h2',[_vm._v(_vm._s(character.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualityGroups"},_vm._l((character.sortedQualityGroups),function(group){return (!group.hidden)?_c('li',{key:group.id},[_c('h3',[_vm._v(_vm._s(group.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualities"},_vm._l((character.sortedQualities(group.id)),function(quality){return (!quality.hidden && (quality.type != 'flag' || quality.value))?_c('li',{key:quality.id},[(quality.type == 'flag')?[_vm._v(_vm._s(character.formatQuality(quality.id)))]:[_c('strong',[_vm._v(_vm._s(quality.name)+":")]),_vm._v(" "+_vm._s(character.formatQuality(quality.id)))]],2):_vm._e()}))]):_vm._e()}))]):_vm._e()}))])],1)])}
+var JGAside_staticRenderFns = []
+var JGAside_esExports = { render: JGAside_render, staticRenderFns: JGAside_staticRenderFns }
+/* harmony default export */ var components_JGAside = (JGAside_esExports);
+// CONCATENATED MODULE: ./src/components/JGAside.vue
+function JGAside_injectStyle (ssrContext) {
+  __webpack_require__("prTG")
+}
+var JGAside_normalizeComponent = __webpack_require__("VU/8")
+/* script */
+
+/* template */
+
+/* template functional */
+var JGAside___vue_template_functional__ = false
+/* styles */
+var JGAside___vue_styles__ = JGAside_injectStyle
+/* scopeId */
+var JGAside___vue_scopeId__ = "data-v-5d441e1c"
+/* moduleIdentifier (server only) */
+var JGAside___vue_module_identifier__ = null
+var JGAside_Component = JGAside_normalizeComponent(
+  JGAside,
+  components_JGAside,
+  JGAside___vue_template_functional__,
+  JGAside___vue_styles__,
+  JGAside___vue_scopeId__,
+  JGAside___vue_module_identifier__
+)
+
+/* harmony default export */ var src_components_JGAside = (JGAside_Component.exports);
 
 // EXTERNAL MODULE: ./node_modules/animated-scroll-to/animated-scroll-to.js
 var animated_scroll_to = __webpack_require__("+so2");
@@ -322,14 +325,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director', 'ui'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2b9c2dd6","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-47938f9b","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director,"ui":_vm.ui}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("/EHi")
+  __webpack_require__("mk03")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -2203,18 +2206,6 @@ var ROOM_NAMES = {
   optionText: 'Invite Amy inside',
   content: '\n    "HIIIIII, IT\'S SO GOOD TO SEE YOUUUUUU!" <%=amy%> screams as she dives intensely into your arms for an overly-friendly hug.\n    "How have you BEEEEEN? You MUST let me see <%=maria%>!!!!!!!"\n\n    Without waiting for your answer, <%=amy%> rotates past you and scurries into the dining room.\n\n    <% print(moveCharacter(\'amy\', ROOMS.dining)) %>\n    ',
   choices: ['#newguests', '#freechoice']
-}, {
-  id: 'arrive-jen',
-  tags: ['newguests'],
-  priority: function priority(model) {
-    return model.character('jen').getQuality('room') === ROOMS.porch ? 10 : 0;
-  },
-  getCanSee: function getCanSee(model) {
-    return model.character('jen').getQuality('room') === ROOMS.porch;
-  },
-  optionText: 'Invite Jen inside',
-  content: '\n    <%=jen%> is leaning against your porch railing in a beat-up leather jacket.\n\n    "Hey," she says.\n\n    "Hey," you say. "<%=maria%>\'s in the dining room, want to come in?\n\n    "Sure," she says.\n\n    You both walk inside.\n\n    <% print(moveCharacter(\'jen\', ROOMS.dining)) %>\n    ',
-  choices: ['#newguests', '#freechoice']
 }]);
 // CONCATENATED MODULE: ./src/ld40/liz.js
 // import _ from 'lodash';
@@ -2248,6 +2239,37 @@ var ROOM_NAMES = {
   choices: ['#newguests', '#freechoice'],
   content: '\n    "Whatever." She stalks past you, beelining for her room.\n\n    <%= stat(\'liz\', \'friendliness\', -1) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.bedroomLiz)) %>\n    '
 }]);
+// CONCATENATED MODULE: ./src/ld40/jen.js
+// import _ from 'lodash';
+
+
+/* harmony default export */ var jen = ([{
+  id: 'arrive-jen',
+  tags: ['newguests'],
+  priority: function priority(model) {
+    return model.character('jen').getQuality('room') === ROOMS.porch ? 10 : 0;
+  },
+  getCanSee: function getCanSee(model) {
+    return model.character('jen').getQuality('room') === ROOMS.porch;
+  },
+  optionText: 'Invite Jen inside',
+  content: '\n    <%=jen%> is leaning against your porch railing in a beat-up leather jacket.\n\n    "Hey," she says.\n\n    "Hey," you say. "<%=maria%>\'s in the dining room, want to come in?\n\n    "Sure," she says.\n\n    You both walk inside.\n\n    <% print(moveCharacter(\'jen\', ROOMS.dining)) %>\n    ',
+  choices: ['#newguests', '#freechoice']
+}, {
+  id: 'jen-greet',
+  tags: ['room-dining'],
+  optionText: "Jen and Maria are catching up",
+  priority: 5,
+  getCanSee: function getCanSee(model, _ref) {
+    var totalVisits = _ref.totalVisits;
+
+    if (model.character('jen').getQuality('room') !== ROOMS.dining) return false;
+    if (totalVisits > 1) return false;
+    return true;
+  },
+  content: '\n    Back in the dining room, <%=maria%> is asking <%=jen%> about what she\'s been up to.\n    They seem to be getting on well.\n\n    <%=stat(\'jen\', \'fun\', 1)%>\n\n    <%=stat(\'maria\', \'fun\', 1)%>\n    ',
+  choices: ['#freechoice', '#room-dining']
+}]);
 // CONCATENATED MODULE: ./src/ld40/index.js
 
 
@@ -2261,7 +2283,8 @@ var ROOM_NAMES = {
 
 
 
-var importedSituations = [].concat(toConsumableArray_default()(arrivals), toConsumableArray_default()(hour0), toConsumableArray_default()(hour1), toConsumableArray_default()(liz));
+
+var importedSituations = [].concat(toConsumableArray_default()(arrivals), toConsumableArray_default()(hour0), toConsumableArray_default()(hour1), toConsumableArray_default()(liz), toConsumableArray_default()(jen));
 
 function standardQualities() {
   var room = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -2561,7 +2584,21 @@ if (window.jumboGroveExample) {
 
 // removed by extract-text-webpack-plugin
 
+/***/ }),
+
+/***/ "mk03":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "prTG":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.1e6404b885704b319376.js.map
+//# sourceMappingURL=app.28da963ef565c1028bfb.js.map
