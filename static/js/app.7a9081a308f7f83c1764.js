@@ -1126,7 +1126,7 @@ var director_JumboGroveDirector = function () {
 
             try {
                 this.model.loadSave(json.model);
-                this.goTo(json.toSituationId);
+                this.goTo(json.toSituationId, true);
             } catch (e) {
                 delete localStorage[this.id];
                 this.recreateModel();
@@ -1273,11 +1273,14 @@ var director_JumboGroveDirector = function () {
     }, {
         key: 'goTo',
         value: function goTo(id) {
+            var isFromLoad = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
             var next = this.model.situation(id);
             var previous = this.model.currentSituation;
             var previousId = previous ? previous.id : null;
-            if (next.autosave) {
+            if (next.autosave && !isFromLoad) {
                 this.save(id);
+                this.ui.logMarkdown('> Game saved.\n');
             }
             if (this.model.currentSituation) {
                 this.willExit(this.model, this.ui, previousId, id);
@@ -2365,4 +2368,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.e06ee38fbb15a181d90f.js.map
+//# sourceMappingURL=app.7a9081a308f7f83c1764.js.map
