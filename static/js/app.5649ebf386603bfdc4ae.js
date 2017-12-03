@@ -465,8 +465,6 @@ var _groupOmitKeys = ['id', 'name', 'priority', 'hidden'];
 
 var character_Character = function () {
     function Character(_ref2) {
-        var _this = this;
-
         var qualities = _ref2.qualities,
             id = _ref2.id,
             name = _ref2.name,
@@ -485,45 +483,51 @@ var character_Character = function () {
             id: id, name: name, qualities: qualities, description: description, showInSidebar: showInSidebar, priority: priority,
             state: lodash_default.a.cloneDeep(state) });
 
-        this._shallowQualities = {};
-        keys_default()(qualities).forEach(function (k) {
-            var group = qualities[k];
-            group.id = k;
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = get_iterator_default()(lodash_default.a.keys(lodash_default.a.omit(group, _groupOmitKeys))), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var k2 = _step.value;
-
-                    if (_this._shallowQualities[k2]) {
-                        throw Error("You have two qualities with the same ID. Please don't do that.");
-                    }
-                    group[k2].id = k2;
-                    _this._shallowQualities[k2] = group[k2];
-                    group[k2].value = group[k2].initialValue;
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-        });
-
-        this.sortedQualityGroups = lodash_default.a.sortBy(values_default()(qualities), _prioritySort);
+        this.updateQualities();
     }
 
     createClass_default()(Character, [{
+        key: 'updateQualities',
+        value: function updateQualities() {
+            var _this = this;
+
+            this._shallowQualities = {};
+            keys_default()(this.qualities).forEach(function (k) {
+                var group = _this.qualities[k];
+                group.id = k;
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = get_iterator_default()(lodash_default.a.keys(lodash_default.a.omit(group, _groupOmitKeys))), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var k2 = _step.value;
+
+                        if (_this._shallowQualities[k2]) {
+                            throw Error("You have two qualities with the same ID. Please don't do that.");
+                        }
+                        group[k2].id = k2;
+                        _this._shallowQualities[k2] = group[k2];
+                        if (group[k2].value === undefined) group[k2].value = group[k2].initialValue;
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            });
+            this.sortedQualityGroups = lodash_default.a.sortBy(values_default()(this.qualities), _prioritySort);
+        }
+    }, {
         key: 'toSave',
         value: function toSave() {
             return lodash_default.a.pick(this, ['id', 'qualities', 'name', 'showInSidebar', 'description', 'state']);
@@ -532,6 +536,7 @@ var character_Character = function () {
         key: 'loadSave',
         value: function loadSave(obj) {
             lodash_default.a.assign(this, obj);
+            this.updateQualities();
         }
     }, {
         key: 'getDescription',
@@ -2368,4 +2373,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.7a9081a308f7f83c1764.js.map
+//# sourceMappingURL=app.5649ebf386603bfdc4ae.js.map
