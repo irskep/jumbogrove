@@ -1,11 +1,19 @@
 import _ from 'lodash';
-import hour0 from "./ld40/hour0";
-import hour1 from "./ld40/hour1";
-import arrivals from "./ld40/arrivals";
-import { ROOMS, ROOM_STATEMENTS, ROOM_NAMES } from "./ld40/constants";
+import hour0 from "./hour0";
+import hour1 from "./hour1";
+import arrivals from "./arrivals";
+import liz from "./liz";
+import { ROOMS, ROOM_STATEMENTS, ROOM_NAMES } from "./constants";
+
+const importedSituations = [
+    ...arrivals,
+    ...hour0,
+    ...hour1,
+    ...liz,
+];
 
 
-function standardQualities(room = null) {
+function standardQualities(room = null, opts = {friendliness: 5, fun: 3, stress: 3}) {
   return {
     core: {
       room: {
@@ -19,19 +27,19 @@ function standardQualities(room = null) {
           type: 'integer',
           name: "Friendliness",
           priority: 1,
-          initialValue: 5,
+          initialValue: opts.friendliness || 5,
       },
       fun: {
           type: 'integer',
           name: "Fun",
           priority: 2,
-          initialValue: 3,
+          initialValue: opts.fun || 3,
       },
       stress: {
           type: 'integer',
           name: "Stress",
           priority: 3,
-          initialValue: 0,
+          initialValue: opts.stress || 3,
       },
     },
   };
@@ -49,19 +57,23 @@ export default {
   `,
   asideHeader: `
   # Time: <%-time%>
+
+  **Your location:** <%=model.player.formatQuality('room')%>
   `,
   globalState: {
     hour: 0,
-    scheduledArrivals: [],
+    scheduledArrivals: [{id: 'liz', hour: 2}, {id: 'chris', hour: 3}],
   },
 
   characters: [
-    {id: 'player', showInSidebar: false, qualities: {}},
+    {id: 'player', showInSidebar: false, qualities: standardQualities(ROOMS.dining)},
     {id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true},
     {id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true},
     {id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true},
     {id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false},
     {id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false},
+    {id: 'liz', name: 'Liz', qualities: standardQualities(null, {fun: 0, stress: 4}), showInSidebar: false},
+    {id: 'chris', name: 'Chris', qualities: standardQualities(null, {fun: 3, stress: 0}), showInSidebar: false},
   ],
 
   init(model, ui, md) {
@@ -96,7 +108,8 @@ export default {
       stat: (chr, q, amt) => {
         chr = model.character(chr);
         chr.addToQuality(q, amt);
-        return `\`${chr.name} ${chr.formatQualityName(q)} ${amt}\``;
+        const amtStr = amt > 0 ? `+${amt}` : amt;
+        return `\`${chr.name} ${chr.formatQualityName(q)} ${amtStr}\`{.stat}`;
       },
 
       // Schedule a character for later arrival.
@@ -108,6 +121,7 @@ export default {
       // Move a character into a room.
       moveCharacter: (id, room) => {
         model.character(id).setQuality('room', room);
+        if (id === 'player') return '';
         return `> ${templateFns.chr(model.character(id).name)} is ${ROOM_STATEMENTS[room]}.`
       },
 
@@ -126,6 +140,10 @@ export default {
         }
 
         return chars;
+      },
+
+      charactersIn: (room) => {
+        return model.allCharacters.filter((c) => c.getQuality('room') === room);
       }
     }
     ui.addTemplateFunctions(templateFns);
@@ -136,6 +154,8 @@ export default {
 
       // write <%=pl%> to print the player's name.
       pl: () => `*${model.character('player').name}*{.character}`,
+
+      numGuests: () => model.allCharacters.filter((c) => c.getQuality('room')).length,
     });
 
     for (const c of model.allCharacters) {
@@ -143,45 +163,65 @@ export default {
       ui.addTemplateGetters({[c.id]: () => ui.templateHelperFunctions.chr(c.name)});
     }
 
-    // Object.assign(model, {
-    //   guestsOnPorch: () => {
-    //     return model.allCharacters.filter((c) => c.getQuality('room') === ROOMS.porch);
-    //   },
-    // });
+    Object.assign(model, {
+      populatePorch: templateFns.arrivingGuests,
+      charactersIn: templateFns.charactersIn,
+    });
   },
   willEnter: (model, ui, oldSituationId, newSituationId) => {
     if (oldSituationId) {
-      if (oldSituationId === newSituationId) {
-        throw new Error("This shouldn't happen in most games");
-      }
       // ui.logHTML('<hr>');
     }
     return true;
   },
   situations: [
-    ...arrivals,
-    ...hour0,
-    ...hour1,
+    ...importedSituations,
 
     {
       id: 'advance-time',
       optionText: 'Hang out for an hour',
+      tags: ['freechoice'],
+      priority: 0,
       willEnter: (model, ui) => {
         model.globalState.hour += 1;
-        if (model.globalState.hour < 2) {
-          model.do(`@hour${model.globalState.hour}`);
+        const sid = `hour${model.globalState.hour}`;
+        if (model.situation(sid)) {
+          model.do(`@${sid}`);
+          return false
+        } else {
+          return true;
         }
       },
+      content: `
+      An hour passes.
+
+      # <%=time%>
+
+      <% var guests = arrivingGuests(); %>
+      <% if (guests.length > 1) { %>
+        <%= chrs('and', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality('room')%>.
+        <% print(moveCharacter('player', ROOMS.porch)) %>
+      <% } else if (guests.length === 1) { %>
+        <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality('room')%>.
+        <% print(moveCharacter('player', ROOMS.porch)) %>
+      <% } else { %>
+        No one else has shown up. Thank goodness!
+      <% } %>
+      `,
+      choices: ['#freechoice', '#newguests']
     },
-    
+
     ...Object.keys(ROOM_NAMES).map((n) => {
       return {
         id: `go-to-${n}`,
         tags: ['freechoice'],
-        priority: 0,
+        priority: 1,
+        getCanSee: (model) => model.charactersIn(n).length > 0 && model.player.getQuality('room') !== n,
         optionText: `Go to ${ROOM_NAMES[n]}`,
         content: `
         You go to ${ROOM_NAMES[n]}.
+
+        <% print(moveCharacter('player', '${n}')) %>
         `,
         choices: [`#room-${n}`, '#freechoice'],
       };

@@ -54,7 +54,7 @@ export default [
     content: `
     <%-maria%> furrows her brow. "Come on, <%-pl%>, it's only been a couple of months. I stopped here on my way to LA.
 
-    <%- stat('maria', 'friendliness', -1) %>
+    <%= stat('maria', 'friendliness', -1) %>
     `,
     choices: ['#invite-amy'],
   },

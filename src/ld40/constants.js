@@ -6,7 +6,9 @@ const ROOMS = {
   bathroom: 'bathroom',
   bedroom1: 'bedroom1',
   bedroom2: 'bedroom2',
+  bedroomLiz: 'bedroom2',
   bedroom3: 'bedroom3',
+  bedroomChris: 'bedroom3',
 }
 
 const ROOM_STATEMENTS = {

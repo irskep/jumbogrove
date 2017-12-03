@@ -50,7 +50,7 @@ export default class WorldModel {
     */
 
     situation(id) {
-        if (!this._situations[id]) throw new Error(`Situation not found: ${id}`);
+        if (!this._situations[id]) console.error(`Situation not found: ${id}`);
         return this._situations[id];
     }
 
@@ -121,12 +121,13 @@ export default class WorldModel {
         }
 
         // return the chosen situations and provide more info for each
-        return chosenSituations.map((s) => {
+        const allChoices = chosenSituations.map((s) => {
             return {
                 situationId: s.id,
                 text: s.getOptionText(this, host),
                 isEnabled: s.getCanChoose(this, host),
             };
         });
+        return allChoices.filter(({isEnabled}) => isEnabled).concat(allChoices.filter(({isEnabled}) => !isEnabled));
     }
 }

@@ -23,6 +23,7 @@ export default [
   {
     id: 'hour1b',
     autosave: true,
+    priority: 1,
     optionText: 'Continue',
     content: `
     # 7:00pm
@@ -32,8 +33,10 @@ export default [
     <% var guests = arrivingGuests(); %>
     <% if (guests.length > 1) { %>
       <%= chrs('and', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality('room')%>.
+      <% print(moveCharacter('player', ROOMS.porch)) %>
     <% } else if (guests.length === 1) { %>
       <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality('room')%>.
+      <% print(moveCharacter('player', ROOMS.porch)) %>
     <% } else { %>
       No one else has shown up. Thank goodness!
     <% } %>

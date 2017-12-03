@@ -47,7 +47,7 @@ blockquote {
 }
 
 .JumboGrove .JGUI > article {
-  max-width: 40rem;
+  max-width: 34rem;
   margin: auto;
 }
 
@@ -99,6 +99,11 @@ blockquote {
 }
 
 // ld40 stuff
+.JumboGrove aside ul {
+  li {
+    list-style-type: none;
+  }
+}
 .center {text-align: center;}
 .title {
   text-align: center;
@@ -109,5 +114,8 @@ blockquote {
 .character {
   font-style: normal;
   font-weight: bold;
+}
+.stat {
+  background-color: #ffd;
 }
 </style>
