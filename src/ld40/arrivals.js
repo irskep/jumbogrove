@@ -5,6 +5,7 @@ export default [
   {
     id: 'arrive-amy',
     tags: ['newguests'],
+    priority: (model) => model.character('amy').getQuality('room') === ROOMS.porch ? 1 : 0,
     getCanSee: (model) => model.character('amy').getQuality('room') === ROOMS.porch,
     optionText: 'Invite Amy inside',
     content: `
@@ -15,12 +16,13 @@ export default [
 
     <% print(moveCharacter('amy', ROOMS.dining)) %>
     `,
-    choices: ['#newguests'],
+    choices: ['#newguests', '#freechoice'],
   },
 
   {
     id: 'arrive-jen',
     tags: ['newguests'],
+    priority: (model) => model.character('jen').getQuality('room') === ROOMS.porch ? 1 : 0,
     getCanSee: (model) => model.character('jen').getQuality('room') === ROOMS.porch,
     optionText: 'Invite Jen inside',
     content: `
@@ -36,6 +38,6 @@ export default [
 
     <% print(moveCharacter('jen', ROOMS.dining)) %>
     `,
-    choices: ['#newguests'],
+    choices: ['#newguests', '#freechoice'],
   },
 ];

@@ -9,7 +9,7 @@ const ROOMS = {
   bedroom3: 'bedroom3',
 }
 
-const ROOM_NAMES = {
+const ROOM_STATEMENTS = {
   porch: 'on the front porch',
   kitchen: 'in the kitchen',
   dining: 'in the dining room',
@@ -20,7 +20,19 @@ const ROOM_NAMES = {
   bedroom3: "in Chris's room",
 }
 
+const ROOM_NAMES = {
+  porch: 'the front porch',
+  kitchen: 'the kitchen',
+  dining: 'the dining room',
+  living: 'the living room',
+  bathroom: 'the bathroom',
+  bedroom1: "your room",
+  bedroom2: "Liz's room",
+  bedroom3: "Chris's room",
+}
+
 export {
   ROOMS,
+  ROOM_STATEMENTS,
   ROOM_NAMES,
 }

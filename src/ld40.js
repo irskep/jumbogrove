@@ -2,7 +2,7 @@ import _ from 'lodash';
 import hour0 from "./ld40/hour0";
 import hour1 from "./ld40/hour1";
 import arrivals from "./ld40/arrivals";
-import { ROOMS, ROOM_NAMES } from "./ld40/constants";
+import { ROOMS, ROOM_STATEMENTS, ROOM_NAMES } from "./ld40/constants";
 
 
 function standardQualities(room = null) {
@@ -10,7 +10,7 @@ function standardQualities(room = null) {
     core: {
       room: {
         type: 'namedChoice',
-        labelMap: ROOM_NAMES,
+        labelMap: ROOM_STATEMENTS,
         name: 'Location',
         priority: 0,
         initialValue: room,
@@ -108,7 +108,7 @@ export default {
       // Move a character into a room.
       moveCharacter: (id, room) => {
         model.character(id).setQuality('room', room);
-        return `> ${templateFns.chr(model.character(id).name)} is ${ROOM_NAMES[room]}.`
+        return `> ${templateFns.chr(model.character(id).name)} is ${ROOM_STATEMENTS[room]}.`
       },
 
       // Returns the list of guests who have just arrived. Assigns their room to 'porch'.
@@ -142,6 +142,12 @@ export default {
       // write<%=<CHARACTER ID>%> to print that character's name.
       ui.addTemplateGetters({[c.id]: () => ui.templateHelperFunctions.chr(c.name)});
     }
+
+    // Object.assign(model, {
+    //   guestsOnPorch: () => {
+    //     return model.allCharacters.filter((c) => c.getQuality('room') === ROOMS.porch);
+    //   },
+    // });
   },
   willEnter: (model, ui, oldSituationId, newSituationId) => {
     if (oldSituationId) {
@@ -158,43 +164,6 @@ export default {
     ...hour1,
 
     {
-      id: 'hour1',
-      content: `
-      # Please, Come In{.title}
-      ## A game for Ludum Dare 40 that I probably won't finish{.center}
-      ### by irskep and rbatistadelima{.center}
-
-      The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you
-      are hosting a party. Your guests keep inviting more people, and you are unable to say no.
-
-      Your goal is to make it to morning without property damage or lost friends.
-      `,
-      snippets: {
-        unfinished: `I have 54 hours left, surely I will finish this, hehehe...`,
-      },
-      choices: ['hour1b'],
-    },
-
-    {
-      id: 'hour1b',
-      autosave: true,
-      optionText: 'Continue',
-      content: `
-      # 7:00pm
-
-      <% var guests = arrivingGuests();
-      if (guests.length > 1) { %>
-        <%= chrs('and', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality('room')%>.
-      <% } else { %>
-        <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality('room')%>.
-      <% } %>
-      `,
-      snippets: {
-      },
-      choices: ['#newguests'],
-    },
-
-    {
       id: 'advance-time',
       optionText: 'Hang out for an hour',
       willEnter: (model, ui) => {
@@ -204,5 +173,18 @@ export default {
         }
       },
     },
+    
+    ...Object.keys(ROOM_NAMES).map((n) => {
+      return {
+        id: `go-to-${n}`,
+        tags: ['freechoice'],
+        priority: 0,
+        optionText: `Go to ${ROOM_NAMES[n]}`,
+        content: `
+        You go to ${ROOM_NAMES[n]}.
+        `,
+        choices: [`#room-${n}`, '#freechoice'],
+      };
+    }),
   ],
 };

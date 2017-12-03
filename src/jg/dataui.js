@@ -95,7 +95,12 @@ export default class DataUI {
   }
 
   renderTemplate(src, args = null) {
-    return _.template(src)({...args, ...this.templateContext()});
+    try {
+      return _.template(src)({...args, ...this.templateContext()});
+    } catch (e) {
+      console.error(src)
+      throw e;
+    }
   }
 
   renderMarkdownTemplate(src, args = null, inline = false) {

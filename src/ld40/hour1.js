@@ -29,17 +29,17 @@ export default [
 
     You've all finished dinner.
 
-    <% var guests = arrivingGuests();
-    if (guests.length > 1) { %>
+    <% var guests = arrivingGuests(); %>
+    <% if (guests.length > 1) { %>
       <%= chrs('and', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality('room')%>.
     <% } else if (guests.length === 1) { %>
       <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality('room')%>.
     <% } else { %>
       No one else has shown up. Thank goodness!
-    <% } >
+    <% } %>
     `,
     snippets: {
     },
-    choices: ['#newguests'],
+    choices: ['#newguests', '#freechoice'],
   },
 ];
