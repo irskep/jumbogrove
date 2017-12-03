@@ -682,6 +682,7 @@ var situation_Situation = function () {
         value: function doEnter(model, ui) {
             var _this = this;
 
+            this.totalVisits += 1;
             if (this.content) {
                 ui.logMarkdown(this.content);
             }
@@ -704,7 +705,6 @@ var situation_Situation = function () {
     }, {
         key: 'doExit',
         value: function doExit(model, ui, toSituation) {
-            this.totalVisits += 1;
             ui.nextGroup();
             this.exit.apply(this, arguments);
         }
@@ -905,7 +905,7 @@ var model_WorldModel = function () {
             var situations = [].concat.apply([], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));
             // remove invisible situations
             var visibleSituations = situations.filter(function (s) {
-                return s.getCanSee(_this2, host);
+                return s.getCanSee(_this2, host, s);
             });
 
             // sort by display order
@@ -2149,7 +2149,7 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
   autosave: true,
   priority: 1,
   optionText: 'Continue',
-  content: '\n    # 7:00pm\n\n    You\'ve all finished dinner.\n\n    <% var guests = arrivingGuests(); %>\n    <% if (guests.length > 1) { %>\n      <%= chrs(\'and\', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else if (guests.length === 1) { %>\n      <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else { %>\n      No one else has shown up. Thank goodness!\n    <% } %>\n    ',
+  content: '\n    # 7:00pm\n\n    You\'ve all finished dinner.\n\n    <% getDrunker().forEach((line) => { %>\n    <%=line%>\n    <% }); %>\n\n    <% var guests = arrivingGuests(); %>\n    <% if (guests.length > 1) { %>\n      <%= chrs(\'and\', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else if (guests.length === 1) { %>\n      <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else { %>\n      No one else has shown up. Thank goodness!\n    <% } %>\n    ',
   snippets: {},
   choices: ['#newguests', '#freechoice']
 }]);
@@ -2190,11 +2190,11 @@ var ROOM_NAMES = {
 };
 
 
-// CONCATENATED MODULE: ./src/ld40/arrivals.js
+// CONCATENATED MODULE: ./src/ld40/amy.js
 // import _ from 'lodash';
 
 
-/* harmony default export */ var arrivals = ([{
+/* harmony default export */ var amy = ([{
   id: 'arrive-amy',
   tags: ['newguests'],
   priority: function priority(model) {
@@ -2206,6 +2206,42 @@ var ROOM_NAMES = {
   optionText: 'Invite Amy inside',
   content: '\n    <%=img(\'amy\')%>\n    "HIIIIII, IT\'S SO GOOD TO SEE YOUUUUUU!" <%=amy%> screams as she dives intensely into your arms for an overly-friendly hug.\n    "How have you BEEEEEN? You MUST let me see <%=maria%>!!!!!!!"\n\n    Without waiting for your answer, <%=amy%> rotates past you and scurries into the dining room.\n\n    <% print(moveCharacter(\'amy\', ROOMS.dining)) %>\n    ',
   choices: ['#newguests', '#freechoice']
+}, {
+  id: 'amy-greet',
+  tags: ['room-dining'],
+  optionText: "Everyone is talking to Amy",
+  priority: 5,
+  getCanSee: function getCanSee(model, host, _ref) {
+    var totalVisits = _ref.totalVisits;
+
+    if (!model.charactersAreIn(ROOMS.dining, ['maria', 'amy', 'federico', 'kevin'])) return false;
+    if (totalVisits > 0) return false;
+    return true;
+  },
+  content: '\n    <%=amy%>, <%=maria%>, and <%=federico%> are excitedly catching up. Kevin\'s attention\n    is wavering, though; perhaps you\'re not the only one feeling bulldozed by Amy?\n\n    As you approach, Kevin gets up and intercepts you on your way to the table.\n\n    <%=img(\'kevin\')%>\n    "I forgot how much of a conversational tornado she can be," says Kevin.\n    ',
+  choices: ['#kevin-invites']
+}, {
+  id: 'kevin-invites-people-1a',
+  tags: ['kevin-invites'],
+  optionText: "Yeah. We should try to get rid of her.",
+  content: '\n    "Whoa, I didn\'t mean that! That would be so rude," says Kevin.\n\n    <%=stat(\'kevin\', \'friendliness\', -1)%>\n    \n    "Actually, I was thinking of calling for backup. I\'m going to text Blaine.\n    Don\'t worry, I\'ll have him stop at the liquor store on his way!"\n    ',
+  choices: ['kevin-invites-people-2a']
+}, {
+  id: 'kevin-invites-people-2a',
+  optionText: "Uh...",
+  content: '\n    "He\'ll be here in an hour!"\n\n    <% print(scheduleArrival(\'blaine\', globalState.hour + 1)) %>\n    ',
+  choices: ['#freechoice', '#room-dining']
+}, {
+  id: 'kevin-invites-people-1b',
+  tags: ['kevin-invites'],
+  optionText: "She means well.",
+  content: '\n    "Yeah, you\'re right. Maybe we could redirect her a bit, though? There\'s\n    a woman I work with, <%=rachel%>, who is just as outgoing. I think I\'ll\n    text her and see if she wants to join us."\n    ',
+  choices: ['kevin-invites-people-2b']
+}, {
+  id: 'kevin-invites-people-2b',
+  optionText: "Y-yeah, such a good idea",
+  content: '\n    <% print(scheduleArrival(\'rachel\', globalState.hour + 1)) %>\n    ',
+  choices: ['#freechoice', '#room-dining']
 }]);
 // CONCATENATED MODULE: ./src/ld40/liz.js
 // import _ from 'lodash';
@@ -2231,13 +2267,13 @@ var ROOM_NAMES = {
   tags: ['arrive-liz-2'],
   optionText: 'Yeah, I know. Things have kind of snowballed. But please help yourself to the wine!',
   choices: ['#newguests', '#freechoice'],
-  content: '\n    "Wine, you say? I guess I\'m in." Liz is a fan of wine.\n\n    <%= stat(\'liz\', \'fun\', 1) %>\n\n    <%= stat(\'liz\', \'stress\', -1) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.dining)) %>\n    '
+  content: '\n    "Wine, you say? I guess I\'m in." Liz is a fan of wine.\n\n    <%= stat(\'liz\', \'drunkenness\', 1) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.dining)) %>\n    '
 }, {
   id: 'arrive-liz-2b',
   tags: ['arrive-liz-2'],
   optionText: 'Come on, it\'s not that bad.',
   choices: ['#newguests', '#freechoice'],
-  content: '\n    "Whatever." She stalks past you, beelining for her room.\n\n    <%= stat(\'liz\', \'friendliness\', -3) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.bedroomLiz)) %>\n    '
+  content: '\n    "Whatever." She stalks past you, beelining for her room.\n\n    <%= stat(\'liz\', \'friendliness\', -1) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.bedroomLiz)) %>\n    '
 }]);
 // CONCATENATED MODULE: ./src/ld40/jen.js
 // import _ from 'lodash';
@@ -2260,15 +2296,72 @@ var ROOM_NAMES = {
   tags: ['room-dining'],
   optionText: "Jen and Maria are catching up",
   priority: 5,
-  getCanSee: function getCanSee(model, _ref) {
+  getCanSee: function getCanSee(model, host, _ref) {
     var totalVisits = _ref.totalVisits;
 
     if (model.character('jen').getQuality('room') !== ROOMS.dining) return false;
-    if (totalVisits > 1) return false;
+    if (totalVisits > 0) return false;
     return true;
   },
-  content: '\n    Back in the dining room, <%=maria%> is asking <%=jen%> about what she\'s been up to.\n    They seem to be getting on well.\n\n    <%=stat(\'jen\', \'fun\', 1)%>\n\n    <%=stat(\'maria\', \'fun\', 1)%>\n    ',
+  content: '\n    Back in the dining room, <%=maria%> is asking <%=jen%> about what she\'s been up to.\n    They seem to be getting on well.\n\n    You all talk for a while. Everything is going great.\n    ',
   choices: ['#freechoice', '#room-dining']
+}]);
+// CONCATENATED MODULE: ./src/ld40/blaine.js
+// import _ from 'lodash';
+
+
+/* harmony default export */ var blaine = ([{
+  id: 'arrive-blaine',
+  tags: ['newguests'],
+  priority: function priority(model) {
+    return model.character('blaine').getQuality('room') === ROOMS.porch ? 10 : 0;
+  },
+  getCanSee: function getCanSee(model) {
+    return model.character('blaine').getQuality('room') === ROOMS.porch;
+  },
+  optionText: 'Invite Blaine inside',
+  content: '\n    <%=img(\'blaine\')%>\n\n    Blaine is waiting at the door. He\'s dressed nicely, but his hair is super greasy and he\n    gives off a vibe you don\'t like.\n\n    "Hey <%=pl%>, Kevin told me there\'d be some hot bitches here all night, I\n    hope my man wasn\'t bullshitting, because I brought a shitload of beer!"\n    ',
+  choices: ['#arrive-blaine-2']
+}, {
+  id: 'arrive-blaine-2a',
+  tags: ['arrive-blaine-2'],
+  optionText: "Ha ha...",
+  content: '\n    Kevin walks past you to the dining room without another word. By the smell\n    if his breath, you can tell he\'s got a head start on the beer.\n\n    <% print(moveCharacter(\'blaine\', ROOMS.dining)) %>\n    ',
+  choices: ['#newguests', '#freechoice']
+}, {
+  id: 'arrive-blaine-2b',
+  tags: ['arrive-blaine-2'],
+  optionText: "Yes, the ladies are fine",
+  content: '\n    "Right on!" Kevin walks past you to the dining room. By the smell\n    if his breath, you can tell he\'s got a head start on the beer.\n\n    <%=stat(\'blaine\', \'friendliness\', 2)%>\n    <% print(moveCharacter(\'blaine\', ROOMS.dining)) %>\n    ',
+  choices: ['#newguests', '#freechoice']
+}, {
+  id: 'arrive-blaine-2c',
+  tags: ['arrive-blaine-2'],
+  optionText: "Screw off, f******",
+  content: '\n    "F*** you." Kevin shoves past you to the dining room. By the smell\n    if his breath, you can tell he\'s got a head start on the beer.\n\n    <%=stat(\'blaine\', \'friendliness\', -1)%>\n    <% print(moveCharacter(\'blaine\', ROOMS.dining)) %>\n    ',
+  choices: ['#newguests', '#freechoice']
+}]);
+// CONCATENATED MODULE: ./src/ld40/rachel.js
+// import _ from 'lodash';
+
+
+/* harmony default export */ var rachel = ([{
+  id: 'arrive-rachel',
+  tags: ['newguests'],
+  priority: function priority(model) {
+    return model.character('rachel').getQuality('room') === ROOMS.porch ? 10 : 0;
+  },
+  getCanSee: function getCanSee(model) {
+    return model.character('rachel').getQuality('room') === ROOMS.porch;
+  },
+  optionText: 'Invite Rachel inside',
+  content: '\n    <%=img(\'rachel\')%>\n\n    "HELLO!" yells Rachel, a person you have never met before, as she tumbles down the gravity well\n    of your personal space into an intense but awkward and unexpected hug. "Kevin told me about\n    this party, I can\'t wait to meet everyone!"\n\n    So it\'s a party now.\n    ',
+  choices: ['arrive-rachel-2']
+}, {
+  id: 'arrive-rachel-2',
+  optionText: 'Come on in',
+  content: '\n    <% print(moveCharacter(\'rachel\', ROOMS.dining)) %>\n    ',
+  choices: ['#newguests', '#freechoice']
 }]);
 // CONCATENATED MODULE: ./src/ld40/index.js
 
@@ -2284,11 +2377,13 @@ var ROOM_NAMES = {
 
 
 
-var importedSituations = [].concat(toConsumableArray_default()(arrivals), toConsumableArray_default()(hour0), toConsumableArray_default()(hour1), toConsumableArray_default()(liz), toConsumableArray_default()(jen));
+
+
+var importedSituations = [].concat(toConsumableArray_default()(amy), toConsumableArray_default()(hour0), toConsumableArray_default()(hour1), toConsumableArray_default()(liz), toConsumableArray_default()(jen), toConsumableArray_default()(blaine), toConsumableArray_default()(rachel));
 
 function standardQualities() {
   var room = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { friendliness: 5, fun: 3, stress: 3 };
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { friendliness: 5, drunkenness: 0, energy: 5 };
 
   return {
     core: {
@@ -2300,22 +2395,25 @@ function standardQualities() {
         initialValue: room
       },
       friendliness: {
-        type: 'integer',
+        type: 'wordScale',
+        words: ['enemy', 'stranger', 'acquaintance', 'friend', 'bestie'],
+        offset: -1,
         name: "Friendliness",
         priority: 1,
         initialValue: opts.friendliness || 5
       },
-      fun: {
-        type: 'integer',
-        name: "Fun",
+      drunkenness: {
+        type: 'wordScale',
+        words: ['sober', 'buzzed', 'tipsy', 'drunk', 'wasted'],
+        name: "Drunkenness",
         priority: 2,
-        initialValue: opts.fun || 3
+        initialValue: opts.fun || 0
       },
-      stress: {
+      energy: {
         type: 'integer',
-        name: "Stress",
+        name: "Energy level",
         priority: 3,
-        initialValue: opts.stress || 3
+        initialValue: opts.stress || 5
       }
     }
   };
@@ -2332,7 +2430,7 @@ function standardQualities() {
     numRoomsVisitedThisHour: 0
   },
 
-  characters: [{ id: 'player', showInSidebar: false, qualities: standardQualities(ROOMS.dining) }, { id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false }, { id: 'liz', name: 'Liz', qualities: standardQualities(null, { fun: 0, stress: 4 }), showInSidebar: false }, { id: 'chris', name: 'Chris', qualities: standardQualities(null, { fun: 3, stress: 0 }), showInSidebar: false }],
+  characters: [{ id: 'player', showInSidebar: false, qualities: standardQualities(ROOMS.dining) }, { id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'amy', name: 'Amy', qualities: standardQualities(null, { friendliness: 4 }), showInSidebar: false }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false }, { id: 'liz', name: 'Liz', qualities: standardQualities(null, {}), showInSidebar: false }, { id: 'chris', name: 'Chris', qualities: standardQualities(null, { drunkenness: 2 }), showInSidebar: false }, { id: 'rachel', name: 'Rachel', qualities: standardQualities(), showInSidebar: false }, { id: 'blaine', name: 'Blaine', qualities: standardQualities({ drunkenness: 2, friendliness: 2 }), showInSidebar: false }],
 
   init: function init(model, ui, md) {
 
@@ -2365,9 +2463,15 @@ function standardQualities() {
           names[_key - 1] = arguments[_key];
         }
 
-        names = names.map(function (n) {
-          return "*" + n + "*{.character}";
-        });
+        if (lodash_default.a.isArray(names[0])) {
+          names = names[0].map(function (n) {
+            return "*" + n + "*{.character}";
+          });
+        } else {
+          names = names.map(function (n) {
+            return "*" + n + "*{.character}";
+          });
+        }
         if (names.length < 1) return '';
         if (names.length === 1) return names[0];
         if (names.length === 2) return names[0] + " " + conj + " " + names[1];
@@ -2443,6 +2547,44 @@ function standardQualities() {
         return model.allCharacters.filter(function (c) {
           return c.getQuality('room') === room;
         });
+      },
+
+      charactersAreIn: function charactersAreIn(room, chars) {
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = get_iterator_default()(chars), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var c = _step2.value;
+
+            if (model.character(c).getQuality('room') !== room) return false;
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+
+        return true;
+      },
+
+      // Everyone in the dining room gets drunker. Returns list of strings to dump.
+      getDrunker: function getDrunker() {
+        return model.allCharacters.filter(function (c) {
+          return c.getQuality('room') === ROOMS.dining;
+        }).map(function (c) {
+          return templateFns.stat(c.id, 'drunkenness', 1);
+        });
       }
     };
     ui.addTemplateFunctions(templateFns);
@@ -2488,34 +2630,35 @@ function standardQualities() {
       }));
     };
 
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
 
     try {
-      for (var _iterator2 = get_iterator_default()(model.allCharacters), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var c = _step2.value;
+      for (var _iterator3 = get_iterator_default()(model.allCharacters), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var c = _step3.value;
 
         _loop(c);
       }
     } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-          _iterator2.return();
+        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+          _iterator3.return();
         }
       } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
+        if (_didIteratorError3) {
+          throw _iteratorError3;
         }
       }
     }
 
     assign_default()(model, {
       populatePorch: templateFns.arrivingGuests,
-      charactersIn: templateFns.charactersIn
+      charactersIn: templateFns.charactersIn,
+      charactersAreIn: templateFns.charactersAreIn
     });
   },
 
@@ -2651,4 +2794,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.c97b51e77743aa2cf638.js.map
+//# sourceMappingURL=app.03f89cee19bf8828493d.js.map
