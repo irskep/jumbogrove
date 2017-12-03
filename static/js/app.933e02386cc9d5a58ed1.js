@@ -315,14 +315,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director', 'ui'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-1e3e92aa","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-d4926200","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director,"ui":_vm.ui}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("zR2m")
+  __webpack_require__("U+8a")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -2290,7 +2290,7 @@ function standardQualities() {
   },
   situations: [].concat(toConsumableArray_default()(hour0), [{
     id: 'hour1',
-    content: '\n      # Please, Come In{.title}\n      ## A game for Ludum Dare 40 that I probably won\'t finish\n      ### by irskep and rbatistadelima\n\n      The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you\n      are hosting a party. Your guests keep inviting more people, and you are unable to say no.\n\n      Your goal is to make it to morning without property damage or lost friends.\n      ',
+    content: '\n      # Please, Come In{.title}\n      ## A game for Ludum Dare 40 that I probably won\'t finish{.center}\n      ### by irskep and rbatistadelima{.center}\n\n      The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you\n      are hosting a party. Your guests keep inviting more people, and you are unable to say no.\n\n      Your goal is to make it to morning without property damage or lost friends.\n      ',
     snippets: {
       unfinished: 'I have 54 hours left, surely I will finish this, hehehe...'
     },
@@ -2358,14 +2358,14 @@ if (window.jumboGroveExample) {
 
 /***/ }),
 
-/***/ "WsSS":
+/***/ "U+8a":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ "zR2m":
+/***/ "WsSS":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -2373,4 +2373,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.5649ebf386603bfdc4ae.js.map
+//# sourceMappingURL=app.933e02386cc9d5a58ed1.js.map
