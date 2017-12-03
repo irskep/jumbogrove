@@ -767,6 +767,7 @@ var situation_Situation = function () {
 
 
 
+
 var model_WorldModel = function () {
     function WorldModel(_ref) {
         var _this = this;
@@ -801,9 +802,22 @@ var model_WorldModel = function () {
             var priority = _ref2.priority;
             return priority || 0;
         });
+        this.templateHelperFunctions = {};
+        this.templateHelperGetters = {};
     }
 
     createClass_default()(WorldModel, [{
+        key: 'extend',
+        value: function extend(fns) {
+            assign_default()(this, fns);
+            assign_default()(this.templateHelperFunctions, fns);
+        }
+    }, {
+        key: 'addTemplateGetters',
+        value: function addTemplateGetters(fns) {
+            assign_default()(this.templateHelperGetters, fns);
+        }
+    }, {
         key: 'toSave',
         value: function toSave() {
             return {
@@ -1571,10 +1585,35 @@ var dataui_DataUI = function () {
         }
       }
 
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = get_iterator_default()(keys_default()(this.director.model.templateHelperGetters)), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var _k = _step2.value;
+
+          getters[_k] = this.director.model.templateHelperGetters[_k]();
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
       return extends_default()({}, this.director.model, {
         model: this.director.model,
         ui: this
-      }, getters, this.templateHelperFunctions);
+      }, getters, this.templateHelperFunctions, this.director.model.templateHelperFunctions);
     }
   }, {
     key: 'renderMarkdown',
@@ -2090,10 +2129,6 @@ var vueui_VueUI = function (_DataUI) {
 }(dataui);
 
 /* harmony default export */ var vueui = (vueui_VueUI);
-// EXTERNAL MODULE: ./node_modules/babel-runtime/helpers/defineProperty.js
-var defineProperty = __webpack_require__("bOdI");
-var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
-
 // CONCATENATED MODULE: ./src/ld40/hour0.js
 // import _ from 'lodash';
 
@@ -2401,7 +2436,7 @@ var ROOM_NAMES = {
 }]);
 // CONCATENATED MODULE: ./src/ld40/kevin.js
 // import _ from 'lodash';
-
+// import { ROOMS } from "./constants";
 
 /* harmony default export */ var kevin = ([{
   id: 'kevin-returns-from-the-bathroom',
@@ -2515,11 +2550,260 @@ var ROOM_NAMES = {
   content: '\n    <% print(moveCharacter(\'rachel\', ROOMS.dining)) %>\n    ',
   choices: ['#newguests', '#freechoice']
 }]);
+// EXTERNAL MODULE: ./node_modules/babel-runtime/helpers/defineProperty.js
+var defineProperty = __webpack_require__("bOdI");
+var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
+
+// CONCATENATED MODULE: ./src/ld40/util.js
+
+
+
+
+
+function addHelpersToModel(model) {
+  // Define some helpers for rendering text and doing stuff, so we have to write as little JS as possible
+  // in the content field
+
+  model.extend({
+    ROOMS: ROOMS,
+
+    // Print some text in the style of a character name
+    chr: function chr(name) {
+      return '*' + name + '*{.character}';
+    },
+
+    img: function img(id) {
+      return '![' + id + ' image](./static/headshots/' + id + '.png){.headshot}';
+    },
+
+    // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
+    formatTime: function formatTime(hour) {
+      hour = (18 + hour) % 24;
+      var amPm = hour > 12 ? 'pm' : 'am';
+      if (amPm === 'pm') hour -= 12;
+      return (hour || 12) + ':00' + amPm;
+    },
+
+    // Print a list of things, styled as character names.
+    chrs: function chrs(conj) {
+      for (var _len = arguments.length, names = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        names[_key - 1] = arguments[_key];
+      }
+
+      if (lodash_default.a.isArray(names[0])) {
+        names = names[0].map(function (n) {
+          return '*' + n + '*{.character}';
+        });
+      } else {
+        names = names.map(function (n) {
+          return '*' + n + '*{.character}';
+        });
+      }
+      if (names.length < 1) return '';
+      if (names.length === 1) return names[0];
+      if (names.length === 2) return names[0] + ' ' + conj + ' ' + names[1];
+      return lodash_default.a.initial(names).join(', ') + ', ' + conj + ' ' + lodash_default.a.last(names);
+    },
+
+    // Adjust a character quality by the given amount.
+    stat: function stat(chr, q, amt) {
+      chr = model.character(chr);
+      chr.addToQuality(q, amt);
+      var amtStr = amt > 0 ? '+' + amt : amt;
+      return '`' + chr.name + ' ' + chr.formatQualityName(q) + ' ' + amtStr + '`{.stat}';
+    },
+
+    // Schedule a character for later arrival.
+    scheduleArrival: function scheduleArrival(id, hour) {
+      model.globalState.scheduledArrivals.push({ id: id, hour: hour });
+      return '> ' + model.chr(model.character(id).name) + ' is scheduled to arrive at ' + model.formatTime(hour) + '.';
+    },
+
+    // Schedule a character for later arrival.
+    scheduleTimer: function scheduleTimer(hoursDelta, string) {
+      model.globalState.scheduledGotos.push({ hour: model.globalState.hour + hoursDelta, string: string });
+    },
+
+    // Move a character into a room.
+    moveCharacter: function moveCharacter(id, room) {
+      model.character(id).setQuality('room', room);
+      if (id === 'player') return '';
+      return '> ' + model.chr(model.character(id).name) + ' is ' + ROOM_STATEMENTS[room] + '.';
+    },
+
+    // Returns the list of guests who have just arrived. Assigns their room to 'porch'.
+    arrivingGuests: function arrivingGuests() {
+      var chars = model.globalState.scheduledArrivals.filter(function (_ref) {
+        var hour = _ref.hour;
+        return model.globalState.hour >= hour;
+      }).map(function (_ref2) {
+        var id = _ref2.id;
+        return model.character(id);
+      });
+
+      model.globalState.scheduledArrivals = model.globalState.scheduledArrivals.filter(function (_ref3) {
+        var hour = _ref3.hour;
+        return hour > model.globalState.hour;
+      });
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = get_iterator_default()(chars), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var c = _step.value;
+
+          c.setQuality('room', ROOMS.porch);
+          c.showInSidebar = true;
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      return chars;
+    },
+
+    charactersIn: function charactersIn(room) {
+      return model.allCharacters.filter(function (c) {
+        return c.getQuality('room') === room;
+      });
+    },
+
+    charactersAreIn: function charactersAreIn(room, chars) {
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = get_iterator_default()(chars), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var c = _step2.value;
+
+          if (model.character(c).getQuality('room') !== room) return false;
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      return true;
+    },
+
+    // Everyone in the dining room gets drunker. Returns list of strings to dump.
+    getDrunker: function getDrunker() {
+      return model.allCharacters.filter(function (c) {
+        return c.getQuality('room') === ROOMS.dining;
+      }).map(function (c) {
+        return model.stat(c.id, 'drunkenness', 1);
+      });
+    }
+  });
+
+  // aliases
+  model.extend({
+    populatePorch: model.arrivingGuests
+  });
+
+  model.addTemplateGetters({
+    // write <%=time%> to print the current time.
+    time: function time() {
+      return model.formatTime(model.globalState.hour);
+    },
+
+    // write <%=pl%> to print the player's name.
+    pl: function pl() {
+      return '*' + model.character('player').name + '*{.character}';
+    },
+
+    numGuests: function numGuests() {
+      return model.allCharacters.filter(function (c) {
+        return c.getQuality('room');
+      }).length;
+    },
+
+    // "Lost friend" starts at least 4, ends at most 2
+    numLostFriends: function numLostFriends() {
+      return model.allCharacters.filter(function (c) {
+        if (c.id === 'player') return false;
+        return c.getQuality('friendliness') < 3 && c.getQualityInitial('friendliness') >= 4;
+      }).length;
+    },
+
+    // "Gained friend" just has to get to 4
+    numNewFriends: function numNewFriends() {
+      return model.allCharacters.filter(function (c) {
+        if (c.id === 'player') return false;
+        return c.getQuality('friendliness') >= 4 && c.getQualityInitial('friendliness') < 4;
+      }).length;
+    },
+
+    jenOrAmyName: function jenOrAmyName() {
+      return model.character('jen').getQuality('room') === ROOMS.dining ? model.chr('Jen') : model.chr('Amy');
+    },
+
+    jenOrAmyId: function jenOrAmyId() {
+      return model.character('jen').getQuality('room') === ROOMS.dining ? 'jen' : 'amy';
+    }
+  });
+
+  var _loop = function _loop(c) {
+    // write<%=<CHARACTER ID>%> to print that character's name.
+    model.addTemplateGetters(defineProperty_default()({}, c.id, function () {
+      return model.chr(c.name);
+    }));
+  };
+
+  var _iteratorNormalCompletion3 = true;
+  var _didIteratorError3 = false;
+  var _iteratorError3 = undefined;
+
+  try {
+    for (var _iterator3 = get_iterator_default()(model.allCharacters), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+      var c = _step3.value;
+
+      _loop(c);
+    }
+  } catch (err) {
+    _didIteratorError3 = true;
+    _iteratorError3 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion3 && _iterator3.return) {
+        _iterator3.return();
+      }
+    } finally {
+      if (_didIteratorError3) {
+        throw _iteratorError3;
+      }
+    }
+  }
+};
+
+
 // CONCATENATED MODULE: ./src/ld40/index.js
 
-
-
-
+// import _ from 'lodash';
 
 
 
@@ -2587,246 +2871,7 @@ function standardQualities() {
   characters: [{ id: 'player', showInSidebar: false, qualities: standardQualities(ROOMS.dining) }, { id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'amy', name: 'Amy', qualities: standardQualities(null, { friendliness: 4 }), showInSidebar: false }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false }, { id: 'liz', name: 'Liz', qualities: standardQualities(null, {}), showInSidebar: false }, { id: 'chris', name: 'Chris', qualities: standardQualities(null, { drunkenness: 2 }), showInSidebar: false }, { id: 'rachel', name: 'Rachel', qualities: standardQualities(), showInSidebar: false }, { id: 'blaine', name: 'Blaine', qualities: standardQualities(null, { drunkenness: 2, friendliness: 2 }), showInSidebar: false }],
 
   init: function init(model, ui, md) {
-
-    // Define some helpers for rendering text and doing stuff, so we have to write as little JS as possible
-    // in the content field
-    var templateFns = {
-      // make ROOMS constant accessible
-      ROOMS: ROOMS,
-
-      // Print some text in the style of a character name
-      chr: function chr(name) {
-        return "*" + name + "*{.character}";
-      },
-
-      img: function img(id) {
-        return "![" + id + " image](./static/headshots/" + id + ".png){.headshot}";
-      },
-
-      // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
-      formatTime: function formatTime(hour) {
-        hour = (18 + hour) % 24;
-        var amPm = hour > 12 ? 'pm' : 'am';
-        if (amPm === 'pm') hour -= 12;
-        return (hour || 12) + ":00" + amPm;
-      },
-
-      // Print a list of things, styled as character names.
-      chrs: function chrs(conj) {
-        for (var _len = arguments.length, names = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-          names[_key - 1] = arguments[_key];
-        }
-
-        if (lodash_default.a.isArray(names[0])) {
-          names = names[0].map(function (n) {
-            return "*" + n + "*{.character}";
-          });
-        } else {
-          names = names.map(function (n) {
-            return "*" + n + "*{.character}";
-          });
-        }
-        if (names.length < 1) return '';
-        if (names.length === 1) return names[0];
-        if (names.length === 2) return names[0] + " " + conj + " " + names[1];
-        return lodash_default.a.initial(names).join(', ') + ", " + conj + " " + lodash_default.a.last(names);
-      },
-
-      // Adjust a character quality by the given amount.
-      stat: function stat(chr, q, amt) {
-        chr = model.character(chr);
-        chr.addToQuality(q, amt);
-        var amtStr = amt > 0 ? "+" + amt : amt;
-        return "`" + chr.name + " " + chr.formatQualityName(q) + " " + amtStr + "`{.stat}";
-      },
-
-      // Schedule a character for later arrival.
-      scheduleArrival: function scheduleArrival(id, hour) {
-        model.globalState.scheduledArrivals.push({ id: id, hour: hour });
-        return "> " + templateFns.chr(model.character(id).name) + " is scheduled to arrive at " + templateFns.formatTime(hour) + ".";
-      },
-
-      // Schedule a character for later arrival.
-      scheduleTimer: function scheduleTimer(hoursDelta, string) {
-        model.globalState.scheduledGotos.push({ hour: model.globalState.hour + hoursDelta, string: string });
-      },
-
-      // Move a character into a room.
-      moveCharacter: function moveCharacter(id, room) {
-        model.character(id).setQuality('room', room);
-        if (id === 'player') return '';
-        return "> " + templateFns.chr(model.character(id).name) + " is " + ROOM_STATEMENTS[room] + ".";
-      },
-
-      // Returns the list of guests who have just arrived. Assigns their room to 'porch'.
-      arrivingGuests: function arrivingGuests() {
-        var chars = model.globalState.scheduledArrivals.filter(function (_ref) {
-          var hour = _ref.hour;
-          return model.globalState.hour >= hour;
-        }).map(function (_ref2) {
-          var id = _ref2.id;
-          return model.character(id);
-        });
-
-        model.globalState.scheduledArrivals = model.globalState.scheduledArrivals.filter(function (_ref3) {
-          var hour = _ref3.hour;
-          return hour > model.globalState.hour;
-        });
-
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = get_iterator_default()(chars), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var c = _step.value;
-
-            c.setQuality('room', ROOMS.porch);
-            c.showInSidebar = true;
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
-
-        return chars;
-      },
-
-      charactersIn: function charactersIn(room) {
-        return model.allCharacters.filter(function (c) {
-          return c.getQuality('room') === room;
-        });
-      },
-
-      charactersAreIn: function charactersAreIn(room, chars) {
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
-
-        try {
-          for (var _iterator2 = get_iterator_default()(chars), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var c = _step2.value;
-
-            if (model.character(c).getQuality('room') !== room) return false;
-          }
-        } catch (err) {
-          _didIteratorError2 = true;
-          _iteratorError2 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion2 && _iterator2.return) {
-              _iterator2.return();
-            }
-          } finally {
-            if (_didIteratorError2) {
-              throw _iteratorError2;
-            }
-          }
-        }
-
-        return true;
-      },
-
-      // Everyone in the dining room gets drunker. Returns list of strings to dump.
-      getDrunker: function getDrunker() {
-        return model.allCharacters.filter(function (c) {
-          return c.getQuality('room') === ROOMS.dining;
-        }).map(function (c) {
-          return templateFns.stat(c.id, 'drunkenness', 1);
-        });
-      }
-    };
-    ui.addTemplateFunctions(templateFns);
-
-    ui.addTemplateGetters({
-      // write <%=time%> to print the current time.
-      time: function time() {
-        return templateFns.formatTime(model.globalState.hour);
-      },
-
-      // write <%=pl%> to print the player's name.
-      pl: function pl() {
-        return "*" + model.character('player').name + "*{.character}";
-      },
-
-      numGuests: function numGuests() {
-        return model.allCharacters.filter(function (c) {
-          return c.getQuality('room');
-        }).length;
-      },
-
-      // "Lost friend" starts at least 4, ends at most 2
-      numLostFriends: function numLostFriends() {
-        return model.allCharacters.filter(function (c) {
-          if (c.id === 'player') return false;
-          return c.getQuality('friendliness') < 3 && c.getQualityInitial('friendliness') >= 4;
-        }).length;
-      },
-
-      // "Gained friend" just has to get to 4
-      numNewFriends: function numNewFriends() {
-        return model.allCharacters.filter(function (c) {
-          if (c.id === 'player') return false;
-          return c.getQuality('friendliness') >= 4 && c.getQualityInitial('friendliness') < 4;
-        }).length;
-      },
-
-      jenOrAmyName: function jenOrAmyName() {
-        return model.character('jen').getQuality('room') === ROOMS.dining ? templateFns.chr('Jen') : templateFns.chr('Amy');
-      },
-
-      jenOrAmyId: function jenOrAmyId() {
-        return model.character('jen').getQuality('room') === ROOMS.dining ? 'jen' : 'amy';
-      }
-    });
-
-    var _loop = function _loop(c) {
-      // write<%=<CHARACTER ID>%> to print that character's name.
-      ui.addTemplateGetters(defineProperty_default()({}, c.id, function () {
-        return ui.templateHelperFunctions.chr(c.name);
-      }));
-    };
-
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
-
-    try {
-      for (var _iterator3 = get_iterator_default()(model.allCharacters), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-        var c = _step3.value;
-
-        _loop(c);
-      }
-    } catch (err) {
-      _didIteratorError3 = true;
-      _iteratorError3 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion3 && _iterator3.return) {
-          _iterator3.return();
-        }
-      } finally {
-        if (_didIteratorError3) {
-          throw _iteratorError3;
-        }
-      }
-    }
-
-    assign_default()(model, {
-      populatePorch: templateFns.arrivingGuests,
-      charactersIn: templateFns.charactersIn,
-      charactersAreIn: templateFns.charactersAreIn
-    });
+    addHelpersToModel(model);
   },
 
   willEnter: function willEnter(model, ui, oldSituationId, newSituationId) {
@@ -2973,4 +3018,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.0b4f20a9ab35bbf31dee.js.map
+//# sourceMappingURL=app.ffe3329652ab21e0bbef.js.map
