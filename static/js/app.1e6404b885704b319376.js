@@ -1,5 +1,12 @@
 webpackJsonp([1],{
 
+/***/ "/EHi":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "356t":
 /***/ (function(module, exports) {
 
@@ -315,14 +322,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director', 'ui'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-d4926200","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2b9c2dd6","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director,"ui":_vm.ui}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("U+8a")
+  __webpack_require__("/EHi")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -848,7 +855,7 @@ var model_WorldModel = function () {
     }, {
         key: 'situation',
         value: function situation(id) {
-            if (!this._situations[id]) throw new Error('Situation not found: ' + id);
+            if (!this._situations[id]) console.error('Situation not found: ' + id);
             return this._situations[id];
         }
     }, {
@@ -977,13 +984,20 @@ var model_WorldModel = function () {
             }
 
             // return the chosen situations and provide more info for each
-            return chosenSituations.map(function (s) {
+            var allChoices = chosenSituations.map(function (s) {
                 return {
                     situationId: s.id,
                     text: s.getOptionText(_this2, host),
                     isEnabled: s.getCanChoose(_this2, host)
                 };
             });
+            return allChoices.filter(function (_ref3) {
+                var isEnabled = _ref3.isEnabled;
+                return isEnabled;
+            }).concat(allChoices.filter(function (_ref4) {
+                var isEnabled = _ref4.isEnabled;
+                return !isEnabled;
+            }));
         }
     }]);
 
@@ -1855,6 +1869,11 @@ var JGHTMLItem_Component = JGHTMLItem_normalizeComponent(
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ var JGChoiceItem = ({
   name: 'JGChoiceItem',
@@ -1880,8 +1899,10 @@ var JGHTMLItem_Component = JGHTMLItem_normalizeComponent(
     this.focus();
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-8dbc74e8","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGChoiceItem.vue
-var JGChoiceItem_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"JGChoiceItem",attrs:{"data-itemid":_vm.item.id}},[_c('ul',_vm._l((_vm.item.choices),function(choice){return _c('li',{key:choice.situationId},[(_vm.isActiveGroup)?_c('a',{class:{ 'm-disabled': !choice.isEnabled },attrs:{"data-situationid":choice.situationId,"data-isenabled":choice.isEnabled,"href":'@' + choice.situationId},on:{"click":function($event){$event.preventDefault();_vm.onClick($event)}}},[_vm._v("\n         "+_vm._s(choice.text)+"\n      ")]):_c('span',{class:{
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-519e8623","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGChoiceItem.vue
+var JGChoiceItem_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"JGChoiceItem",attrs:{"data-itemid":_vm.item.id}},[_c('ul',_vm._l((_vm.item.choices),function(choice){return _c('li',{key:choice.situationId},[(_vm.isActiveGroup && choice.isEnabled)?_c('a',{class:{ 'm-disabled': !choice.isEnabled },attrs:{"data-situationid":choice.situationId,"data-isenabled":choice.isEnabled,"href":'@' + choice.situationId},on:{"click":function($event){$event.preventDefault();_vm.onClick($event)}}},[_vm._v("\n         "+_vm._s(choice.text)+"\n      ")]):(_vm.isActiveGroup)?_c('span',{class:{
+        'm-disabled-link': true,
+      }},[_vm._v("\n        "+_vm._s(choice.text)+"\n      ")]):_c('span',{class:{
         'm-disabled-link': true,
         'm-selected': _vm.item.situationId === choice.situationId,
         'm-unavailable': _vm.item.situationId !== choice.situationId,
@@ -1891,7 +1912,7 @@ var JGChoiceItem_esExports = { render: JGChoiceItem_render, staticRenderFns: JGC
 /* harmony default export */ var components_JGChoiceItem = (JGChoiceItem_esExports);
 // CONCATENATED MODULE: ./src/components/JGChoiceItem.vue
 function JGChoiceItem_injectStyle (ssrContext) {
-  __webpack_require__("Pu1X")
+  __webpack_require__("ToLL")
 }
 var JGChoiceItem_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1903,7 +1924,7 @@ var JGChoiceItem___vue_template_functional__ = false
 /* styles */
 var JGChoiceItem___vue_styles__ = JGChoiceItem_injectStyle
 /* scopeId */
-var JGChoiceItem___vue_scopeId__ = "data-v-8dbc74e8"
+var JGChoiceItem___vue_scopeId__ = "data-v-519e8623"
 /* moduleIdentifier (server only) */
 var JGChoiceItem___vue_module_identifier__ = null
 var JGChoiceItem_Component = JGChoiceItem_normalizeComponent(
@@ -2075,7 +2096,7 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
   /*
   To do: require more unfriendliness before inviting Amy
   */
-  content: '\n    <%-maria%> furrows her brow. "Come on, <%-pl%>, it\'s only been a couple of months. I stopped here on my way to LA.\n\n    <%- stat(\'maria\', \'friendliness\', -1) %>\n    ',
+  content: '\n    <%-maria%> furrows her brow. "Come on, <%-pl%>, it\'s only been a couple of months. I stopped here on my way to LA.\n\n    <%= stat(\'maria\', \'friendliness\', -1) %>\n    ',
   choices: ['#invite-amy']
 }, {
   id: 'maybe-invite-amy', tags: ['invite-amy'],
@@ -2123,8 +2144,9 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 }, {
   id: 'hour1b',
   autosave: true,
+  priority: 1,
   optionText: 'Continue',
-  content: '\n    # 7:00pm\n\n    You\'ve all finished dinner.\n\n    <% var guests = arrivingGuests(); %>\n    <% if (guests.length > 1) { %>\n      <%= chrs(\'and\', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality(\'room\')%>.\n    <% } else if (guests.length === 1) { %>\n      <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality(\'room\')%>.\n    <% } else { %>\n      No one else has shown up. Thank goodness!\n    <% } %>\n    ',
+  content: '\n    # 7:00pm\n\n    You\'ve all finished dinner.\n\n    <% var guests = arrivingGuests(); %>\n    <% if (guests.length > 1) { %>\n      <%= chrs(\'and\', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else if (guests.length === 1) { %>\n      <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else { %>\n      No one else has shown up. Thank goodness!\n    <% } %>\n    ',
   snippets: {},
   choices: ['#newguests', '#freechoice']
 }]);
@@ -2137,7 +2159,9 @@ var ROOMS = {
   bathroom: 'bathroom',
   bedroom1: 'bedroom1',
   bedroom2: 'bedroom2',
-  bedroom3: 'bedroom3'
+  bedroomLiz: 'bedroom2',
+  bedroom3: 'bedroom3',
+  bedroomChris: 'bedroom3'
 };
 
 var ROOM_STATEMENTS = {
@@ -2171,7 +2195,7 @@ var ROOM_NAMES = {
   id: 'arrive-amy',
   tags: ['newguests'],
   priority: function priority(model) {
-    return model.character('amy').getQuality('room') === ROOMS.porch ? 1 : 0;
+    return model.character('amy').getQuality('room') === ROOMS.porch ? 10 : 0;
   },
   getCanSee: function getCanSee(model) {
     return model.character('amy').getQuality('room') === ROOMS.porch;
@@ -2183,7 +2207,7 @@ var ROOM_NAMES = {
   id: 'arrive-jen',
   tags: ['newguests'],
   priority: function priority(model) {
-    return model.character('jen').getQuality('room') === ROOMS.porch ? 1 : 0;
+    return model.character('jen').getQuality('room') === ROOMS.porch ? 10 : 0;
   },
   getCanSee: function getCanSee(model) {
     return model.character('jen').getQuality('room') === ROOMS.porch;
@@ -2192,7 +2216,39 @@ var ROOM_NAMES = {
   content: '\n    <%=jen%> is leaning against your porch railing in a beat-up leather jacket.\n\n    "Hey," she says.\n\n    "Hey," you say. "<%=maria%>\'s in the dining room, want to come in?\n\n    "Sure," she says.\n\n    You both walk inside.\n\n    <% print(moveCharacter(\'jen\', ROOMS.dining)) %>\n    ',
   choices: ['#newguests', '#freechoice']
 }]);
-// CONCATENATED MODULE: ./src/ld40.js
+// CONCATENATED MODULE: ./src/ld40/liz.js
+// import _ from 'lodash';
+
+
+/* harmony default export */ var liz = ([{
+  id: 'arrive-liz',
+  tags: ['newguests'],
+  priority: function priority(model) {
+    return model.character('liz').getQuality('room') === ROOMS.porch ? 10 : 0;
+  },
+  getCanSee: function getCanSee(model) {
+    return model.character('liz').getQuality('room') === ROOMS.porch;
+  },
+  optionText: 'Greet Liz',
+  content: '\n    "Um, what the hell, <%=pl%>?" Liz, your quiet roommate, wastes no time in\n    berating you. "You told me you\'d have a couple of people over for dinner,\n    but now it\'s <%=time%> and there are <%=numGuests - 2%> people here.\n    [It\'s way out of control.](>write:introvert)"\n    ',
+  choices: ['#arrive-liz-2'],
+  snippets: {
+    introvert: '\n      Liz is a hardcore introvert. She spends most of her time in her room, avoiding\n      you and Chris. Her definition of "out of control" is pretty mild.\n      '
+  }
+}, {
+  id: 'arrive-liz-2a',
+  tags: ['arrive-liz-2'],
+  optionText: 'Yeah, I know. Things have kind of snowballed. But please help yourself to the wine!',
+  choices: ['#newguests', '#freechoice'],
+  content: '\n    "Wine, you say? I guess I\'m in." Liz is a fan of wine.\n\n    <%= stat(\'liz\', \'fun\', 1) %>\n\n    <%= stat(\'liz\', \'stress\', -1) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.dining)) %>\n    '
+}, {
+  id: 'arrive-liz-2b',
+  tags: ['arrive-liz-2'],
+  optionText: 'Come on, it\'s not that bad.',
+  choices: ['#newguests', '#freechoice'],
+  content: '\n    "Whatever." She stalks past you, beelining for her room.\n\n    <%= stat(\'liz\', \'friendliness\', -1) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.bedroomLiz)) %>\n    '
+}]);
+// CONCATENATED MODULE: ./src/ld40/index.js
 
 
 
@@ -2202,9 +2258,14 @@ var ROOM_NAMES = {
 
 
 
+
+
+
+var importedSituations = [].concat(toConsumableArray_default()(arrivals), toConsumableArray_default()(hour0), toConsumableArray_default()(hour1), toConsumableArray_default()(liz));
 
 function standardQualities() {
   var room = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { friendliness: 5, fun: 3, stress: 3 };
 
   return {
     core: {
@@ -2219,19 +2280,19 @@ function standardQualities() {
         type: 'integer',
         name: "Friendliness",
         priority: 1,
-        initialValue: 5
+        initialValue: opts.friendliness || 5
       },
       fun: {
         type: 'integer',
         name: "Fun",
         priority: 2,
-        initialValue: 3
+        initialValue: opts.fun || 3
       },
       stress: {
         type: 'integer',
         name: "Stress",
         priority: 3,
-        initialValue: 0
+        initialValue: opts.stress || 3
       }
     }
   };
@@ -2240,13 +2301,13 @@ function standardQualities() {
 /* harmony default export */ var ld40 = ({
   id: 'my-game',
   navHeader: "\n      # Please, Come In\n\n      Made for [Ludum Dare 40](https://ldjam.com) with\n      [Jumbo Grove](https://github.com/irskep/jumbogrove)\n\n      [Reset game](>resetGame)\n  ",
-  asideHeader: "\n  # Time: <%-time%>\n  ",
+  asideHeader: "\n  # Time: <%-time%>\n\n  **Your location:** <%=model.player.formatQuality('room')%>\n  ",
   globalState: {
     hour: 0,
-    scheduledArrivals: []
+    scheduledArrivals: [{ id: 'liz', hour: 2 }, { id: 'chris', hour: 3 }]
   },
 
-  characters: [{ id: 'player', showInSidebar: false, qualities: {} }, { id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false }],
+  characters: [{ id: 'player', showInSidebar: false, qualities: standardQualities(ROOMS.dining) }, { id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false }, { id: 'liz', name: 'Liz', qualities: standardQualities(null, { fun: 0, stress: 4 }), showInSidebar: false }, { id: 'chris', name: 'Chris', qualities: standardQualities(null, { fun: 3, stress: 0 }), showInSidebar: false }],
 
   init: function init(model, ui, md) {
 
@@ -2288,7 +2349,8 @@ function standardQualities() {
       stat: function stat(chr, q, amt) {
         chr = model.character(chr);
         chr.addToQuality(q, amt);
-        return "`" + chr.name + " " + chr.formatQualityName(q) + " " + amt + "`";
+        var amtStr = amt > 0 ? "+" + amt : amt;
+        return "`" + chr.name + " " + chr.formatQualityName(q) + " " + amtStr + "`{.stat}";
       },
 
       // Schedule a character for later arrival.
@@ -2300,6 +2362,7 @@ function standardQualities() {
       // Move a character into a room.
       moveCharacter: function moveCharacter(id, room) {
         model.character(id).setQuality('room', room);
+        if (id === 'player') return '';
         return "> " + templateFns.chr(model.character(id).name) + " is " + ROOM_STATEMENTS[room] + ".";
       },
 
@@ -2345,6 +2408,12 @@ function standardQualities() {
         }
 
         return chars;
+      },
+
+      charactersIn: function charactersIn(room) {
+        return model.allCharacters.filter(function (c) {
+          return c.getQuality('room') === room;
+        });
       }
     };
     ui.addTemplateFunctions(templateFns);
@@ -2358,6 +2427,12 @@ function standardQualities() {
       // write <%=pl%> to print the player's name.
       pl: function pl() {
         return "*" + model.character('player').name + "*{.character}";
+      },
+
+      numGuests: function numGuests() {
+        return model.allCharacters.filter(function (c) {
+          return c.getQuality('room');
+        }).length;
       }
     });
 
@@ -2378,12 +2453,6 @@ function standardQualities() {
 
         _loop(c);
       }
-
-      // Object.assign(model, {
-      //   guestsOnPorch: () => {
-      //     return model.allCharacters.filter((c) => c.getQuality('room') === ROOMS.porch);
-      //   },
-      // });
     } catch (err) {
       _didIteratorError2 = true;
       _iteratorError2 = err;
@@ -2398,33 +2467,46 @@ function standardQualities() {
         }
       }
     }
+
+    assign_default()(model, {
+      populatePorch: templateFns.arrivingGuests,
+      charactersIn: templateFns.charactersIn
+    });
   },
 
   willEnter: function willEnter(model, ui, oldSituationId, newSituationId) {
     if (oldSituationId) {
-      if (oldSituationId === newSituationId) {
-        throw new Error("This shouldn't happen in most games");
-      }
       // ui.logHTML('<hr>');
     }
     return true;
   },
-  situations: [].concat(toConsumableArray_default()(arrivals), toConsumableArray_default()(hour0), toConsumableArray_default()(hour1), [{
+  situations: [].concat(toConsumableArray_default()(importedSituations), [{
     id: 'advance-time',
     optionText: 'Hang out for an hour',
+    tags: ['freechoice'],
+    priority: 0,
     willEnter: function willEnter(model, ui) {
       model.globalState.hour += 1;
-      if (model.globalState.hour < 2) {
-        model.do("@hour" + model.globalState.hour);
+      var sid = "hour" + model.globalState.hour;
+      if (model.situation(sid)) {
+        model.do("@" + sid);
+        return false;
+      } else {
+        return true;
       }
-    }
+    },
+    content: "\n      An hour passes.\n\n      # <%=time%>\n\n      <% var guests = arrivingGuests(); %>\n      <% if (guests.length > 1) { %>\n        <%= chrs('and', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality('room')%>.\n        <% print(moveCharacter('player', ROOMS.porch)) %>\n      <% } else if (guests.length === 1) { %>\n        <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality('room')%>.\n        <% print(moveCharacter('player', ROOMS.porch)) %>\n      <% } else { %>\n        No one else has shown up. Thank goodness!\n      <% } %>\n      ",
+    choices: ['#freechoice', '#newguests']
   }], toConsumableArray_default()(keys_default()(ROOM_NAMES).map(function (n) {
     return {
       id: "go-to-" + n,
       tags: ['freechoice'],
-      priority: 0,
+      priority: 1,
+      getCanSee: function getCanSee(model) {
+        return model.charactersIn(n).length > 0 && model.player.getQuality('room') !== n;
+      },
       optionText: "Go to " + ROOM_NAMES[n],
-      content: "\n        You go to " + ROOM_NAMES[n] + ".\n        ",
+      content: "\n        You go to " + ROOM_NAMES[n] + ".\n\n        <% print(moveCharacter('player', '" + n + "')) %>\n        ",
       choices: ["#room-" + n, '#freechoice']
     };
   })))
@@ -2467,14 +2549,7 @@ if (window.jumboGroveExample) {
 
 /***/ }),
 
-/***/ "Pu1X":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "U+8a":
+/***/ "ToLL":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -2489,4 +2564,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.0c4194af4a16a7151793.js.map
+//# sourceMappingURL=app.1e6404b885704b319376.js.map
