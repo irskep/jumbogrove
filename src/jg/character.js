@@ -9,9 +9,13 @@ export default class Character {
             id, name, qualities, description, showInSidebar, priority,
             state: _.cloneDeep(state)});
 
+        this.updateQualities()
+    }
+
+    updateQualities() {
         this._shallowQualities = {};
-        Object.keys(qualities).forEach((k) => {
-            const group = qualities[k];
+        Object.keys(this.qualities).forEach((k) => {
+            const group = this.qualities[k];
             group.id = k;
             for (const k2 of _.keys(_.omit(group, _groupOmitKeys))) {
                 if (this._shallowQualities[k2]) {
@@ -19,11 +23,10 @@ export default class Character {
                 }
                 group[k2].id = k2;
                 this._shallowQualities[k2] = group[k2];
-                group[k2].value = group[k2].initialValue;
+                if (group[k2].value === undefined) group[k2].value = group[k2].initialValue;
             }
         });
-
-        this.sortedQualityGroups = _.sortBy(Object.values(qualities), _prioritySort);
+        this.sortedQualityGroups = _.sortBy(Object.values(this.qualities), _prioritySort);
     }
 
     toSave() {
@@ -32,6 +35,7 @@ export default class Character {
 
     loadSave(obj) {
         _.assign(this, obj);
+        this.updateQualities();
     }
 
     getDescription() {
