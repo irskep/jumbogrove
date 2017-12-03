@@ -325,14 +325,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director', 'ui'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-2d5ffaf0","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-0696bb46","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director,"ui":_vm.ui}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("Si47")
+  __webpack_require__("zUu9")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -2075,19 +2075,19 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
       model.character('player').name = value;
       localStorage.playerName = value;
     }
+  },
+  willEnter: function willEnter(model, ui) {
+    if (localStorage.playerName) {
+      model.character('player').name = localStorage.playerName;
+      model.do('@prologue');
+      return false;
+    } else {
+      return true;
+    }
   }
-  // willEnter: (model, ui) => {
-  //   if (localStorage.playerName) {
-  //     model.character('player').name = localStorage.playerName;
-  //     model.do('@prologue');
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // },
 }, {
   id: 'prologue',
-  content: '\n      # Prologue: 6:00pm\n\n      It\'s a quiet Friday evening in your three bedroom flat in San Francisco.\n      Your friend <%-maria%> is visiting from Seattle tonight, so you\'ve\n      decided to throw a small dinner party with <%-chrs(\'and\', \'Maria\', \'Kevin\', \'Federico\') %>.\n\n      "Wow, it\'s really been a while!" says <%-kevin%>, [your friend from college.](>replace:college) [](){#college}\n\n      "Yeah, <%-maria%>, I haven\'t seen you in years," says [<%-federico%>.](>replace:work) [](){#work}\n\n      "What about you, <%-pl%>, when was the last time you saw <%-maria%>?"\n      ',
+  content: '\n      # Prologue: 6:00pm\n\n      It\'s a quiet Friday evening in your three bedroom flat in San Francisco.\n      Your friend <%-maria%> is visiting from Seattle tonight, so you\'ve\n      decided to throw a small dinner party with <%-chrs(\'and\', \'Maria\', \'Kevin\', \'Federico\') %>.\n\n      <%=img(\'kevin\')%>\n      "Wow, it\'s really been a while!" says <%-kevin%>, [your friend from college.](>replace:college) [](){#college}\n\n      <%=img(\'federico\')%>\n      "Yeah, <%-maria%>, I haven\'t seen you in years," says [<%-federico%>.](>replace:work) [](){#work}\n\n      "What about you, <%-pl%>, when was the last time you saw <%-maria%>?"\n      ',
   choices: ['#prologue-how-long-has-it-been'],
   snippets: {
     college: 'You, <%-kevin%>, and <%-maria%> used to hang out at the student union between classes.',
@@ -2099,7 +2099,7 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
   /*
   To do: require more unfriendliness before inviting Amy
   */
-  content: '\n    <%-maria%> furrows her brow. "Come on, <%-pl%>, it\'s only been a couple of months. I stopped here on my way to LA.\n\n    <%= stat(\'maria\', \'friendliness\', -1) %>\n    ',
+  content: '\n    <%=img(\'maria\')%>\n    <%-maria%> furrows her brow. "Come on, <%-pl%>, it\'s only been a couple of months. I stopped here on my way to LA.\n\n    <%= stat(\'maria\', \'friendliness\', -1) %>\n    ',
   choices: ['#invite-amy']
 }, {
   id: 'maybe-invite-amy', tags: ['invite-amy'],
@@ -2204,7 +2204,7 @@ var ROOM_NAMES = {
     return model.character('amy').getQuality('room') === ROOMS.porch;
   },
   optionText: 'Invite Amy inside',
-  content: '\n    "HIIIIII, IT\'S SO GOOD TO SEE YOUUUUUU!" <%=amy%> screams as she dives intensely into your arms for an overly-friendly hug.\n    "How have you BEEEEEN? You MUST let me see <%=maria%>!!!!!!!"\n\n    Without waiting for your answer, <%=amy%> rotates past you and scurries into the dining room.\n\n    <% print(moveCharacter(\'amy\', ROOMS.dining)) %>\n    ',
+  content: '\n    <%=img(\'amy\')%>\n    "HIIIIII, IT\'S SO GOOD TO SEE YOUUUUUU!" <%=amy%> screams as she dives intensely into your arms for an overly-friendly hug.\n    "How have you BEEEEEN? You MUST let me see <%=maria%>!!!!!!!"\n\n    Without waiting for your answer, <%=amy%> rotates past you and scurries into the dining room.\n\n    <% print(moveCharacter(\'amy\', ROOMS.dining)) %>\n    ',
   choices: ['#newguests', '#freechoice']
 }]);
 // CONCATENATED MODULE: ./src/ld40/liz.js
@@ -2253,7 +2253,7 @@ var ROOM_NAMES = {
     return model.character('jen').getQuality('room') === ROOMS.porch;
   },
   optionText: 'Invite Jen inside',
-  content: '\n    <%=jen%> is leaning against your porch railing in a beat-up leather jacket.\n\n    "Hey," she says.\n\n    "Hey," you say. "<%=maria%>\'s in the dining room, want to come in?\n\n    "Sure," she says.\n\n    You both walk inside.\n\n    <% print(moveCharacter(\'jen\', ROOMS.dining)) %>\n    ',
+  content: '\n    <%=img(\'jen\')%>\n    <%=jen%> is leaning against your porch railing in a beat-up leather jacket.\n\n    "Hey," she says.\n\n    "Hey," you say. "<%=maria%>\'s in the dining room, want to come in?\n\n    "Sure," she says.\n\n    You both walk inside.\n\n    <% print(moveCharacter(\'jen\', ROOMS.dining)) %>\n    ',
   choices: ['#newguests', '#freechoice']
 }, {
   id: 'jen-greet',
@@ -2343,6 +2343,10 @@ function standardQualities() {
       // Print some text in the style of a character name
       chr: function chr(name) {
         return "*" + name + "*{.character}";
+      },
+
+      img: function img(id) {
+        return "![" + id + " image](./static/headshots/" + id + ".png){.headshot}";
       },
 
       // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
@@ -2572,13 +2576,6 @@ if (window.jumboGroveExample) {
 
 /***/ }),
 
-/***/ "Si47":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "ToLL":
 /***/ (function(module, exports) {
 
@@ -2598,7 +2595,14 @@ if (window.jumboGroveExample) {
 
 // removed by extract-text-webpack-plugin
 
+/***/ }),
+
+/***/ "zUu9":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.fa98423d9e270990db9d.js.map
+//# sourceMappingURL=app.bf8abcb9cfc1d2384b04.js.map
