@@ -147,8 +147,8 @@ export default {
       id: 'hour1',
       content: `
       # Please, Come In{.title}
-      ## A game for Ludum Dare 40 that I probably won't finish
-      ### by irskep and rbatistadelima
+      ## A game for Ludum Dare 40 that I probably won't finish{.center}
+      ### by irskep and rbatistadelima{.center}
 
       The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you
       are hosting a party. Your guests keep inviting more people, and you are unable to say no.

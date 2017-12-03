@@ -99,6 +99,7 @@ blockquote {
 }
 
 // ld40 stuff
+.center {text-align: center;}
 .title {
   text-align: center;
   border-top: 1px solid black;
