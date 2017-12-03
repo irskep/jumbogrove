@@ -947,7 +947,7 @@ var model_WorldModel = function () {
             var atMost = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Number.MAX_VALUE;
 
             var host = this.currentSituation;
-            if (host.debugChoices) debugger; // eslint-disable-line no-debugger;
+            if (host.debugChoices) debugger; // eslint-disable-line no-debugger
             var situations = [].concat.apply([], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));
             // remove invisible situations
             var visibleSituations = situations.filter(function (s) {
@@ -3018,4 +3018,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.6471de0cf0c88bd0a27b.js.map
+//# sourceMappingURL=app.23280f42289dc77bb210.js.map
