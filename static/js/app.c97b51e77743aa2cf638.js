@@ -570,12 +570,12 @@ var character_Character = function () {
     }, {
         key: 'getQuality',
         value: function getQuality(name) {
-            var quality = this._shallowQualities[name];
-            if (!jg_qualities[quality.type]) {
-                console.error("Undefined quality type:", quality.type);
-                return null;
-            }
-            return quality.value;
+            return this._shallowQualities[name].value;
+        }
+    }, {
+        key: 'getQualityInitial',
+        value: function getQualityInitial(name) {
+            return this._shallowQualities[name].initialValue;
         }
     }, {
         key: 'formatQuality',
@@ -2237,7 +2237,7 @@ var ROOM_NAMES = {
   tags: ['arrive-liz-2'],
   optionText: 'Come on, it\'s not that bad.',
   choices: ['#newguests', '#freechoice'],
-  content: '\n    "Whatever." She stalks past you, beelining for her room.\n\n    <%= stat(\'liz\', \'friendliness\', -1) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.bedroomLiz)) %>\n    '
+  content: '\n    "Whatever." She stalks past you, beelining for her room.\n\n    <%= stat(\'liz\', \'friendliness\', -3) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.bedroomLiz)) %>\n    '
 }]);
 // CONCATENATED MODULE: ./src/ld40/jen.js
 // import _ from 'lodash';
@@ -2327,7 +2327,9 @@ function standardQualities() {
   asideHeader: "\n  # Time: <%-time%>\n\n  **Your location:** <%=model.player.formatQuality('room')%>\n  ",
   globalState: {
     hour: 0,
-    scheduledArrivals: [{ id: 'liz', hour: 2 }, { id: 'chris', hour: 3 }]
+    scheduledArrivals: [{ id: 'liz', hour: 2 }, { id: 'chris', hour: 3 }],
+    propertyDamage: 0,
+    numRoomsVisitedThisHour: 0
   },
 
   characters: [{ id: 'player', showInSidebar: false, qualities: standardQualities(ROOMS.dining) }, { id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false }, { id: 'liz', name: 'Liz', qualities: standardQualities(null, { fun: 0, stress: 4 }), showInSidebar: false }, { id: 'chris', name: 'Chris', qualities: standardQualities(null, { fun: 3, stress: 0 }), showInSidebar: false }],
@@ -2351,10 +2353,10 @@ function standardQualities() {
 
       // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
       formatTime: function formatTime(hour) {
-        hour = 18 + hour;
+        hour = (18 + hour) % 24;
         var amPm = hour > 12 ? 'pm' : 'am';
         if (amPm === 'pm') hour -= 12;
-        return hour + ":00" + amPm;
+        return (hour || 12) + ":00" + amPm;
       },
 
       // Print a list of things, styled as character names.
@@ -2460,6 +2462,22 @@ function standardQualities() {
         return model.allCharacters.filter(function (c) {
           return c.getQuality('room');
         }).length;
+      },
+
+      // "Lost friend" starts at least 4, ends at most 2
+      numLostFriends: function numLostFriends() {
+        return model.allCharacters.filter(function (c) {
+          if (c.id === 'player') return false;
+          return c.getQuality('friendliness') < 3 && c.getQualityInitial('friendliness') >= 4;
+        }).length;
+      },
+
+      // "Gained friend" just has to get to 4
+      numNewFriends: function numNewFriends() {
+        return model.allCharacters.filter(function (c) {
+          if (c.id === 'player') return false;
+          return c.getQuality('friendliness') >= 4 && c.getQualityInitial('friendliness') < 4;
+        }).length;
       }
     });
 
@@ -2512,8 +2530,16 @@ function standardQualities() {
     optionText: 'Hang out for an hour',
     tags: ['freechoice'],
     priority: 0,
+    autosave: true,
     willEnter: function willEnter(model, ui) {
       model.globalState.hour += 1;
+      model.globalState.numRoomsVisitedThisHour = 0;
+
+      if (model.globalState.hour >= 6) {
+        model.do("@ending-ok");
+        return false;
+      }
+
       var sid = "hour" + model.globalState.hour;
       if (model.situation(sid)) {
         model.do("@" + sid);
@@ -2524,6 +2550,23 @@ function standardQualities() {
     },
     content: "\n      An hour passes.\n\n      # <%=time%>\n\n      <% var guests = arrivingGuests(); %>\n      <% if (guests.length > 1) { %>\n        <%= chrs('and', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality('room')%>.\n        <% print(moveCharacter('player', ROOMS.porch)) %>\n      <% } else if (guests.length === 1) { %>\n        <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality('room')%>.\n        <% print(moveCharacter('player', ROOMS.porch)) %>\n      <% } else { %>\n        No one else has shown up. Thank goodness!\n      <% } %>\n      ",
     choices: ['#freechoice', '#newguests']
+  }, {
+    id: 'ending-ok',
+    optionText: 'If you see this text, it is a bug',
+    priority: 0,
+    content: "\n      An hour passes.\n\n      # <%=time%>\n\n      It is <%=time%>, and everyone has either gone home, gone to bed, or passed out.\n\n      # How you did\n\n      <% if (model.globalState.propertyDamage === 0) { %>\n      Your flat is, miraculously, still in pristine condition.\n      <% } else if (model.globalState.propertyDamage <= 3) { %>\n      Your flat is a little messy, but it's nothing you can't clean up in the morning.\n      <% } else if (model.globalState.propertyDamage <= 6) { %>\n      Your flat is pretty messy. It's going to take you all day to clean up tomorrow, and some things are\n      permanently stained or broken.\n      <% } else { %>\n      Your flat is a total disaster. Things are broken, stained, outright stolen, and in complete disarray.\n      You are likely to be evicted.\n      <% } %>\n\n      You lost <%=numLostFriends%> friends.\n\n      You gained <%=numNewFriends%> friends.\n\n      [Restart](>resetGame)\n\n      "
+  }, {
+    id: 'advance-time-fallback',
+    tags: ['freechoice'],
+    getCanSee: function getCanSee(model) {
+      return model.globalState.numRoomsVisitedThisHour >= 3;
+    },
+    optionText: 'Hang out for an hour',
+    priority: 1, // match room situations below
+    willEnter: function willEnter(model) {
+      model.goTo('advance-time');
+      return false;
+    }
   }], toConsumableArray_default()(keys_default()(ROOM_NAMES).map(function (n) {
     return {
       id: "go-to-" + n,
@@ -2534,6 +2577,9 @@ function standardQualities() {
       },
       optionText: "Go to " + ROOM_NAMES[n],
       content: "\n        You go to " + ROOM_NAMES[n] + ".\n\n        <% print(moveCharacter('player', '" + n + "')) %>\n        ",
+      enter: function enter(model) {
+        model.globalState.numRoomsVisitedThisHour += 1;
+      },
       choices: ["#room-" + n, '#freechoice']
     };
   })))
@@ -2605,4 +2651,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.061ee5999002bbf262d2.js.map
+//# sourceMappingURL=app.c97b51e77743aa2cf638.js.map
