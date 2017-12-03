@@ -1,27 +1,9 @@
 import _ from 'lodash';
 import hour0 from "./ld40/hour0";
+import hour1 from "./ld40/hour1";
+import arrivals from "./ld40/arrivals";
+import { ROOMS, ROOM_NAMES } from "./ld40/constants";
 
-const ROOMS = {
-  porch: 'porch',
-  kitchen: 'kitchen',
-  dining: 'dining',
-  living: 'living',
-  bathroom: 'bathroom',
-  bedroom1: 'bedroom1',
-  bedroom2: 'bedroom2',
-  bedroom3: 'bedroom3',
-}
-
-const ROOM_NAMES = {
-  porch: 'on the front porch',
-  kitchen: 'in the kitchen',
-  dining: 'in the dining room',
-  living: 'in the living room',
-  bathroom: 'in the bathroom',
-  bedroom1: "in your room",
-  bedroom2: "in Liz's room",
-  bedroom3: "in Chris's room",
-}
 
 function standardQualities(room = null) {
   return {
@@ -171,7 +153,9 @@ export default {
     return true;
   },
   situations: [
+    ...arrivals,
     ...hour0,
+    ...hour1,
 
     {
       id: 'hour1',
@@ -219,20 +203,6 @@ export default {
           model.do(`@hour${model.globalState.hour}`);
         }
       },
-    },
-
-    {
-      id: 'arrive-amy',
-      tags: ['newguests'],
-      optionText: 'Invite Amy in',
-      content: `
-      "HIIIIII, IT'S SO GOOD TO SEE YOUUUUUU!" <%=amy%> screams as she dives intensely into your arms for an overly-friendly hug.
-      "How have you BEEEEEN? You MUST let me see <%=maria%>!!!!!!!"
-
-      Without waiting for your answer, <%=amy%> rotates past you and scurries into the dining room.
-
-      <% print(moveCharacter('amy', ROOMS.dining)) %>
-      `
     },
   ],
 };

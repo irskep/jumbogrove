@@ -50,6 +50,15 @@ export default class Character {
         return _.sortBy(Object.values(_.omit(this.qualities[groupName], _groupOmitKeys)), _prioritySort);
     }
 
+    getQuality(name) {
+        const quality = this._shallowQualities[name];
+        if (!qualities[quality.type]) {
+            console.error("Undefined quality type:", quality.type);
+            return null;
+        }
+        return quality.value;
+    }
+
     formatQuality(name) {
         const quality = this._shallowQualities[name];
         if (!qualities[quality.type]) {

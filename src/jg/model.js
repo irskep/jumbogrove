@@ -85,17 +85,17 @@ export default class WorldModel {
         const situations = [].concat.apply(
             [], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));
         // remove invisible situations
-        const visibleSituations = situations.filter((s) => s.getCanSee(this.model, host));
+        const visibleSituations = situations.filter((s) => s.getCanSee(this, host));
 
         // sort by display order
         const sortedSituations = _.sortBy(
-            visibleSituations, (s) => s.getDisplayOrder(this.model, host));
+            visibleSituations, (s) => s.getDisplayOrder(this, host));
 
         // index by priority; figure out what priorities are being used
         const sortedSituationsByPriority = {};
         const prioritiesSeen = [];
         for (const s of sortedSituations) {
-            const p = s.getPriority(this.model, host);
+            const p = s.getPriority(this, host);
             if (!sortedSituationsByPriority[p]) sortedSituationsByPriority[p] = [];
             sortedSituationsByPriority[p].push(s);
             prioritiesSeen.push(p);
@@ -116,7 +116,7 @@ export default class WorldModel {
 
         // Remove random array items until we are under the limit
         while (chosenSituations.length > atMost) {
-            const i = Math.floor(this.model.random() * chosenSituations.length);
+            const i = Math.floor(this.random() * chosenSituations.length);
             chosenSituations.splice(i, 1);
         }
 
@@ -124,8 +124,8 @@ export default class WorldModel {
         return chosenSituations.map((s) => {
             return {
                 situationId: s.id,
-                text: s.getOptionText(this.model, host),
-                isEnabled: s.getCanChoose(this.model, host),
+                text: s.getOptionText(this, host),
+                isEnabled: s.getCanChoose(this, host),
             };
         });
     }
