@@ -444,6 +444,11 @@ var qualities_qualities = {
         format: function format(character, quality, value) {
             return qualities_qualities.onOff.format(character, { words: ['no', 'yes'] }, value);
         }
+    },
+    namedChoice: {
+        format: function format(character, quality, value) {
+            return quality.labelMap[value];
+        }
     }
 };
 /* harmony default export */ var jg_qualities = (qualities_qualities);
@@ -551,6 +556,16 @@ var character_Character = function () {
         key: 'sortedQualities',
         value: function sortedQualities(groupName) {
             return lodash_default.a.sortBy(values_default()(lodash_default.a.omit(this.qualities[groupName], _groupOmitKeys)), _prioritySort);
+        }
+    }, {
+        key: 'getQuality',
+        value: function getQuality(name) {
+            var quality = this._shallowQualities[name];
+            if (!jg_qualities[quality.type]) {
+                console.error("Undefined quality type:", quality.type);
+                return null;
+            }
+            return quality.value;
         }
     }, {
         key: 'formatQuality',
@@ -880,12 +895,12 @@ var model_WorldModel = function () {
             var situations = [].concat.apply([], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));
             // remove invisible situations
             var visibleSituations = situations.filter(function (s) {
-                return s.getCanSee(_this2.model, host);
+                return s.getCanSee(_this2, host);
             });
 
             // sort by display order
             var sortedSituations = lodash_default.a.sortBy(visibleSituations, function (s) {
-                return s.getDisplayOrder(_this2.model, host);
+                return s.getDisplayOrder(_this2, host);
             });
 
             // index by priority; figure out what priorities are being used
@@ -899,7 +914,7 @@ var model_WorldModel = function () {
                 for (var _iterator2 = get_iterator_default()(sortedSituations), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                     var s = _step2.value;
 
-                    var p = s.getPriority(this.model, host);
+                    var p = s.getPriority(this, host);
                     if (!sortedSituationsByPriority[p]) sortedSituationsByPriority[p] = [];
                     sortedSituationsByPriority[p].push(s);
                     prioritiesSeen.push(p);
@@ -957,7 +972,7 @@ var model_WorldModel = function () {
 
             // Remove random array items until we are under the limit
             while (chosenSituations.length > atMost) {
-                var i = Math.floor(this.model.random() * chosenSituations.length);
+                var i = Math.floor(this.random() * chosenSituations.length);
                 chosenSituations.splice(i, 1);
             }
 
@@ -965,8 +980,8 @@ var model_WorldModel = function () {
             return chosenSituations.map(function (s) {
                 return {
                     situationId: s.id,
-                    text: s.getOptionText(_this2.model, host),
-                    isEnabled: s.getCanChoose(_this2.model, host)
+                    text: s.getOptionText(_this2, host),
+                    isEnabled: s.getCanChoose(_this2, host)
                 };
             });
         }
@@ -1530,7 +1545,12 @@ var dataui_DataUI = function () {
     value: function renderTemplate(src) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-      return lodash_default.a.template(src)(extends_default()({}, args, this.templateContext()));
+      try {
+        return lodash_default.a.template(src)(extends_default()({}, args, this.templateContext()));
+      } catch (e) {
+        console.error(src);
+        throw e;
+      }
     }
   }, {
     key: 'renderMarkdownTemplate',
@@ -2089,6 +2109,89 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
   content: '\n    "OK. She\'ll be here at 7."\n\n    <% print(scheduleArrival(\'jen\', 1)) %>\n    ',
   choices: ['advance-time']
 }]);
+// CONCATENATED MODULE: ./src/ld40/hour1.js
+// import _ from 'lodash';
+// import { ROOMS } from "./constants";
+
+/* harmony default export */ var hour1 = ([{
+  id: 'hour1',
+  content: '\n    # Please, Come In{.title}\n    ## A game for Ludum Dare 40 that I probably won\'t finish{.center}\n    ### by irskep and rbatistadelima{.center}\n\n    The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you\n    are hosting a party. Your guests keep inviting more people, and you are unable to say no.\n\n    Your goal is to make it to morning without property damage or lost friends.\n    ',
+  snippets: {
+    unfinished: 'I have 54 hours left, surely I will finish this, hehehe...'
+  },
+  choices: ['hour1b']
+}, {
+  id: 'hour1b',
+  autosave: true,
+  optionText: 'Continue',
+  content: '\n    # 7:00pm\n\n    You\'ve all finished dinner.\n\n    <% var guests = arrivingGuests(); %>\n    <% if (guests.length > 1) { %>\n      <%= chrs(\'and\', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality(\'room\')%>.\n    <% } else if (guests.length === 1) { %>\n      <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality(\'room\')%>.\n    <% } else { %>\n      No one else has shown up. Thank goodness!\n    <% } %>\n    ',
+  snippets: {},
+  choices: ['#newguests', '#freechoice']
+}]);
+// CONCATENATED MODULE: ./src/ld40/constants.js
+var ROOMS = {
+  porch: 'porch',
+  kitchen: 'kitchen',
+  dining: 'dining',
+  living: 'living',
+  bathroom: 'bathroom',
+  bedroom1: 'bedroom1',
+  bedroom2: 'bedroom2',
+  bedroom3: 'bedroom3'
+};
+
+var ROOM_STATEMENTS = {
+  porch: 'on the front porch',
+  kitchen: 'in the kitchen',
+  dining: 'in the dining room',
+  living: 'in the living room',
+  bathroom: 'in the bathroom',
+  bedroom1: "in your room",
+  bedroom2: "in Liz's room",
+  bedroom3: "in Chris's room"
+};
+
+var ROOM_NAMES = {
+  porch: 'the front porch',
+  kitchen: 'the kitchen',
+  dining: 'the dining room',
+  living: 'the living room',
+  bathroom: 'the bathroom',
+  bedroom1: "your room",
+  bedroom2: "Liz's room",
+  bedroom3: "Chris's room"
+};
+
+
+// CONCATENATED MODULE: ./src/ld40/arrivals.js
+// import _ from 'lodash';
+
+
+/* harmony default export */ var arrivals = ([{
+  id: 'arrive-amy',
+  tags: ['newguests'],
+  priority: function priority(model) {
+    return model.character('amy').getQuality('room') === ROOMS.porch ? 1 : 0;
+  },
+  getCanSee: function getCanSee(model) {
+    return model.character('amy').getQuality('room') === ROOMS.porch;
+  },
+  optionText: 'Invite Amy inside',
+  content: '\n    "HIIIIII, IT\'S SO GOOD TO SEE YOUUUUUU!" <%=amy%> screams as she dives intensely into your arms for an overly-friendly hug.\n    "How have you BEEEEEN? You MUST let me see <%=maria%>!!!!!!!"\n\n    Without waiting for your answer, <%=amy%> rotates past you and scurries into the dining room.\n\n    <% print(moveCharacter(\'amy\', ROOMS.dining)) %>\n    ',
+  choices: ['#newguests', '#freechoice']
+}, {
+  id: 'arrive-jen',
+  tags: ['newguests'],
+  priority: function priority(model) {
+    return model.character('jen').getQuality('room') === ROOMS.porch ? 1 : 0;
+  },
+  getCanSee: function getCanSee(model) {
+    return model.character('jen').getQuality('room') === ROOMS.porch;
+  },
+  optionText: 'Invite Jen inside',
+  content: '\n    <%=jen%> is leaning against your porch railing in a beat-up leather jacket.\n\n    "Hey," she says.\n\n    "Hey," you say. "<%=maria%>\'s in the dining room, want to come in?\n\n    "Sure," she says.\n\n    You both walk inside.\n\n    <% print(moveCharacter(\'jen\', ROOMS.dining)) %>\n    ',
+  choices: ['#newguests', '#freechoice']
+}]);
 // CONCATENATED MODULE: ./src/ld40.js
 
 
@@ -2096,34 +2199,38 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 
 
 
-var ROOMS = {
-  porch: 'porch',
-  kitchen: 'kitchen',
-  dining: 'dining',
-  living: 'living',
-  bedroom1: 'bedroom1',
-  bedroom2: 'bedroom2'
-};
+
+
+
 
 function standardQualities() {
+  var room = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
   return {
     core: {
+      room: {
+        type: 'namedChoice',
+        labelMap: ROOM_STATEMENTS,
+        name: 'Location',
+        priority: 0,
+        initialValue: room
+      },
       friendliness: {
         type: 'integer',
         name: "Friendliness",
-        priority: 0,
+        priority: 1,
         initialValue: 5
       },
       fun: {
         type: 'integer',
         name: "Fun",
-        priority: 1,
+        priority: 2,
         initialValue: 3
       },
       stress: {
         type: 'integer',
         name: "Stress",
-        priority: 1,
+        priority: 3,
         initialValue: 0
       }
     }
@@ -2132,23 +2239,26 @@ function standardQualities() {
 
 /* harmony default export */ var ld40 = ({
   id: 'my-game',
-  navHeader: '\n      # Please, Come In\n\n      Made for [Ludum Dare 40](https://ldjam.com) with\n      [Jumbo Grove](https://github.com/irskep/jumbogrove)\n\n      [Reset game](>resetGame)\n  ',
-  asideHeader: '\n  # Time: <%-time%>\n  ',
+  navHeader: "\n      # Please, Come In\n\n      Made for [Ludum Dare 40](https://ldjam.com) with\n      [Jumbo Grove](https://github.com/irskep/jumbogrove)\n\n      [Reset game](>resetGame)\n  ",
+  asideHeader: "\n  # Time: <%-time%>\n  ",
   globalState: {
     hour: 0,
     scheduledArrivals: []
   },
 
-  characters: [{ id: 'player', showInSidebar: false, qualities: {}, state: {} }, { id: 'maria', name: 'Maria', qualities: standardQualities(), showInSidebar: true, state: { room: ROOMS.dining } }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(), showInSidebar: true, state: { room: ROOMS.dining } }, { id: 'federico', name: 'Federico', qualities: standardQualities(), showInSidebar: true, state: { room: ROOMS.dining } }, { id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false, state: { room: null } }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false, state: { room: null } }],
+  characters: [{ id: 'player', showInSidebar: false, qualities: {} }, { id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false }],
 
   init: function init(model, ui, md) {
 
     // Define some helpers for rendering text and doing stuff, so we have to write as little JS as possible
     // in the content field
     var templateFns = {
+      // make ROOMS constant accessible
+      ROOMS: ROOMS,
+
       // Print some text in the style of a character name
       chr: function chr(name) {
-        return '*' + name + '*{.character}';
+        return "*" + name + "*{.character}";
       },
 
       // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
@@ -2156,7 +2266,7 @@ function standardQualities() {
         hour = 18 + hour;
         var amPm = hour > 12 ? 'pm' : 'am';
         if (amPm === 'pm') hour -= 12;
-        return hour + ':00' + amPm;
+        return hour + ":00" + amPm;
       },
 
       // Print a list of things, styled as character names.
@@ -2166,25 +2276,31 @@ function standardQualities() {
         }
 
         names = names.map(function (n) {
-          return '*' + n + '*{.character}';
+          return "*" + n + "*{.character}";
         });
         if (names.length < 1) return '';
         if (names.length === 1) return names[0];
-        if (names.length === 2) return names[0] + ' ' + conj + ' ' + names[1];
-        return lodash_default.a.initial(names).join(', ') + ', ' + conj + ' ' + lodash_default.a.last(names);
+        if (names.length === 2) return names[0] + " " + conj + " " + names[1];
+        return lodash_default.a.initial(names).join(', ') + ", " + conj + " " + lodash_default.a.last(names);
       },
 
       // Adjust a character quality by the given amount.
       stat: function stat(chr, q, amt) {
         chr = model.character(chr);
         chr.addToQuality(q, amt);
-        return '`' + chr.name + ' ' + chr.formatQualityName(q) + ' ' + amt + '`';
+        return "`" + chr.name + " " + chr.formatQualityName(q) + " " + amt + "`";
       },
 
       // Schedule a character for later arrival.
       scheduleArrival: function scheduleArrival(id, hour) {
         model.globalState.scheduledArrivals.push({ id: id, hour: hour });
-        return '> ' + templateFns.chr(model.character(id).name) + ' is scheduled to arrive at ' + templateFns.formatTime(hour) + '.';
+        return "> " + templateFns.chr(model.character(id).name) + " is scheduled to arrive at " + templateFns.formatTime(hour) + ".";
+      },
+
+      // Move a character into a room.
+      moveCharacter: function moveCharacter(id, room) {
+        model.character(id).setQuality('room', room);
+        return "> " + templateFns.chr(model.character(id).name) + " is " + ROOM_STATEMENTS[room] + ".";
       },
 
       // Returns the list of guests who have just arrived. Assigns their room to 'porch'.
@@ -2210,7 +2326,8 @@ function standardQualities() {
           for (var _iterator = get_iterator_default()(chars), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var c = _step.value;
 
-            c.state.room = ROOMS.porch;
+            c.setQuality('room', ROOMS.porch);
+            c.showInSidebar = true;
           }
         } catch (err) {
           _didIteratorError = true;
@@ -2227,9 +2344,7 @@ function standardQualities() {
           }
         }
 
-        return chars.map(function (c) {
-          return c.name;
-        });
+        return chars;
       }
     };
     ui.addTemplateFunctions(templateFns);
@@ -2242,7 +2357,7 @@ function standardQualities() {
 
       // write <%=pl%> to print the player's name.
       pl: function pl() {
-        return '*' + model.character('player').name + '*{.character}';
+        return "*" + model.character('player').name + "*{.character}";
       }
     });
 
@@ -2263,6 +2378,12 @@ function standardQualities() {
 
         _loop(c);
       }
+
+      // Object.assign(model, {
+      //   guestsOnPorch: () => {
+      //     return model.allCharacters.filter((c) => c.getQuality('room') === ROOMS.porch);
+      //   },
+      // });
     } catch (err) {
       _didIteratorError2 = true;
       _iteratorError2 = err;
@@ -2288,30 +2409,25 @@ function standardQualities() {
     }
     return true;
   },
-  situations: [].concat(toConsumableArray_default()(hour0), [{
-    id: 'hour1',
-    content: '\n      # Please, Come In{.title}\n      ## A game for Ludum Dare 40 that I probably won\'t finish{.center}\n      ### by irskep and rbatistadelima{.center}\n\n      The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you\n      are hosting a party. Your guests keep inviting more people, and you are unable to say no.\n\n      Your goal is to make it to morning without property damage or lost friends.\n      ',
-    snippets: {
-      unfinished: 'I have 54 hours left, surely I will finish this, hehehe...'
-    },
-    choices: ['hour1b']
-  }, {
-    id: 'hour1b',
-    autosave: true,
-    optionText: 'Continue',
-    content: '\n      # 7:00pm\n\n      <% var guests = arrivingGuests();\n      if (guests.length > 1) { %>\n        <%= chrs(\'and\', guests) %> have arrived and are waiting on the porch.\n      <% } else { %>\n        <%= chr(guests[0]) %> has arrived and is waiting on the porch.\n      <% } %>\n      ',
-    snippets: {},
-    choices: ['#newguests']
-  }, {
+  situations: [].concat(toConsumableArray_default()(arrivals), toConsumableArray_default()(hour0), toConsumableArray_default()(hour1), [{
     id: 'advance-time',
     optionText: 'Hang out for an hour',
     willEnter: function willEnter(model, ui) {
       model.globalState.hour += 1;
       if (model.globalState.hour < 2) {
-        model.do('@hour' + model.globalState.hour);
+        model.do("@hour" + model.globalState.hour);
       }
     }
-  }])
+  }], toConsumableArray_default()(keys_default()(ROOM_NAMES).map(function (n) {
+    return {
+      id: "go-to-" + n,
+      tags: ['freechoice'],
+      priority: 0,
+      optionText: "Go to " + ROOM_NAMES[n],
+      content: "\n        You go to " + ROOM_NAMES[n] + ".\n        ",
+      choices: ["#room-" + n, '#freechoice']
+    };
+  })))
 });
 // CONCATENATED MODULE: ./src/main.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "run", function() { return main_run; });
@@ -2373,4 +2489,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.933e02386cc9d5a58ed1.js.map
+//# sourceMappingURL=app.0c4194af4a16a7151793.js.map
