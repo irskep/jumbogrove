@@ -14,13 +14,6 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 
 /***/ }),
 
-/***/ "ErQ7":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "Jz3y":
 /***/ (function(module, exports) {
 
@@ -29,6 +22,13 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 /***/ }),
 
 /***/ "Knr6":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "MuaH":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -332,14 +332,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director', 'ui'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-d5b5bef4","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-7fcf5414","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director,"ui":_vm.ui}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("ErQ7")
+  __webpack_require__("MuaH")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -2082,16 +2082,16 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
       model.character('player').name = value;
       localStorage.playerName = value;
     }
-  },
-  willEnter: function willEnter(model, ui) {
-    if (localStorage.playerName) {
-      model.character('player').name = localStorage.playerName;
-      model.do('@prologue');
-      return false;
-    } else {
-      return true;
-    }
   }
+  // willEnter: (model, ui) => {
+  //   if (localStorage.playerName) {
+  //     model.character('player').name = localStorage.playerName;
+  //     model.do('@prologue');
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // },
 }, {
   id: 'prologue',
   content: '\n      # Prologue: 6:00pm\n\n      It\'s a quiet Friday evening in your three bedroom flat in San Francisco.\n      Your friend <%-maria%> is visiting from Seattle tonight, so you\'ve\n      decided to throw a small dinner party with <%-chrs(\'and\', \'Maria\', \'Kevin\', \'Federico\') %>.\n\n      "Wow, it\'s really been a while!" says <%-kevin%>, [your friend from college.](>replace:college) [](){#college}\n\n      "Yeah, <%-maria%>, I haven\'t seen you in years," says [<%-federico%>.](>replace:work) [](){#work}\n\n      "What about you, <%-pl%>, when was the last time you saw <%-maria%>?"\n      ',
@@ -2601,4 +2601,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.533e199b82140a2521ab.js.map
+//# sourceMappingURL=app.a2c0a90b450a9e483852.js.map
