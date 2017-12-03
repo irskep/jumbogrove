@@ -91,7 +91,7 @@ class JumboGroveDirector {
 
         try {
             this.model.loadSave(json.model);
-            this.goTo(json.toSituationId);
+            this.goTo(json.toSituationId, true);
         } catch (e) {
             delete localStorage[this.id];
             this.recreateModel();
@@ -193,12 +193,13 @@ class JumboGroveDirector {
         location.reload();
     }
 
-    goTo(id) {
+    goTo(id, isFromLoad = false) {
         const next = this.model.situation(id);
         const previous = this.model.currentSituation;
         const previousId = previous ? previous.id : null;
-        if (next.autosave) {
+        if (next.autosave && !isFromLoad) {
             this.save(id);
+            this.ui.logMarkdown('> Game saved.\n')
         }
         if (this.model.currentSituation) {
             this.willExit(this.model, this.ui, previousId, id);
