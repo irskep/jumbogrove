@@ -51,12 +51,11 @@ export default class Character {
     }
 
     getQuality(name) {
-        const quality = this._shallowQualities[name];
-        if (!qualities[quality.type]) {
-            console.error("Undefined quality type:", quality.type);
-            return null;
-        }
-        return quality.value;
+        return this._shallowQualities[name].value;
+    }
+
+    getQualityInitial(name) {
+        return this._shallowQualities[name].initialValue;
     }
 
     formatQuality(name) {

@@ -34,6 +34,14 @@ h4 {
   font-weight: normal;
 }
 
+// don't make safari zoom in on text fields
+input,
+input[type=text],
+input[type=number],
+textarea {
+  font-size: 18px;  // min is 16
+}
+
 blockquote {
   font-style: italic;
   color: #888;
@@ -46,29 +54,18 @@ blockquote {
   color: #2c3e50;
 }
 
-.JumboGrove .JGUI > article {
-  max-width: 34rem;
-  margin: auto;
+.JumboGrove .JGUI > nav {
+  padding: 0 1rem;
 }
 
 .JumboGrove .JGUI > nav {
-  padding: 0 1rem;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
   overflow: auto;
-  right: calc(50% + 20rem);
 }
 
 .JumboGrove .JGUI > aside {
   padding: 0 1rem;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
   overflow: auto;
-  left: calc(50% + 20rem);
+  background-color: white;
 
   ul {
     list-style-type: none;
@@ -77,6 +74,110 @@ blockquote {
     ul ul {
       list-style-type: disc;
       list-style-position: inside;
+    }
+  }
+}
+
+.JumboGrove .JGUI > article {
+  max-width: 34rem;
+}
+
+.JumboGrove .JGUI > nav {
+  display: none;
+}
+
+.JumboGrove .JGUI nav.m-within-aside {
+  display: block;
+}
+
+@media (max-width: 51rem) {
+  .JumboGrove .JGUI > aside {
+    position: fixed;
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    left: 2px;
+    overflow: scroll;
+
+    &.m-closed {
+      background-color: transparent;
+      pointer-events: none;
+      .JGAsideContents {
+        display: none;
+      }    
+    }
+
+    &.m-open {
+      border: 1px solid black;
+
+      .JGAsideToggle {
+        top: 2px; right: 2px; width: 44px; height: 44px; line-height: 44px;
+      }
+    }
+
+    .JGAsideToggle {
+      position: absolute;
+      top: 3px; right: 3px; width: 44px; height: 44px; line-height: 44px;
+      text-align: center;
+      font-size: 36px;
+      background-color: black;
+      color: white;
+      cursor: pointer;
+      pointer-events: initial;
+    }
+  }
+}
+
+@media (min-width: 51rem) and (max-width: 64rem) {
+
+  .JumboGrove .JGUI > article {
+    max-width: 100%;
+    width: 66%;
+  }
+
+  .JumboGrove .JGUI > aside {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 33%;
+
+    .JGAsideToggle { display: none; }
+    &.m-closed {
+      .JGAsideContents { display: block; }    
+    }
+  }
+}
+
+@media (min-width: 64rem) {
+  .JumboGrove .JGUI > article {
+    max-width: 34rem;
+    margin: auto;
+  }
+
+  .JumboGrove .JGUI > nav {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    right: calc(50% + 20rem);
+  }
+
+  .JumboGrove .JGUI nav.m-within-aside {
+    display: none;
+  }
+
+  .JumboGrove .JGUI > aside {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: calc(50% + 20rem);
+
+    .JGAsideToggle { display: none; }
+    &.m-closed {
+      .JGAsideContents { display: block; }    
     }
   }
 }
@@ -117,5 +218,20 @@ blockquote {
 }
 .stat {
   background-color: #ffd;
+}
+
+// pixel art!
+img.headshot {
+    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+    image-rendering: -moz-crisp-edges;          /* Firefox                        */
+    image-rendering: -o-crisp-edges;            /* Opera                          */
+    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
+    image-rendering: pixelated; /* Chrome */
+    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
+    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+
+    display: block;
+    margin: auto;
+    width: 64px; height: 64px;
 }
 </style>

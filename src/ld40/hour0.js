@@ -32,8 +32,10 @@ export default [
       Your friend <%-maria%> is visiting from Seattle tonight, so you've
       decided to throw a small dinner party with <%-chrs('and', 'Maria', 'Kevin', 'Federico') %>.
 
+      <%=img('kevin')%>
       "Wow, it's really been a while!" says <%-kevin%>, [your friend from college.](>replace:college) [](){#college}
 
+      <%=img('federico')%>
       "Yeah, <%-maria%>, I haven't seen you in years," says [<%-federico%>.](>replace:work) [](){#work}
 
       "What about you, <%-pl%>, when was the last time you saw <%-maria%>?"
@@ -52,6 +54,7 @@ export default [
     To do: require more unfriendliness before inviting Amy
     */
     content: `
+    <%=img('maria')%>
     <%-maria%> furrows her brow. "Come on, <%-pl%>, it's only been a couple of months. I stopped here on my way to LA.
 
     <%= stat('maria', 'friendliness', -1) %>
@@ -93,6 +96,7 @@ export default [
     id: 'prologue-1-year', tags: ['prologue-how-long-has-it-been'],
     optionText: "More than a year ago",
     content: `
+    <%=img('maria')%>
     "Yeah, it would have been that Tahoe trip. That was so much fun!" <%-maria%> leans back and looks up at the ceiling.
 
     "You know, that reminds me of [<%-jen%>](>replace:jen). She's still around, right?"

@@ -47,7 +47,7 @@ export default [
     content: `
     "Whatever." She stalks past you, beelining for her room.
 
-    <%= stat('liz', 'friendliness', -1) %>
+    <%= stat('liz', 'friendliness', -3) %>
 
     <% print(moveCharacter('liz', ROOMS.bedroomLiz)) %>
     `,

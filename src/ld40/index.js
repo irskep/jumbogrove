@@ -3,6 +3,7 @@ import hour0 from "./hour0";
 import hour1 from "./hour1";
 import arrivals from "./arrivals";
 import liz from "./liz";
+import jen from "./jen";
 import { ROOMS, ROOM_STATEMENTS, ROOM_NAMES } from "./constants";
 
 const importedSituations = [
@@ -10,6 +11,7 @@ const importedSituations = [
     ...hour0,
     ...hour1,
     ...liz,
+    ...jen,
 ];
 
 
@@ -63,6 +65,8 @@ export default {
   globalState: {
     hour: 0,
     scheduledArrivals: [{id: 'liz', hour: 2}, {id: 'chris', hour: 3}],
+    propertyDamage: 0,
+    numRoomsVisitedThisHour: 0,
   },
 
   characters: [
@@ -87,12 +91,14 @@ export default {
       // Print some text in the style of a character name
       chr: (name) => `*${name}*{.character}`,
 
+      img: (id) => `![${id} image](./static/headshots/${id}.png){.headshot}`,
+
       // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
       formatTime: (hour) => {
-        hour = 18 + hour;
+        hour = (18 + hour) % 24;
         const amPm = hour > 12 ? 'pm' : 'am';
         if (amPm === 'pm') hour -= 12;
-        return `${hour}:00${amPm}`;
+        return `${hour || 12}:00${amPm}`;
       },
 
       // Print a list of things, styled as character names.
@@ -156,6 +162,26 @@ export default {
       pl: () => `*${model.character('player').name}*{.character}`,
 
       numGuests: () => model.allCharacters.filter((c) => c.getQuality('room')).length,
+
+      // "Lost friend" starts at least 4, ends at most 2
+      numLostFriends: () => {
+        return model.allCharacters
+          .filter((c) => {
+            if (c.id === 'player') return false;
+            return c.getQuality('friendliness') < 3 && c.getQualityInitial('friendliness') >= 4;
+          })
+          .length;
+      },
+
+      // "Gained friend" just has to get to 4
+      numNewFriends: () => {
+        return model.allCharacters
+          .filter((c) => {
+            if (c.id === 'player') return false;
+            return c.getQuality('friendliness') >= 4 && c.getQualityInitial('friendliness') < 4;
+          })
+          .length;
+      },
     });
 
     for (const c of model.allCharacters) {
@@ -182,8 +208,16 @@ export default {
       optionText: 'Hang out for an hour',
       tags: ['freechoice'],
       priority: 0,
+      autosave: true,
       willEnter: (model, ui) => {
         model.globalState.hour += 1;
+        model.globalState.numRoomsVisitedThisHour = 0;
+
+        if (model.globalState.hour >= 6) {
+          model.do(`@ending-ok`);
+          return false;
+        }
+
         const sid = `hour${model.globalState.hour}`;
         if (model.situation(sid)) {
           model.do(`@${sid}`);
@@ -211,6 +245,52 @@ export default {
       choices: ['#freechoice', '#newguests']
     },
 
+    {
+      id: 'ending-ok',
+      optionText: 'If you see this text, it is a bug',
+      priority: 0,
+      content: `
+      An hour passes.
+
+      # <%=time%>
+
+      It is <%=time%>, and everyone has either gone home, gone to bed, or passed out.
+
+      # How you did
+
+      <% if (model.globalState.propertyDamage === 0) { %>
+      Your flat is, miraculously, still in pristine condition.
+      <% } else if (model.globalState.propertyDamage <= 3) { %>
+      Your flat is a little messy, but it's nothing you can't clean up in the morning.
+      <% } else if (model.globalState.propertyDamage <= 6) { %>
+      Your flat is pretty messy. It's going to take you all day to clean up tomorrow, and some things are
+      permanently stained or broken.
+      <% } else { %>
+      Your flat is a total disaster. Things are broken, stained, outright stolen, and in complete disarray.
+      You are likely to be evicted.
+      <% } %>
+
+      You lost <%=numLostFriends%> friends.
+
+      You gained <%=numNewFriends%> friends.
+
+      [Restart](>resetGame)
+
+      `,
+    },
+
+    {
+      id: 'advance-time-fallback',
+      tags: ['freechoice'],
+      getCanSee: (model) => model.globalState.numRoomsVisitedThisHour >= 3,
+      optionText: 'Hang out for an hour',
+      priority: 1,  // match room situations below
+      willEnter: (model) => {
+        model.goTo('advance-time');
+        return false;
+      },
+    },
+
     ...Object.keys(ROOM_NAMES).map((n) => {
       return {
         id: `go-to-${n}`,
@@ -223,6 +303,9 @@ export default {
 
         <% print(moveCharacter('player', '${n}')) %>
         `,
+        enter: (model) => {
+          model.globalState.numRoomsVisitedThisHour += 1;
+        },
         choices: [`#room-${n}`, '#freechoice'],
       };
     }),
