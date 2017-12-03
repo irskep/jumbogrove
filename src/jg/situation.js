@@ -7,6 +7,7 @@ export default class Situation {
         id,
         tags = [],
         totalVisits = 0,
+        autosave = false,
         // (model, hostSituation)
         getCanChoose = tru,
         // (model, hostSituation)
@@ -37,8 +38,16 @@ export default class Situation {
         Object.assign(this, {
             id, tags, totalVisits, getCanChoose, getCanSee, priority,
             displayOrder, optionText, enter, act, exit, content, actions, choices,
-            snippets, input, willEnter,
+            snippets, input, willEnter, autosave,
         });
+    }
+
+    toSave() {
+        return _.pick(this, ['totalVisits']);
+    }
+
+    loadSave(obj) {
+        _.assign(this, obj);
     }
 
     doEnter(model, ui) {

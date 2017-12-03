@@ -72,7 +72,7 @@ export default [
     choices: ['invite-amy'],
     snippets: {
       amy: `
-      <%-amy%> is <%-maria%>'s ex. Amy is much, much cooler than you. Every time you've hung out in a group that <%-amy%> was in,
+      <%-amy%> is <%-maria%>'s ex. <%=amy%> is much, much cooler than you. Every time you've hung out in a group that <%-amy%> was in,
       everyone ended up ignoring you. She and <%-maria%> are still on good, if complicated, terms.
       `
     },

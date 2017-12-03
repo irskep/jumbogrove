@@ -23,4 +23,8 @@ export default {
       return {'type': 'goToSituation', id};
     },
   },
+  resetGame: {
+    name: 'resetGame',
+    create: () => ({'type': 'resetGame'}),
+  },
 };

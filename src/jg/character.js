@@ -26,6 +26,14 @@ export default class Character {
         this.sortedQualityGroups = _.sortBy(Object.values(qualities), _prioritySort);
     }
 
+    toSave() {
+        return _.pick(this, ['id', 'qualities', 'name', 'showInSidebar', 'description', 'state']);
+    }
+
+    loadSave(obj) {
+        _.assign(this, obj);
+    }
+
     getDescription() {
         if (_.isFunction(this.description)) {
             return this.description.apply(this, arguments);

@@ -169,7 +169,7 @@ export default class DataUI {
     return new Promise((resolve, reject) => {
       const item = {
         'type': 'choice',
-        choices: this.director.interpretChoices(choices),
+        choices: this.director.model.interpretChoices(choices),
       };
       item.callback = (situationId) => {
         item.situationId = situationId;

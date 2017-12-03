@@ -42,6 +42,8 @@ export default {
 
       Made for [Ludum Dare 40](https://ldjam.com) with
       [Jumbo Grove](https://github.com/irskep/jumbogrove)
+
+      [Reset game](>resetGame)
   `,
   asideHeader: `
   # Time: <%-time%>
@@ -161,6 +163,7 @@ export default {
 
     {
       id: 'hour1b',
+      autosave: true,
       optionText: 'Continue',
       content: `
       # 7:00pm
