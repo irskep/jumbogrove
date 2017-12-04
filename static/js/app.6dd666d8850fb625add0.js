@@ -2549,6 +2549,20 @@ var ROOM_NAMES = {
   optionText: 'Come on in',
   content: '\n    <% print(moveCharacter(\'rachel\', ROOMS.dining)) %>\n    ',
   choices: ['#newguests', '#freechoice']
+}, {
+  id: 'rachel-greet',
+  tags: ['room-dining'],
+  optionText: "Rachel is getting to know everyone",
+  priority: 5,
+  getCanSee: function getCanSee(model, host, _ref) {
+    var totalVisits = _ref.totalVisits;
+
+    if (model.character('rachel').getQuality('room') !== ROOMS.dining) return false;
+    if (totalVisits > 0) return false;
+    return true;
+  },
+  content: '\n    <%=img(\'rachel\')%>\n    Back in the dining room, <%=rachel%> is excitedly greeting everyone. They all stay happily\n    occupied for the next hour.\n    ',
+  choices: ['#newguests', '#freechoice']
 }]);
 // EXTERNAL MODULE: ./node_modules/babel-runtime/helpers/defineProperty.js
 var defineProperty = __webpack_require__("bOdI");
@@ -3018,4 +3032,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.23280f42289dc77bb210.js.map
+//# sourceMappingURL=app.6dd666d8850fb625add0.js.map
