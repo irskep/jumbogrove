@@ -1,5 +1,12 @@
 webpackJsonp([1],{
 
+/***/ "1/XX":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "356t":
 /***/ (function(module, exports) {
 
@@ -15,13 +22,6 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 /***/ }),
 
 /***/ "Jz3y":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "Knr6":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -325,14 +325,14 @@ var JGUI_Component = JGUI_normalizeComponent(
   props: ['director', 'ui'],
   components: { JGUI: src_components_JGUI }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-0696bb46","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-33e32576","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/App.vue
 var App_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"JumboGrove"},[_c('JGUI',{attrs:{"director":_vm.director,"ui":_vm.ui}})],1)}
 var App_staticRenderFns = []
 var App_esExports = { render: App_render, staticRenderFns: App_staticRenderFns }
 /* harmony default export */ var selectortype_template_index_0_src_App = (App_esExports);
 // CONCATENATED MODULE: ./src/App.vue
 function App_injectStyle (ssrContext) {
-  __webpack_require__("zUu9")
+  __webpack_require__("1/XX")
 }
 var App_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -1087,6 +1087,54 @@ var model_WorldModel = function () {
     }
   }
 });
+// CONCATENATED MODULE: ./src/jg/gamepad.js
+
+
+function bindGamepad(director) {
+  console.log(navigator.getGamepads()[0]);
+
+  var selectActiveElement = function selectActiveElement() {
+    if (document.activeElement) document.activeElement.click();
+  };
+
+  var axisState = ['rest', 'rest', 'rest', 'rest'];
+  var buttonState = [false, false];
+  var update = function update() {
+    window.requestAnimationFrame(update);
+
+    if (!navigator.getGamepads) return;
+    var gp = navigator.getGamepads()[0];
+    if (!gp) return;
+    // const isXbox = gp.id.indexOf('360') !== -1 && gp.id.indexOf('45e') !== -1 && gp.id.indexOf('28e') !== -1;
+
+    axisState.forEach(function (oldState, axis) {
+      var newState = 'rest';
+      if (gp.axes[axis] > 0.5) {
+        newState = 'right';
+      } else if (gp.axes[axis] < -0.5) {
+        newState = 'left';
+      } else {
+        newState = 'rest';
+      }
+      if (oldState === 'rest' && newState === 'right') {
+        director.focusNextElement();
+      } else if (oldState === 'rest' && newState === 'left') {
+        director.focusPreviousElement();
+      }
+      axisState[axis] = newState;
+    });
+
+    buttonState.forEach(function (oldState, i) {
+      if (gp.buttons[i].pressed !== oldState) {
+        buttonState[i] = gp.buttons[i].pressed;
+        if (buttonState[i]) selectActiveElement();
+      }
+    });
+  };
+  update();
+}
+
+
 // CONCATENATED MODULE: ./src/jg/director.js
 
 
@@ -1097,6 +1145,42 @@ var model_WorldModel = function () {
 
 
 
+
+
+var director_getAnchors = function getAnchors() {
+    return lodash_default.a.toArray(document.querySelectorAll('a')).filter(function (a) {
+        return !!a.attributes.href.value;
+    }).filter(function (a) {
+        return !!a.offsetParent;
+    });
+};
+
+var director_focus = function focus(allAnchors, i) {
+    var i2 = (i + allAnchors.length) % allAnchors.length;
+    allAnchors[i2].focus();
+};
+
+var _focusNextElement = function _focusNextElement() {
+    var allAnchors = director_getAnchors();
+    if (!allAnchors.length) return;
+    var i = allAnchors.indexOf(document.activeElement);
+    if (i > -1) {
+        director_focus(allAnchors, i + 1);
+    } else {
+        allAnchors[0].focus();
+    }
+};
+
+var _focusPreviousElement = function _focusPreviousElement() {
+    var allAnchors = director_getAnchors();
+    if (!allAnchors.length) return;
+    var i = allAnchors.indexOf(document.activeElement);
+    if (i > -1) {
+        director_focus(allAnchors, i - 1);
+    } else {
+        allAnchors[allAnchors.length - 1].focus();
+    }
+};
 
 var director_nop = function nop() {};
 
@@ -1188,6 +1272,7 @@ var director_JumboGroveDirector = function () {
             if (!this.load()) {
                 this.goTo(this.model._initialSituationId);
             }
+            bindGamepad(this);
         }
     }, {
         key: 'save',
@@ -1383,6 +1468,16 @@ var director_JumboGroveDirector = function () {
             this.model.currentSituation = next;
             next.doEnter(this.model, this.ui, this, previous);
             this.didEnter(this.model, this.ui, previousId, id);
+        }
+    }, {
+        key: 'focusNextElement',
+        value: function focusNextElement() {
+            _focusNextElement();
+        }
+    }, {
+        key: 'focusPreviousElement',
+        value: function focusPreviousElement() {
+            _focusPreviousElement();
         }
     }]);
 
@@ -1815,6 +1910,7 @@ function replace(el, tag, html) {
           // somehow dead elements are getting click events. Stop the madness.
           if (!el.parentElement) return;
           var href = el.attributes.href;
+          _this2.director.focusNextElement();
           var replacement = removeLink(el, 'm-unavailable');
           _this2.director.handleCommandString(href.value, _this2.item.id, replacement.id);
         });
@@ -1885,14 +1981,14 @@ function replace(el, tag, html) {
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-370cea41","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGHTMLItem.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-7ec2a08e","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGHTMLItem.vue
 var JGHTMLItem_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"JGHTMLItem",attrs:{"data-itemid":_vm.item.id}},[_c('div',{domProps:{"innerHTML":_vm._s(_vm.item.html)}}),_vm._v(" "),_vm._l((_vm.writerOutputs),function(html,i){return _c('div',{key:i,staticClass:"JGHTMLAddition m-addition",domProps:{"innerHTML":_vm._s(html)}})})],2)}
 var JGHTMLItem_staticRenderFns = []
 var JGHTMLItem_esExports = { render: JGHTMLItem_render, staticRenderFns: JGHTMLItem_staticRenderFns }
 /* harmony default export */ var components_JGHTMLItem = (JGHTMLItem_esExports);
 // CONCATENATED MODULE: ./src/components/JGHTMLItem.vue
 function JGHTMLItem_injectStyle (ssrContext) {
-  __webpack_require__("Knr6")
+  __webpack_require__("RS5W")
 }
 var JGHTMLItem_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -3003,6 +3099,13 @@ if (window.jumboGroveExample) {
 
 /***/ }),
 
+/***/ "RS5W":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "ToLL":
 /***/ (function(module, exports) {
 
@@ -3022,14 +3125,7 @@ if (window.jumboGroveExample) {
 
 // removed by extract-text-webpack-plugin
 
-/***/ }),
-
-/***/ "zUu9":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.1bddb7cb640a9b322c10.js.map
+//# sourceMappingURL=app.faf05fb04ea42597c87e.js.map
