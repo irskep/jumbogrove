@@ -219,6 +219,9 @@ blockquote {
 .stat {
   background-color: #ffd;
 }
+a:focus {
+  background-color: #ddf;
+}
 
 // pixel art!
 img.headshot {

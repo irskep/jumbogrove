@@ -1,6 +1,40 @@
 import _ from 'lodash';
 import WorldModel from './model';
 import commands from "./commands";
+import { bindGamepad } from "./gamepad";
+
+const getAnchors = () => {
+  return _.toArray(document.querySelectorAll('a'))
+    .filter((a) => !!a.attributes.href.value)
+    .filter((a) => !!a.offsetParent);
+};
+
+const focus = (allAnchors, i) => {
+  const i2 = (i + allAnchors.length) % allAnchors.length;
+  allAnchors[i2].focus();
+};
+
+const focusNextElement = () => {
+  const allAnchors = getAnchors();
+  if (!allAnchors.length) return;
+  const i = allAnchors.indexOf(document.activeElement);
+  if (i > -1) {
+    focus(allAnchors, i + 1);
+  } else {
+    allAnchors[0].focus();
+  }
+};
+
+const focusPreviousElement = () => {
+  const allAnchors = getAnchors();
+  if (!allAnchors.length) return;
+  const i = allAnchors.indexOf(document.activeElement);
+  if (i > -1) {
+    focus(allAnchors, i - 1);
+  } else {
+    allAnchors[allAnchors.length - 1].focus();
+  }
+};
 
 const nop = () => { };
 class JumboGroveDirector {
@@ -72,6 +106,7 @@ class JumboGroveDirector {
         if (!this.load()) {
             this.goTo(this.model._initialSituationId);
         }
+        bindGamepad(this);
     }
 
     save(toSituationId) {
@@ -220,6 +255,9 @@ class JumboGroveDirector {
         next.doEnter(this.model, this.ui, this, previous);
         this.didEnter(this.model, this.ui, previousId, id);
     }
+
+    focusNextElement() { focusNextElement(); }
+    focusPreviousElement() { focusPreviousElement(); }
 }
 
 function parseAction(s) {

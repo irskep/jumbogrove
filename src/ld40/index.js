@@ -1,21 +1,30 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import hour0 from "./hour0";
 import hour1 from "./hour1";
-import arrivals from "./arrivals";
+import hour2 from "./hour2";
+import amy from "./amy";
+import blaine from "./blaine";
+import kevin from "./kevin";
 import liz from "./liz";
 import jen from "./jen";
+import rachel from "./rachel";
 import { ROOMS, ROOM_STATEMENTS, ROOM_NAMES } from "./constants";
+import { addHelpersToModel } from './util';
 
 const importedSituations = [
-    ...arrivals,
     ...hour0,
     ...hour1,
+    ...hour2,
+    ...amy,
     ...liz,
     ...jen,
+    ...blaine,
+    ...rachel,
+    ...kevin,
 ];
 
 
-function standardQualities(room = null, opts = {friendliness: 5, fun: 3, stress: 3}) {
+function standardQualities(room = null, opts = {friendliness: 5, drunkenness: 0, energy: 5}) {
   return {
     core: {
       room: {
@@ -26,22 +35,25 @@ function standardQualities(room = null, opts = {friendliness: 5, fun: 3, stress:
         initialValue: room,
       },
       friendliness: {
-          type: 'integer',
+          type: 'wordScale',
+          words: ['enemy', 'stranger', 'acquaintance', 'friend', 'bestie'],
+          offset: -1,
           name: "Friendliness",
           priority: 1,
           initialValue: opts.friendliness || 5,
       },
-      fun: {
-          type: 'integer',
-          name: "Fun",
+      drunkenness: {
+          type: 'wordScale',
+          words: ['sober', 'buzzed', 'tipsy', 'drunk', 'wasted'],
+          name: "Drunkenness",
           priority: 2,
-          initialValue: opts.fun || 3,
+          initialValue: opts.drunkenness || 0,
       },
-      stress: {
+      energy: {
           type: 'integer',
-          name: "Stress",
+          name: "Energy level",
           priority: 3,
-          initialValue: opts.stress || 3,
+          initialValue: opts.energy || 5,
       },
     },
   };
@@ -65,6 +77,7 @@ export default {
   globalState: {
     hour: 0,
     scheduledArrivals: [{id: 'liz', hour: 2}, {id: 'chris', hour: 3}],
+    scheduledGotos: [],
     propertyDamage: 0,
     numRoomsVisitedThisHour: 0,
   },
@@ -74,125 +87,16 @@ export default {
     {id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true},
     {id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true},
     {id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true},
-    {id: 'amy', name: 'Amy', qualities: standardQualities(), showInSidebar: false},
+    {id: 'amy', name: 'Amy', qualities: standardQualities(null, {friendliness: 4}), showInSidebar: false},
     {id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false},
-    {id: 'liz', name: 'Liz', qualities: standardQualities(null, {fun: 0, stress: 4}), showInSidebar: false},
-    {id: 'chris', name: 'Chris', qualities: standardQualities(null, {fun: 3, stress: 0}), showInSidebar: false},
+    {id: 'liz', name: 'Liz', qualities: standardQualities(null, {}), showInSidebar: false},
+    {id: 'chris', name: 'Chris', qualities: standardQualities(null, {drunkenness: 2}), showInSidebar: false},
+    {id: 'rachel', name: 'Rachel', qualities: standardQualities(), showInSidebar: false},
+    {id: 'blaine', name: 'Blaine', qualities: standardQualities(null, {drunkenness: 2, friendliness: 2}), showInSidebar: false},
   ],
 
   init(model, ui, md) {
-
-    // Define some helpers for rendering text and doing stuff, so we have to write as little JS as possible
-    // in the content field
-    const templateFns = {
-      // make ROOMS constant accessible
-      ROOMS,
-
-      // Print some text in the style of a character name
-      chr: (name) => `*${name}*{.character}`,
-
-      img: (id) => `![${id} image](./static/headshots/${id}.png){.headshot}`,
-
-      // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
-      formatTime: (hour) => {
-        hour = (18 + hour) % 24;
-        const amPm = hour > 12 ? 'pm' : 'am';
-        if (amPm === 'pm') hour -= 12;
-        return `${hour || 12}:00${amPm}`;
-      },
-
-      // Print a list of things, styled as character names.
-      chrs: (conj, ...names) => {
-        names = names.map((n) => `*${n}*{.character}`);
-        if (names.length < 1) return '';
-        if (names.length === 1) return names[0];
-        if (names.length === 2) return `${names[0]} ${conj} ${names[1]}`;
-        return `${_.initial(names).join(', ')}, ${conj} ${_.last(names)}`;
-      },
-      
-      // Adjust a character quality by the given amount.
-      stat: (chr, q, amt) => {
-        chr = model.character(chr);
-        chr.addToQuality(q, amt);
-        const amtStr = amt > 0 ? `+${amt}` : amt;
-        return `\`${chr.name} ${chr.formatQualityName(q)} ${amtStr}\`{.stat}`;
-      },
-
-      // Schedule a character for later arrival.
-      scheduleArrival: (id, hour) => {
-        model.globalState.scheduledArrivals.push({id, hour});
-        return `> ${templateFns.chr(model.character(id).name)} is scheduled to arrive at ${templateFns.formatTime(hour)}.`
-      },
-
-      // Move a character into a room.
-      moveCharacter: (id, room) => {
-        model.character(id).setQuality('room', room);
-        if (id === 'player') return '';
-        return `> ${templateFns.chr(model.character(id).name)} is ${ROOM_STATEMENTS[room]}.`
-      },
-
-      // Returns the list of guests who have just arrived. Assigns their room to 'porch'.
-      arrivingGuests: () => {
-        const chars = model.globalState.scheduledArrivals
-          .filter(({hour}) => model.globalState.hour >= hour)
-          .map(({id}) => model.character(id));
-        
-        model.globalState.scheduledArrivals = model.globalState.scheduledArrivals
-          .filter(({hour}) => hour > model.globalState.hour);
-
-        for (const c of chars) {
-          c.setQuality('room', ROOMS.porch);
-          c.showInSidebar = true;
-        }
-
-        return chars;
-      },
-
-      charactersIn: (room) => {
-        return model.allCharacters.filter((c) => c.getQuality('room') === room);
-      }
-    }
-    ui.addTemplateFunctions(templateFns);
-
-    ui.addTemplateGetters({
-      // write <%=time%> to print the current time.
-      time: () => templateFns.formatTime(model.globalState.hour),
-
-      // write <%=pl%> to print the player's name.
-      pl: () => `*${model.character('player').name}*{.character}`,
-
-      numGuests: () => model.allCharacters.filter((c) => c.getQuality('room')).length,
-
-      // "Lost friend" starts at least 4, ends at most 2
-      numLostFriends: () => {
-        return model.allCharacters
-          .filter((c) => {
-            if (c.id === 'player') return false;
-            return c.getQuality('friendliness') < 3 && c.getQualityInitial('friendliness') >= 4;
-          })
-          .length;
-      },
-
-      // "Gained friend" just has to get to 4
-      numNewFriends: () => {
-        return model.allCharacters
-          .filter((c) => {
-            if (c.id === 'player') return false;
-            return c.getQuality('friendliness') >= 4 && c.getQualityInitial('friendliness') < 4;
-          })
-          .length;
-      },
-    });
-
-    for (const c of model.allCharacters) {
-      // write<%=<CHARACTER ID>%> to print that character's name.
-      ui.addTemplateGetters({[c.id]: () => ui.templateHelperFunctions.chr(c.name)});
-    }
-
-    Object.assign(model, {
-      populatePorch: templateFns.arrivingGuests,
-      charactersIn: templateFns.charactersIn,
-    });
+    addHelpersToModel(model);
   },
   willEnter: (model, ui, oldSituationId, newSituationId) => {
     if (oldSituationId) {
@@ -205,7 +109,7 @@ export default {
 
     {
       id: 'advance-time',
-      optionText: 'Hang out for an hour',
+      optionText: 'Hang out',
       tags: ['freechoice'],
       priority: 0,
       autosave: true,
@@ -216,6 +120,15 @@ export default {
         if (model.globalState.hour >= 6) {
           model.do(`@ending-ok`);
           return false;
+        }
+
+        for (let i = 0; i < model.globalState.scheduledGotos.length; i++) {
+          const {hour, string} = model.globalState.scheduledGotos[i];
+          if (hour <= model.globalState.hour) {
+            model.globalState.scheduledGotos.splice(i, 1);
+            model.do(string);          
+            return false;
+          }
         }
 
         const sid = `hour${model.globalState.hour}`;
@@ -256,6 +169,12 @@ export default {
 
       It is <%=time%>, and everyone has either gone home, gone to bed, or passed out.
 
+      # The End
+
+      > You have reached the end of the content I was able to create for the jam. The consequences
+      are likely underwhelming, but I hope you were a little bit entertained!
+      > -Steve
+
       # How you did
 
       <% if (model.globalState.propertyDamage === 0) { %>
@@ -291,7 +210,8 @@ export default {
       },
     },
 
-    ...Object.keys(ROOM_NAMES).map((n) => {
+    // ...Object.keys(ROOM_NAMES).map((n) => {
+    ...['dining', 'porch'].map((n) => {
       return {
         id: `go-to-${n}`,
         tags: ['freechoice'],

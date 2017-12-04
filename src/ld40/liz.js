@@ -31,9 +31,7 @@ export default [
     content: `
     "Wine, you say? I guess I'm in." Liz is a fan of wine.
 
-    <%= stat('liz', 'fun', 1) %>
-
-    <%= stat('liz', 'stress', -1) %>
+    <%= stat('liz', 'drunkenness', 1) %>
 
     <% print(moveCharacter('liz', ROOMS.dining)) %>
     `,
@@ -47,7 +45,7 @@ export default [
     content: `
     "Whatever." She stalks past you, beelining for her room.
 
-    <%= stat('liz', 'friendliness', -3) %>
+    <%= stat('liz', 'friendliness', -1) %>
 
     <% print(moveCharacter('liz', ROOMS.bedroomLiz)) %>
     `,

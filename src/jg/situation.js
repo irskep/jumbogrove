@@ -34,16 +34,17 @@ export default class Situation {
         choices = null,
         snippets = {},
         input = null,
+        debugChoices = false,
     }) {
         Object.assign(this, {
             id, tags, totalVisits, getCanChoose, getCanSee, priority,
             displayOrder, optionText, enter, act, exit, content, actions, choices,
-            snippets, input, willEnter, autosave,
+            snippets, input, willEnter, autosave, debugChoices,
         });
     }
 
     toSave() {
-        return _.pick(this, ['totalVisits']);
+        return _.pick(this, ['totalVisits', 'id']);
     }
 
     loadSave(obj) {
@@ -51,6 +52,7 @@ export default class Situation {
     }
 
     doEnter(model, ui) {
+        this.totalVisits += 1;
         if (this.content) {
             ui.logMarkdown(this.content);
         }
@@ -70,7 +72,6 @@ export default class Situation {
     }
 
     doExit(model, ui, toSituation) {
-        this.totalVisits += 1;
         ui.nextGroup();
         this.exit.apply(this, arguments);
     }

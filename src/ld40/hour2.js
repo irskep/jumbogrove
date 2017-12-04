@@ -3,32 +3,12 @@
 
 export default [
   {
-    id: 'hour1',
+    id: 'hour2',
     content: `
-    # Please, Come In{.title}
-    ## A game for Ludum Dare 40 that I probably won't finish{.center}
-    ### by irskep and rbatistadelima{.center}
+    # <%=time%>
 
-    The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you
-    are hosting a party. Your guests keep inviting more people, and you are unable to say no.
-
-    Your goal is to make it to morning without property damage or lost friends.
-    `,
-    snippets: {
-      unfinished: `I have 54 hours left, surely I will finish this, hehehe...`,
-    },
-    choices: ['hour1b'],
-  },
-
-  {
-    id: 'hour1b',
-    autosave: true,
-    priority: 1,
-    optionText: 'Continue',
-    content: `
-    # 7:00pm
-
-    You've all finished dinner.
+    Your roommate <%=liz%> is due home about now. You hope she doesn't overreact to the unexpected guests.
+    You've all been hitting the wine quite a bit.
 
     <% getDrunker().forEach((line) => { %>
     <%=line%>

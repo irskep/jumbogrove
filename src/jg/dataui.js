@@ -75,12 +75,16 @@ export default class DataUI {
     for (const k of Object.keys(this.templateHelperGetters)) {
       getters[k] = this.templateHelperGetters[k]();
     }
+    for (const k of Object.keys(this.director.model.templateHelperGetters)) {
+      getters[k] = this.director.model.templateHelperGetters[k]();
+    }
     return {
       ...this.director.model,
       model: this.director.model,
       ui: this,
       ...getters,
       ...this.templateHelperFunctions,
+      ...this.director.model.templateHelperFunctions,
     };
   }
 

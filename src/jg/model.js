@@ -10,7 +10,10 @@ export default class WorldModel {
         this.globalState = _.cloneDeep(globalState);
         this.player = this.character('player') || null;
         this._situations = {};
-        situations.forEach((s) => this._situations[s.id] = new Situation(s));
+        situations.forEach((s) => {
+            if (this._situations[s.id]) throw new Error(`Duplicate situation id: ${s.id}`);
+            this._situations[s.id] = new Situation(s);
+        });
 
         this._initialSituationId = initialSituation;
 
@@ -19,6 +22,17 @@ export default class WorldModel {
         this.asideHeaderHTML = null;
 
         this.allCharacters = _.sortBy(Object.values(this._characters), ({priority}) => priority || 0);
+        this.templateHelperFunctions = {};
+        this.templateHelperGetters = {};
+    }
+
+    extend(fns) {
+        Object.assign(this, fns);
+        Object.assign(this.templateHelperFunctions, fns);
+    }
+
+    addTemplateGetters(fns) {
+        Object.assign(this.templateHelperGetters, fns);
     }
 
     toSave() {
@@ -26,6 +40,7 @@ export default class WorldModel {
             globalState: this.globalState,
             currentSituationId: this.currentSituation ? this.currentSituation.id : null,
             characters: this.allCharacters.map((c) => c.toSave()),
+            situations: Object.values(this._situations).map((s) => s.toSave()),
         };
     }
 
@@ -34,6 +49,9 @@ export default class WorldModel {
         this.currentSituation = this._situations[obj.currentSituationId] || null;
         for (const data of obj.characters) {
             this.character(data.id).loadSave(data);
+        }
+        for (const s of obj.situations) {
+            this.situation(s.id).loadSave(s);
         }
     }
 
@@ -82,10 +100,11 @@ export default class WorldModel {
 
     interpretChoices(arrayOfSituationIdsOrTags, atLeast = 0, atMost = Number.MAX_VALUE) {
         const host = this.currentSituation;
+        if (host.debugChoices) debugger;  // eslint-disable-line no-debugger
         const situations = [].concat.apply(
             [], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));
         // remove invisible situations
-        const visibleSituations = situations.filter((s) => s.getCanSee(this, host));
+        const visibleSituations = situations.filter((s) => s.getCanSee(this, host, s));
 
         // sort by display order
         const sortedSituations = _.sortBy(

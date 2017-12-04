@@ -64,6 +64,7 @@ export default {
           // somehow dead elements are getting click events. Stop the madness.
           if (!el.parentElement) return;
           const href = el.attributes.href;
+          this.director.focusNextElement();
           const replacement = removeLink(el, 'm-unavailable');
           this.director.handleCommandString(href.value, this.item.id, replacement.id);
         });
