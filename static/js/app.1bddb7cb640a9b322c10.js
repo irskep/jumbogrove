@@ -2935,7 +2935,7 @@ function standardQualities() {
     id: 'ending-ok',
     optionText: 'If you see this text, it is a bug',
     priority: 0,
-    content: "\n      An hour passes.\n\n      # <%=time%>\n\n      It is <%=time%>, and everyone has either gone home, gone to bed, or passed out.\n\n      # How you did\n\n      <% if (model.globalState.propertyDamage === 0) { %>\n      Your flat is, miraculously, still in pristine condition.\n      <% } else if (model.globalState.propertyDamage <= 3) { %>\n      Your flat is a little messy, but it's nothing you can't clean up in the morning.\n      <% } else if (model.globalState.propertyDamage <= 6) { %>\n      Your flat is pretty messy. It's going to take you all day to clean up tomorrow, and some things are\n      permanently stained or broken.\n      <% } else { %>\n      Your flat is a total disaster. Things are broken, stained, outright stolen, and in complete disarray.\n      You are likely to be evicted.\n      <% } %>\n\n      You lost <%=numLostFriends%> friends.\n\n      You gained <%=numNewFriends%> friends.\n\n      [Restart](>resetGame)\n\n      "
+    content: "\n      An hour passes.\n\n      # <%=time%>\n\n      It is <%=time%>, and everyone has either gone home, gone to bed, or passed out.\n\n      # The End\n\n      > You have reached the end of the content I was able to create for the jam. The consequences\n      are likely underwhelming, but I hope you were a little bit entertained!\n      > -Steve\n\n      # How you did\n\n      <% if (model.globalState.propertyDamage === 0) { %>\n      Your flat is, miraculously, still in pristine condition.\n      <% } else if (model.globalState.propertyDamage <= 3) { %>\n      Your flat is a little messy, but it's nothing you can't clean up in the morning.\n      <% } else if (model.globalState.propertyDamage <= 6) { %>\n      Your flat is pretty messy. It's going to take you all day to clean up tomorrow, and some things are\n      permanently stained or broken.\n      <% } else { %>\n      Your flat is a total disaster. Things are broken, stained, outright stolen, and in complete disarray.\n      You are likely to be evicted.\n      <% } %>\n\n      You lost <%=numLostFriends%> friends.\n\n      You gained <%=numNewFriends%> friends.\n\n      [Restart](>resetGame)\n\n      "
   }, {
     id: 'advance-time-fallback',
     tags: ['freechoice'],
@@ -3032,4 +3032,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.6dd666d8850fb625add0.js.map
+//# sourceMappingURL=app.1bddb7cb640a9b322c10.js.map
