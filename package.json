@@ -11,7 +11,8 @@
     "watchtest": "jest '.*.test.js' --watch",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "build": "node build/build.js",
-    "deploy": "yarn build && ghp-import -np dist"
+    "deploy": "yarn build && ghp-import -np dist",
+    "ld40": "yarn build && ghp-import -np dist -r ld40"
   },
   "dependencies": {
     "animated-scroll-to": "^1.1.7",
