@@ -103,7 +103,7 @@ export default {
   },
   willEnter: (model, ui, oldSituationId, newSituationId) => {
     if (oldSituationId) {
-      // ui.logHTML('<hr>');
+      // ui.writeHTML('<hr>');
     }
     return true;
   },

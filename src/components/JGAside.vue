@@ -18,8 +18,13 @@
                 <ul class="CharacterQualities">
                   <li v-for="quality in character.sortedQualities(group.id)"
                       :key="quality.id"
-                      v-if="!quality.hidden && (quality.type != 'flag' || quality.value)">
-                    <template v-if="quality.type == 'flag'">{{ character.formatQuality(quality.id) }}</template>
+                      v-if="(
+                        !quality.hidden &&
+                        (!quality.isVisible || quality.isVisible(character, quality, quality.value))
+                      )">
+                    <template v-if="quality.isLabeled && quality.isLabeled(character, quality, quality.value)">
+                      {{ character.formatQuality(quality.id) }}
+                    </template>
                     <template v-else><strong>{{ quality.name }}:</strong> {{ character.formatQuality(quality.id) }}</template>
                   </li>
                 </ul>

@@ -3,8 +3,8 @@
  * @type {Quality}
  * @example
  * {
- *    initialValue: 0,  // anything
- *    labelMap: {'foo': 'bar'},
+ *    initialValue: 'foo',  // anything
+ *    labelMap: {'foo': 'bar'},  // renders 'foo' as 'bar'
  * }
  */
 const namedChoice = {

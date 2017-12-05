@@ -231,7 +231,7 @@ class JumboGroveDirector {
         const previousId = previous ? previous.id : null;
         if (next.autosave && !isFromLoad) {
             this.save(id);
-            this.ui.logMarkdown('> Game saved.\n')
+            this.ui.writeMarkdown('> Game saved.\n')
         }
         if (this.model.currentSituation) {
             this.willExit(this.model, this.ui, previousId, id);

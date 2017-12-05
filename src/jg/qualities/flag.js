@@ -1,5 +1,5 @@
 /**
- * If value is true, some text appears. Otherwise, no text appears.
+ * If `value` is true, some text appears. Otherwise, no text appears.
  * @type {Quality}
  * @example
  * {
