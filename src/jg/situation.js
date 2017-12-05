@@ -61,7 +61,7 @@ export default class Situation {
             ui.promptInput({placeholder: this.input.placeholder})
                 .then((value) => { 
                     this.input.store(model, value);
-                    model.handleCommandString(this.input.next);
+                    model.do(this.input.next);
                 });
         }
         if (this.choices) {

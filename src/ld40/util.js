@@ -5,6 +5,7 @@ import {
   // ROOM_NAMES,
 } from "./constants";
 
+/** @ignore */
 function addHelpersToModel(model) {
   // Define some helpers for rendering text and doing stuff, so we have to write as little JS as possible
   // in the content field

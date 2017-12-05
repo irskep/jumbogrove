@@ -23,7 +23,7 @@ function normalizeIndent(text) {
   }).join('\n');
 }
 
-export default class DataUI {
+export default class ui {
   constructor() {
     this.content = [];
     this.currentItemId = null;

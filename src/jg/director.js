@@ -37,6 +37,7 @@ const focusPreviousElement = () => {
 };
 
 const nop = () => { };
+/** @ignore */
 class JumboGroveDirector {
     constructor({
         id,
@@ -75,11 +76,7 @@ class JumboGroveDirector {
     }
 
     recreateModel() {
-        this.model = new WorldModel(this.modelArgs);
-        for (const k of ['goTo', 'handleCommandString', 'isManagedLink']) {
-            this.model[k] = this[k].bind(this);
-        }
-        this.model.do = this.handleCommandString.bind(this);
+        this.model = new WorldModel(this, this.modelArgs);
     }
 
     toString() {

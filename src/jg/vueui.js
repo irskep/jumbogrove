@@ -4,6 +4,7 @@ import JGHTMLItem from "@/components/JGHTMLItem";
 import JGChoiceItem from "@/components/JGChoiceItem";
 import JGInputItem from "@/components/JGInputItem";
 
+/** @ignore */
 export default class VueUI extends DataUI {
   constructor() {
     super(...arguments);

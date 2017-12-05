@@ -12,6 +12,7 @@
 // https://www.npmjs.com/package/markdown-it-replacements
 import _ from 'lodash';
 
+/** @ignore */
 const game = {
     id: 'jg-example',
     version: 1,

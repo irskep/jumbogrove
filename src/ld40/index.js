@@ -11,6 +11,7 @@ import rachel from "./rachel";
 import { ROOMS, ROOM_STATEMENTS, ROOM_NAMES } from "./constants";
 import { addHelpersToModel } from './util';
 
+/** @ignore */
 const importedSituations = [
     ...hour0,
     ...hour1,
@@ -24,6 +25,7 @@ const importedSituations = [
 ];
 
 
+/** @ignore */
 function standardQualities(room = null, opts = {friendliness: 5, drunkenness: 0, energy: 5}) {
   return {
     core: {
@@ -59,6 +61,7 @@ function standardQualities(room = null, opts = {friendliness: 5, drunkenness: 0,
   };
 };
 
+/** @ignore */
 export default {
   id: 'my-game',
   navHeader: `

@@ -148,5 +148,3 @@ Eventually, this will be available as a library. You'll do something like this:
     </body>
 </html>
 ```
-
-# ui reference

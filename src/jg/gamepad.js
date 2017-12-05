@@ -1,5 +1,4 @@
-import _ from 'lodash';
-
+/** @ignore */
 function bindGamepad(director) {
   console.log(navigator.getGamepads()[0]);
 

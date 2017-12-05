@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import qualities from "./qualities";
+import qualities from "./qualities/index";
 
 const _prioritySort = ({priority}) => priority || 0;
 const _groupOmitKeys = ['id', 'name', 'priority', 'hidden'];

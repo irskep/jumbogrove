@@ -1,3 +1,4 @@
+/** @ignore */
 const ROOMS = {
   porch: 'porch',
   kitchen: 'kitchen',
@@ -11,6 +12,7 @@ const ROOMS = {
   bedroomChris: 'bedroom3',
 }
 
+/** @ignore */
 const ROOM_STATEMENTS = {
   porch: 'on the front porch',
   kitchen: 'in the kitchen',
@@ -22,6 +24,7 @@ const ROOM_STATEMENTS = {
   bedroom3: "in Chris's room",
 }
 
+/** @ignore */
 const ROOM_NAMES = {
   porch: 'the front porch',
   kitchen: 'the kitchen',
@@ -34,7 +37,10 @@ const ROOM_NAMES = {
 }
 
 export {
+  /** @ignore */
   ROOMS,
+  /** @ignore */
   ROOM_STATEMENTS,
+  /** @ignore */
   ROOM_NAMES,
 }
