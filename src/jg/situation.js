@@ -3,16 +3,122 @@ import _ from 'lodash';
 const nop = () => { };
 const tru = () => true;
 /**
- * This object represents a Situation defined by your game. You don't create it directly,
- * but it is passed to some of your callbacks for convenience.
  */
 export default class Situation {
-    /** @ignore */
+    /**
+     * 
+     * @param {object} args
+     * @param {string} args.id
+     * @param {Boolean} args.autosave If true, game will save when scene is
+     *                                entered. Default false.
+     * @param {string} args.content
+     *      Markdown template to be rendered to the transcript when this
+     *      situation is entered. {@see /markup.html}
+     * @param {string[]} args.choices
+     *      List of situation IDs or tags. See
+     *      {@link model#interpretChoices} for how this works.
+     * @param {Map<string,string>} args.snippets
+     *      Snippets used by writers/replacers. {@see /writers_replacers.html}.
+     * @param {object|null} args.input 
+     *      If provided, prompts user for input. Looks like
+     *      `input: {placeholder: "Your name", next: "situation-id", store: function(model, value)}`
+     * @param {string|null} args.input.placeholder
+     *      Placeholder value for the HTML input field 
+     * @param {string} args.input.next
+     *      Situation or action to go to after user enters a value.
+     *      Must start with either `@` (for situation IDs) or `>`
+     *      (for actions).
+     * @param {function(model: model, value: string)} args.input.store
+     *      Your chance to do something with the given alue
+     * @param {Boolean} args.debugChoices See {@link debugChoices}
+     * @param {function(model: model, hostSituation: Situation): Boolean} getCanChoose
+     *      If this function is provided and returns `false`, this situation
+     *      is not linkified in the choices list.
+     * @param {function(model: model, hostSituation: Situation): Boolean} getCanSee
+     *      If this function is provided and returns `false`, the situation
+     *      will not show up in the choices list for the situation presenting
+     *      the choice.
+     * @param {number|function(model: model, hostSituation: Situation): number} priority
+     *      May be a constant number, or function returning a number. This value
+     *      is used by {@link model#interpretChoices}.
+     * @param {number|function(model: model, hostSituation: Situation): number} displayOrder
+     *      May be a constant number, or function returning a number. This value
+     *      is used by {@link model#interpretChoices}.
+     * @param {string|function(model: model, hostSituation: Situation): string} optionText
+     *      Text shown to user when being presented as a choice.
+     * @param {function(model: model, ui: ui, fromSituation: Situation): Boolean} willEnter
+     *      This situation will enter, unless this function returns `false`. It
+     *      is safe to call `model.do()` from here, as long as you then return
+     *      `false`.
+     * @param {function(model: model, ui: ui, fromSituation: Situation)} enter
+     *      The situation has been entered, and {@link Situation#content} has
+     *      been written to the transcript.
+     * @param {function(model: model, ui: ui, toSituation: Situation)} exit
+     *      The situation is being exited, but the next situation has not yet
+     *      been entered.
+     * @param {function(model: model, ui: ui, action: String)} act
+     *      An action-based link has been clicked. You might just want to use
+     *      the `actions` key instead of this function if you're just mapping
+     *      action names to functions.
+     * @param {Map<string,function>} actions
+     *      Map of action name to function that is called when the user invokes
+     *      the action.
+     * 
+     * @example
+     *  jumbogrove('#app', {
+     *      id: 'situations-example',
+     *      autosave: true,
+     * 
+     *      // stuff related to this situation being a choice in another situation:
+     *      optionText: "Proclaim hungriness",
+     *      getCanChoose: (model, host) => true,
+     *      getCanSee: (model, host) => true,
+     *      priority: 1,
+     *      displayOrder: 1,
+     * 
+     *      // stuff related to content and what happens inside the situation:
+     *      content: `
+     *      I am [very](>replaceself:more_adjectives) hungry.
+     * 
+     *      [Eat](>eat)
+     * 
+     *      [Go to restaurant](@restaurant)
+     *      `,
+     *      snippets: {
+     *          more_adjectives: "very, very, very, very"
+     *      },
+     *      act: (model, ui, action) => console.log("did action", action),
+     *      actions: {
+     *          eat: () => console.log("OM NOM NOM"),
+     *      },
+     * 
+     *      // going to other situations:
+     *      choices: ['next-situation', '#situations-involving-food'],
+     *      // normally you wouldn't have 'choices' and 'input' in the same situation.
+     *      input: {
+     *          placeholder: "Please enter your favorite food.",
+     *          next: "@restaurant",
+     *      },
+     *      debugChoices: false,
+     * 
+     *      // lifecycle
+     *      willEnter: (model, ui, from) => true,
+     *      enter: (model, ui, from) => console.log("entered"),
+     *      exit: (model, ui, from) => console.log("exited"),
+     *  });
+     */
     constructor({
         id,
         tags = [],
         totalVisits = 0,
         autosave = false,
+        // str (rendered as HTML before enter() called)
+        content = null,
+        // [str] (if specified, presentChoices() will happen automatically)
+        choices = null,
+        snippets = {},
+        input = null,
+        debugChoices = false,
         // (model, hostSituation)
         getCanChoose = tru,
         // (model, hostSituation)
@@ -33,13 +139,6 @@ export default class Situation {
         actions = {},
         // (model, ui, toSituation)
         exit = nop,
-        // str (rendered as HTML before enter() called)
-        content = null,
-        // [str] (if specified, presentChoices() will happen automatically)
-        choices = null,
-        snippets = {},
-        input = null,
-        debugChoices = false,
     }) {
         /**
          * ID of this situation.

@@ -211,7 +211,7 @@ export default class model {
      * that match the filter.
      * 
      * 1. Filter out all situations for which `situation.getCanSee(model, model.currentSituation, situation)` returns `false`.
-     * 2. Find the highest priority that matches a list of situations at least as long as `atLeast`.
+     * 2. Find the highest priority that matches a list of situations at least as big as `atLeast`.
      * 3. If there are more situations left than there are `atMost`, randomly remove some.
      * 4. Sort by `situation.displayOrder`.
      * 
