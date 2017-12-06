@@ -3,15 +3,33 @@ import qualities from "./qualities/index";
 
 const _prioritySort = ({priority}) => priority || 0;
 const _groupOmitKeys = ['id', 'name', 'priority', 'hidden'];
+
+/**
+ * This class is created from the character object you specify in your game.
+ */
 export default class Character {
+    /** @ignore */
     constructor({qualities, id, name, priority = 0, showInSidebar = true, description = '', state = {}}) {
+        /**
+         * The ID you specified for this character. Must be unique across all characters.
+         * @type {string}
+         */
+        this.id = id;
+
+        /**
+         * The name you specified for this character.
+         * @type {string}
+         */
+        this.name = name;
+
         Object.assign(this, {
-            id, name, qualities, description, showInSidebar, priority,
+            qualities, description, showInSidebar, priority,
             state: _.cloneDeep(state)});
 
         this.updateQualities()
     }
 
+    /** @ignore */
     updateQualities() {
         this._shallowQualities = {};
         Object.keys(this.qualities).forEach((k) => {
@@ -26,18 +44,22 @@ export default class Character {
                 if (group[k2].value === undefined) group[k2].value = group[k2].initialValue;
             }
         });
+        /** @ignore */
         this.sortedQualityGroups = _.sortBy(Object.values(this.qualities), _prioritySort);
     }
 
+    /** @ignore */
     toSave() {
         return _.pick(this, ['id', 'qualities', 'name', 'showInSidebar', 'description', 'state']);
     }
 
+    /** @ignore */
     loadSave(obj) {
         _.assign(this, obj);
         this.updateQualities();
     }
 
+    /** @ignore */
     getDescription() {
         if (_.isFunction(this.description)) {
             return this.description.apply(this, arguments);
@@ -46,20 +68,40 @@ export default class Character {
         }
     }
 
+    /** @ignore */
     sortedQualities(groupName) {
         return _.sortBy(Object.values(_.omit(this.qualities[groupName], _groupOmitKeys)), _prioritySort);
     }
 
-    getQuality(name) {
-        return this._shallowQualities[name].value;
+    /**
+     * Return the current value of this quality (without formatting it)
+     * 
+     * @param {string} id ID of the quality whose value you want
+     * @returns {*}
+     */
+    getQuality(id) {
+        return this._shallowQualities[id].value;
     }
 
-    getQualityInitial(name) {
-        return this._shallowQualities[name].initialValue;
+    /**
+     * Return the _initial_ value of this quality from the start of the game(without formatting it).
+     * You can use this to see how the value has changed since the start of the game.
+     * 
+     * @param {string} id ID of the quality whose value you want
+     * @returns {*}
+     */
+    getQualityInitial(id) {
+        return this._shallowQualities[id].initialValue;
     }
 
-    formatQuality(name) {
-        const quality = this._shallowQualities[name];
+    /**
+     * Returns the formatted value of the given quality.
+     * 
+     * @param {string} id ID of the quality whose value you want
+     * @returns {string}
+     */
+    formatQuality(id) {
+        const quality = this._shallowQualities[id];
         if (!qualities[quality.type]) {
             console.error("Undefined quality type:", quality.type);
             return '';
@@ -67,16 +109,36 @@ export default class Character {
         return qualities[quality.type].format(this, quality, quality.value);
     }
 
-    formatQualityName(name) {
-        const quality = this._shallowQualities[name];
+    /**
+     * Return the human-readable name for the given quality ID.
+     * 
+     * @param {string} id ID of the quality whose value you want
+     * @returns {string}
+     */
+    formatQualityName(id) {
+        const quality = this._shallowQualities[id];
         return quality.name;
     }
 
-    setQuality(name, value) {
-        this._shallowQualities[name].value = value;
+    /**
+     * Qualities **must** be modified using this method.
+     * 
+     * @param {string} id ID of the quality to modify on this character
+     * @param {*} value New value for the quality
+     */
+    setQuality(id, value) {
+        this._shallowQualities[id].value = value;
     }
 
-    addToQuality(name, delta) {
-        this._shallowQualities[name].value += delta;
+    /**
+     * Add an integer value to the given quality.
+     * 
+     * @param {string} id ID of the quality to modify on this character
+     * @param {number} value Amount to add
+     * @returns {number} The new value
+     */
+    addToQuality(id, delta) {
+        this._shallowQualities[id].value += delta;
+        return this._shallowQualities[id].value += delta;
     }
 }
