@@ -8,7 +8,17 @@ const _groupOmitKeys = ['id', 'name', 'priority', 'hidden'];
  * This class is created from the character object you specify in your game.
  */
 export default class Character {
-    /** @ignore */
+    /**
+     * 
+     * @param {object} args 
+     * @param {string} args.id
+     * @param {string} args.name
+     * @param {number} args.priority
+     * @param {Boolean} args.showInSidebar
+     * @param {string|function(): string} args.description Currently unused
+     * @param {quality[]} args.qualities
+     * @param {*} args.state Initial value of {@link state}
+     */
     constructor({qualities, id, name, priority = 0, showInSidebar = true, description = '', state = {}}) {
         /**
          * The ID you specified for this character. Must be unique across all characters.
@@ -22,9 +32,13 @@ export default class Character {
          */
         this.name = name;
 
-        Object.assign(this, {
-            qualities, description, showInSidebar, priority,
-            state: _.cloneDeep(state)});
+        /**
+         * Arbitrary, JSON-safe data about this character. You may update it any time you want.
+         * @type {*}
+         */
+        this.state = _.cloneDeep(state); 
+
+        Object.assign(this, {qualities, description, showInSidebar, priority});
 
         this.updateQualities()
     }

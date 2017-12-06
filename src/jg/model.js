@@ -50,7 +50,8 @@ export default class model {
         characters.forEach((c) => this._characters[c.id] = new Character(c));
 
         /**
-         * Store all non-character game state here; **Must be JSON-safe!**
+         * Store all non-character game state here; **Must be JSON-safe!** You may mutate
+         * this object freely as long as it is safe to convert it to JSON and back.
          * @member
          * 
          */

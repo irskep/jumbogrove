@@ -69,7 +69,7 @@ class JumboGroveDirector {
             id, willEnter, didEnter, willExit, didExit, willAct, didAct,
             navHeader, asideHeader, init,
         });
-        this.modelArgs = {characters, globalState, situations, initialSituation};
+        this.modelArgs = {characters, globalState, situations, initialSituation, version};
 
         this.recreateModel();
         this.interactive = true;
@@ -107,14 +107,16 @@ class JumboGroveDirector {
     }
 
     save(toSituationId) {
-        localStorage[this.id] = JSON.stringify({toSituationId, model: this.model.toSave()});
+        const saveId = `${this.id}-${this.version}`; 
+        localStorage[saveId] = JSON.stringify({toSituationId, model: this.model.toSave()});
     }
     
     load() {
-        if (!localStorage[this.id]) return false;
+        const saveId = `${this.id}-${this.version}`; 
+        if (!localStorage[saveId]) return false;
         let json = null;
         try {
-            json = JSON.parse(localStorage[this.id]);
+            json = JSON.parse(localStorage[saveId]);
         } catch (e) {
             return false;
         }
@@ -125,7 +127,7 @@ class JumboGroveDirector {
             this.model.loadSave(json.model);
             this.goTo(json.toSituationId, true);
         } catch (e) {
-            delete localStorage[this.id];
+            delete localStorage[saveId];
             this.recreateModel();
             this.start();
             return false;
@@ -221,7 +223,8 @@ class JumboGroveDirector {
     }
 
     performResetGame() {
-        delete localStorage[this.id];
+        const saveId = `${this.id}-${this.version}`; 
+        delete localStorage[saveId];
         location.reload();
     }
 
