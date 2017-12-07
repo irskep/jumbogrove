@@ -1,9 +1,30 @@
 {
   "source": "./src",
-  "destination": "./docs",
+  "destination": "./docs_out",
   "excludes": ["^.*ld40.*$", ".*\\.test\\.js$"],
   "plugins": [
-    {"name": "esdoc-standard-plugin"},
+    {
+      "name": "esdoc-standard-plugin",
+      "option": {
+        "link": {"enable": true},
+        "coverage": {"enable": true},
+        "brand": {
+          "title": "Jumbo Grove",
+          "description": "An interactive fiction game engine",
+          "repository": "https://github.com/irskep/jumbogrove",
+          "site": "http://steveasleep.com/jumbogrove",
+          "author": "https://twitter.com/irskep"
+        },
+        "manual": {
+          "index": "./Readme.md",
+          "globalIndex": true,
+          "files": [
+            "./Readme.md",
+            "./manual/your_first_game.md"
+          ]
+        }
+      }
+    },
     {"name": "esdoc-ecmascript-proposal-plugin", "option": {"all": true}}
   ]
 }
