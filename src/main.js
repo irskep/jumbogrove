@@ -3,7 +3,7 @@ import Vue from 'vue'
 import App from './App'
 import JumboGroveDirector from "./jg";
 import VueUI from "./jg/vueui";
-import example from "./ld40/index";
+// import example from "./ld40/index";
 
 Vue.config.productionTip = false
 
@@ -13,7 +13,7 @@ Vue.config.productionTip = false
  * The main entry point for Jumbo Grove.
  * 
  * @example
- * import jumbogrove from 'jumbogrove';
+ * import { jumbogrove } from 'jumbogrove';
  * jumbogrove('#game', {
  *  // your game here
  * });
@@ -34,13 +34,13 @@ const jumbogrove = (selector, data) => {
 };
 
 
-window.JumboGrove = {
+window.jumbogrove = {
   jumbogrove,
 };
 
-if (window.jumboGroveExample) {
-  jumbogrove(window.jumboGroveExample, example);
-}
+// if (window.jumboGroveExample) {
+//   jumbogrove(window.jumboGroveExample, example);
+// }
 
 export {
   jumbogrove,
