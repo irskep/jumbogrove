@@ -5,7 +5,6 @@ const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
 const prodWebpackConfig = require('./webpack.prod.conf')
-const ConcatPlugin = require('webpack-concat-plugin');
 
 // Plugin stuff is to avoid generating images + vendor JS
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -23,7 +22,7 @@ const myMerge = merge.smartStrategy({
 const libWebpackConfig = myMerge(prodWebpackConfig, {
   entry: {
     app: './src/main.js',
-    vendor: ['vue', 'markdown-it', 'markdown-it-attrs', 'lodash', 'animated-scroll-to'],
+    // vendor: ['vue', 'markdown-it', 'markdown-it-attrs', 'lodash', 'animated-scroll-to'],
   },
   output: {
     // path: resolve('lib'),
@@ -32,6 +31,13 @@ const libWebpackConfig = myMerge(prodWebpackConfig, {
     libraryTarget: 'umd',
     filename: '[name].js',
   },
+  externals: [
+    'vue',
+    'markdown-it',
+    'markdown-it-attrs',
+    'lodash',
+    'animated-scroll-to',
+  ],
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
@@ -51,9 +57,6 @@ const libWebpackConfig = myMerge(prodWebpackConfig, {
     new ExtractTextPlugin({
       // CHANGE: no hash
       filename: utils.assetsPath('css/[name].css'),
-      // set the following option to `true` if you want to extract CSS from
-      // codesplit chunks into this main css file as well.
-      // This will result in *all* of your app's CSS being loaded upfront.
       // CHANGE: true
       allChunks: true,
     }),
@@ -68,27 +71,18 @@ const libWebpackConfig = myMerge(prodWebpackConfig, {
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
     new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({name: 'vendor'}),
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity
-    }),
+
+    // NO code splitting; uses 'externals' instead
 
     // copy custom static assets
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
+        // CHANGE: no png
         ignore: ['.*', '*.png']
       }
     ]),
-
-    new ConcatPlugin({
-      fileName: 'jumbogrove.js',
-      filesToConcat: ['./dist/manifest.js', './dist/app.js']
-    }),
   ]
 });
 

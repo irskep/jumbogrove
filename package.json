@@ -5,7 +5,7 @@
   "author": "Steve Johnson",
   "license": "MIT",
   "private": false,
-  "main": "dist/jumbogrove",
+  "main": "dist/app",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
@@ -24,8 +24,7 @@
     "lodash": "^4.17.4",
     "markdown-it": "^8.4.0",
     "markdown-it-attrs": "^1.2.0",
-    "vue": "^2.5.2",
-    "webpack-concat-plugin": "^2.0.0"
+    "vue": "^2.5.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
