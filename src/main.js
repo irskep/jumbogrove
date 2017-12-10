@@ -3,7 +3,6 @@ import Vue from 'vue'
 import App from './App'
 import JumboGroveDirector from "./jg";
 import VueUI from "./jg/vueui";
-// import example from "./ld40/index";
 
 Vue.config.productionTip = false
 
@@ -33,14 +32,9 @@ const jumbogrove = (selector, data) => {
   });
 };
 
-
 window.jumbogrove = {
   jumbogrove,
 };
-
-// if (window.jumboGroveExample) {
-//   jumbogrove(window.jumboGroveExample, example);
-// }
 
 export {
   jumbogrove,
