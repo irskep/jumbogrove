@@ -1,0 +1,7 @@
+.jg-headless article {
+  max-width: 100% !important;
+}
+.jg-headless {
+  border: 1px solid red;
+  padding: 0 1rem;
+}

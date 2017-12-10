@@ -588,9 +588,21 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/jg/gameformat/game.js~game#autoscroll",
+    "class/src/jg/gameformat/game.js~game.html#instance-member-autoScroll",
+    "src/jg/gameformat/game.js~game#autoScroll",
+    "member"
+  ],
+  [
     "src/jg/gameformat/game.js~game#characters",
     "class/src/jg/gameformat/game.js~game.html#instance-member-characters",
     "src/jg/gameformat/game.js~game#characters",
+    "member"
+  ],
+  [
+    "src/jg/gameformat/game.js~game#defaultstylesheet",
+    "class/src/jg/gameformat/game.js~game.html#instance-member-defaultStylesheet",
+    "src/jg/gameformat/game.js~game#defaultStylesheet",
     "member"
   ],
   [
@@ -639,6 +651,18 @@ window.esdocSearchIndex = [
     "src/jg/gameformat/game.js~game#navheader",
     "class/src/jg/gameformat/game.js~game.html#instance-member-navHeader",
     "src/jg/gameformat/game.js~game#navHeader",
+    "member"
+  ],
+  [
+    "src/jg/gameformat/game.js~game#showaside",
+    "class/src/jg/gameformat/game.js~game.html#instance-member-showAside",
+    "src/jg/gameformat/game.js~game#showAside",
+    "member"
+  ],
+  [
+    "src/jg/gameformat/game.js~game#shownav",
+    "class/src/jg/gameformat/game.js~game.html#instance-member-showNav",
+    "src/jg/gameformat/game.js~game#showNav",
     "member"
   ],
   [

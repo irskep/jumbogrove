@@ -1948,7 +1948,7 @@
     "__docId__": 106,
     "kind": "file",
     "name": "src/jg/director.js",
-    "content": "import _ from 'lodash';\nimport WorldModel from './model';\nimport commands from \"./commands\";\nimport { bindGamepad } from \"./gamepad\";\n\nconst getAnchors = () => {\n  return _.toArray(document.querySelectorAll('a'))\n    .filter((a) => !!a.attributes.href.value)\n    .filter((a) => !!a.offsetParent);\n};\n\nconst focus = (allAnchors, i) => {\n  const i2 = (i + allAnchors.length) % allAnchors.length;\n  allAnchors[i2].focus();\n};\n\nconst focusNextElement = () => {\n  const allAnchors = getAnchors();\n  if (!allAnchors.length) return;\n  const i = allAnchors.indexOf(document.activeElement);\n  if (i > -1) {\n    focus(allAnchors, i + 1);\n  } else {\n    allAnchors[0].focus();\n  }\n};\n\nconst focusPreviousElement = () => {\n  const allAnchors = getAnchors();\n  if (!allAnchors.length) return;\n  const i = allAnchors.indexOf(document.activeElement);\n  if (i > -1) {\n    focus(allAnchors, i - 1);\n  } else {\n    allAnchors[allAnchors.length - 1].focus();\n  }\n};\n\nconst nop = () => { };\n/** @ignore */\nclass JumboGroveDirector {\n    constructor({\n        id,\n        version = 1,\n        initialSituation = 'start', \n        navHeader = '',\n        asideHeader = '',\n        globalState = {},\n        characters = [],\n        situations = [],\n        // (model, ui, markdown)\n        init = nop,\n        // Return falsey value if you want to abort the new situation\n        // (model, ui, previousId, nextId)\n        willEnter = () => true,\n        // (model, ui, previousId, nextId)\n        didEnter = nop,\n        // (model, ui, thisId, nextId)\n        willExit = nop,\n        // (model, ui, thisId, nextId)\n        didExit = nop,\n        // (model, ui, situation, action)\n        willAct = nop,\n        // (model, ui, situation, action)\n        didAct = nop,\n    }) {\n        if (!id) throw new Error(\"You must provide an id\"); \n        Object.assign(this, {\n            id, willEnter, didEnter, willExit, didExit, willAct, didAct,\n            navHeader, asideHeader, init,\n        });\n        this.modelArgs = {characters, globalState, situations, initialSituation, version};\n\n        this.recreateModel();\n        this.interactive = true;\n    }\n\n    recreateModel() {\n        this.model = new WorldModel(this, this.modelArgs);\n    }\n\n    toString() {\n        return `Director(id=${this.id})`;\n    }\n\n    bindToUI(ui) {\n        const wasBound = !!this.ui;\n        this.ui = ui;\n        ui.bind(this);\n        this.model.navHeaderHTML = ui.renderMarkdown(this.navHeader);\n        this.model.asideHeaderHTML = () => {\n            return ui.renderMarkdownTemplate(this.asideHeader);\n        }\n        if (!wasBound) {\n            this.init(this.model, this.ui, this.ui.md);\n        }\n    }\n\n    start() {\n        if (this.model.currentSituation) {\n            return;  // vue.js is hot-reloading us\n        }\n        if (!this.load()) {\n            this.goTo(this.model._initialSituationId);\n        }\n        bindGamepad(this);\n    }\n\n    save(toSituationId) {\n        const saveId = `${this.id}-${this.version}`; \n        localStorage[saveId] = JSON.stringify({toSituationId, model: this.model.toSave()});\n    }\n    \n    load() {\n        const saveId = `${this.id}-${this.version}`; \n        if (!localStorage[saveId]) return false;\n        let json = null;\n        try {\n            json = JSON.parse(localStorage[saveId]);\n        } catch (e) {\n            return false;\n        }\n        if (!json.model) return false;\n        if (!json.toSituationId) return false;\n\n        try {\n            this.model.loadSave(json.model);\n            this.goTo(json.toSituationId, true);\n        } catch (e) {\n            delete localStorage[saveId];\n            this.recreateModel();\n            this.start();\n            return false;\n        }\n        return true;\n    }\n\n    isManagedLink(href) {\n        return commandsFromString(href).length > 0;\n    }\n\n    getSnippetWrapperTag(id) {\n        if (!this.model.currentSituation.snippets[id]) {\n            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);\n        }\n        return this.model.currentSituation.snippets[id].indexOf('\\n') === -1 ? 'span' : 'div';\n    }\n\n    getSnippetHTML(id) {\n        if (!this.model.currentSituation.snippets[id]) {\n            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);\n        }\n        return this.ui.renderMarkdownTemplateMaybeInline(\n            this.model.currentSituation.snippets[id]);\n    }\n\n    getSnippet(id) {\n        if (!this.model.currentSituation.snippets[id]) {\n            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);\n        }\n        return this.ui.renderTemplate(this.model.currentSituation.snippets[id]);\n    }\n\n    handleCommandString(s, itemId = null, sourceElId = null) {\n        let restore = false;\n        if (itemId !== null) {\n            restore = true;\n            this.activeItemId = itemId;\n            this.activeSourceElId = sourceElId;\n        }\n        for (const cmd of commandsFromString(s, this.activeItemId, this.activeSourceElId)) {\n            this.handleCommand(cmd);\n        }\n        if (restore) {\n            this.activeItemId = null;\n            this.activeSourceElId = null;\n        }\n    }\n\n    handleCommand(cmd) {\n        console.log(cmd);\n        switch (cmd.type) {\n        case commands.runAction.name:\n            this.runAction(cmd.name, cmd.args);\n            break;\n        case commands.goToSituation.name:\n            this.goTo(cmd.id);\n            break;\n        case commands.write.name:\n            this.performWrite(cmd);\n            break;\n        case commands.replace.name:\n            this.performReplace(cmd);\n            break;\n        case commands.resetGame.name:\n            this.performResetGame(cmd);\n            break;\n        default:\n            throw new Error(\"Unknown command: \" + cmd);\n        }\n    }\n\n    performWrite({itemId, snippetId}) {\n        this.ui.bus.$emit('write', {\n            'itemId': itemId,\n            'html': this.getSnippetHTML(snippetId),\n        });\n    }\n\n    performReplace({itemId, snippetId, elId}) {\n        this.ui.bus.$emit('replace', {\n            'itemId': itemId,\n            'id': elId,\n            'tag': this.getSnippetWrapperTag(snippetId),\n            'html': this.getSnippetHTML(snippetId),\n        });\n    }\n\n    runAction(name, args) {\n        this.willAct(this.model, this.ui, this.model.currentSituation, name, ...args);\n        this.model.currentSituation.doAct(this.model, this.ui, name, ...args);\n        this.didAct(this.model, this.ui, this.model.currentSituation, name, ...args);\n    }\n\n    performResetGame() {\n        const saveId = `${this.id}-${this.version}`; \n        delete localStorage[saveId];\n        location.reload();\n    }\n\n    goTo(id, isFromLoad = false) {\n        const next = this.model.situation(id);\n        const previous = this.model.currentSituation;\n        const previousId = previous ? previous.id : null;\n        if (next.autosave && !isFromLoad) {\n            this.save(id);\n            this.ui.writeMarkdown('> Game saved.\\n')\n        }\n        if (this.model.currentSituation) {\n            this.willExit(this.model, this.ui, previousId, id);\n            this.model.currentSituation.doExit(this.model, this.ui, next);\n            this.didExit(this.model, this.ui, previousId, id);\n        }\n        this.model.currentSituation = null;\n\n        // willEnter() may redirect us\n        if (!this.willEnter(this.model, this.ui, previousId, id)) {\n            return;\n        }\n        if (!next.willEnter(this.model, this.ui, previousId, id)) {\n            return;\n        }\n\n        this.model.currentSituation = next;\n        next.doEnter(this.model, this.ui, this, previous);\n        this.didEnter(this.model, this.ui, previousId, id);\n    }\n\n    focusNextElement() { focusNextElement(); }\n    focusPreviousElement() { focusPreviousElement(); }\n}\n\nfunction parseAction(s) {\n    return s.split(':');\n}\n\nfunction commandsFromString(str, itemId = null, elId = null) {\n    str = window.decodeURIComponent(str);\n    return str.split(';')\n        .map((s) => {\n            if (s.startsWith('@')) {\n                return commands.goToSituation.create(s.slice(1))\n            }\n            if (s.startsWith('>')) {\n                const nameAndArgs = parseAction(s.slice(1));\n                const name = nameAndArgs[0];\n                const args = _.tail(nameAndArgs);\n                switch (name.toLowerCase()) {\n                case 'write': return commands.write.create(itemId, args[0]);\n                case 'replace': return commands.replace.create(itemId, args[0], args[0]);\n                case 'replaceself': return commands.replace.create(itemId, args[0], elId);\n                case 'resetgame': return commands.resetGame.create();\n                default: return commands.runAction.create(name, args);\n                }\n            }\n            return null;\n        })\n        .filter((cmd) => cmd !== null);\n}\n\nexport default JumboGroveDirector;",
+    "content": "import _ from 'lodash';\nimport WorldModel from './model';\nimport commands from \"./commands\";\nimport { bindGamepad } from \"./gamepad\";\n\nconst getAnchors = () => {\n  return _.toArray(document.querySelectorAll('a'))\n    .filter((a) => !!a.attributes.href.value)\n    .filter((a) => !!a.offsetParent);\n};\n\nconst focus = (allAnchors, i) => {\n  const i2 = (i + allAnchors.length) % allAnchors.length;\n  allAnchors[i2].focus();\n};\n\nconst focusNextElement = () => {\n  const allAnchors = getAnchors();\n  if (!allAnchors.length) return;\n  const i = allAnchors.indexOf(document.activeElement);\n  if (i > -1) {\n    focus(allAnchors, i + 1);\n  } else {\n    allAnchors[0].focus();\n  }\n};\n\nconst focusPreviousElement = () => {\n  const allAnchors = getAnchors();\n  if (!allAnchors.length) return;\n  const i = allAnchors.indexOf(document.activeElement);\n  if (i > -1) {\n    focus(allAnchors, i - 1);\n  } else {\n    allAnchors[allAnchors.length - 1].focus();\n  }\n};\n\nconst nop = () => { };\n/** @ignore */\nclass JumboGroveDirector {\n    constructor({\n        id,\n        version = 1,\n        initialSituation = 'start', \n        navHeader = '',\n        asideHeader = '',\n        showNav = true,\n        showAside = true,\n        defaultStylesheet = true,\n        autoScroll = true,\n        autoMoveFocus = true,\n        globalState = {},\n        characters = [],\n        situations = [],\n        // (model, ui, markdown)\n        init = nop,\n        // Return falsey value if you want to abort the new situation\n        // (model, ui, previousId, nextId)\n        willEnter = () => true,\n        // (model, ui, previousId, nextId)\n        didEnter = nop,\n        // (model, ui, thisId, nextId)\n        willExit = nop,\n        // (model, ui, thisId, nextId)\n        didExit = nop,\n        // (model, ui, situation, action)\n        willAct = nop,\n        // (model, ui, situation, action)\n        didAct = nop,\n    }) {\n        if (!id) throw new Error(\"You must provide an id\"); \n        Object.assign(this, {\n            id, willEnter, didEnter, willExit, didExit, willAct, didAct,\n            navHeader, asideHeader, init, showNav, showAside, defaultStylesheet, autoScroll,\n            autoMoveFocus,\n        });\n        this.modelArgs = {characters, globalState, situations, initialSituation, version};\n\n        this.recreateModel();\n        this.interactive = true;\n    }\n\n    recreateModel() {\n        this.model = new WorldModel(this, this.modelArgs);\n    }\n\n    toString() {\n        return `Director(id=${this.id})`;\n    }\n\n    bindToUI(ui) {\n        const wasBound = !!this.ui;\n        this.ui = ui;\n        ui.bind(this);\n        this.model.navHeaderHTML = ui.renderMarkdown(this.navHeader);\n        this.model.asideHeaderHTML = () => {\n            return ui.renderMarkdownTemplate(this.asideHeader);\n        }\n        if (!wasBound) {\n            this.init(this.model, this.ui, this.ui.md);\n        }\n    }\n\n    start() {\n        if (this.model.currentSituation) {\n            return;  // vue.js is hot-reloading us\n        }\n        if (!this.load()) {\n            this.goTo(this.model._initialSituationId);\n        }\n        bindGamepad(this);\n    }\n\n    save(toSituationId) {\n        const saveId = `${this.id}-${this.version}`; \n        localStorage[saveId] = JSON.stringify({toSituationId, model: this.model.toSave()});\n    }\n    \n    load() {\n        const saveId = `${this.id}-${this.version}`; \n        if (!localStorage[saveId]) return false;\n        let json = null;\n        try {\n            json = JSON.parse(localStorage[saveId]);\n        } catch (e) {\n            return false;\n        }\n        if (!json.model) return false;\n        if (!json.toSituationId) return false;\n\n        try {\n            this.model.loadSave(json.model);\n            this.goTo(json.toSituationId, true);\n        } catch (e) {\n            delete localStorage[saveId];\n            this.recreateModel();\n            this.start();\n            return false;\n        }\n        return true;\n    }\n\n    isManagedLink(href) {\n        return commandsFromString(href).length > 0;\n    }\n\n    getSnippetWrapperTag(id) {\n        if (!this.model.currentSituation.snippets[id]) {\n            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);\n        }\n        return this.model.currentSituation.snippets[id].indexOf('\\n') === -1 ? 'span' : 'div';\n    }\n\n    getSnippetHTML(id) {\n        if (!this.model.currentSituation.snippets[id]) {\n            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);\n        }\n        return this.ui.renderMarkdownTemplateMaybeInline(\n            this.model.currentSituation.snippets[id]);\n    }\n\n    getSnippet(id) {\n        if (!this.model.currentSituation.snippets[id]) {\n            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn't exist`);\n        }\n        return this.ui.renderTemplate(this.model.currentSituation.snippets[id]);\n    }\n\n    handleCommandString(s, itemId = null, sourceElId = null) {\n        let restore = false;\n        if (itemId !== null) {\n            restore = true;\n            this.activeItemId = itemId;\n            this.activeSourceElId = sourceElId;\n        }\n        for (const cmd of commandsFromString(s, this.activeItemId, this.activeSourceElId)) {\n            this.handleCommand(cmd);\n        }\n        if (restore) {\n            this.activeItemId = null;\n            this.activeSourceElId = null;\n        }\n    }\n\n    handleCommand(cmd) {\n        // console.log(cmd);\n        switch (cmd.type) {\n        case commands.runAction.name:\n            this.runAction(cmd.name, cmd.args);\n            break;\n        case commands.goToSituation.name:\n            this.goTo(cmd.id);\n            break;\n        case commands.write.name:\n            this.performWrite(cmd);\n            break;\n        case commands.replace.name:\n            this.performReplace(cmd);\n            break;\n        case commands.resetGame.name:\n            this.performResetGame(cmd);\n            break;\n        default:\n            throw new Error(\"Unknown command: \" + cmd);\n        }\n    }\n\n    performWrite({itemId, snippetId}) {\n        this.ui.bus.$emit('write', {\n            'itemId': itemId,\n            'html': this.getSnippetHTML(snippetId),\n        });\n    }\n\n    performReplace({itemId, snippetId, elId}) {\n        this.ui.bus.$emit('replace', {\n            'itemId': itemId,\n            'id': elId,\n            'tag': this.getSnippetWrapperTag(snippetId),\n            'html': this.getSnippetHTML(snippetId),\n        });\n    }\n\n    runAction(name, args) {\n        this.willAct(this.model, this.ui, this.model.currentSituation, name, ...args);\n        this.model.currentSituation.doAct(this.model, this.ui, name, ...args);\n        this.didAct(this.model, this.ui, this.model.currentSituation, name, ...args);\n    }\n\n    performResetGame() {\n        const saveId = `${this.id}-${this.version}`; \n        delete localStorage[saveId];\n        location.reload();\n    }\n\n    goTo(id, isFromLoad = false) {\n        const next = this.model.situation(id);\n        const previous = this.model.currentSituation;\n        const previousId = previous ? previous.id : null;\n        if (next.autosave && !isFromLoad) {\n            this.save(id);\n            this.ui.writeMarkdown('> Game saved.\\n')\n        }\n        if (this.model.currentSituation) {\n            this.willExit(this.model, this.ui, previousId, id);\n            this.model.currentSituation.doExit(this.model, this.ui, next);\n            this.didExit(this.model, this.ui, previousId, id);\n        }\n        this.model.currentSituation = null;\n\n        // willEnter() may redirect us\n        if (!this.willEnter(this.model, this.ui, previousId, id)) {\n            return;\n        }\n        if (!next.willEnter(this.model, this.ui, previousId, id)) {\n            return;\n        }\n\n        this.model.currentSituation = next;\n        next.doEnter(this.model, this.ui, this, previous);\n        this.didEnter(this.model, this.ui, previousId, id);\n    }\n\n    focusNextElement() { if (this.autoMoveFocus) focusNextElement(); }\n    focusPreviousElement() { if (this.autoMoveFocus) focusPreviousElement(); }\n}\n\nfunction parseAction(s) {\n    return s.split(':');\n}\n\nfunction commandsFromString(str, itemId = null, elId = null) {\n    str = window.decodeURIComponent(str);\n    return str.split(';')\n        .map((s) => {\n            if (s.startsWith('@')) {\n                return commands.goToSituation.create(s.slice(1))\n            }\n            if (s.startsWith('>')) {\n                const nameAndArgs = parseAction(s.slice(1));\n                const name = nameAndArgs[0];\n                const args = _.tail(nameAndArgs);\n                switch (name.toLowerCase()) {\n                case 'write': return commands.write.create(itemId, args[0]);\n                case 'replace': return commands.replace.create(itemId, args[0], args[0]);\n                case 'replaceself': return commands.replace.create(itemId, args[0], elId);\n                case 'resetgame': return commands.resetGame.create();\n                default: return commands.runAction.create(name, args);\n                }\n            }\n            return null;\n        })\n        .filter((cmd) => cmd !== null);\n}\n\nexport default JumboGroveDirector;",
     "static": true,
     "longname": "/Users/steve/_d/games/ifeng/src/jg/director.js",
     "access": "public",
@@ -2086,7 +2086,7 @@
     "importPath": "jumbogrove/src/jg/director.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 263,
+    "lineNumber": 269,
     "undocument": true,
     "params": [
       {
@@ -2117,7 +2117,7 @@
     "importPath": "jumbogrove/src/jg/director.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 267,
+    "lineNumber": 273,
     "undocument": true,
     "params": [
       {
@@ -2189,7 +2189,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#modelArgs",
     "access": "public",
     "description": null,
-    "lineNumber": 72,
+    "lineNumber": 78,
     "undocument": true,
     "type": {
       "types": [
@@ -2206,7 +2206,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#interactive",
     "access": "public",
     "description": null,
-    "lineNumber": 75,
+    "lineNumber": 81,
     "undocument": true,
     "type": {
       "types": [
@@ -2225,7 +2225,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#recreateModel",
     "access": "public",
     "description": null,
-    "lineNumber": 78,
+    "lineNumber": 84,
     "undocument": true,
     "params": [],
     "return": null
@@ -2239,7 +2239,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#model",
     "access": "public",
     "description": null,
-    "lineNumber": 79,
+    "lineNumber": 85,
     "undocument": true,
     "type": {
       "types": [
@@ -2258,7 +2258,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#toString",
     "access": "public",
     "description": null,
-    "lineNumber": 82,
+    "lineNumber": 88,
     "undocument": true,
     "params": [],
     "return": {
@@ -2278,7 +2278,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#bindToUI",
     "access": "public",
     "description": null,
-    "lineNumber": 86,
+    "lineNumber": 92,
     "undocument": true,
     "params": [
       {
@@ -2299,7 +2299,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#ui",
     "access": "public",
     "description": null,
-    "lineNumber": 88,
+    "lineNumber": 94,
     "undocument": true,
     "type": {
       "types": [
@@ -2318,7 +2318,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#start",
     "access": "public",
     "description": null,
-    "lineNumber": 99,
+    "lineNumber": 105,
     "undocument": true,
     "params": [],
     "return": null
@@ -2334,7 +2334,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#save",
     "access": "public",
     "description": null,
-    "lineNumber": 109,
+    "lineNumber": 115,
     "undocument": true,
     "params": [
       {
@@ -2357,7 +2357,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#load",
     "access": "public",
     "description": null,
-    "lineNumber": 114,
+    "lineNumber": 120,
     "undocument": true,
     "params": [],
     "return": {
@@ -2377,7 +2377,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#isManagedLink",
     "access": "public",
     "description": null,
-    "lineNumber": 138,
+    "lineNumber": 144,
     "undocument": true,
     "params": [
       {
@@ -2404,7 +2404,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#getSnippetWrapperTag",
     "access": "public",
     "description": null,
-    "lineNumber": 142,
+    "lineNumber": 148,
     "undocument": true,
     "params": [
       {
@@ -2431,7 +2431,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#getSnippetHTML",
     "access": "public",
     "description": null,
-    "lineNumber": 149,
+    "lineNumber": 155,
     "undocument": true,
     "params": [
       {
@@ -2458,7 +2458,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#getSnippet",
     "access": "public",
     "description": null,
-    "lineNumber": 157,
+    "lineNumber": 163,
     "undocument": true,
     "params": [
       {
@@ -2485,7 +2485,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#handleCommandString",
     "access": "public",
     "description": null,
-    "lineNumber": 164,
+    "lineNumber": 170,
     "undocument": true,
     "params": [
       {
@@ -2522,7 +2522,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#activeItemId",
     "access": "public",
     "description": null,
-    "lineNumber": 168,
+    "lineNumber": 174,
     "undocument": true,
     "type": {
       "types": [
@@ -2539,7 +2539,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#activeSourceElId",
     "access": "public",
     "description": null,
-    "lineNumber": 169,
+    "lineNumber": 175,
     "undocument": true,
     "type": {
       "types": [
@@ -2558,7 +2558,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#handleCommand",
     "access": "public",
     "description": null,
-    "lineNumber": 180,
+    "lineNumber": 186,
     "undocument": true,
     "params": [
       {
@@ -2581,7 +2581,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#performWrite",
     "access": "public",
     "description": null,
-    "lineNumber": 203,
+    "lineNumber": 209,
     "undocument": true,
     "params": [
       {
@@ -2609,7 +2609,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#performReplace",
     "access": "public",
     "description": null,
-    "lineNumber": 210,
+    "lineNumber": 216,
     "undocument": true,
     "params": [
       {
@@ -2638,7 +2638,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#runAction",
     "access": "public",
     "description": null,
-    "lineNumber": 219,
+    "lineNumber": 225,
     "undocument": true,
     "params": [
       {
@@ -2667,7 +2667,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#performResetGame",
     "access": "public",
     "description": null,
-    "lineNumber": 225,
+    "lineNumber": 231,
     "undocument": true,
     "params": [],
     "return": null
@@ -2683,7 +2683,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#goTo",
     "access": "public",
     "description": null,
-    "lineNumber": 231,
+    "lineNumber": 237,
     "undocument": true,
     "params": [
       {
@@ -2715,7 +2715,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#focusNextElement",
     "access": "public",
     "description": null,
-    "lineNumber": 259,
+    "lineNumber": 265,
     "undocument": true,
     "params": [],
     "return": null
@@ -2731,7 +2731,7 @@
     "longname": "src/jg/director.js~JumboGroveDirector#focusPreviousElement",
     "access": "public",
     "description": null,
-    "lineNumber": 260,
+    "lineNumber": 266,
     "undocument": true,
     "params": [],
     "return": null
@@ -2766,7 +2766,7 @@
     "__docId__": 145,
     "kind": "file",
     "name": "src/jg/gameformat/game.js",
-    "content": "/**\n * The object you pass to the {@link jumbogrove} function.\n * \n * @example\n * const game = {\n *     id: 'jg-example',\n *     version: 1,\n *     globalState: {\n *         aliensHaveInvaded: false,\n *     },\n *     willEnter: (model, ui, previousId, nextId) => {\n *         console.log(\"Transitioning from\", previousId, \"to\", nextId);\n *     },\n * };\n * jumbogrove('#app', game);\n */\nclass game {\n    /** @ignore */\n    constructor() {\n        /**\n         * An ID unique to your game. Used to determine save location.\n         * @type {string}\n         */\n        this.id = null;\n\n        /**\n         * The current version of your game. Used to determine save location.\n         * @type {number}\n         */\n        this.version = null;\n\n        /**\n         * The ID of the first situation you want to show the player.\n         * @type {string}\n         */\n        this.initialSituation = 'start';\n\n        /**\n         * The Markdown string you want to show at the top of the left sidebar.\n         * @type {string}\n         */\n        this.navHeader = '';\n\n        /**\n         * The Markdown string you want to show at the top of the right sidebar.\n         * This string is processed by the template engine before being displayed.\n         * @type {string}\n         */\n        this.asideHeader = '';\n\n        /**\n         * The initial value of {@link model.globalState}. Must be JSON-safe.\n         * @type {*}\n         */\n        this.globalState = {};\n\n        /**\n         * List of {@link character} definitions.\n         * **Note:** this is not the same as the {@link Character} class!\n         * There's a difference between what you write in your game definition, and what gets passed to the\n         * various callbacks.\n         * @type {character}\n         */\n        this.characters = [];\n\n        /**\n         * List of {@link situation} definitions.\n         * **Note:** this is not the same as the {@link Situation} class!\n         * There's a difference between what you write in your game definition, and what gets passed to the\n         * various callbacks.\n         * @type {situation}\n         */\n        this.situations = [];\n    }\n\n    /**\n     * Called immediately after all initial objects have been created, but before the\n     * first situation has been entered. This is where you would add Markdown plugins.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {MarkdownIt} markdown \n     */\n    init(model, ui, markdown) { }\n\n    /**\n     * Called when the game has requested to enter a new situation. This function returns\n     * a truthy value (`true`) if this should be allowed, `false` if not.\n     * \n     * It is safe to call `model.do()` or `model.goTo()` from `willEnter()`, as long as\n     * you return `false` afterward.\n     * \n     * @param {model} model\n     * @param {ui} ui \n     * @param {string} previousId \n     * @param {string} nextId \n     * @returns {Boolean}\n     */\n    willEnter(model, ui, previousId, nextId) { }\n    \n    /**\n     * Called when the game has just entered a new situation.\n     * @param {model} model \n     * @param {ui} ui\n     * @param {string} previousId \n     * @param {string} nextId \n     */\n    didEnter(model, ui, previousId, nextId) { }\n\n    /**\n     * Called when the game is about to exit a situation.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {string} thisId \n     * @param {string} nextId \n     */\n    willExit(model, ui, thisId, nextId) { }\n\n    /**\n     * Called when the game just exited a situation.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {string} thisId \n     * @param {string} nextId \n     */\n    didExit(model, ui, thisId, nextId) { }\n\n    /**\n     * Called when the game is about to execute the given action on the given sitaution.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {Situation} situation \n     * @param {string} action \n     */\n    willAct(model, ui, situation, action) { }\n\n    /**\n     * Called when the game is just executed the given action on the given sitaution.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {Situation} situation \n     * @param {string} action \n     */\n    didAct(model, ui, situation, action) { }\n};\nexport default game;",
+    "content": "/**\n * The object you pass to the {@link jumbogrove} function.\n * \n * @example\n * const game = {\n *     id: 'jg-example',\n *     version: 1,\n *     globalState: {\n *         aliensHaveInvaded: false,\n *     },\n *     willEnter: (model, ui, previousId, nextId) => {\n *         console.log(\"Transitioning from\", previousId, \"to\", nextId);\n *     },\n * };\n * jumbogrove('#app', game);\n */\nclass game {\n    /** @ignore */\n    constructor() {\n        /**\n         * An ID unique to your game. Used to determine save location.\n         * @type {string}\n         */\n        this.id = null;\n\n        /**\n         * The current version of your game. Used to determine save location.\n         * @type {number}\n         */\n        this.version = null;\n\n        /**\n         * The ID of the first situation you want to show the player.\n         * @type {string}\n         */\n        this.initialSituation = 'start';\n\n        /**\n         * If you set this to `false`, the left sidebar will not be shown.\n         * Default `true`.\n         * @type {Boolean}\n         */\n        this.showNav = true;\n\n        /**\n         * If you set this to `false`, the right sidebar will not be shown.\n         * Default `true`.\n         * @type {Boolean}\n         */\n        this.showAside = true;\n\n        /**\n         * If you set this to `false`, fewer styles will be applied to\n         * the HTML.\n         * Default `true`.\n         * @type {Boolean}\n         */\n        this.defaultStylesheet = true;\n\n        /**\n         * If you set this to `false`, the browser will not scroll as new text\n         * is added.\n         * Default `true`.\n         * @type {Boolean}\n         */\n        this.autoScroll = true;\n\n        /**\n         * The Markdown string you want to show at the top of the left sidebar.\n         * @type {string}\n         */\n        this.navHeader = '';\n\n        /**\n         * The Markdown string you want to show at the top of the right sidebar.\n         * This string is processed by the template engine before being displayed.\n         * @type {string}\n         */\n        this.asideHeader = '';\n\n        /**\n         * The initial value of {@link model.globalState}. Must be JSON-safe.\n         * @type {*}\n         */\n        this.globalState = {};\n\n        /**\n         * List of {@link character} definitions.\n         * **Note:** this is not the same as the {@link Character} class!\n         * There's a difference between what you write in your game definition, and what gets passed to the\n         * various callbacks.\n         * @type {character}\n         */\n        this.characters = [];\n\n        /**\n         * List of {@link situation} definitions.\n         * **Note:** this is not the same as the {@link Situation} class!\n         * There's a difference between what you write in your game definition, and what gets passed to the\n         * various callbacks.\n         * @type {situation}\n         */\n        this.situations = [];\n    }\n\n    /**\n     * Called immediately after all initial objects have been created, but before the\n     * first situation has been entered. This is where you would add Markdown plugins.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {MarkdownIt} markdown \n     */\n    init(model, ui, markdown) { }\n\n    /**\n     * Called when the game has requested to enter a new situation. This function returns\n     * a truthy value (`true`) if this should be allowed, `false` if not.\n     * \n     * It is safe to call `model.do()` or `model.goTo()` from `willEnter()`, as long as\n     * you return `false` afterward.\n     * \n     * @param {model} model\n     * @param {ui} ui \n     * @param {string} previousId \n     * @param {string} nextId \n     * @returns {Boolean}\n     */\n    willEnter(model, ui, previousId, nextId) { }\n    \n    /**\n     * Called when the game has just entered a new situation.\n     * @param {model} model \n     * @param {ui} ui\n     * @param {string} previousId \n     * @param {string} nextId \n     */\n    didEnter(model, ui, previousId, nextId) { }\n\n    /**\n     * Called when the game is about to exit a situation.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {string} thisId \n     * @param {string} nextId \n     */\n    willExit(model, ui, thisId, nextId) { }\n\n    /**\n     * Called when the game just exited a situation.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {string} thisId \n     * @param {string} nextId \n     */\n    didExit(model, ui, thisId, nextId) { }\n\n    /**\n     * Called when the game is about to execute the given action on the given sitaution.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {Situation} situation \n     * @param {string} action \n     */\n    willAct(model, ui, situation, action) { }\n\n    /**\n     * Called when the game is just executed the given action on the given sitaution.\n     * @param {model} model \n     * @param {ui} ui \n     * @param {Situation} situation \n     * @param {string} action \n     */\n    didAct(model, ui, situation, action) { }\n};\nexport default game;",
     "static": true,
     "longname": "/Users/steve/_d/games/ifeng/src/jg/gameformat/game.js",
     "access": "public",
@@ -2865,17 +2865,17 @@
   {
     "__docId__": 151,
     "kind": "member",
-    "name": "navHeader",
+    "name": "showNav",
     "memberof": "src/jg/gameformat/game.js~game",
     "static": false,
-    "longname": "src/jg/gameformat/game.js~game#navHeader",
+    "longname": "src/jg/gameformat/game.js~game#showNav",
     "access": "public",
-    "description": "The Markdown string you want to show at the top of the left sidebar.",
-    "lineNumber": 42,
+    "description": "If you set this to `false`, the left sidebar will not be shown.\nDefault `true`.",
+    "lineNumber": 43,
     "type": {
       "nullable": null,
       "types": [
-        "string"
+        "Boolean"
       ],
       "spread": false,
       "description": null
@@ -2884,13 +2884,70 @@
   {
     "__docId__": 152,
     "kind": "member",
-    "name": "asideHeader",
+    "name": "showAside",
     "memberof": "src/jg/gameformat/game.js~game",
     "static": false,
-    "longname": "src/jg/gameformat/game.js~game#asideHeader",
+    "longname": "src/jg/gameformat/game.js~game#showAside",
     "access": "public",
-    "description": "The Markdown string you want to show at the top of the right sidebar.\nThis string is processed by the template engine before being displayed.",
-    "lineNumber": 49,
+    "description": "If you set this to `false`, the right sidebar will not be shown.\nDefault `true`.",
+    "lineNumber": 50,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 153,
+    "kind": "member",
+    "name": "defaultStylesheet",
+    "memberof": "src/jg/gameformat/game.js~game",
+    "static": false,
+    "longname": "src/jg/gameformat/game.js~game#defaultStylesheet",
+    "access": "public",
+    "description": "If you set this to `false`, fewer styles will be applied to\nthe HTML.\nDefault `true`.",
+    "lineNumber": 58,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 154,
+    "kind": "member",
+    "name": "autoScroll",
+    "memberof": "src/jg/gameformat/game.js~game",
+    "static": false,
+    "longname": "src/jg/gameformat/game.js~game#autoScroll",
+    "access": "public",
+    "description": "If you set this to `false`, the browser will not scroll as new text\nis added.\nDefault `true`.",
+    "lineNumber": 66,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 155,
+    "kind": "member",
+    "name": "navHeader",
+    "memberof": "src/jg/gameformat/game.js~game",
+    "static": false,
+    "longname": "src/jg/gameformat/game.js~game#navHeader",
+    "access": "public",
+    "description": "The Markdown string you want to show at the top of the left sidebar.",
+    "lineNumber": 72,
     "type": {
       "nullable": null,
       "types": [
@@ -2901,7 +2958,26 @@
     }
   },
   {
-    "__docId__": 153,
+    "__docId__": 156,
+    "kind": "member",
+    "name": "asideHeader",
+    "memberof": "src/jg/gameformat/game.js~game",
+    "static": false,
+    "longname": "src/jg/gameformat/game.js~game#asideHeader",
+    "access": "public",
+    "description": "The Markdown string you want to show at the top of the right sidebar.\nThis string is processed by the template engine before being displayed.",
+    "lineNumber": 79,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 157,
     "kind": "member",
     "name": "globalState",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -2909,7 +2985,7 @@
     "longname": "src/jg/gameformat/game.js~game#globalState",
     "access": "public",
     "description": "The initial value of {@link model.globalState}. Must be JSON-safe.",
-    "lineNumber": 55,
+    "lineNumber": 85,
     "type": {
       "nullable": null,
       "types": [
@@ -2920,7 +2996,7 @@
     }
   },
   {
-    "__docId__": 154,
+    "__docId__": 158,
     "kind": "member",
     "name": "characters",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -2928,7 +3004,7 @@
     "longname": "src/jg/gameformat/game.js~game#characters",
     "access": "public",
     "description": "List of {@link character} definitions.\n**Note:** this is not the same as the {@link Character} class!\nThere's a difference between what you write in your game definition, and what gets passed to the\nvarious callbacks.",
-    "lineNumber": 64,
+    "lineNumber": 94,
     "type": {
       "nullable": null,
       "types": [
@@ -2939,7 +3015,7 @@
     }
   },
   {
-    "__docId__": 155,
+    "__docId__": 159,
     "kind": "member",
     "name": "situations",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -2947,7 +3023,7 @@
     "longname": "src/jg/gameformat/game.js~game#situations",
     "access": "public",
     "description": "List of {@link situation} definitions.\n**Note:** this is not the same as the {@link Situation} class!\nThere's a difference between what you write in your game definition, and what gets passed to the\nvarious callbacks.",
-    "lineNumber": 73,
+    "lineNumber": 103,
     "type": {
       "nullable": null,
       "types": [
@@ -2958,7 +3034,7 @@
     }
   },
   {
-    "__docId__": 156,
+    "__docId__": 160,
     "kind": "method",
     "name": "init",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -2968,7 +3044,7 @@
     "longname": "src/jg/gameformat/game.js~game#init",
     "access": "public",
     "description": "Called immediately after all initial objects have been created, but before the\nfirst situation has been entered. This is where you would add Markdown plugins.",
-    "lineNumber": 83,
+    "lineNumber": 113,
     "params": [
       {
         "nullable": null,
@@ -3004,7 +3080,7 @@
     "return": null
   },
   {
-    "__docId__": 157,
+    "__docId__": 161,
     "kind": "method",
     "name": "willEnter",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -3014,7 +3090,7 @@
     "longname": "src/jg/gameformat/game.js~game#willEnter",
     "access": "public",
     "description": "Called when the game has requested to enter a new situation. This function returns\na truthy value (`true`) if this should be allowed, `false` if not.\n\nIt is safe to call `model.do()` or `model.goTo()` from `willEnter()`, as long as\nyou return `false` afterward.",
-    "lineNumber": 98,
+    "lineNumber": 128,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3073,7 +3149,7 @@
     }
   },
   {
-    "__docId__": 158,
+    "__docId__": 162,
     "kind": "method",
     "name": "didEnter",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -3083,7 +3159,7 @@
     "longname": "src/jg/gameformat/game.js~game#didEnter",
     "access": "public",
     "description": "Called when the game has just entered a new situation.",
-    "lineNumber": 107,
+    "lineNumber": 137,
     "params": [
       {
         "nullable": null,
@@ -3129,7 +3205,7 @@
     "return": null
   },
   {
-    "__docId__": 159,
+    "__docId__": 163,
     "kind": "method",
     "name": "willExit",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -3139,7 +3215,7 @@
     "longname": "src/jg/gameformat/game.js~game#willExit",
     "access": "public",
     "description": "Called when the game is about to exit a situation.",
-    "lineNumber": 116,
+    "lineNumber": 146,
     "params": [
       {
         "nullable": null,
@@ -3185,7 +3261,7 @@
     "return": null
   },
   {
-    "__docId__": 160,
+    "__docId__": 164,
     "kind": "method",
     "name": "didExit",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -3195,7 +3271,7 @@
     "longname": "src/jg/gameformat/game.js~game#didExit",
     "access": "public",
     "description": "Called when the game just exited a situation.",
-    "lineNumber": 125,
+    "lineNumber": 155,
     "params": [
       {
         "nullable": null,
@@ -3241,7 +3317,7 @@
     "return": null
   },
   {
-    "__docId__": 161,
+    "__docId__": 165,
     "kind": "method",
     "name": "willAct",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -3251,7 +3327,7 @@
     "longname": "src/jg/gameformat/game.js~game#willAct",
     "access": "public",
     "description": "Called when the game is about to execute the given action on the given sitaution.",
-    "lineNumber": 134,
+    "lineNumber": 164,
     "params": [
       {
         "nullable": null,
@@ -3297,7 +3373,7 @@
     "return": null
   },
   {
-    "__docId__": 162,
+    "__docId__": 166,
     "kind": "method",
     "name": "didAct",
     "memberof": "src/jg/gameformat/game.js~game",
@@ -3307,7 +3383,7 @@
     "longname": "src/jg/gameformat/game.js~game#didAct",
     "access": "public",
     "description": "Called when the game is just executed the given action on the given sitaution.",
-    "lineNumber": 143,
+    "lineNumber": 173,
     "params": [
       {
         "nullable": null,
@@ -3353,7 +3429,7 @@
     "return": null
   },
   {
-    "__docId__": 163,
+    "__docId__": 167,
     "kind": "file",
     "name": "src/jg/gameformat/situation.js",
     "content": "/**\n * An entry in the `game.situations` array.\n * \n * The format of this object matches the constructor of {@link Situation#constructor}.\n */\nclass situation {\n};\nexport default situation;",
@@ -3364,7 +3440,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 164,
+    "__docId__": 168,
     "kind": "class",
     "name": "situation",
     "memberof": "src/jg/gameformat/situation.js",
@@ -3379,10 +3455,10 @@
     "interface": false
   },
   {
-    "__docId__": 165,
+    "__docId__": 169,
     "kind": "file",
     "name": "src/jg/gamepad.js",
-    "content": "/** @ignore */\nfunction bindGamepad(director) {\n  console.log(navigator.getGamepads()[0]);\n\n  const selectActiveElement = () => {\n    if (document.activeElement) document.activeElement.click();\n  };\n\n  const axisState = ['rest', 'rest', 'rest', 'rest'];\n  const buttonState = [false, false];\n  const update = () => {\n    window.requestAnimationFrame(update);\n\n    if (!navigator.getGamepads) return;\n    const gp = navigator.getGamepads()[0];\n    if (!gp) return;\n    // const isXbox = gp.id.indexOf('360') !== -1 && gp.id.indexOf('45e') !== -1 && gp.id.indexOf('28e') !== -1;\n\n    axisState.forEach((oldState, axis) => {\n      let newState = 'rest';\n      if (gp.axes[axis] > 0.5) {\n        newState = 'right';\n      } else if (gp.axes[axis] < -0.5) {\n        newState = 'left';\n      } else {\n        newState = 'rest';\n      }\n      if (oldState === 'rest' && newState === 'right') {\n        director.focusNextElement();\n      } else if (oldState === 'rest' && newState === 'left') {\n        director.focusPreviousElement();\n      }\n      axisState[axis] = newState;\n    });\n\n    buttonState.forEach((oldState, i) => {\n      if (gp.buttons[i].pressed !== oldState) {\n        buttonState[i] = gp.buttons[i].pressed;\n        if (buttonState[i]) selectActiveElement();\n      }\n    })\n\n  };\n  update();\n}\n\nexport {\n  bindGamepad,\n}",
+    "content": "/** @ignore */\nfunction bindGamepad(director) {\n  const selectActiveElement = () => {\n    if (document.activeElement) document.activeElement.click();\n  };\n\n  const axisState = ['rest', 'rest', 'rest', 'rest'];\n  const buttonState = [false, false];\n  const update = () => {\n    window.requestAnimationFrame(update);\n\n    if (!navigator.getGamepads) return;\n    const gp = navigator.getGamepads()[0];\n    if (!gp) return;\n    // const isXbox = gp.id.indexOf('360') !== -1 && gp.id.indexOf('45e') !== -1 && gp.id.indexOf('28e') !== -1;\n\n    axisState.forEach((oldState, axis) => {\n      let newState = 'rest';\n      if (gp.axes[axis] > 0.5) {\n        newState = 'right';\n      } else if (gp.axes[axis] < -0.5) {\n        newState = 'left';\n      } else {\n        newState = 'rest';\n      }\n      if (oldState === 'rest' && newState === 'right') {\n        director.focusNextElement();\n      } else if (oldState === 'rest' && newState === 'left') {\n        director.focusPreviousElement();\n      }\n      axisState[axis] = newState;\n    });\n\n    buttonState.forEach((oldState, i) => {\n      if (gp.buttons[i].pressed !== oldState) {\n        buttonState[i] = gp.buttons[i].pressed;\n        if (buttonState[i]) selectActiveElement();\n      }\n    })\n\n  };\n  update();\n}\n\nexport {\n  bindGamepad,\n}",
     "static": true,
     "longname": "/Users/steve/_d/games/ifeng/src/jg/gamepad.js",
     "access": "public",
@@ -3390,7 +3466,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 166,
+    "__docId__": 170,
     "kind": "function",
     "name": "bindGamepad",
     "memberof": "src/jg/gamepad.js",
@@ -3416,7 +3492,7 @@
     "return": null
   },
   {
-    "__docId__": 167,
+    "__docId__": 171,
     "kind": "file",
     "name": "src/jg/index.js",
     "content": "import JumboGroveDirector from \"./director\";\nexport default JumboGroveDirector;",
@@ -3427,7 +3503,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 168,
+    "__docId__": 172,
     "kind": "file",
     "name": "src/jg/model.js",
     "content": "/**\n * @module model\n * @memberof module:jumbogrove\n */\nimport _ from 'lodash';\nimport Character from './character';\nimport Situation from './situation';\n\n/**\n * Maintains game state and allows you to make changes to it.\n * \n * The model object is the primary way for you to interact with Jumbo Grove.\n */\nexport default class model {\n    /**\n     * @ignore\n     * \n     * @param {object} args Arguments object\n     * @param {object[]} args.characters\n     * @param {object} args.globalState\n     * @param {object[]} args.situations\n     * @param {string} args.initialSituation\n     */\n    constructor(director, {characters, globalState, situations, initialSituation}) {\n        /** @ignore */\n        this._director = director;\n        /** @ignore */\n        this._characters = {};\n        /** @ignore */\n        this._situations = {};\n        /** @ignore */\n        this._initialSituationId = initialSituation;\n        /** @ignore */\n        this.templateHelperFunctions = {};\n        /** @ignore */\n        this.templateHelperGetters = {};\n\n        // These will be injected when the UI is bound to the director\n        /** @ignore */\n        this.navHeaderHTML = null;\n        /** @ignore */\n        this.asideHeaderHTML = null;\n\n        /**\n         * The situation currently being run, or last seen by the user.\n         * @member\n         * @type {Situation|null} */\n        this.currentSituation = null;\n\n        characters.forEach((c) => this._characters[c.id] = new Character(c));\n\n        /**\n         * Store all non-character game state here; **Must be JSON-safe!** You may mutate\n         * this object freely as long as it is safe to convert it to JSON and back.\n         * @member\n         * \n         */\n        this.globalState = _.cloneDeep(globalState);\n\n        /**\n         * The character with ID `'player'`.\n         * @member\n         * @type {Character|null} */\n        this.player = this.character('player') || null;\n\n        situations.forEach((s) => {\n            if (this._situations[s.id]) throw new Error(`Duplicate situation id: ${s.id}`);\n            this._situations[s.id] = new Situation(s);\n        });\n\n        /**\n         * List of all characters in the game.\n         * @member\n         * @type {Character[]} */\n        this.allCharacters = _.sortBy(Object.values(this._characters), ({priority}) => priority || 0);\n    }\n\n    /**\n     * Follow a Jumbo Grove link (`@situation-id` or `>action`).\n     * @param {command} string\n     */\n    do(...args) {\n        return this._director.handleCommandString(...args);\n    }\n\n    /**\n     * Go to the given sitaution (no `@`).\n     * @param {string} id\n     */\n    goTo(...args) {\n        return this._director.goTo(...args);\n    }\n\n    /**\n     * Returns true iff the given string can be handled by Jumbo Grove (rather than being a normal HTML link)\n     * @param {string} string A string to check\n     * @returns {Boolean} \n     */\n    isManagedLink(...args) {\n        return this._director.isManagedLink(...args);\n    }\n\n    /**\n     * Add arbitrary methods to the model object. Since the model is passed to\n     * all callbacks, this is a good way to make convenient functions accessible.\n     * \n     * Also, anything you pass here will also be provided to the template context.\n     * \n     * @param {Map<string, function>} fns Mapping of name to function\n     */\n    extend(fns) {\n        Object.assign(this, fns);\n        Object.assign(this.templateHelperFunctions, fns);\n    }\n\n    /**\n     * Make dynamically-evaluated values available to templates.\n     * \n     * For example, if you do this:\n     * \n     * ```\n     * model.addTemplateGetters({minutes: () => new Date().getMinutes()});\n     * ```\n     * \n     * then whenever you write `<%= minutes %>` in your template, the return\n     * value of the function will appear in the text.\n     * \n     * @param {Map<string, function>} fns Mapping of name to getter\n     */\n    addTemplateGetters(fns) {\n        Object.assign(this.templateHelperGetters, fns);\n    }\n\n    /**\n     * @ignore\n     */\n    toSave() {\n        return {\n            globalState: this.globalState,\n            currentSituationId: this.currentSituation ? this.currentSituation.id : null,\n            characters: this.allCharacters.map((c) => c.toSave()),\n            situations: Object.values(this._situations).map((s) => s.toSave()),\n        };\n    }\n\n    /**\n     * @ignore\n     */\n    loadSave(obj) {\n        this.globalState = obj.globalState;\n        this.currentSituation = this._situations[obj.currentSituationId] || null;\n        for (const data of obj.characters) {\n            this.character(data.id).loadSave(data);\n        }\n        for (const s of obj.situations) {\n            this.situation(s.id).loadSave(s);\n        }\n    }\n\n    /**\n     * @ignore\n     */\n    toString() {\n        return `Model(globalState=${this.globalState}, characters=${this.characters})`;\n    }\n\n    /**\n     * Looks up a situation by ID. Prints an error to the console if there isn't one.\n     * @param {string} id \n     * @returns {Situation|null} Situation with the given ID\n     */\n    situation(id) {\n        if (!this._situations[id]) console.error(`Situation not found: ${id}`);\n        return this._situations[id];\n    }\n\n    /**\n     * Returns a list of all situations matching the given ID (`foo`) or tag (`#foo`).\n     * @param {string} idOrTag \n     * @returns {Situation[]}\n     */\n    situations(idOrTag) {\n        if (idOrTag.startsWith(\"#\")) {\n            const tag = idOrTag.slice(1);\n            return Object.values(this._situations)\n                .filter((s) => s.tags.indexOf(tag) !== -1);\n        } else {\n            return [this._situations[idOrTag]];\n        }\n    }\n\n    /**\n     * Look up a character by ID. Returns `undefined` if there isn't one.\n     * @param {string} id \n     */\n    character(id) {\n        return this._characters[id];\n    }\n\n    /**\n     * Return a random number 0-1. Currently this just calls `Math.random()`, but\n     * in the future it might do something fancy with seeds that let you avoid\n     * save scumming.\n     */\n    random() {\n        return Math.random();\n    }\n\n    /**\n     * Given a set of situations, do some smart stuff and return the situations\n     * that match the filter.\n     * \n     * 1. Filter out all situations for which `situation.getCanSee(model, model.currentSituation, situation)` returns `false`.\n     * 2. Find the highest priority that matches a list of situations at least as big as `atLeast`.\n     * 3. If there are more situations left than there are `atMost`, randomly remove some.\n     * 4. Sort by `situation.displayOrder`.\n     * \n     * Note that it is possible to end up with a list of situations for which `getCanChoose()` returned `false` for all of them!\n     * \n     * This logic has been shamelessly stolen from Undum.\n     * \n     * @param {string[]} arrayOfSituationIdsOrTags Like `['one-situation', '#situations-matching-this-tag']`\n     * @param {number} atLeast \n     * @param {number} atMost \n     */\n    interpretChoices(arrayOfSituationIdsOrTags, atLeast = 0, atMost = Number.MAX_VALUE) {\n        const host = this.currentSituation;\n        if (host.debugChoices) debugger;  // eslint-disable-line no-debugger\n        const situations = [].concat.apply(\n            [], arrayOfSituationIdsOrTags.map(this.situations.bind(this)));\n        // remove invisible situations\n        const visibleSituations = situations.filter((s) => s.getCanSee(this, host, s));\n\n        // sort by display order\n        const sortedSituations = _.sortBy(\n            visibleSituations, (s) => s.getDisplayOrder(this, host));\n\n        // index by priority; figure out what priorities are being used\n        const sortedSituationsByPriority = {};\n        const prioritiesSeen = [];\n        for (const s of sortedSituations) {\n            const p = s.getPriority(this, host);\n            if (!sortedSituationsByPriority[p]) sortedSituationsByPriority[p] = [];\n            sortedSituationsByPriority[p].push(s);\n            prioritiesSeen.push(p);\n        }\n\n        // figure out what priority we want to use (only one!)\n        let chosenPriority = Number.MAX_VALUE;\n        for (const p of _.uniq(prioritiesSeen.sort().reverse())) {\n            if (sortedSituationsByPriority[p].length >= atLeast) {\n                chosenPriority = p;\n                break;\n            }\n        }\n        let chosenSituations = sortedSituationsByPriority[chosenPriority];\n        if (!chosenSituations) {\n            return [];  // Uh oh!\n        }\n\n        // Remove random array items until we are under the limit\n        while (chosenSituations.length > atMost) {\n            const i = Math.floor(this.random() * chosenSituations.length);\n            chosenSituations.splice(i, 1);\n        }\n\n        // return the chosen situations and provide more info for each\n        const allChoices = chosenSituations.map((s) => {\n            return {\n                situationId: s.id,\n                text: s.getOptionText(this, host),\n                isEnabled: s.getCanChoose(this, host),\n            };\n        });\n        return allChoices.filter(({isEnabled}) => isEnabled).concat(allChoices.filter(({isEnabled}) => !isEnabled));\n    }\n}",
@@ -3438,7 +3514,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 169,
+    "__docId__": 173,
     "kind": "class",
     "name": "model",
     "memberof": "src/jg/model.js",
@@ -3453,7 +3529,7 @@
     "interface": false
   },
   {
-    "__docId__": 170,
+    "__docId__": 174,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/jg/model.js~model",
@@ -3519,7 +3595,7 @@
     ]
   },
   {
-    "__docId__": 171,
+    "__docId__": 175,
     "kind": "member",
     "name": "_director",
     "memberof": "src/jg/model.js~model",
@@ -3536,7 +3612,7 @@
     }
   },
   {
-    "__docId__": 172,
+    "__docId__": 176,
     "kind": "member",
     "name": "_characters",
     "memberof": "src/jg/model.js~model",
@@ -3553,7 +3629,7 @@
     }
   },
   {
-    "__docId__": 173,
+    "__docId__": 177,
     "kind": "member",
     "name": "_situations",
     "memberof": "src/jg/model.js~model",
@@ -3570,7 +3646,7 @@
     }
   },
   {
-    "__docId__": 174,
+    "__docId__": 178,
     "kind": "member",
     "name": "_initialSituationId",
     "memberof": "src/jg/model.js~model",
@@ -3587,7 +3663,7 @@
     }
   },
   {
-    "__docId__": 175,
+    "__docId__": 179,
     "kind": "member",
     "name": "templateHelperFunctions",
     "memberof": "src/jg/model.js~model",
@@ -3604,7 +3680,7 @@
     }
   },
   {
-    "__docId__": 176,
+    "__docId__": 180,
     "kind": "member",
     "name": "templateHelperGetters",
     "memberof": "src/jg/model.js~model",
@@ -3621,7 +3697,7 @@
     }
   },
   {
-    "__docId__": 177,
+    "__docId__": 181,
     "kind": "member",
     "name": "navHeaderHTML",
     "memberof": "src/jg/model.js~model",
@@ -3638,7 +3714,7 @@
     }
   },
   {
-    "__docId__": 178,
+    "__docId__": 182,
     "kind": "member",
     "name": "asideHeaderHTML",
     "memberof": "src/jg/model.js~model",
@@ -3655,7 +3731,7 @@
     }
   },
   {
-    "__docId__": 179,
+    "__docId__": 183,
     "kind": "member",
     "name": "currentSituation",
     "memberof": "src/jg/model.js~model",
@@ -3675,7 +3751,7 @@
     }
   },
   {
-    "__docId__": 180,
+    "__docId__": 184,
     "kind": "member",
     "name": "globalState",
     "memberof": "src/jg/model.js~model",
@@ -3691,7 +3767,7 @@
     }
   },
   {
-    "__docId__": 181,
+    "__docId__": 185,
     "kind": "member",
     "name": "player",
     "memberof": "src/jg/model.js~model",
@@ -3711,7 +3787,7 @@
     }
   },
   {
-    "__docId__": 182,
+    "__docId__": 186,
     "kind": "member",
     "name": "allCharacters",
     "memberof": "src/jg/model.js~model",
@@ -3730,7 +3806,7 @@
     }
   },
   {
-    "__docId__": 183,
+    "__docId__": 187,
     "kind": "method",
     "name": "do",
     "memberof": "src/jg/model.js~model",
@@ -3760,7 +3836,7 @@
     }
   },
   {
-    "__docId__": 184,
+    "__docId__": 188,
     "kind": "method",
     "name": "goTo",
     "memberof": "src/jg/model.js~model",
@@ -3790,7 +3866,7 @@
     }
   },
   {
-    "__docId__": 185,
+    "__docId__": 189,
     "kind": "method",
     "name": "isManagedLink",
     "memberof": "src/jg/model.js~model",
@@ -3829,7 +3905,7 @@
     }
   },
   {
-    "__docId__": 186,
+    "__docId__": 190,
     "kind": "method",
     "name": "extend",
     "memberof": "src/jg/model.js~model",
@@ -3855,7 +3931,7 @@
     "return": null
   },
   {
-    "__docId__": 187,
+    "__docId__": 191,
     "kind": "method",
     "name": "addTemplateGetters",
     "memberof": "src/jg/model.js~model",
@@ -3881,7 +3957,7 @@
     "return": null
   },
   {
-    "__docId__": 188,
+    "__docId__": 192,
     "kind": "method",
     "name": "toSave",
     "memberof": "src/jg/model.js~model",
@@ -3901,7 +3977,7 @@
     }
   },
   {
-    "__docId__": 189,
+    "__docId__": 193,
     "kind": "method",
     "name": "loadSave",
     "memberof": "src/jg/model.js~model",
@@ -3924,7 +4000,7 @@
     "return": null
   },
   {
-    "__docId__": 192,
+    "__docId__": 196,
     "kind": "method",
     "name": "toString",
     "memberof": "src/jg/model.js~model",
@@ -3944,7 +4020,7 @@
     }
   },
   {
-    "__docId__": 193,
+    "__docId__": 197,
     "kind": "method",
     "name": "situation",
     "memberof": "src/jg/model.js~model",
@@ -3984,7 +4060,7 @@
     }
   },
   {
-    "__docId__": 194,
+    "__docId__": 198,
     "kind": "method",
     "name": "situations",
     "memberof": "src/jg/model.js~model",
@@ -4023,7 +4099,7 @@
     }
   },
   {
-    "__docId__": 195,
+    "__docId__": 199,
     "kind": "method",
     "name": "character",
     "memberof": "src/jg/model.js~model",
@@ -4053,7 +4129,7 @@
     }
   },
   {
-    "__docId__": 196,
+    "__docId__": 200,
     "kind": "method",
     "name": "random",
     "memberof": "src/jg/model.js~model",
@@ -4072,7 +4148,7 @@
     }
   },
   {
-    "__docId__": 197,
+    "__docId__": 201,
     "kind": "method",
     "name": "interpretChoices",
     "memberof": "src/jg/model.js~model",
@@ -4122,7 +4198,7 @@
     }
   },
   {
-    "__docId__": 198,
+    "__docId__": 202,
     "kind": "file",
     "name": "src/jg/qualities/flag.js",
     "content": "/**\n * If `value` is true, some text appears. Otherwise, no text appears.\n * @type {Quality}\n * @example\n * {\n *    initialValue: true|false,\n *    name: 'This text appears in the sidebar if true, otherwise nothing'\n * }\n */\nconst flag = {\n    isVisible: (character, quality, value) => !!value,\n    isLabeled: (character, quality, value) => false,\n    format: (character, quality, value) => {\n        return value ? quality.name : '';\n    },\n};\nexport default flag;",
@@ -4133,7 +4209,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 199,
+    "__docId__": 203,
     "kind": "variable",
     "name": "flag",
     "memberof": "src/jg/qualities/flag.js",
@@ -4158,7 +4234,7 @@
     }
   },
   {
-    "__docId__": 200,
+    "__docId__": 204,
     "kind": "file",
     "name": "src/jg/qualities/fudgeAdjective.js",
     "content": "import wordScale from \"./wordScale\";\n/**\n * Shortcut for `wordScale` with a word list of 'terrible', 'poor', 'mediocre', 'fair', 'good', 'great', 'superb'\n * where -3 = terrible, 0 = fair, and 3 = superb.\n * @type {Quality}\n * @example\n * {\n *    initialValue: 0,  // a number\n * }\n */\nconst fudgeAdjective = {\n    format: (character, quality, value) => {\n        return wordScale.format(\n            character,\n            {\n                ...quality,\n                offset: 3,\n                words: ['terrible', 'poor', 'mediocre', 'fair', 'good', 'great', 'superb'],\n            },\n            value);\n    },\n};\nexport default fudgeAdjective;",
@@ -4169,7 +4245,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 201,
+    "__docId__": 205,
     "kind": "variable",
     "name": "fudgeAdjective",
     "memberof": "src/jg/qualities/fudgeAdjective.js",
@@ -4194,7 +4270,7 @@
     }
   },
   {
-    "__docId__": 202,
+    "__docId__": 206,
     "kind": "file",
     "name": "src/jg/qualities/index.js",
     "content": "/** @ignore */\nimport flag from \"./flag\";\nimport fudgeAdjective from \"./fudgeAdjective\";\nimport integer from \"./integer\";\nimport namedChoice from \"./namedChoice\";\nimport nonZeroInteger from \"./nonZeroInteger\";\nimport onOff from \"./onOff\";\nimport raw from \"./raw\";\nimport wordScale from \"./wordScale\";\nimport yesNo from \"./yesNo\";\n\n/**\n * Object containing all qualities indexed by key.\n * @type {object}\n */\nconst qualities = {\n  flag,\n  fudgeAdjective,\n  integer,\n  namedChoice,\n  nonZeroInteger,\n  onOff,\n  raw,\n  wordScale,\n  yesNo,\n};\nexport default qualities;",
@@ -4205,7 +4281,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 203,
+    "__docId__": 207,
     "kind": "variable",
     "name": "qualities",
     "memberof": "src/jg/qualities/index.js",
@@ -4227,7 +4303,7 @@
     }
   },
   {
-    "__docId__": 204,
+    "__docId__": 208,
     "kind": "file",
     "name": "src/jg/qualities/integer.js",
     "content": "/**\n * Decimals are truncated from the value when displaying.\n * @type {Quality}\n * @example\n * {\n *    initialValue: 0,  // a number\n * }\n */\nconst integer = {\n    format: (character, quality, value) => Math.floor(value).toString(),\n};\nexport default integer;",
@@ -4238,7 +4314,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 205,
+    "__docId__": 209,
     "kind": "variable",
     "name": "integer",
     "memberof": "src/jg/qualities/integer.js",
@@ -4263,7 +4339,7 @@
     }
   },
   {
-    "__docId__": 206,
+    "__docId__": 210,
     "kind": "file",
     "name": "src/jg/qualities/namedChoice.js",
     "content": "/**\n * Simple transform of one value to another.\n * @type {Quality}\n * @example\n * {\n *    initialValue: 'foo',  // anything\n *    labelMap: {'foo': 'bar'},  // renders 'foo' as 'bar'\n * }\n */\nconst namedChoice = {\n    format: (character, quality, value) => {\n        return quality.labelMap[value];\n    },\n};\nexport default namedChoice;",
@@ -4274,7 +4350,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 207,
+    "__docId__": 211,
     "kind": "variable",
     "name": "namedChoice",
     "memberof": "src/jg/qualities/namedChoice.js",
@@ -4299,7 +4375,7 @@
     }
   },
   {
-    "__docId__": 208,
+    "__docId__": 212,
     "kind": "file",
     "name": "src/jg/qualities/nonZeroInteger.js",
     "content": "/**\n * Same as `integer`, but doesn't appear in sidebar if equal to zero.\n * @type {Quality}\n * @example\n * {\n *    initialValue: 0,  // a number\n * }\n */\nconst nonZeroInteger = {\n    isVisible: (character, quality, value) => !!value,\n    format: (character, quality, value) => {\n        if (value === 0) return '';\n        return Math.floor(value).toString();\n    },\n};\nexport default nonZeroInteger;",
@@ -4310,7 +4386,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 209,
+    "__docId__": 213,
     "kind": "variable",
     "name": "nonZeroInteger",
     "memberof": "src/jg/qualities/nonZeroInteger.js",
@@ -4335,7 +4411,7 @@
     }
   },
   {
-    "__docId__": 210,
+    "__docId__": 214,
     "kind": "file",
     "name": "src/jg/qualities/onOff.js",
     "content": "/**\n * Displays `on`/`off` based on `value` truthiness (if no `words` provided), or\n * `words[0]`/`words[1]` (falsey word comes first)\n * @type {Quality}\n * @example\n * {\n *    initialValue: true|false,\n *    words: ['nope', 'yep']\n * }\n */\nconst onOff = {\n  format: (character, quality, value) => {\n    const words = quality.words || ['off', 'on'];\n    return words[value ? 1 : 0];\n  },\n};\nexport default onOff;",
@@ -4346,7 +4422,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 211,
+    "__docId__": 215,
     "kind": "variable",
     "name": "onOff",
     "memberof": "src/jg/qualities/onOff.js",
@@ -4371,7 +4447,7 @@
     }
   },
   {
-    "__docId__": 212,
+    "__docId__": 216,
     "kind": "file",
     "name": "src/jg/qualities/raw.js",
     "content": "/**\n * Displays the value unchanged.\n * @type {Quality}\n * @example\n * {\n *    initialValue: 'whatever',\n * }\n */\nconst raw = {\n  format: (character, quality, value) => value,\n};\nexport default raw;",
@@ -4382,7 +4458,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 213,
+    "__docId__": 217,
     "kind": "variable",
     "name": "raw",
     "memberof": "src/jg/qualities/raw.js",
@@ -4407,7 +4483,7 @@
     }
   },
   {
-    "__docId__": 214,
+    "__docId__": 218,
     "kind": "file",
     "name": "src/jg/qualities/wordScale.js",
     "content": "import _ from 'lodash';\n/**\n * Map an integer value to a word list, with optional offset.\n * @type {Quality}\n * @example\n * {\n *    initialValue: 0,  // a number\n *    words: ['bad', 'ok', 'good'],\n *    offset: 0  // rendered text = words[value + offset]\n * }\n */\nconst wordScale = {\n    format: (character, quality, value) => {\n        if (!quality.words) return '';\n        let offsetValue = value;\n        if (quality.offset) offsetValue += quality.offset;\n        if (offsetValue >= 0 && offsetValue < quality.words.length) {\n            return quality.words[offsetValue];\n        } else if (offsetValue >= quality.words.length && quality.useBonuses) {\n            return _.last(quality.words) + '+' + (\n                offsetValue - quality.words.length + 1);\n        } else if (offsetValue < 0 && quality.useBonuses) {\n            return quality.words[0] + offsetValue;\n        } else {\n            return ''\n        }\n    },\n};\nexport default wordScale;",
@@ -4418,7 +4494,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 215,
+    "__docId__": 219,
     "kind": "variable",
     "name": "wordScale",
     "memberof": "src/jg/qualities/wordScale.js",
@@ -4443,7 +4519,7 @@
     }
   },
   {
-    "__docId__": 216,
+    "__docId__": 220,
     "kind": "file",
     "name": "src/jg/qualities/yesNo.js",
     "content": "import onOff from \"./onOff\";\n/**\n * Same oas `onOf`, but defaults to `yes` / `no`.\n * @type {Quality}\n * @example\n * {\n *    initialValue: true|false,\n * }\n */\nconst yesNo = {\n  format: (character, quality, value) => {\n    return onOff.format(character, {words: ['no', 'yes']}, value);\n  },\n};\nexport default yesNo;",
@@ -4454,7 +4530,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 217,
+    "__docId__": 221,
     "kind": "variable",
     "name": "yesNo",
     "memberof": "src/jg/qualities/yesNo.js",
@@ -4479,7 +4555,7 @@
     }
   },
   {
-    "__docId__": 218,
+    "__docId__": 222,
     "kind": "file",
     "name": "src/jg/situation.js",
     "content": "import _ from 'lodash';\n\nconst nop = () => { };\nconst tru = () => true;\n/**\n */\nexport default class Situation {\n    /**\n     * \n     * @param {object} args\n     * @param {string} args.id\n     * @param {Boolean} args.autosave If true, game will save when scene is\n     *                                entered. Default false.\n     * @param {string} args.content\n     *      Markdown template to be rendered to the transcript when this\n     *      situation is entered. {@see /markup.html}\n     * @param {string[]} args.choices\n     *      List of situation IDs or tags. See\n     *      {@link model#interpretChoices} for how this works.\n     * @param {Map<string,string>} args.snippets\n     *      Snippets used by writers/replacers. {@see /writers_replacers.html}.\n     * @param {object|null} args.input \n     *      If provided, prompts user for input. Looks like\n     *      `input: {placeholder: \"Your name\", next: \"situation-id\", store: function(model, value)}`\n     * @param {string|null} args.input.placeholder\n     *      Placeholder value for the HTML input field \n     * @param {string} args.input.next\n     *      Situation or action to go to after user enters a value.\n     *      Must start with either `@` (for situation IDs) or `>`\n     *      (for actions).\n     * @param {function(model: model, value: string)} args.input.store\n     *      Your chance to do something with the given alue\n     * @param {Boolean} args.debugChoices See {@link debugChoices}\n     * @param {function(model: model, hostSituation: Situation): Boolean} getCanChoose\n     *      If this function is provided and returns `false`, this situation\n     *      is not linkified in the choices list.\n     * @param {function(model: model, hostSituation: Situation): Boolean} getCanSee\n     *      If this function is provided and returns `false`, the situation\n     *      will not show up in the choices list for the situation presenting\n     *      the choice.\n     * @param {number|function(model: model, hostSituation: Situation): number} priority\n     *      May be a constant number, or function returning a number. This value\n     *      is used by {@link model#interpretChoices}.\n     * @param {number|function(model: model, hostSituation: Situation): number} displayOrder\n     *      May be a constant number, or function returning a number. This value\n     *      is used by {@link model#interpretChoices}.\n     * @param {string|function(model: model, hostSituation: Situation): string} optionText\n     *      Text shown to user when being presented as a choice.\n     * @param {function(model: model, ui: ui, fromSituation: Situation): Boolean} willEnter\n     *      This situation will enter, unless this function returns `false`. It\n     *      is safe to call `model.do()` from here, as long as you then return\n     *      `false`.\n     * @param {function(model: model, ui: ui, fromSituation: Situation)} enter\n     *      The situation has been entered, and {@link Situation#content} has\n     *      been written to the transcript.\n     * @param {function(model: model, ui: ui, toSituation: Situation)} exit\n     *      The situation is being exited, but the next situation has not yet\n     *      been entered.\n     * @param {function(model: model, ui: ui, action: String)} act\n     *      An action-based link has been clicked. You might just want to use\n     *      the `actions` key instead of this function if you're just mapping\n     *      action names to functions.\n     * @param {Map<string,function>} actions\n     *      Map of action name to function that is called when the user invokes\n     *      the action.\n     * \n     * @example\n     *  jumbogrove('#app', {\n     *      id: 'situations-example',\n     *      autosave: true,\n     * \n     *      // stuff related to this situation being a choice in another situation:\n     *      optionText: \"Proclaim hungriness\",\n     *      getCanChoose: (model, host) => true,\n     *      getCanSee: (model, host) => true,\n     *      priority: 1,\n     *      displayOrder: 1,\n     * \n     *      // stuff related to content and what happens inside the situation:\n     *      content: `\n     *      I am [very](>replaceself:more_adjectives) hungry.\n     * \n     *      [Eat](>eat)\n     * \n     *      [Go to restaurant](@restaurant)\n     *      `,\n     *      snippets: {\n     *          more_adjectives: \"very, very, very, very\"\n     *      },\n     *      act: (model, ui, action) => console.log(\"did action\", action),\n     *      actions: {\n     *          eat: () => console.log(\"OM NOM NOM\"),\n     *      },\n     * \n     *      // going to other situations:\n     *      choices: ['next-situation', '#situations-involving-food'],\n     *      // normally you wouldn't have 'choices' and 'input' in the same situation.\n     *      input: {\n     *          placeholder: \"Please enter your favorite food.\",\n     *          next: \"@restaurant\",\n     *      },\n     *      debugChoices: false,\n     * \n     *      // lifecycle\n     *      willEnter: (model, ui, from) => true,\n     *      enter: (model, ui, from) => console.log(\"entered\"),\n     *      exit: (model, ui, from) => console.log(\"exited\"),\n     *  });\n     */\n    constructor({\n        id,\n        tags = [],\n        totalVisits = 0,\n        autosave = false,\n        // str (rendered as HTML before enter() called)\n        content = null,\n        // [str] (if specified, presentChoices() will happen automatically)\n        choices = null,\n        snippets = {},\n        input = null,\n        debugChoices = false,\n        // (model, hostSituation)\n        getCanChoose = tru,\n        // (model, hostSituation)\n        getCanSee = tru,\n        // number or (model, hostSituation)\n        priority = 0,\n        // number or (model, hostSituation)\n        displayOrder = 0,\n        // str or (model, hostSituation)\n        optionText = null,\n        // (model, ui, fromSituation)\n        willEnter = tru,\n        // (model, ui, fromSituation)\n        enter = nop,\n        // (model, ui, action)\n        act = nop,\n        // {actionId: (model, ui) => Void}\n        actions = {},\n        // (model, ui, toSituation)\n        exit = nop,\n    }) {\n        /**\n         * ID of this situation.\n         * @type {string}\n         */\n        this.id = id;\n\n        /**\n         * Tags associated with this situation.\n         * @type {string[]}\n         */\n        this.tags = tags;\n\n        /**\n         * Number of times this situation has been successfully entered.\n         * This value persists when saving and loading.\n         * @type {number}\n         */\n        this.totalVisits = totalVisits;\n\n        /**\n         * If `true`, then presenting choices from this situation will call `debugger`\n         * so you can step through the code and see what's up.\n         * @type {Boolean}\n         */\n        this.debugChoices = debugChoices;\n\n        Object.assign(this, {\n            getCanChoose, getCanSee, priority,\n            displayOrder, optionText, enter, act, exit, content, actions, choices,\n            snippets, input, willEnter, autosave,\n        });\n    }\n\n    /** @ignore */\n    toSave() {\n        return _.pick(this, ['totalVisits', 'id']);\n    }\n\n    /** @ignore */\n    loadSave(obj) {\n        _.assign(this, obj);\n    }\n\n    /** @ignore */\n    doEnter(model, ui) {\n        this.totalVisits += 1;\n        if (this.content) {\n            ui.writeMarkdown(this.content);\n        }\n        this.enter.apply(this, arguments);\n        if (this.input) {\n            ui.promptInput({placeholder: this.input.placeholder})\n                .then((value) => { \n                    this.input.store(model, value);\n                    model.do(this.input.next);\n                });\n        }\n        if (this.choices) {\n            ui.presentChoices(this.choices).then(({situationId, itemId}) => {\n                model.do(`@${situationId}`, itemId, 'fake');\n            });\n        }\n    }\n\n    /** @ignore */\n    doExit(model, ui, toSituation) {\n        ui.nextGroup();\n        this.exit.apply(this, arguments);\n    }\n\n    /** @ignore */\n    doAct(model, ui, action, ...args) {\n        if (this.actions && this.actions[action]) {\n            this.actions[action](model, ui, ...args);\n        } else {\n            this.act(model, ui, action);\n        }\n    }\n\n    /** @ignore */\n    getOptionText() {\n        if (_.isFunction(this.optionText)) {\n            return this.optionText.apply(this, arguments);\n        } else {\n            return this.optionText || this.id;\n        }\n    }\n\n    /** @ignore */\n    getPriority() {\n        if (_.isFunction(this.priority)) {\n            return this.priority.apply(this, arguments);\n        } else {\n            return this.priority;\n        }\n    }\n\n    /** @ignore */\n    getDisplayOrder() {\n        if (_.isFunction(this.displayOrder)) {\n            return this.displayOrder.apply(this, arguments);\n        } else {\n            return this.displayOrder;\n        }\n    }\n}",
@@ -4490,7 +4566,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 219,
+    "__docId__": 223,
     "kind": "function",
     "name": "nop",
     "memberof": "src/jg/situation.js",
@@ -4510,7 +4586,7 @@
     "ignore": true
   },
   {
-    "__docId__": 220,
+    "__docId__": 224,
     "kind": "function",
     "name": "tru",
     "memberof": "src/jg/situation.js",
@@ -4530,7 +4606,7 @@
     "ignore": true
   },
   {
-    "__docId__": 221,
+    "__docId__": 225,
     "kind": "class",
     "name": "Situation",
     "memberof": "src/jg/situation.js",
@@ -4545,7 +4621,7 @@
     "interface": false
   },
   {
-    "__docId__": 222,
+    "__docId__": 226,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/jg/situation.js~Situation",
@@ -4778,7 +4854,7 @@
     ]
   },
   {
-    "__docId__": 223,
+    "__docId__": 227,
     "kind": "member",
     "name": "id",
     "memberof": "src/jg/situation.js~Situation",
@@ -4797,7 +4873,7 @@
     }
   },
   {
-    "__docId__": 224,
+    "__docId__": 228,
     "kind": "member",
     "name": "tags",
     "memberof": "src/jg/situation.js~Situation",
@@ -4816,7 +4892,7 @@
     }
   },
   {
-    "__docId__": 225,
+    "__docId__": 229,
     "kind": "member",
     "name": "totalVisits",
     "memberof": "src/jg/situation.js~Situation",
@@ -4835,7 +4911,7 @@
     }
   },
   {
-    "__docId__": 226,
+    "__docId__": 230,
     "kind": "member",
     "name": "debugChoices",
     "memberof": "src/jg/situation.js~Situation",
@@ -4854,7 +4930,7 @@
     }
   },
   {
-    "__docId__": 227,
+    "__docId__": 231,
     "kind": "method",
     "name": "toSave",
     "memberof": "src/jg/situation.js~Situation",
@@ -4874,7 +4950,7 @@
     }
   },
   {
-    "__docId__": 228,
+    "__docId__": 232,
     "kind": "method",
     "name": "loadSave",
     "memberof": "src/jg/situation.js~Situation",
@@ -4897,7 +4973,7 @@
     "return": null
   },
   {
-    "__docId__": 229,
+    "__docId__": 233,
     "kind": "method",
     "name": "doEnter",
     "memberof": "src/jg/situation.js~Situation",
@@ -4926,7 +5002,7 @@
     "return": null
   },
   {
-    "__docId__": 231,
+    "__docId__": 235,
     "kind": "method",
     "name": "doExit",
     "memberof": "src/jg/situation.js~Situation",
@@ -4961,7 +5037,7 @@
     "return": null
   },
   {
-    "__docId__": 232,
+    "__docId__": 236,
     "kind": "method",
     "name": "doAct",
     "memberof": "src/jg/situation.js~Situation",
@@ -5003,7 +5079,7 @@
     "return": null
   },
   {
-    "__docId__": 233,
+    "__docId__": 237,
     "kind": "method",
     "name": "getOptionText",
     "memberof": "src/jg/situation.js~Situation",
@@ -5023,7 +5099,7 @@
     }
   },
   {
-    "__docId__": 234,
+    "__docId__": 238,
     "kind": "method",
     "name": "getPriority",
     "memberof": "src/jg/situation.js~Situation",
@@ -5043,7 +5119,7 @@
     }
   },
   {
-    "__docId__": 235,
+    "__docId__": 239,
     "kind": "method",
     "name": "getDisplayOrder",
     "memberof": "src/jg/situation.js~Situation",
@@ -5063,7 +5139,7 @@
     }
   },
   {
-    "__docId__": 236,
+    "__docId__": 240,
     "kind": "file",
     "name": "src/jg/vueui.js",
     "content": "import Vue from 'vue';\nimport DataUI from \"./dataui\";\nimport JGHTMLItem from \"@/components/JGHTMLItem\";\nimport JGChoiceItem from \"@/components/JGChoiceItem\";\nimport JGInputItem from \"@/components/JGInputItem\";\n\n/** @ignore */\nexport default class VueUI extends DataUI {\n  constructor() {\n    super(...arguments);\n    this.componentMap = {\n      'html': JGHTMLItem,\n      'choice': JGChoiceItem,\n      'input': JGInputItem,\n    };\n    this.bus = new Vue();\n  }\n\n  append() {\n    if (!this.componentMap[arguments[0].type]) {\n      throw Error(`Missing component for type ${arguments[0].type}`);\n    }\n    this.bus.$emit('refocus');\n    super.append.apply(this, arguments);\n  }\n\n  register(type, VueComponentClass) {\n    this.componentMap[type] = VueComponentClass;\n  }\n}",
@@ -5074,7 +5150,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 237,
+    "__docId__": 241,
     "kind": "class",
     "name": "VueUI",
     "memberof": "src/jg/vueui.js",
@@ -5093,7 +5169,7 @@
     ]
   },
   {
-    "__docId__": 238,
+    "__docId__": 242,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/jg/vueui.js~VueUI",
@@ -5107,7 +5183,7 @@
     "undocument": true
   },
   {
-    "__docId__": 239,
+    "__docId__": 243,
     "kind": "member",
     "name": "componentMap",
     "memberof": "src/jg/vueui.js~VueUI",
@@ -5124,7 +5200,7 @@
     }
   },
   {
-    "__docId__": 240,
+    "__docId__": 244,
     "kind": "member",
     "name": "bus",
     "memberof": "src/jg/vueui.js~VueUI",
@@ -5141,7 +5217,7 @@
     }
   },
   {
-    "__docId__": 241,
+    "__docId__": 245,
     "kind": "method",
     "name": "append",
     "memberof": "src/jg/vueui.js~VueUI",
@@ -5157,7 +5233,7 @@
     "return": null
   },
   {
-    "__docId__": 242,
+    "__docId__": 246,
     "kind": "method",
     "name": "register",
     "memberof": "src/jg/vueui.js~VueUI",
@@ -5186,10 +5262,10 @@
     "return": null
   },
   {
-    "__docId__": 243,
+    "__docId__": 247,
     "kind": "file",
     "name": "src/main.js",
-    "content": "/** @module jumbogrove */\nimport Vue from 'vue'\nimport App from './App'\nimport JumboGroveDirector from \"./jg\";\nimport VueUI from \"./jg/vueui\";\n\nVue.config.productionTip = false\n\n/* eslint-disable no-new */\n\n/**\n * The main entry point for Jumbo Grove.\n * \n * @example\n * import { jumbogrove } from 'jumbogrove';\n * jumbogrove('#game', {\n *  // your game here\n * });\n * \n * @param {string} selector A CSS selector for the element you want the story to be rendered in.\n * @param {object} data Your story\n */\nconst jumbogrove = (selector, data) => {\n  const director = new JumboGroveDirector(data);\n  const ui = new VueUI();\n  director.bindToUI(ui);\n  new Vue({\n    el: selector,\n    template: '<App :director=\"director\" :ui=\"ui\" />',\n    components: { App },\n    data: {director, ui},\n  });\n};\n\nwindow.jumbogrove = {\n  jumbogrove,\n};\n\nexport {\n  jumbogrove,\n}",
+    "content": "/** @module jumbogrove */\nimport Vue from 'vue'\nimport App from './App'\nimport JumboGroveDirector from \"./jg\";\nimport VueUI from \"./jg/vueui\";\n\nVue.config.productionTip = false\n\n/* eslint-disable no-new */\n\n/**\n * The main entry point for Jumbo Grove.\n * \n * @example\n * import { jumbogrove } from 'jumbogrove';\n * jumbogrove('#game', {\n *  // your game here\n * });\n * \n * @param {string} selector A CSS selector for the element you want the story to be rendered in.\n * @param {object} data Your story\n */\nconst jumbogrove = (selector, data) => {\n  const director = new JumboGroveDirector(data);\n  const ui = new VueUI();\n  director.bindToUI(ui);\n  const existingClasses = document.querySelector(selector).className;\n  new Vue({\n    el: selector,\n    template: '<App :director=\"director\" :ui=\"ui\" :class=\"existingClasses\" />',\n    components: { App },\n    data: {director, ui, existingClasses},\n  });\n};\n\nwindow.jumbogrove = {\n  jumbogrove,\n};\n\nexport {\n  jumbogrove,\n}",
     "static": true,
     "longname": "/Users/steve/_d/games/ifeng/src/main.js",
     "access": "public",
@@ -5197,7 +5273,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 244,
+    "__docId__": 248,
     "kind": "function",
     "name": "jumbogrove",
     "memberof": "src/main.js",
@@ -5240,7 +5316,7 @@
   },
   {
     "kind": "index",
-    "content": "# Jumbo Grove\n\nAn interactive fiction engine. Uses Vue.js, but you don't need to know that!\n\n## Setup\n\n```sh\nnpm install -g yarn  # yarn is the best, please install it!\nyarn install\n```\n\n## Developing\n\nYou can run a local auto-reloading server like this:\n```sh\nyarn run dev\n```\n\nYou can run the tests like this:\n```sh\nyarn run test\nyarn run watchtest  # re-run tests when files change\n```\n\n## Deploying to a web site\n\n```sh\nyarn run build\n```\n\n## How it works\n\nEventually, this will be available as a library. You'll do something like this:\n\n```html\n<html>\n    <head>\n        <script src=\"jumbogrove.js\"></script>\n    </head>\n    <body>\n        <div id=\"app\">\n        <script>\n            window.runJumboGrove('#app', {\n                id: 'my-game',\n                navHeader: `\n                    # My Game\n\n                    This text appears in the left sidebar.\n                `,\n                asideHeader: `\n                    # Stats\n\n                    This text appears in the right sidebar.\n                `,\n                globalState: {\n                    foo: 'bar',  // you may put anything JSON-safe in here\n                },\n                characters: [\n                    // this section is a work in progress\n                ],\n                situations: [\n                    /*\n                    This is where the meat of the library is.\n\n                    A \"situation\" can be thought of as a room, a section, or\n                    some other conceptual unit. It has:\n\n                    * Markdown text displayed when you enter\n                    * \"snippets\" which can be inserted based on the user\n                        clicking links\n                    * \"choices\" which are automatically displayed after the text\n                    * JavaScript callbacks for all kinds of things\n                    * So much more, but I haven't had time to write docs yet\n\n                    */\n                    {\n                        id: 'start',  // first situation\n                        content: `\n                            # Welcome to Jumbo Grove\n\n                            [Normal links](https://google.com) work normally.\n\n                            [Links with an @](@frog) transition to another situation.\n\n                            [Links with a >](>debug_log) run an \"action\" within the\n                            situation. You can provide arguments to the action function\n                            using [colon separators](>debug_log:whats:up).\n                        `,\n                        actions: {\n                            debug_log: (...args) => { console.log(\"HELLO!\", ...args); },\n                        },\n                        choices: ['snippets_demo', 'state_demo'],\n                        // if this situation shows up in another choices array,\n                        // use this text:\n                        optionText: 'Go back to start',\n                    },\n\n                    {\n                        id: 'frog',\n                        optionText: 'Look at the cool frog',\n                        content: `\n                            There is a cool frog sitting on a stump.\n                        `,\n                        choices: ['start'],\n                    },\n\n                    {\n                        id: 'snippets_demo',\n                        optionText: 'Snippets demo',\n                        choices: ['start', 'state_demo'],\n                        content: `\n                            There are a few built-in special actions.\n\n                            1. \\`write\\` appends the snippet contents to the end of the\n                                current section. [Try it](>write:poem)\n                            2. \\`replace\\` replaces the HTML element with the same ID as the\n                                snippet, with the contents of the snippet. [Try it](>replace:ghost)\n\n                                _This text will be replaced_{#ghost}\n                            3. \\`replaceself\\` replaces the clicked link with the contents of\n                                the snippet. [Try it](>replaceself:robot)\n                        `,\n                        snippets: {\n                            poem: `\n                                ### A poem\n\n                                > Higgledy-piggledy Emily Dickinson  \n                                > Liked to use dashes instead of full stops.  \n                                > Nowadays, faced with such idiosyncrasies,  \n                                > Critics and editors run for the cops.  \n                            `,\n                            ghost: '**BOO!**',\n                            robot: \"Beep boop I'm a robot\",\n                        },\n                    },\n\n                    {\n                        id: 'state_demo',\n                        optionText: 'State demo',\n                        choices: ['start', 'snippets_demo'],\n                        content: `\n                        This section is not yet finished.\n                        `\n                    },\n                ],\n            });\n        </script>\n    </body>\n</html>\n```",
+    "content": "# Jumbo Grove\n\nJumbo Grove is a tool for writing hypertext interactive fiction. *Hypertext*\nmeans text with links. *[Interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction)*\nis a medium for storytelling that crosses over into video games.\n\n## Features\n\n* Desktop & mobile support\n* Fully documented API\n* Packaged as a single JS file or as an NPM package\n* Many games require no \"coding\"\n\n## Demo\n\nIf you are on the [Jumbo Grove documentation site](http://steveasleep.com/jumbogrove/)\n(as opposed to reading the Readme on GitHub) then you will see a quick demo here:\n\n<div id=\"firstdemo\" class=\"jg-headless\"></div>\n\n## Demo source code \n\nHere's the source code for the above demo:\n\n```js\njumbogrove.jumbogrove('#firstdemo', {\n  id: 'demo',\n  situations: [\n    {\n      id: 'start',\n      content: `\n      ### The Jumbo Grove Experience\n      You are looking at a [web page](>write:web_page).\n      `,\n      snippets: {\n        web_page: `\n        It is the documentation for Jumbo Grove. What do you want to do?\n\n        * [Make a game](@make-a-game)\n        * [Admire the beautiful CSS](@admire-css)\n        `\n      }\n    },\n    {\n      id: 'make-a-game',\n      content: `\n      You type until your fingers are [sore](>replaceself:sore_fingers).\n      You make something incredible.\n      `,\n      snippets: {\n        sore_fingers: \"sore (like, really sore)\"\n      },\n      choices: ['admire-css'],\n    },\n    {\n      id: 'admire-css',\n      optionText: 'Admire the CSS',\n      content: `\n      Your eyes trace the loving lines of the sidebar and the curves of the fonts.\n\n      ### The End\n      `\n    },\n  ]\n});\n```",
     "longname": "/Users/steve/_d/games/ifeng/README.md",
     "name": "./README.md",
     "static": true,
@@ -5248,7 +5324,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"jumbogrove\",\n  \"version\": \"0.1.3\",\n  \"description\": \"Interactive fiction game engine\",\n  \"author\": \"Steve Johnson\",\n  \"license\": \"MIT\",\n  \"private\": false,\n  \"main\": \"dist/app\",\n  \"scripts\": {\n    \"dev\": \"webpack-dev-server --inline --progress --config build/webpack.dev.conf.js\",\n    \"start\": \"npm run dev\",\n    \"test\": \"jest '.*.test.js' --coverage\",\n    \"watchtest\": \"jest '.*.test.js' --watch\",\n    \"lint\": \"eslint --ext .js,.vue src test/unit/specs\",\n    \"doc\": \"esdoc\",\n    \"build\": \"node build/build.js\",\n    \"lib\": \"node build/buildlib.js\",\n    \"deploy\": \"yarn build && ghp-import -np dist\",\n    \"ld40\": \"yarn build && ghp-import -np dist -r ld40\"\n  },\n  \"dependencies\": {\n    \"animated-scroll-to\": \"^1.1.7\",\n    \"lodash\": \"^4.17.4\",\n    \"markdown-it\": \"^8.4.0\",\n    \"markdown-it-attrs\": \"^1.2.0\",\n    \"vue\": \"^2.5.2\"\n  },\n  \"devDependencies\": {\n    \"autoprefixer\": \"^7.1.2\",\n    \"babel-core\": \"^6.22.1\",\n    \"babel-eslint\": \"^7.1.1\",\n    \"babel-jest\": \"^21.0.2\",\n    \"babel-loader\": \"^7.1.1\",\n    \"babel-plugin-transform-runtime\": \"^6.22.0\",\n    \"babel-preset-env\": \"^1.3.2\",\n    \"babel-preset-stage-2\": \"^6.22.0\",\n    \"babel-register\": \"^6.22.0\",\n    \"chalk\": \"^2.0.1\",\n    \"copy-webpack-plugin\": \"^4.0.1\",\n    \"css-loader\": \"^0.28.0\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^3.19.0\",\n    \"eslint-config-standard\": \"^10.2.1\",\n    \"eslint-friendly-formatter\": \"^3.0.0\",\n    \"eslint-loader\": \"^1.7.1\",\n    \"eslint-plugin-html\": \"^3.0.0\",\n    \"eslint-plugin-import\": \"^2.7.0\",\n    \"eslint-plugin-node\": \"^5.2.0\",\n    \"eslint-plugin-promise\": \"^3.4.0\",\n    \"eslint-plugin-standard\": \"^3.0.1\",\n    \"eventsource-polyfill\": \"^0.9.6\",\n    \"extract-text-webpack-plugin\": \"^3.0.0\",\n    \"file-loader\": \"^1.1.4\",\n    \"friendly-errors-webpack-plugin\": \"^1.6.1\",\n    \"html-webpack-plugin\": \"^2.30.1\",\n    \"jest\": \"^21.2.0\",\n    \"node-notifier\": \"^5.1.2\",\n    \"node-sass\": \"^4.7.2\",\n    \"optimize-css-assets-webpack-plugin\": \"^3.2.0\",\n    \"ora\": \"^1.2.0\",\n    \"portfinder\": \"^1.0.13\",\n    \"postcss-import\": \"^11.0.0\",\n    \"postcss-loader\": \"^2.0.8\",\n    \"rimraf\": \"^2.6.0\",\n    \"sass-loader\": \"^6.0.6\",\n    \"semver\": \"^5.3.0\",\n    \"shelljs\": \"^0.7.6\",\n    \"url-loader\": \"^0.5.8\",\n    \"vue-jest\": \"^1.0.2\",\n    \"vue-loader\": \"^13.3.0\",\n    \"vue-style-loader\": \"^3.0.1\",\n    \"vue-template-compiler\": \"^2.5.2\",\n    \"webpack\": \"^3.10.0\",\n    \"webpack-bundle-analyzer\": \"^2.9.0\",\n    \"webpack-dev-server\": \"^2.9.1\",\n    \"webpack-merge\": \"^4.1.0\"\n  },\n  \"jest\": {\n    \"moduleFileExtensions\": [\n      \"js\",\n      \"json\",\n      \"vue\"\n    ],\n    \"moduleNameMapper\": {\n      \"^@/(.*)$\": \"<rootDir>/src/$1\"\n    },\n    \"transform\": {\n      \"^.+\\\\.js$\": \"<rootDir>/node_modules/babel-jest\",\n      \".*\\\\.(vue)$\": \"<rootDir>/node_modules/vue-jest\"\n    },\n    \"setupFiles\": [\n      \"<rootDir>/test/unit/setup\"\n    ],\n    \"mapCoverage\": true,\n    \"coverageDirectory\": \"<rootDir>/test/unit/coverage\",\n    \"collectCoverageFrom\": [\n      \"src/**/*.{js,vue}\",\n      \"!src/main.js\",\n      \"!src/router/index.js\",\n      \"!**/node_modules/**\"\n    ]\n  },\n  \"engines\": {\n    \"node\": \">= 4.0.0\",\n    \"npm\": \">= 3.0.0\"\n  },\n  \"browserslist\": [\n    \"> 1%\",\n    \"last 2 versions\",\n    \"not ie <= 8\"\n  ]\n}\n",
+    "content": "{\n  \"name\": \"jumbogrove\",\n  \"version\": \"0.1.4\",\n  \"description\": \"Interactive fiction game engine\",\n  \"author\": \"Steve Johnson\",\n  \"license\": \"MIT\",\n  \"private\": false,\n  \"main\": \"dist/app\",\n  \"scripts\": {\n    \"dev\": \"webpack-dev-server --inline --progress --config build/webpack.dev.conf.js\",\n    \"start\": \"npm run dev\",\n    \"test\": \"jest '.*.test.js' --coverage\",\n    \"watchtest\": \"jest '.*.test.js' --watch\",\n    \"lint\": \"eslint --ext .js,.vue src test/unit/specs\",\n    \"doc\": \"esdoc\",\n    \"build\": \"node build/build.js\",\n    \"lib\": \"node build/buildlib.js\",\n    \"standalone\": \"node build/buildstandalone.js\",\n    \"deploy\": \"yarn lib && yarn standalone && yarn doc && ghp-import -np docs_out\",\n    \"ld40\": \"yarn build && ghp-import -np dist -r ld40\"\n  },\n  \"dependencies\": {\n    \"animated-scroll-to\": \"^1.1.7\",\n    \"lodash\": \"^4.17.4\",\n    \"markdown-it\": \"^8.4.0\",\n    \"markdown-it-attrs\": \"^1.2.0\",\n    \"vue\": \"^2.5.2\"\n  },\n  \"devDependencies\": {\n    \"autoprefixer\": \"^7.1.2\",\n    \"babel-core\": \"^6.22.1\",\n    \"babel-eslint\": \"^7.1.1\",\n    \"babel-jest\": \"^21.0.2\",\n    \"babel-loader\": \"^7.1.1\",\n    \"babel-plugin-transform-runtime\": \"^6.22.0\",\n    \"babel-preset-env\": \"^1.3.2\",\n    \"babel-preset-stage-2\": \"^6.22.0\",\n    \"babel-register\": \"^6.22.0\",\n    \"chalk\": \"^2.0.1\",\n    \"copy-webpack-plugin\": \"^4.0.1\",\n    \"css-loader\": \"^0.28.0\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n    \"esdoc-inject-script-plugin\": \"^1.0.0\",\n    \"esdoc-inject-style-plugin\": \"^1.0.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^3.19.0\",\n    \"eslint-config-standard\": \"^10.2.1\",\n    \"eslint-friendly-formatter\": \"^3.0.0\",\n    \"eslint-loader\": \"^1.7.1\",\n    \"eslint-plugin-html\": \"^3.0.0\",\n    \"eslint-plugin-import\": \"^2.7.0\",\n    \"eslint-plugin-node\": \"^5.2.0\",\n    \"eslint-plugin-promise\": \"^3.4.0\",\n    \"eslint-plugin-standard\": \"^3.0.1\",\n    \"eventsource-polyfill\": \"^0.9.6\",\n    \"extract-text-webpack-plugin\": \"^3.0.0\",\n    \"file-loader\": \"^1.1.4\",\n    \"friendly-errors-webpack-plugin\": \"^1.6.1\",\n    \"html-webpack-plugin\": \"^2.30.1\",\n    \"jest\": \"^21.2.0\",\n    \"node-notifier\": \"^5.1.2\",\n    \"node-sass\": \"^4.7.2\",\n    \"optimize-css-assets-webpack-plugin\": \"^3.2.0\",\n    \"ora\": \"^1.2.0\",\n    \"portfinder\": \"^1.0.13\",\n    \"postcss-import\": \"^11.0.0\",\n    \"postcss-loader\": \"^2.0.8\",\n    \"rimraf\": \"^2.6.0\",\n    \"sass-loader\": \"^6.0.6\",\n    \"semver\": \"^5.3.0\",\n    \"shelljs\": \"^0.7.6\",\n    \"url-loader\": \"^0.5.8\",\n    \"vue-jest\": \"^1.0.2\",\n    \"vue-loader\": \"^13.3.0\",\n    \"vue-style-loader\": \"^3.0.1\",\n    \"vue-template-compiler\": \"^2.5.2\",\n    \"webpack\": \"^3.10.0\",\n    \"webpack-bundle-analyzer\": \"^2.9.0\",\n    \"webpack-dev-server\": \"^2.9.1\",\n    \"webpack-merge\": \"^4.1.0\"\n  },\n  \"jest\": {\n    \"moduleFileExtensions\": [\n      \"js\",\n      \"json\",\n      \"vue\"\n    ],\n    \"moduleNameMapper\": {\n      \"^@/(.*)$\": \"<rootDir>/src/$1\"\n    },\n    \"transform\": {\n      \"^.+\\\\.js$\": \"<rootDir>/node_modules/babel-jest\",\n      \".*\\\\.(vue)$\": \"<rootDir>/node_modules/vue-jest\"\n    },\n    \"setupFiles\": [\n      \"<rootDir>/test/unit/setup\"\n    ],\n    \"mapCoverage\": true,\n    \"coverageDirectory\": \"<rootDir>/test/unit/coverage\",\n    \"collectCoverageFrom\": [\n      \"src/**/*.{js,vue}\",\n      \"!src/main.js\",\n      \"!src/router/index.js\",\n      \"!**/node_modules/**\"\n    ]\n  },\n  \"engines\": {\n    \"node\": \">= 4.0.0\",\n    \"npm\": \">= 3.0.0\"\n  },\n  \"browserslist\": [\n    \"> 1%\",\n    \"last 2 versions\",\n    \"not ie <= 8\"\n  ]\n}\n",
     "longname": "/Users/steve/_d/games/ifeng/package.json",
     "name": "package.json",
     "static": true,
@@ -5257,7 +5333,7 @@
   {
     "kind": "manualIndex",
     "globalIndex": true,
-    "content": "# Jumbo Grove\n\nAn interactive fiction engine. Uses Vue.js, but you don't need to know that!\n\n## Setup\n\n```sh\nnpm install -g yarn  # yarn is the best, please install it!\nyarn install\n```\n\n## Developing\n\nYou can run a local auto-reloading server like this:\n```sh\nyarn run dev\n```\n\nYou can run the tests like this:\n```sh\nyarn run test\nyarn run watchtest  # re-run tests when files change\n```\n\n## Deploying to a web site\n\n```sh\nyarn run build\n```\n\n## How it works\n\nEventually, this will be available as a library. You'll do something like this:\n\n```html\n<html>\n    <head>\n        <script src=\"jumbogrove.js\"></script>\n    </head>\n    <body>\n        <div id=\"app\">\n        <script>\n            window.runJumboGrove('#app', {\n                id: 'my-game',\n                navHeader: `\n                    # My Game\n\n                    This text appears in the left sidebar.\n                `,\n                asideHeader: `\n                    # Stats\n\n                    This text appears in the right sidebar.\n                `,\n                globalState: {\n                    foo: 'bar',  // you may put anything JSON-safe in here\n                },\n                characters: [\n                    // this section is a work in progress\n                ],\n                situations: [\n                    /*\n                    This is where the meat of the library is.\n\n                    A \"situation\" can be thought of as a room, a section, or\n                    some other conceptual unit. It has:\n\n                    * Markdown text displayed when you enter\n                    * \"snippets\" which can be inserted based on the user\n                        clicking links\n                    * \"choices\" which are automatically displayed after the text\n                    * JavaScript callbacks for all kinds of things\n                    * So much more, but I haven't had time to write docs yet\n\n                    */\n                    {\n                        id: 'start',  // first situation\n                        content: `\n                            # Welcome to Jumbo Grove\n\n                            [Normal links](https://google.com) work normally.\n\n                            [Links with an @](@frog) transition to another situation.\n\n                            [Links with a >](>debug_log) run an \"action\" within the\n                            situation. You can provide arguments to the action function\n                            using [colon separators](>debug_log:whats:up).\n                        `,\n                        actions: {\n                            debug_log: (...args) => { console.log(\"HELLO!\", ...args); },\n                        },\n                        choices: ['snippets_demo', 'state_demo'],\n                        // if this situation shows up in another choices array,\n                        // use this text:\n                        optionText: 'Go back to start',\n                    },\n\n                    {\n                        id: 'frog',\n                        optionText: 'Look at the cool frog',\n                        content: `\n                            There is a cool frog sitting on a stump.\n                        `,\n                        choices: ['start'],\n                    },\n\n                    {\n                        id: 'snippets_demo',\n                        optionText: 'Snippets demo',\n                        choices: ['start', 'state_demo'],\n                        content: `\n                            There are a few built-in special actions.\n\n                            1. \\`write\\` appends the snippet contents to the end of the\n                                current section. [Try it](>write:poem)\n                            2. \\`replace\\` replaces the HTML element with the same ID as the\n                                snippet, with the contents of the snippet. [Try it](>replace:ghost)\n\n                                _This text will be replaced_{#ghost}\n                            3. \\`replaceself\\` replaces the clicked link with the contents of\n                                the snippet. [Try it](>replaceself:robot)\n                        `,\n                        snippets: {\n                            poem: `\n                                ### A poem\n\n                                > Higgledy-piggledy Emily Dickinson  \n                                > Liked to use dashes instead of full stops.  \n                                > Nowadays, faced with such idiosyncrasies,  \n                                > Critics and editors run for the cops.  \n                            `,\n                            ghost: '**BOO!**',\n                            robot: \"Beep boop I'm a robot\",\n                        },\n                    },\n\n                    {\n                        id: 'state_demo',\n                        optionText: 'State demo',\n                        choices: ['start', 'snippets_demo'],\n                        content: `\n                        This section is not yet finished.\n                        `\n                    },\n                ],\n            });\n        </script>\n    </body>\n</html>\n```",
+    "content": "# Jumbo Grove\n\nJumbo Grove is a tool for writing hypertext interactive fiction. *Hypertext*\nmeans text with links. *[Interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction)*\nis a medium for storytelling that crosses over into video games.\n\n## Features\n\n* Desktop & mobile support\n* Fully documented API\n* Packaged as a single JS file or as an NPM package\n* Many games require no \"coding\"\n\n## Demo\n\nIf you are on the [Jumbo Grove documentation site](http://steveasleep.com/jumbogrove/)\n(as opposed to reading the Readme on GitHub) then you will see a quick demo here:\n\n<div id=\"firstdemo\" class=\"jg-headless\"></div>\n\n## Demo source code \n\nHere's the source code for the above demo:\n\n```js\njumbogrove.jumbogrove('#firstdemo', {\n  id: 'demo',\n  situations: [\n    {\n      id: 'start',\n      content: `\n      ### The Jumbo Grove Experience\n      You are looking at a [web page](>write:web_page).\n      `,\n      snippets: {\n        web_page: `\n        It is the documentation for Jumbo Grove. What do you want to do?\n\n        * [Make a game](@make-a-game)\n        * [Admire the beautiful CSS](@admire-css)\n        `\n      }\n    },\n    {\n      id: 'make-a-game',\n      content: `\n      You type until your fingers are [sore](>replaceself:sore_fingers).\n      You make something incredible.\n      `,\n      snippets: {\n        sore_fingers: \"sore (like, really sore)\"\n      },\n      choices: ['admire-css'],\n    },\n    {\n      id: 'admire-css',\n      optionText: 'Admire the CSS',\n      content: `\n      Your eyes trace the loving lines of the sidebar and the curves of the fonts.\n\n      ### The End\n      `\n    },\n  ]\n});\n```",
     "longname": "/Users/steve/_d/games/ifeng/Readme.md",
     "name": "./Readme.md",
     "static": true,
@@ -5274,7 +5350,7 @@
     "kind": "manual",
     "longname": "/Users/steve/_d/games/ifeng/Readme.md",
     "name": "./Readme.md",
-    "content": "# Jumbo Grove\n\nAn interactive fiction engine. Uses Vue.js, but you don't need to know that!\n\n## Setup\n\n```sh\nnpm install -g yarn  # yarn is the best, please install it!\nyarn install\n```\n\n## Developing\n\nYou can run a local auto-reloading server like this:\n```sh\nyarn run dev\n```\n\nYou can run the tests like this:\n```sh\nyarn run test\nyarn run watchtest  # re-run tests when files change\n```\n\n## Deploying to a web site\n\n```sh\nyarn run build\n```\n\n## How it works\n\nEventually, this will be available as a library. You'll do something like this:\n\n```html\n<html>\n    <head>\n        <script src=\"jumbogrove.js\"></script>\n    </head>\n    <body>\n        <div id=\"app\">\n        <script>\n            window.runJumboGrove('#app', {\n                id: 'my-game',\n                navHeader: `\n                    # My Game\n\n                    This text appears in the left sidebar.\n                `,\n                asideHeader: `\n                    # Stats\n\n                    This text appears in the right sidebar.\n                `,\n                globalState: {\n                    foo: 'bar',  // you may put anything JSON-safe in here\n                },\n                characters: [\n                    // this section is a work in progress\n                ],\n                situations: [\n                    /*\n                    This is where the meat of the library is.\n\n                    A \"situation\" can be thought of as a room, a section, or\n                    some other conceptual unit. It has:\n\n                    * Markdown text displayed when you enter\n                    * \"snippets\" which can be inserted based on the user\n                        clicking links\n                    * \"choices\" which are automatically displayed after the text\n                    * JavaScript callbacks for all kinds of things\n                    * So much more, but I haven't had time to write docs yet\n\n                    */\n                    {\n                        id: 'start',  // first situation\n                        content: `\n                            # Welcome to Jumbo Grove\n\n                            [Normal links](https://google.com) work normally.\n\n                            [Links with an @](@frog) transition to another situation.\n\n                            [Links with a >](>debug_log) run an \"action\" within the\n                            situation. You can provide arguments to the action function\n                            using [colon separators](>debug_log:whats:up).\n                        `,\n                        actions: {\n                            debug_log: (...args) => { console.log(\"HELLO!\", ...args); },\n                        },\n                        choices: ['snippets_demo', 'state_demo'],\n                        // if this situation shows up in another choices array,\n                        // use this text:\n                        optionText: 'Go back to start',\n                    },\n\n                    {\n                        id: 'frog',\n                        optionText: 'Look at the cool frog',\n                        content: `\n                            There is a cool frog sitting on a stump.\n                        `,\n                        choices: ['start'],\n                    },\n\n                    {\n                        id: 'snippets_demo',\n                        optionText: 'Snippets demo',\n                        choices: ['start', 'state_demo'],\n                        content: `\n                            There are a few built-in special actions.\n\n                            1. \\`write\\` appends the snippet contents to the end of the\n                                current section. [Try it](>write:poem)\n                            2. \\`replace\\` replaces the HTML element with the same ID as the\n                                snippet, with the contents of the snippet. [Try it](>replace:ghost)\n\n                                _This text will be replaced_{#ghost}\n                            3. \\`replaceself\\` replaces the clicked link with the contents of\n                                the snippet. [Try it](>replaceself:robot)\n                        `,\n                        snippets: {\n                            poem: `\n                                ### A poem\n\n                                > Higgledy-piggledy Emily Dickinson  \n                                > Liked to use dashes instead of full stops.  \n                                > Nowadays, faced with such idiosyncrasies,  \n                                > Critics and editors run for the cops.  \n                            `,\n                            ghost: '**BOO!**',\n                            robot: \"Beep boop I'm a robot\",\n                        },\n                    },\n\n                    {\n                        id: 'state_demo',\n                        optionText: 'State demo',\n                        choices: ['start', 'snippets_demo'],\n                        content: `\n                        This section is not yet finished.\n                        `\n                    },\n                ],\n            });\n        </script>\n    </body>\n</html>\n```",
+    "content": "# Jumbo Grove\n\nJumbo Grove is a tool for writing hypertext interactive fiction. *Hypertext*\nmeans text with links. *[Interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction)*\nis a medium for storytelling that crosses over into video games.\n\n## Features\n\n* Desktop & mobile support\n* Fully documented API\n* Packaged as a single JS file or as an NPM package\n* Many games require no \"coding\"\n\n## Demo\n\nIf you are on the [Jumbo Grove documentation site](http://steveasleep.com/jumbogrove/)\n(as opposed to reading the Readme on GitHub) then you will see a quick demo here:\n\n<div id=\"firstdemo\" class=\"jg-headless\"></div>\n\n## Demo source code \n\nHere's the source code for the above demo:\n\n```js\njumbogrove.jumbogrove('#firstdemo', {\n  id: 'demo',\n  situations: [\n    {\n      id: 'start',\n      content: `\n      ### The Jumbo Grove Experience\n      You are looking at a [web page](>write:web_page).\n      `,\n      snippets: {\n        web_page: `\n        It is the documentation for Jumbo Grove. What do you want to do?\n\n        * [Make a game](@make-a-game)\n        * [Admire the beautiful CSS](@admire-css)\n        `\n      }\n    },\n    {\n      id: 'make-a-game',\n      content: `\n      You type until your fingers are [sore](>replaceself:sore_fingers).\n      You make something incredible.\n      `,\n      snippets: {\n        sore_fingers: \"sore (like, really sore)\"\n      },\n      choices: ['admire-css'],\n    },\n    {\n      id: 'admire-css',\n      optionText: 'Admire the CSS',\n      content: `\n      Your eyes trace the loving lines of the sidebar and the curves of the fonts.\n\n      ### The End\n      `\n    },\n  ]\n});\n```",
     "static": true,
     "access": "public"
   },

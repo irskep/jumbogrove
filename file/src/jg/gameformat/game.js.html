@@ -8,7 +8,7 @@
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-<meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
+<link rel="stylesheet" href="./inject/css/0-app.css"><link rel="stylesheet" href="./inject/css/0-style.css"><script src="./inject/script/0-jumbogrove.js"></script><script src="./inject/script/0-script.js"></script><meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -89,6 +89,36 @@ class game {
          * @type {string}
          */
         this.initialSituation = &apos;start&apos;;
+
+        /**
+         * If you set this to `false`, the left sidebar will not be shown.
+         * Default `true`.
+         * @type {Boolean}
+         */
+        this.showNav = true;
+
+        /**
+         * If you set this to `false`, the right sidebar will not be shown.
+         * Default `true`.
+         * @type {Boolean}
+         */
+        this.showAside = true;
+
+        /**
+         * If you set this to `false`, fewer styles will be applied to
+         * the HTML.
+         * Default `true`.
+         * @type {Boolean}
+         */
+        this.defaultStylesheet = true;
+
+        /**
+         * If you set this to `false`, the browser will not scroll as new text
+         * is added.
+         * Default `true`.
+         * @type {Boolean}
+         */
+        this.autoScroll = true;
 
         /**
          * The Markdown string you want to show at the top of the left sidebar.

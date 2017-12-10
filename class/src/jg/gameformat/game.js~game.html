@@ -8,7 +8,7 @@
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-<meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
+<link rel="stylesheet" href="./inject/css/0-app.css"><link rel="stylesheet" href="./inject/css/0-style.css"><script src="./inject/script/0-jumbogrove.js"></script><script src="./inject/script/0-script.js"></script><meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -159,6 +159,36 @@ jumbogrove(&apos;#app&apos;, game);</code></pre>
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html#instance-member-autoScroll">autoScroll</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>If you set this to <code>false</code>, the browser will not scroll as new text
+is added.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html#instance-member-characters">characters</a></span></span><span class="code" data-ice="signature">: <span><a href="class/src/jg/gameformat/character.js~character.html">character</a></span></span>
         </p>
       </div>
@@ -166,6 +196,36 @@ jumbogrove(&apos;#app&apos;, game);</code></pre>
         
         
         <div data-ice="description"><p>List of <span><a href="class/src/jg/gameformat/character.js~character.html">character</a></span> definitions.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html#instance-member-defaultStylesheet">defaultStylesheet</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>If you set this to <code>false</code>, fewer styles will be applied to
+the HTML.</p>
 </div>
       </div>
     </td>
@@ -282,6 +342,64 @@ jumbogrove(&apos;#app&apos;, game);</code></pre>
         
         
         <div data-ice="description"><p>The Markdown string you want to show at the top of the left sidebar.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html#instance-member-showAside">showAside</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>If you set this to <code>false</code>, the right sidebar will not be shown.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html#instance-member-showNav">showNav</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>If you set this to <code>false</code>, the left sidebar will not be shown.</p>
 </div>
       </div>
     </td>
@@ -582,7 +700,7 @@ first situation has been entered.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber49">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber79">source</a></span></span>
     </span>
   </h3>
 
@@ -591,6 +709,52 @@ first situation has been entered.</p>
   
   <div data-ice="description"><p>The Markdown string you want to show at the top of the right sidebar.
 This string is processed by the template engine before being displayed.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-autoScroll">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">autoScroll</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber66">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>If you set this to <code>false</code>, the browser will not scroll as new text
+is added.
+Default <code>true</code>.</p>
 </div>
 
   
@@ -627,7 +791,7 @@ This string is processed by the template engine before being displayed.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber64">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber94">source</a></span></span>
     </span>
   </h3>
 
@@ -638,6 +802,52 @@ This string is processed by the template engine before being displayed.</p>
 <strong>Note:</strong> this is not the same as the <span><a href="class/src/jg/character.js~Character.html">Character</a></span> class!
 There&apos;s a difference between what you write in your game definition, and what gets passed to the
 various callbacks.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-defaultStylesheet">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">defaultStylesheet</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber58">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>If you set this to <code>false</code>, fewer styles will be applied to
+the HTML.
+Default <code>true</code>.</p>
 </div>
 
   
@@ -674,7 +884,7 @@ various callbacks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber55">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber85">source</a></span></span>
     </span>
   </h3>
 
@@ -806,7 +1016,7 @@ various callbacks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber42">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber72">source</a></span></span>
     </span>
   </h3>
 
@@ -814,6 +1024,96 @@ various callbacks.</p>
   
   
   <div data-ice="description"><p>The Markdown string you want to show at the top of the left sidebar.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-showAside">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">showAside</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber50">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>If you set this to <code>false</code>, the right sidebar will not be shown.
+Default <code>true</code>.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-showNav">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">showNav</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber43">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>If you set this to <code>false</code>, the left sidebar will not be shown.
+Default <code>true</code>.</p>
 </div>
 
   
@@ -850,7 +1150,7 @@ various callbacks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber73">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber103">source</a></span></span>
     </span>
   </h3>
 
@@ -944,7 +1244,7 @@ various callbacks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber143">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber173">source</a></span></span>
     </span>
   </h3>
 
@@ -1022,7 +1322,7 @@ various callbacks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber107">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber137">source</a></span></span>
     </span>
   </h3>
 
@@ -1100,7 +1400,7 @@ various callbacks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber125">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber155">source</a></span></span>
     </span>
   </h3>
 
@@ -1178,7 +1478,7 @@ various callbacks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber83">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber113">source</a></span></span>
     </span>
   </h3>
 
@@ -1251,7 +1551,7 @@ first situation has been entered. This is where you would add Markdown plugins.<
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber134">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber164">source</a></span></span>
     </span>
   </h3>
 
@@ -1329,7 +1629,7 @@ first situation has been entered. This is where you would add Markdown plugins.<
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber98">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber128">source</a></span></span>
     </span>
   </h3>
 
@@ -1422,7 +1722,7 @@ you return <code>false</code> afterward.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber116">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/gameformat/game.js.html#lineNumber146">source</a></span></span>
     </span>
   </h3>
 

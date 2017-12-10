@@ -8,7 +8,7 @@
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-<meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
+<link rel="stylesheet" href="./inject/css/0-app.css"><link rel="stylesheet" href="./inject/css/0-style.css"><script src="./inject/script/0-jumbogrove.js"></script><script src="./inject/script/0-script.js"></script><meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -55,8 +55,6 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/jg/gamepad.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/** @ignore */
 function bindGamepad(director) {
-  console.log(navigator.getGamepads()[0]);
-
   const selectActiveElement = () =&gt; {
     if (document.activeElement) document.activeElement.click();
   };
