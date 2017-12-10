@@ -155,6 +155,11 @@ var Component = normalizeComponent(
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -172,14 +177,17 @@ var Component = normalizeComponent(
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-5d441e1c","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGAside.vue
-var JGAside_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('aside',{class:{'JGAside': true, 'm-open': _vm.isOpen, 'm-closed': !_vm.isOpen}},[_c('div',{staticClass:"JGAsideToggle",on:{"click":function($event){$event.stopPropagation();_vm.onToggleVisibility($event)}}},[_vm._v("\n    "+_vm._s(_vm.isOpen ? '×' : 'i')+"\n  ")]),_vm._v(" "),_c('div',{staticClass:"JGAsideContents"},[_c('JGNav',{staticClass:"m-within-aside",attrs:{"model":_vm.model}}),_vm._v(" "),_c('hgroup',[_c('div',{domProps:{"innerHTML":_vm._s(_vm.model.asideHeaderHTML())}}),_vm._v(" "),_c('ul',{staticClass:"Characters"},_vm._l((_vm.model.allCharacters),function(character){return (character.showInSidebar)?_c('li',{key:character.id},[_c('h2',[_vm._v(_vm._s(character.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualityGroups"},_vm._l((character.sortedQualityGroups),function(group){return (!group.hidden)?_c('li',{key:group.id},[_c('h3',[_vm._v(_vm._s(group.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualities"},_vm._l((character.sortedQualities(group.id)),function(quality){return (!quality.hidden && (quality.type != 'flag' || quality.value))?_c('li',{key:quality.id},[(quality.type == 'flag')?[_vm._v(_vm._s(character.formatQuality(quality.id)))]:[_c('strong',[_vm._v(_vm._s(quality.name)+":")]),_vm._v(" "+_vm._s(character.formatQuality(quality.id)))]],2):_vm._e()}))]):_vm._e()}))]):_vm._e()}))])],1)])}
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-5b3a79a4","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGAside.vue
+var JGAside_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('aside',{class:{'JGAside': true, 'm-open': _vm.isOpen, 'm-closed': !_vm.isOpen}},[_c('div',{staticClass:"JGAsideToggle",on:{"click":function($event){$event.stopPropagation();_vm.onToggleVisibility($event)}}},[_vm._v("\n    "+_vm._s(_vm.isOpen ? '×' : 'i')+"\n  ")]),_vm._v(" "),_c('div',{staticClass:"JGAsideContents"},[_c('JGNav',{staticClass:"m-within-aside",attrs:{"model":_vm.model}}),_vm._v(" "),_c('hgroup',[_c('div',{domProps:{"innerHTML":_vm._s(_vm.model.asideHeaderHTML())}}),_vm._v(" "),_c('ul',{staticClass:"Characters"},_vm._l((_vm.model.allCharacters),function(character){return (character.showInSidebar)?_c('li',{key:character.id},[_c('h2',[_vm._v(_vm._s(character.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualityGroups"},_vm._l((character.sortedQualityGroups),function(group){return (!group.hidden)?_c('li',{key:group.id},[_c('h3',[_vm._v(_vm._s(group.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualities"},_vm._l((character.sortedQualities(group.id)),function(quality){return ((
+                      !quality.hidden &&
+                      (!quality.isVisible || quality.isVisible(character, quality, quality.value))
+                    ))?_c('li',{key:quality.id},[(quality.isLabeled && quality.isLabeled(character, quality, quality.value))?[_vm._v("\n                    "+_vm._s(character.formatQuality(quality.id))+"\n                  ")]:[_c('strong',[_vm._v(_vm._s(quality.name)+":")]),_vm._v(" "+_vm._s(character.formatQuality(quality.id)))]],2):_vm._e()}))]):_vm._e()}))]):_vm._e()}))])],1)])}
 var JGAside_staticRenderFns = []
 var JGAside_esExports = { render: JGAside_render, staticRenderFns: JGAside_staticRenderFns }
 /* harmony default export */ var components_JGAside = (JGAside_esExports);
 // CONCATENATED MODULE: ./src/components/JGAside.vue
 function JGAside_injectStyle (ssrContext) {
-  __webpack_require__("prTG")
+  __webpack_require__("ezzm")
 }
 var JGAside_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -191,7 +199,7 @@ var JGAside___vue_template_functional__ = false
 /* styles */
 var JGAside___vue_styles__ = JGAside_injectStyle
 /* scopeId */
-var JGAside___vue_scopeId__ = "data-v-5d441e1c"
+var JGAside___vue_scopeId__ = "data-v-5b3a79a4"
 /* moduleIdentifier (server only) */
 var JGAside___vue_module_identifier__ = null
 var JGAside_Component = JGAside_normalizeComponent(
@@ -390,76 +398,207 @@ var values_default = /*#__PURE__*/__webpack_require__.n(values);
 var keys = __webpack_require__("fZjL");
 var keys_default = /*#__PURE__*/__webpack_require__.n(keys);
 
+// CONCATENATED MODULE: ./src/jg/qualities/flag.js
+/**
+ * If `value` is true, some text appears. Otherwise, no text appears.
+ * @type {Quality}
+ * @example
+ * {
+ *    initialValue: true|false,
+ *    name: 'This text appears in the sidebar if true, otherwise nothing'
+ * }
+ */
+var flag = {
+    isVisible: function isVisible(character, quality, value) {
+        return !!value;
+    },
+    isLabeled: function isLabeled(character, quality, value) {
+        return false;
+    },
+    format: function format(character, quality, value) {
+        return value ? quality.name : '';
+    }
+};
+/* harmony default export */ var qualities_flag = (flag);
 // EXTERNAL MODULE: ./node_modules/babel-runtime/helpers/extends.js
 var helpers_extends = __webpack_require__("Dd8w");
 var extends_default = /*#__PURE__*/__webpack_require__.n(helpers_extends);
 
-// CONCATENATED MODULE: ./src/jg/qualities.js
+// CONCATENATED MODULE: ./src/jg/qualities/wordScale.js
 
-
-
-var qualities_qualities = {
-    flag: {
-        format: function format(character, quality, value) {
-            return value ? quality.name : '';
-        }
-    },
-    wordScale: {
-        format: function format(character, quality, value) {
-            if (!quality.words) return '';
-            var offsetValue = value;
-            if (quality.offset) offsetValue += quality.offset;
-            if (offsetValue >= 0 && offsetValue < quality.words.length) {
-                return quality.words[offsetValue];
-            } else if (offsetValue >= quality.words.length && quality.useBonuses) {
-                return lodash_default.a.last(quality.words) + '+' + (offsetValue - quality.words.length + 1);
-            } else if (offsetValue < 0 && quality.useBonuses) {
-                return quality.words[0] + offsetValue;
-            } else {
-                return '';
-            }
-        }
-    },
-    fudgeAdjective: {
-        format: function format(character, quality, value) {
-            return qualities_qualities.wordScale.format(character, extends_default()({}, quality, {
-                offset: 3,
-                words: ['terrible', 'poor', 'mediocre', 'fair', 'good', 'great', 'superb']
-            }), value);
-        }
-    },
-    integer: {
-        format: function format(character, quality, value) {
-            return Math.floor(value).toString();
-        }
-    },
-    nonZeroInteger: {
-        format: function format(character, quality, value) {
-            if (value === 0) return '';
-            return Math.floor(value).toString();
-        }
-    },
-    raw: {
-        format: function format(character, quality, value) {
-            return value;
-        }
-    },
-    onOff: {
-        format: function format(character, quality, value) {
-            var words = quality.words || ['off', 'on'];
-            return words[value ? 1 : 0];
-        }
-    },
-    yesNo: {
-        format: function format(character, quality, value) {
-            return qualities_qualities.onOff.format(character, { words: ['no', 'yes'] }, value);
-        }
-    },
-    namedChoice: {
-        format: function format(character, quality, value) {
-            return quality.labelMap[value];
+/**
+ * Map an integer value to a word list, with optional offset.
+ * @type {Quality}
+ * @example
+ * {
+ *    initialValue: 0,  // a number
+ *    words: ['bad', 'ok', 'good'],
+ *    offset: 0  // rendered text = words[value + offset]
+ * }
+ */
+var wordScale = {
+    format: function format(character, quality, value) {
+        if (!quality.words) return '';
+        var offsetValue = value;
+        if (quality.offset) offsetValue += quality.offset;
+        if (offsetValue >= 0 && offsetValue < quality.words.length) {
+            return quality.words[offsetValue];
+        } else if (offsetValue >= quality.words.length && quality.useBonuses) {
+            return lodash_default.a.last(quality.words) + '+' + (offsetValue - quality.words.length + 1);
+        } else if (offsetValue < 0 && quality.useBonuses) {
+            return quality.words[0] + offsetValue;
+        } else {
+            return '';
         }
     }
+};
+/* harmony default export */ var qualities_wordScale = (wordScale);
+// CONCATENATED MODULE: ./src/jg/qualities/fudgeAdjective.js
+
+
+/**
+ * Shortcut for `wordScale` with a word list of 'terrible', 'poor', 'mediocre', 'fair', 'good', 'great', 'superb'
+ * where -3 = terrible, 0 = fair, and 3 = superb.
+ * @type {Quality}
+ * @example
+ * {
+ *    initialValue: 0,  // a number
+ * }
+ */
+var fudgeAdjective = {
+    format: function format(character, quality, value) {
+        return qualities_wordScale.format(character, extends_default()({}, quality, {
+            offset: 3,
+            words: ['terrible', 'poor', 'mediocre', 'fair', 'good', 'great', 'superb']
+        }), value);
+    }
+};
+/* harmony default export */ var qualities_fudgeAdjective = (fudgeAdjective);
+// CONCATENATED MODULE: ./src/jg/qualities/integer.js
+/**
+ * Decimals are truncated from the value when displaying.
+ * @type {Quality}
+ * @example
+ * {
+ *    initialValue: 0,  // a number
+ * }
+ */
+var integer = {
+  format: function format(character, quality, value) {
+    return Math.floor(value).toString();
+  }
+};
+/* harmony default export */ var qualities_integer = (integer);
+// CONCATENATED MODULE: ./src/jg/qualities/namedChoice.js
+/**
+ * Simple transform of one value to another.
+ * @type {Quality}
+ * @example
+ * {
+ *    initialValue: 'foo',  // anything
+ *    labelMap: {'foo': 'bar'},  // renders 'foo' as 'bar'
+ * }
+ */
+var namedChoice = {
+    format: function format(character, quality, value) {
+        return quality.labelMap[value];
+    }
+};
+/* harmony default export */ var qualities_namedChoice = (namedChoice);
+// CONCATENATED MODULE: ./src/jg/qualities/nonZeroInteger.js
+/**
+ * Same as `integer`, but doesn't appear in sidebar if equal to zero.
+ * @type {Quality}
+ * @example
+ * {
+ *    initialValue: 0,  // a number
+ * }
+ */
+var nonZeroInteger = {
+    isVisible: function isVisible(character, quality, value) {
+        return !!value;
+    },
+    format: function format(character, quality, value) {
+        if (value === 0) return '';
+        return Math.floor(value).toString();
+    }
+};
+/* harmony default export */ var qualities_nonZeroInteger = (nonZeroInteger);
+// CONCATENATED MODULE: ./src/jg/qualities/onOff.js
+/**
+ * Displays `on`/`off` based on `value` truthiness (if no `words` provided), or
+ * `words[0]`/`words[1]` (falsey word comes first)
+ * @type {Quality}
+ * @example
+ * {
+ *    initialValue: true|false,
+ *    words: ['nope', 'yep']
+ * }
+ */
+var onOff = {
+  format: function format(character, quality, value) {
+    var words = quality.words || ['off', 'on'];
+    return words[value ? 1 : 0];
+  }
+};
+/* harmony default export */ var qualities_onOff = (onOff);
+// CONCATENATED MODULE: ./src/jg/qualities/raw.js
+/**
+ * Displays the value unchanged.
+ * @type {Quality}
+ * @example
+ * {
+ *    initialValue: 'whatever',
+ * }
+ */
+var raw = {
+  format: function format(character, quality, value) {
+    return value;
+  }
+};
+/* harmony default export */ var qualities_raw = (raw);
+// CONCATENATED MODULE: ./src/jg/qualities/yesNo.js
+
+/**
+ * Same oas `onOf`, but defaults to `yes` / `no`.
+ * @type {Quality}
+ * @example
+ * {
+ *    initialValue: true|false,
+ * }
+ */
+var yesNo = {
+  format: function format(character, quality, value) {
+    return qualities_onOff.format(character, { words: ['no', 'yes'] }, value);
+  }
+};
+/* harmony default export */ var qualities_yesNo = (yesNo);
+// CONCATENATED MODULE: ./src/jg/qualities/index.js
+/** @ignore */
+
+
+
+
+
+
+
+
+
+
+/**
+ * Object containing all qualities indexed by key.
+ * @type {object}
+ */
+var qualities_qualities = {
+  flag: qualities_flag,
+  fudgeAdjective: qualities_fudgeAdjective,
+  integer: qualities_integer,
+  namedChoice: qualities_namedChoice,
+  nonZeroInteger: qualities_nonZeroInteger,
+  onOff: qualities_onOff,
+  raw: qualities_raw,
+  wordScale: qualities_wordScale,
+  yesNo: qualities_yesNo
 };
 /* harmony default export */ var jg_qualities = (qualities_qualities);
 // CONCATENATED MODULE: ./src/jg/character.js
@@ -478,7 +617,22 @@ var _prioritySort = function _prioritySort(_ref) {
 };
 var _groupOmitKeys = ['id', 'name', 'priority', 'hidden'];
 
+/**
+ * This class is created from the character object you specify in your game.
+ */
+
 var character_Character = function () {
+    /**
+     * 
+     * @param {object} args 
+     * @param {string} args.id
+     * @param {string} args.name
+     * @param {number} args.priority
+     * @param {Boolean} args.showInSidebar
+     * @param {string|function(): string} args.description Currently unused
+     * @param {quality[]} args.qualities
+     * @param {*} args.state Initial value of {@link state}
+     */
     function Character(_ref2) {
         var qualities = _ref2.qualities,
             id = _ref2.id,
@@ -494,12 +648,31 @@ var character_Character = function () {
 
         classCallCheck_default()(this, Character);
 
-        assign_default()(this, {
-            id: id, name: name, qualities: qualities, description: description, showInSidebar: showInSidebar, priority: priority,
-            state: lodash_default.a.cloneDeep(state) });
+        /**
+         * The ID you specified for this character. Must be unique across all characters.
+         * @type {string}
+         */
+        this.id = id;
+
+        /**
+         * The name you specified for this character.
+         * @type {string}
+         */
+        this.name = name;
+
+        /**
+         * Arbitrary, JSON-safe data about this character. You may update it any time you want.
+         * @type {*}
+         */
+        this.state = lodash_default.a.cloneDeep(state);
+
+        assign_default()(this, { qualities: qualities, description: description, showInSidebar: showInSidebar, priority: priority });
 
         this.updateQualities();
     }
+
+    /** @ignore */
+
 
     createClass_default()(Character, [{
         key: 'updateQualities',
@@ -540,19 +713,29 @@ var character_Character = function () {
                     }
                 }
             });
+            /** @ignore */
             this.sortedQualityGroups = lodash_default.a.sortBy(values_default()(this.qualities), _prioritySort);
         }
+
+        /** @ignore */
+
     }, {
         key: 'toSave',
         value: function toSave() {
             return lodash_default.a.pick(this, ['id', 'qualities', 'name', 'showInSidebar', 'description', 'state']);
         }
+
+        /** @ignore */
+
     }, {
         key: 'loadSave',
         value: function loadSave(obj) {
             lodash_default.a.assign(this, obj);
             this.updateQualities();
         }
+
+        /** @ignore */
+
     }, {
         key: 'getDescription',
         value: function getDescription() {
@@ -562,46 +745,100 @@ var character_Character = function () {
                 return this.description || this.id;
             }
         }
+
+        /** @ignore */
+
     }, {
         key: 'sortedQualities',
         value: function sortedQualities(groupName) {
             return lodash_default.a.sortBy(values_default()(lodash_default.a.omit(this.qualities[groupName], _groupOmitKeys)), _prioritySort);
         }
+
+        /**
+         * Return the current value of this quality (without formatting it)
+         * 
+         * @param {string} id ID of the quality whose value you want
+         * @returns {*}
+         */
+
     }, {
         key: 'getQuality',
-        value: function getQuality(name) {
-            return this._shallowQualities[name].value;
+        value: function getQuality(id) {
+            return this._shallowQualities[id].value;
         }
+
+        /**
+         * Return the _initial_ value of this quality from the start of the game(without formatting it).
+         * You can use this to see how the value has changed since the start of the game.
+         * 
+         * @param {string} id ID of the quality whose value you want
+         * @returns {*}
+         */
+
     }, {
         key: 'getQualityInitial',
-        value: function getQualityInitial(name) {
-            return this._shallowQualities[name].initialValue;
+        value: function getQualityInitial(id) {
+            return this._shallowQualities[id].initialValue;
         }
+
+        /**
+         * Returns the formatted value of the given quality.
+         * 
+         * @param {string} id ID of the quality whose value you want
+         * @returns {string}
+         */
+
     }, {
         key: 'formatQuality',
-        value: function formatQuality(name) {
-            var quality = this._shallowQualities[name];
+        value: function formatQuality(id) {
+            var quality = this._shallowQualities[id];
             if (!jg_qualities[quality.type]) {
                 console.error("Undefined quality type:", quality.type);
                 return '';
             }
             return jg_qualities[quality.type].format(this, quality, quality.value);
         }
+
+        /**
+         * Return the human-readable name for the given quality ID.
+         * 
+         * @param {string} id ID of the quality whose value you want
+         * @returns {string}
+         */
+
     }, {
         key: 'formatQualityName',
-        value: function formatQualityName(name) {
-            var quality = this._shallowQualities[name];
+        value: function formatQualityName(id) {
+            var quality = this._shallowQualities[id];
             return quality.name;
         }
+
+        /**
+         * Qualities **must** be modified using this method.
+         * 
+         * @param {string} id ID of the quality to modify on this character
+         * @param {*} value New value for the quality
+         */
+
     }, {
         key: 'setQuality',
-        value: function setQuality(name, value) {
-            this._shallowQualities[name].value = value;
+        value: function setQuality(id, value) {
+            this._shallowQualities[id].value = value;
         }
+
+        /**
+         * Add an integer value to the given quality.
+         * 
+         * @param {string} id ID of the quality to modify on this character
+         * @param {number} value Amount to add
+         * @returns {number} The new value
+         */
+
     }, {
         key: 'addToQuality',
-        value: function addToQuality(name, delta) {
-            this._shallowQualities[name].value += delta;
+        value: function addToQuality(id, delta) {
+            this._shallowQualities[id].value += delta;
+            return this._shallowQualities[id].value += delta;
         }
     }]);
 
@@ -619,8 +856,112 @@ var nop = function nop() {};
 var tru = function tru() {
     return true;
 };
+/**
+ */
 
 var situation_Situation = function () {
+    /**
+     * 
+     * @param {object} args
+     * @param {string} args.id
+     * @param {Boolean} args.autosave If true, game will save when scene is
+     *                                entered. Default false.
+     * @param {string} args.content
+     *      Markdown template to be rendered to the transcript when this
+     *      situation is entered. {@see /markup.html}
+     * @param {string[]} args.choices
+     *      List of situation IDs or tags. See
+     *      {@link model#interpretChoices} for how this works.
+     * @param {Map<string,string>} args.snippets
+     *      Snippets used by writers/replacers. {@see /writers_replacers.html}.
+     * @param {object|null} args.input 
+     *      If provided, prompts user for input. Looks like
+     *      `input: {placeholder: "Your name", next: "situation-id", store: function(model, value)}`
+     * @param {string|null} args.input.placeholder
+     *      Placeholder value for the HTML input field 
+     * @param {string} args.input.next
+     *      Situation or action to go to after user enters a value.
+     *      Must start with either `@` (for situation IDs) or `>`
+     *      (for actions).
+     * @param {function(model: model, value: string)} args.input.store
+     *      Your chance to do something with the given alue
+     * @param {Boolean} args.debugChoices See {@link debugChoices}
+     * @param {function(model: model, hostSituation: Situation): Boolean} getCanChoose
+     *      If this function is provided and returns `false`, this situation
+     *      is not linkified in the choices list.
+     * @param {function(model: model, hostSituation: Situation): Boolean} getCanSee
+     *      If this function is provided and returns `false`, the situation
+     *      will not show up in the choices list for the situation presenting
+     *      the choice.
+     * @param {number|function(model: model, hostSituation: Situation): number} priority
+     *      May be a constant number, or function returning a number. This value
+     *      is used by {@link model#interpretChoices}.
+     * @param {number|function(model: model, hostSituation: Situation): number} displayOrder
+     *      May be a constant number, or function returning a number. This value
+     *      is used by {@link model#interpretChoices}.
+     * @param {string|function(model: model, hostSituation: Situation): string} optionText
+     *      Text shown to user when being presented as a choice.
+     * @param {function(model: model, ui: ui, fromSituation: Situation): Boolean} willEnter
+     *      This situation will enter, unless this function returns `false`. It
+     *      is safe to call `model.do()` from here, as long as you then return
+     *      `false`.
+     * @param {function(model: model, ui: ui, fromSituation: Situation)} enter
+     *      The situation has been entered, and {@link Situation#content} has
+     *      been written to the transcript.
+     * @param {function(model: model, ui: ui, toSituation: Situation)} exit
+     *      The situation is being exited, but the next situation has not yet
+     *      been entered.
+     * @param {function(model: model, ui: ui, action: String)} act
+     *      An action-based link has been clicked. You might just want to use
+     *      the `actions` key instead of this function if you're just mapping
+     *      action names to functions.
+     * @param {Map<string,function>} actions
+     *      Map of action name to function that is called when the user invokes
+     *      the action.
+     * 
+     * @example
+     *  jumbogrove('#app', {
+     *      id: 'situations-example',
+     *      autosave: true,
+     * 
+     *      // stuff related to this situation being a choice in another situation:
+     *      optionText: "Proclaim hungriness",
+     *      getCanChoose: (model, host) => true,
+     *      getCanSee: (model, host) => true,
+     *      priority: 1,
+     *      displayOrder: 1,
+     * 
+     *      // stuff related to content and what happens inside the situation:
+     *      content: `
+     *      I am [very](>replaceself:more_adjectives) hungry.
+     * 
+     *      [Eat](>eat)
+     * 
+     *      [Go to restaurant](@restaurant)
+     *      `,
+     *      snippets: {
+     *          more_adjectives: "very, very, very, very"
+     *      },
+     *      act: (model, ui, action) => console.log("did action", action),
+     *      actions: {
+     *          eat: () => console.log("OM NOM NOM"),
+     *      },
+     * 
+     *      // going to other situations:
+     *      choices: ['next-situation', '#situations-involving-food'],
+     *      // normally you wouldn't have 'choices' and 'input' in the same situation.
+     *      input: {
+     *          placeholder: "Please enter your favorite food.",
+     *          next: "@restaurant",
+     *      },
+     *      debugChoices: false,
+     * 
+     *      // lifecycle
+     *      willEnter: (model, ui, from) => true,
+     *      enter: (model, ui, from) => console.log("entered"),
+     *      exit: (model, ui, from) => console.log("exited"),
+     *  });
+     */
     function Situation(_ref) {
         var id = _ref.id,
             _ref$tags = _ref.tags,
@@ -629,6 +970,16 @@ var situation_Situation = function () {
             totalVisits = _ref$totalVisits === undefined ? 0 : _ref$totalVisits,
             _ref$autosave = _ref.autosave,
             autosave = _ref$autosave === undefined ? false : _ref$autosave,
+            _ref$content = _ref.content,
+            content = _ref$content === undefined ? null : _ref$content,
+            _ref$choices = _ref.choices,
+            choices = _ref$choices === undefined ? null : _ref$choices,
+            _ref$snippets = _ref.snippets,
+            snippets = _ref$snippets === undefined ? {} : _ref$snippets,
+            _ref$input = _ref.input,
+            input = _ref$input === undefined ? null : _ref$input,
+            _ref$debugChoices = _ref.debugChoices,
+            debugChoices = _ref$debugChoices === undefined ? false : _ref$debugChoices,
             _ref$getCanChoose = _ref.getCanChoose,
             getCanChoose = _ref$getCanChoose === undefined ? tru : _ref$getCanChoose,
             _ref$getCanSee = _ref.getCanSee,
@@ -648,37 +999,62 @@ var situation_Situation = function () {
             _ref$actions = _ref.actions,
             actions = _ref$actions === undefined ? {} : _ref$actions,
             _ref$exit = _ref.exit,
-            exit = _ref$exit === undefined ? nop : _ref$exit,
-            _ref$content = _ref.content,
-            content = _ref$content === undefined ? null : _ref$content,
-            _ref$choices = _ref.choices,
-            choices = _ref$choices === undefined ? null : _ref$choices,
-            _ref$snippets = _ref.snippets,
-            snippets = _ref$snippets === undefined ? {} : _ref$snippets,
-            _ref$input = _ref.input,
-            input = _ref$input === undefined ? null : _ref$input,
-            _ref$debugChoices = _ref.debugChoices,
-            debugChoices = _ref$debugChoices === undefined ? false : _ref$debugChoices;
+            exit = _ref$exit === undefined ? nop : _ref$exit;
 
         classCallCheck_default()(this, Situation);
 
+        /**
+         * ID of this situation.
+         * @type {string}
+         */
+        this.id = id;
+
+        /**
+         * Tags associated with this situation.
+         * @type {string[]}
+         */
+        this.tags = tags;
+
+        /**
+         * Number of times this situation has been successfully entered.
+         * This value persists when saving and loading.
+         * @type {number}
+         */
+        this.totalVisits = totalVisits;
+
+        /**
+         * If `true`, then presenting choices from this situation will call `debugger`
+         * so you can step through the code and see what's up.
+         * @type {Boolean}
+         */
+        this.debugChoices = debugChoices;
+
         assign_default()(this, {
-            id: id, tags: tags, totalVisits: totalVisits, getCanChoose: getCanChoose, getCanSee: getCanSee, priority: priority,
+            getCanChoose: getCanChoose, getCanSee: getCanSee, priority: priority,
             displayOrder: displayOrder, optionText: optionText, enter: enter, act: act, exit: exit, content: content, actions: actions, choices: choices,
-            snippets: snippets, input: input, willEnter: willEnter, autosave: autosave, debugChoices: debugChoices
+            snippets: snippets, input: input, willEnter: willEnter, autosave: autosave
         });
     }
+
+    /** @ignore */
+
 
     createClass_default()(Situation, [{
         key: 'toSave',
         value: function toSave() {
             return lodash_default.a.pick(this, ['totalVisits', 'id']);
         }
+
+        /** @ignore */
+
     }, {
         key: 'loadSave',
         value: function loadSave(obj) {
             lodash_default.a.assign(this, obj);
         }
+
+        /** @ignore */
+
     }, {
         key: 'doEnter',
         value: function doEnter(model, ui) {
@@ -686,13 +1062,13 @@ var situation_Situation = function () {
 
             this.totalVisits += 1;
             if (this.content) {
-                ui.logMarkdown(this.content);
+                ui.writeMarkdown(this.content);
             }
             this.enter.apply(this, arguments);
             if (this.input) {
                 ui.promptInput({ placeholder: this.input.placeholder }).then(function (value) {
                     _this.input.store(model, value);
-                    model.handleCommandString(_this.input.next);
+                    model.do(_this.input.next);
                 });
             }
             if (this.choices) {
@@ -700,16 +1076,22 @@ var situation_Situation = function () {
                     var situationId = _ref2.situationId,
                         itemId = _ref2.itemId;
 
-                    ui.simulateLink('@' + situationId, itemId, 'fake');
+                    model.do('@' + situationId, itemId, 'fake');
                 });
             }
         }
+
+        /** @ignore */
+
     }, {
         key: 'doExit',
         value: function doExit(model, ui, toSituation) {
             ui.nextGroup();
             this.exit.apply(this, arguments);
         }
+
+        /** @ignore */
+
     }, {
         key: 'doAct',
         value: function doAct(model, ui, action) {
@@ -725,6 +1107,9 @@ var situation_Situation = function () {
                 this.act(model, ui, action);
             }
         }
+
+        /** @ignore */
+
     }, {
         key: 'getOptionText',
         value: function getOptionText() {
@@ -734,6 +1119,9 @@ var situation_Situation = function () {
                 return this.optionText || this.id;
             }
         }
+
+        /** @ignore */
+
     }, {
         key: 'getPriority',
         value: function getPriority() {
@@ -743,6 +1131,9 @@ var situation_Situation = function () {
                 return this.priority;
             }
         }
+
+        /** @ignore */
+
     }, {
         key: 'getDisplayOrder',
         value: function getDisplayOrder() {
@@ -764,12 +1155,31 @@ var situation_Situation = function () {
 
 
 
+/**
+ * @module model
+ * @memberof module:jumbogrove
+ */
 
 
 
 
-var model_WorldModel = function () {
-    function WorldModel(_ref) {
+/**
+ * Maintains game state and allows you to make changes to it.
+ * 
+ * The model object is the primary way for you to interact with Jumbo Grove.
+ */
+
+var model_model = function () {
+    /**
+     * @ignore
+     * 
+     * @param {object} args Arguments object
+     * @param {object[]} args.characters
+     * @param {object} args.globalState
+     * @param {object[]} args.situations
+     * @param {string} args.initialSituation
+     */
+    function model(director, _ref) {
         var _this = this;
 
         var characters = _ref.characters,
@@ -777,46 +1187,148 @@ var model_WorldModel = function () {
             situations = _ref.situations,
             initialSituation = _ref.initialSituation;
 
-        classCallCheck_default()(this, WorldModel);
+        classCallCheck_default()(this, model);
 
+        /** @ignore */
+        this._director = director;
+        /** @ignore */
         this._characters = {};
+        /** @ignore */
+        this._situations = {};
+        /** @ignore */
+        this._initialSituationId = initialSituation;
+        /** @ignore */
+        this.templateHelperFunctions = {};
+        /** @ignore */
+        this.templateHelperGetters = {};
+
+        // These will be injected when the UI is bound to the director
+        /** @ignore */
+        this.navHeaderHTML = null;
+        /** @ignore */
+        this.asideHeaderHTML = null;
+
+        /**
+         * The situation currently being run, or last seen by the user.
+         * @member
+         * @type {Situation|null} */
         this.currentSituation = null;
+
         characters.forEach(function (c) {
             return _this._characters[c.id] = new jg_character(c);
         });
+
+        /**
+         * Store all non-character game state here; **Must be JSON-safe!** You may mutate
+         * this object freely as long as it is safe to convert it to JSON and back.
+         * @member
+         * 
+         */
         this.globalState = lodash_default.a.cloneDeep(globalState);
+
+        /**
+         * The character with ID `'player'`.
+         * @member
+         * @type {Character|null} */
         this.player = this.character('player') || null;
-        this._situations = {};
+
         situations.forEach(function (s) {
             if (_this._situations[s.id]) throw new Error('Duplicate situation id: ' + s.id);
             _this._situations[s.id] = new situation(s);
         });
 
-        this._initialSituationId = initialSituation;
-
-        // These will be injected when the UI is bound to the director
-        this.navHeaderHTML = null;
-        this.asideHeaderHTML = null;
-
+        /**
+         * List of all characters in the game.
+         * @member
+         * @type {Character[]} */
         this.allCharacters = lodash_default.a.sortBy(values_default()(this._characters), function (_ref2) {
             var priority = _ref2.priority;
             return priority || 0;
         });
-        this.templateHelperFunctions = {};
-        this.templateHelperGetters = {};
     }
 
-    createClass_default()(WorldModel, [{
+    /**
+     * Follow a Jumbo Grove link (`@situation-id` or `>action`).
+     * @param {command} string
+     */
+
+
+    createClass_default()(model, [{
+        key: 'do',
+        value: function _do() {
+            var _director;
+
+            return (_director = this._director).handleCommandString.apply(_director, arguments);
+        }
+
+        /**
+         * Go to the given sitaution (no `@`).
+         * @param {string} id
+         */
+
+    }, {
+        key: 'goTo',
+        value: function goTo() {
+            var _director2;
+
+            return (_director2 = this._director).goTo.apply(_director2, arguments);
+        }
+
+        /**
+         * Returns true iff the given string can be handled by Jumbo Grove (rather than being a normal HTML link)
+         * @param {string} string A string to check
+         * @returns {Boolean} 
+         */
+
+    }, {
+        key: 'isManagedLink',
+        value: function isManagedLink() {
+            var _director3;
+
+            return (_director3 = this._director).isManagedLink.apply(_director3, arguments);
+        }
+
+        /**
+         * Add arbitrary methods to the model object. Since the model is passed to
+         * all callbacks, this is a good way to make convenient functions accessible.
+         * 
+         * Also, anything you pass here will also be provided to the template context.
+         * 
+         * @param {Map<string, function>} fns Mapping of name to function
+         */
+
+    }, {
         key: 'extend',
         value: function extend(fns) {
             assign_default()(this, fns);
             assign_default()(this.templateHelperFunctions, fns);
         }
+
+        /**
+         * Make dynamically-evaluated values available to templates.
+         * 
+         * For example, if you do this:
+         * 
+         * ```
+         * model.addTemplateGetters({minutes: () => new Date().getMinutes()});
+         * ```
+         * 
+         * then whenever you write `<%= minutes %>` in your template, the return
+         * value of the function will appear in the text.
+         * 
+         * @param {Map<string, function>} fns Mapping of name to getter
+         */
+
     }, {
         key: 'addTemplateGetters',
         value: function addTemplateGetters(fns) {
             assign_default()(this.templateHelperGetters, fns);
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'toSave',
         value: function toSave() {
@@ -831,6 +1343,11 @@ var model_WorldModel = function () {
                 })
             };
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'loadSave',
         value: function loadSave(obj) {
@@ -886,19 +1403,22 @@ var model_WorldModel = function () {
                 }
             }
         }
+
+        /**
+         * @ignore
+         */
+
     }, {
         key: 'toString',
         value: function toString() {
             return 'Model(globalState=' + this.globalState + ', characters=' + this.characters + ')';
         }
 
-        /*
-        goTo(id) is injected into this class by JumboGroveDirector.
-        */
-
-        /*
-        handleCommandString(str) is injected into this class by JumboGroveDirector.
-        */
+        /**
+         * Looks up a situation by ID. Prints an error to the console if there isn't one.
+         * @param {string} id 
+         * @returns {Situation|null} Situation with the given ID
+         */
 
     }, {
         key: 'situation',
@@ -906,6 +1426,13 @@ var model_WorldModel = function () {
             if (!this._situations[id]) console.error('Situation not found: ' + id);
             return this._situations[id];
         }
+
+        /**
+         * Returns a list of all situations matching the given ID (`foo`) or tag (`#foo`).
+         * @param {string} idOrTag 
+         * @returns {Situation[]}
+         */
+
     }, {
         key: 'situations',
         value: function situations(idOrTag) {
@@ -918,26 +1445,48 @@ var model_WorldModel = function () {
                 return [this._situations[idOrTag]];
             }
         }
+
+        /**
+         * Look up a character by ID. Returns `undefined` if there isn't one.
+         * @param {string} id 
+         */
+
     }, {
         key: 'character',
         value: function character(id) {
             return this._characters[id];
         }
+
+        /**
+         * Return a random number 0-1. Currently this just calls `Math.random()`, but
+         * in the future it might do something fancy with seeds that let you avoid
+         * save scumming.
+         */
+
     }, {
         key: 'random',
         value: function random() {
             return Math.random();
         }
-    }, {
-        key: 'setGlobalState',
-        value: function setGlobalState(k, v) {
-            this.globalState[k] = v;
-        }
-    }, {
-        key: 'setCharacterState',
-        value: function setCharacterState(id, k, v) {
-            this.character(id)[k] = v;
-        }
+
+        /**
+         * Given a set of situations, do some smart stuff and return the situations
+         * that match the filter.
+         * 
+         * 1. Filter out all situations for which `situation.getCanSee(model, model.currentSituation, situation)` returns `false`.
+         * 2. Find the highest priority that matches a list of situations at least as big as `atLeast`.
+         * 3. If there are more situations left than there are `atMost`, randomly remove some.
+         * 4. Sort by `situation.displayOrder`.
+         * 
+         * Note that it is possible to end up with a list of situations for which `getCanChoose()` returned `false` for all of them!
+         * 
+         * This logic has been shamelessly stolen from Undum.
+         * 
+         * @param {string[]} arrayOfSituationIdsOrTags Like `['one-situation', '#situations-matching-this-tag']`
+         * @param {number} atLeast 
+         * @param {number} atMost 
+         */
+
     }, {
         key: 'interpretChoices',
         value: function interpretChoices(arrayOfSituationIdsOrTags) {
@@ -1050,10 +1599,10 @@ var model_WorldModel = function () {
         }
     }]);
 
-    return WorldModel;
+    return model;
 }();
 
-/* harmony default export */ var jg_model = (model_WorldModel);
+/* harmony default export */ var jg_model = (model_model);
 // CONCATENATED MODULE: ./src/jg/commands.js
 /* harmony default export */ var commands = ({
   runAction: {
@@ -1088,8 +1637,7 @@ var model_WorldModel = function () {
   }
 });
 // CONCATENATED MODULE: ./src/jg/gamepad.js
-
-
+/** @ignore */
 function bindGamepad(director) {
   console.log(navigator.getGamepads()[0]);
 
@@ -1183,6 +1731,7 @@ var _focusPreviousElement = function _focusPreviousElement() {
 };
 
 var director_nop = function nop() {};
+/** @ignore */
 
 var director_JumboGroveDirector = function () {
     function JumboGroveDirector(_ref) {
@@ -1225,7 +1774,7 @@ var director_JumboGroveDirector = function () {
             id: id, willEnter: willEnter, didEnter: didEnter, willExit: willExit, didExit: didExit, willAct: willAct, didAct: didAct,
             navHeader: navHeader, asideHeader: asideHeader, init: init
         });
-        this.modelArgs = { characters: characters, globalState: globalState, situations: situations, initialSituation: initialSituation };
+        this.modelArgs = { characters: characters, globalState: globalState, situations: situations, initialSituation: initialSituation, version: version };
 
         this.recreateModel();
         this.interactive = true;
@@ -1234,13 +1783,7 @@ var director_JumboGroveDirector = function () {
     createClass_default()(JumboGroveDirector, [{
         key: 'recreateModel',
         value: function recreateModel() {
-            this.model = new jg_model(this.modelArgs);
-            var _arr = ['goTo', 'handleCommandString', 'isManagedLink'];
-            for (var _i = 0; _i < _arr.length; _i++) {
-                var k = _arr[_i];
-                this.model[k] = this[k].bind(this);
-            }
-            this.model.do = this.handleCommandString.bind(this);
+            this.model = new jg_model(this, this.modelArgs);
         }
     }, {
         key: 'toString',
@@ -1277,15 +1820,17 @@ var director_JumboGroveDirector = function () {
     }, {
         key: 'save',
         value: function save(toSituationId) {
-            localStorage[this.id] = stringify_default()({ toSituationId: toSituationId, model: this.model.toSave() });
+            var saveId = this.id + '-' + this.version;
+            localStorage[saveId] = stringify_default()({ toSituationId: toSituationId, model: this.model.toSave() });
         }
     }, {
         key: 'load',
         value: function load() {
-            if (!localStorage[this.id]) return false;
+            var saveId = this.id + '-' + this.version;
+            if (!localStorage[saveId]) return false;
             var json = null;
             try {
-                json = JSON.parse(localStorage[this.id]);
+                json = JSON.parse(localStorage[saveId]);
             } catch (e) {
                 return false;
             }
@@ -1296,7 +1841,7 @@ var director_JumboGroveDirector = function () {
                 this.model.loadSave(json.model);
                 this.goTo(json.toSituationId, true);
             } catch (e) {
-                delete localStorage[this.id];
+                delete localStorage[saveId];
                 this.recreateModel();
                 this.start();
                 return false;
@@ -1435,7 +1980,8 @@ var director_JumboGroveDirector = function () {
     }, {
         key: 'performResetGame',
         value: function performResetGame() {
-            delete localStorage[this.id];
+            var saveId = this.id + '-' + this.version;
+            delete localStorage[saveId];
             location.reload();
         }
     }, {
@@ -1448,7 +1994,7 @@ var director_JumboGroveDirector = function () {
             var previousId = previous ? previous.id : null;
             if (next.autosave && !isFromLoad) {
                 this.save(id);
-                this.ui.logMarkdown('> Game saved.\n');
+                this.ui.writeMarkdown('> Game saved.\n');
             }
             if (this.model.currentSituation) {
                 this.willExit(this.model, this.ui, previousId, id);
@@ -1562,7 +2108,11 @@ var markdown_it_attrs_default = /*#__PURE__*/__webpack_require__.n(markdown_it_a
 
 
 
+/**
+ * @external {MarkdownIt} https://github.com/markdown-it/markdown-it
+ */
 
+/** @ignore */
 function normalizeIndent(text) {
   if (!text) return text;
 
@@ -1586,23 +2136,36 @@ function normalizeIndent(text) {
   }).join('\n');
 }
 
-var dataui_DataUI = function () {
-  function DataUI() {
+/**
+ * Direct access to the HTML transcript.
+ */
+
+var dataui_ui = function () {
+  /** @ignore */
+  function ui() {
     var _this = this;
 
-    classCallCheck_default()(this, DataUI);
+    classCallCheck_default()(this, ui);
 
+    /** @ignore */
     this.content = [];
+    /** @ignore */
     this.currentItemId = null;
+    /** @ignore */
     this.currentGroupId = 0;
+    /** @ignore */
+    this.nextItemId = 0;
+    /** @ignore */
+    this.templateHelperGetters = {};
 
+    /**
+     * `MarkdownIt` instance used to render Markdown. You may register additional plugins here.
+     * @type {MarkdownIt}
+     */
     this.md = new markdown_it_default.a({ html: true, linkify: false, typographer: true });
     this.md.use(markdown_it_attrs_default.a);
 
-    this.nextItemId = 0;
-
-    this.templateHelperGetters = {};
-
+    /** @ignore */
     this.templateHelperFunctions = {
       ifThen: function ifThen(condition, snippetTrue, snippetFalse) {
         return _this.director.getSnippet(condition ? snippetTrue : snippetFalse);
@@ -1631,26 +2194,40 @@ var dataui_DataUI = function () {
     };
   }
 
-  createClass_default()(DataUI, [{
+  /**
+   * Make the given functions (or constants) available to the template context.
+   * @param {Map<string, function>} fns 
+   */
+
+
+  createClass_default()(ui, [{
     key: 'addTemplateFunctions',
     value: function addTemplateFunctions(fns) {
       this.templateHelperFunctions = extends_default()({}, this.templateHelperFunctions, fns);
     }
+
+    /**
+     * Whenever a template is rendered, evaluate all these functions and make their
+     * return values available to the template context.
+     * @param {Map<string, function>} fns 
+     */
+
   }, {
     key: 'addTemplateGetters',
     value: function addTemplateGetters(fns) {
       this.templateHelperGetters = extends_default()({}, this.templateHelperGetters, fns);
     }
+
+    /** @ignore */
+
   }, {
     key: 'bind',
     value: function bind(director) {
       this.director = director;
     }
-  }, {
-    key: 'simulateLink',
-    value: function simulateLink() {
-      this.director.handleCommandString.apply(this.director, arguments);
-    }
+
+    /** @ignore */
+
   }, {
     key: 'templateContext',
     value: function templateContext() {
@@ -1710,6 +2287,14 @@ var dataui_DataUI = function () {
         ui: this
       }, getters, this.templateHelperFunctions, this.director.model.templateHelperFunctions);
     }
+
+    /**
+     * Render the given Markdown text to HTML. Automatically dedents the text to the 
+     * minimum indent level.
+     * @param {string} text 
+     * @param {Boolean} inline If true, do not parse any block-level markup or wrap in a paragraph.
+     */
+
   }, {
     key: 'renderMarkdown',
     value: function renderMarkdown(text) {
@@ -1723,6 +2308,13 @@ var dataui_DataUI = function () {
         return this.md.render(normalizeIndent(text));
       }
     }
+
+    /**
+     * Process the text as a template and return the result.
+     * @param {string} src 
+     * @param {Map<string,*>|null} args Additional template context
+     */
+
   }, {
     key: 'renderTemplate',
     value: function renderTemplate(src) {
@@ -1735,6 +2327,15 @@ var dataui_DataUI = function () {
         throw e;
       }
     }
+
+    /**
+     * Process the text as a template, render the resulting Markdown to HTML, and
+     * return the result. Automatically dedents the text to the minimum indent level.
+     * @param {string} src 
+     * @param {Map<string,*>} args Additional template context
+     * @param {Boolean} inline If true, do not parse any block-level markup or wrap in a paragraph.
+     */
+
   }, {
     key: 'renderMarkdownTemplate',
     value: function renderMarkdownTemplate(src) {
@@ -1743,6 +2344,15 @@ var dataui_DataUI = function () {
 
       return this.renderMarkdown(this.renderTemplate(src, args), inline);
     }
+
+    /**
+     * Like {@link renderMarkdownTemplate}, but automatically sets `inline` flag based on
+     * presence of line breaks.
+     * @param {string} src 
+     * @param {Map<string,*>} args Additional template context
+     * @param {Boolean} inline If true, do not parse any block-level markup or wrap in a paragraph.
+     */
+
   }, {
     key: 'renderMarkdownTemplateMaybeInline',
     value: function renderMarkdownTemplateMaybeInline(src) {
@@ -1751,18 +2361,17 @@ var dataui_DataUI = function () {
       var inline = src.indexOf('\n') === -1;
       return this.renderMarkdownTemplate(src, args, inline);
     }
-  }, {
-    key: 'qualitiesHTML',
-    value: function qualitiesHTML() {
-      var character = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-      return this.renderTemplate('\n      <ul class="CharacterQualities">\n        <% character.sortedQualityGroups.forEach((group) => { %>\n          <% if (group.hidden) return; %>\n          <li>\n            <h3><%- group.name %></h3>\n            <ul class="CharacterQualityGroup">\n              <% character.sortedQualities(group.id).forEach((quality) => { %>\n                <% if (quality.hidden) return; %>\n                <% if (quality.type == \'flag\' && !quality.value) return; %>\n\n                <% if (quality.type == \'flag\') { %>\n                  <li><%- character.formatQuality(quality.id) %></li>\n                <% } else { %>\n                  <li><strong><%- quality.name %>:</strong> <%- character.formatQuality(quality.id) %></li>\n                <% } %>\n              <% }); %>\n            </ul>\n          </li>\n        <% }); %>\n      </ul>\n    ', { character: character || this.director.model.player });
-    }
+    /** @ignore */
+
   }, {
     key: 'nextGroup',
     value: function nextGroup() {
       this.currentGroupId += 1;
     }
+
+    /** @ignore */
+
   }, {
     key: 'append',
     value: function append(item) {
@@ -1776,6 +2385,7 @@ var dataui_DataUI = function () {
     /**
      * Encode the given string so it doesn't mess up Markdown link parsing
      * @param {String} s 
+     * @ignore
      */
 
   }, {
@@ -1783,9 +2393,17 @@ var dataui_DataUI = function () {
     value: function encode(s) {
       return window.encodeURIComponent;
     }
+
+    /**
+     * Render the given HTML as a template and write it to the transcript.
+     * Links are automatically bound to actions and situation transitions.
+     * @param {string} html 
+     * @param {Map<string,*>} args Additional template contet
+     */
+
   }, {
-    key: 'logHTML',
-    value: function logHTML(html) {
+    key: 'writeHTML',
+    value: function writeHTML(html) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
       this.append({
@@ -1793,24 +2411,39 @@ var dataui_DataUI = function () {
         html: this.renderTemplate(html, args)
       });
     }
+
+    /**
+     * Render the given string as a template, render the resulting Markdown as HTML, and
+     * write it to the transcript.
+     * @param {string} markdown 
+     * @param {Map<string,*>} args Additional template context
+     */
+
   }, {
-    key: 'logMarkdown',
-    value: function logMarkdown(markdown) {
+    key: 'writeMarkdown',
+    value: function writeMarkdown(markdown) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
       this.append({
         'type': 'html',
         html: this.renderMarkdownTemplate(markdown, args) });
     }
+
+    /**
+     * Given an array of tags or situation IDs (can be both in the same array), present
+     * the relevant choices in the transcript using the logic in {@link model.interpretChoices}.
+     * @param {string[]} arrayOfSituationIdsOrTags Array of strings containing either `#tags` or `situation-ids`.
+     */
+
   }, {
     key: 'presentChoices',
-    value: function presentChoices(choices) {
+    value: function presentChoices(arrayOfSituationIdsOrTags) {
       var _this2 = this;
 
       return new promise_default.a(function (resolve, reject) {
         var item = {
           'type': 'choice',
-          choices: _this2.director.model.interpretChoices(choices)
+          choices: _this2.director.model.interpretChoices(arrayOfSituationIdsOrTags)
         };
         item.callback = function (situationId) {
           item.situationId = situationId;
@@ -1819,6 +2452,14 @@ var dataui_DataUI = function () {
         _this2.append(item);
       });
     }
+
+    /**
+     * Force the user to enter some text to continue.
+     * @param {Map<string,*>} options
+     * @param {string} options.placeholder Placeholder text for the input field
+     * @returns {Promise<string>}
+     */
+
   }, {
     key: 'promptInput',
     value: function promptInput(_ref) {
@@ -1832,10 +2473,10 @@ var dataui_DataUI = function () {
     }
   }]);
 
-  return DataUI;
+  return ui;
 }();
 
-/* harmony default export */ var dataui = (dataui_DataUI);
+/* harmony default export */ var dataui = (dataui_ui);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./src/components/JGHTMLItem.vue
 //
 //
@@ -2188,6 +2829,8 @@ var JGInputItem_Component = JGInputItem_normalizeComponent(
 
 
 
+/** @ignore */
+
 var vueui_VueUI = function (_DataUI) {
   inherits_default()(VueUI, _DataUI);
 
@@ -2225,847 +2868,9 @@ var vueui_VueUI = function (_DataUI) {
 }(dataui);
 
 /* harmony default export */ var vueui = (vueui_VueUI);
-// CONCATENATED MODULE: ./src/ld40/hour0.js
-// import _ from 'lodash';
-
-/* harmony default export */ var hour0 = ([{
-  id: 'start',
-  content: 'Please enter your name.',
-  input: {
-    placeholder: 'Your name',
-    next: '@prologue',
-    store: function store(model, value) {
-      model.character('player').name = value;
-      localStorage.playerName = value;
-    }
-  },
-  willEnter: function willEnter(model, ui) {
-    if (localStorage.playerName) {
-      model.character('player').name = localStorage.playerName;
-      model.do('@prologue');
-      return false;
-    } else {
-      return true;
-    }
-  }
-}, {
-  id: 'prologue',
-  content: '\n      # Prologue: 6:00pm\n\n      It\'s a quiet Friday evening in your three bedroom flat in San Francisco.\n      Your friend <%-maria%> is visiting from Seattle tonight, so you\'ve\n      decided to throw a small dinner party with <%-chrs(\'and\', \'Maria\', \'Kevin\', \'Federico\') %>.\n\n      <%=img(\'kevin\')%>\n      "Wow, it\'s really been a while!" says <%-kevin%>, [your friend from college.](>replace:college) [](){#college}\n\n      <%=img(\'federico\')%>\n      "Yeah, <%-maria%>, I haven\'t seen you in years," says [<%-federico%>.](>replace:work) [](){#work}\n\n      "What about you, <%-pl%>, when was the last time you saw <%-maria%>?"\n      ',
-  choices: ['#prologue-how-long-has-it-been'],
-  snippets: {
-    college: 'You, <%-kevin%>, and <%-maria%> used to hang out at the student union between classes.',
-    work: 'You know <%-federico%> from work, but not well. He and <%-maria%> went to high school together, though, so you decided to invite him.'
-  }
-}, {
-  id: 'prologue-i-forget', tags: ['prologue-how-long-has-it-been'],
-  optionText: "Oh, I can't even remember",
-  /*
-  To do: require more unfriendliness before inviting Amy
-  */
-  content: '\n    <%=img(\'maria\')%>\n    <%-maria%> furrows her brow. "Come on, <%-pl%>, it\'s only been a couple of months. I stopped here on my way to LA.\n\n    <%= stat(\'maria\', \'friendliness\', -1) %>\n    ',
-  choices: ['#invite-amy']
-}, {
-  id: 'maybe-invite-amy', tags: ['invite-amy'],
-  optionText: "Sorry...",
-  content: '\n    You see the wheels turn in <%-maria%>\'s head. She would clearly prefer the company of better friends.\n\n    "Hey, would you guys mind if I brought <%-amy%> over? I haven\'t seen her in ages either."\n\n    You would really rather [not](>write:amy), but you can\'t say no to your guest.\n    ',
-  choices: ['invite-amy'],
-  snippets: {
-    amy: '\n      <%-amy%> is <%-maria%>\'s ex. <%=amy%> is much, much cooler than you. Every time you\'ve hung out in a group that <%-amy%> was in,\n      everyone ended up ignoring you. She and <%-maria%> are still on good, if complicated, terms.\n      '
-  }
-}, {
-  id: 'invite-amy',
-  optionText: "Sounds great!",
-  content: '\n    "Thanks!" <%-maria%> says. "She\'ll be here at 7."\n\n    <% print(scheduleArrival(\'amy\', 1)) %>\n    ',
-  choices: ['advance-time']
-}, {
-  id: 'prologue-1-year', tags: ['prologue-how-long-has-it-been'],
-  optionText: "More than a year ago",
-  content: '\n    <%=img(\'maria\')%>\n    "Yeah, it would have been that Tahoe trip. That was so much fun!" <%-maria%> leans back and looks up at the ceiling.\n\n    "You know, that reminds me of [<%-jen%>](>replace:jen). She\'s still around, right?"\n\n    [](){#jen}\n    ',
-  choices: ['#invite-jen'],
-  snippets: {
-    jen: '\n      When <%-maria%> lived in SF, she used to work at a bar downtown. <%-jen%> was a drummer in one of the bands that came through,\n      and they\'ve been friends ever since.\n      '
-  }
-}, {
-  id: 'maybe-invite-jen', tags: ['invite-jen'],
-  optionText: "Last I heard, she moved to the East Bay.",
-  content: '\n    "Awesome! I\'m going to text her. I would love to see her again."\n    ',
-  choices: ['invite-jen']
-}, {
-  id: 'invite-jen',
-  optionText: "Sounds great!",
-  content: '\n    "OK. She\'ll be here at 7."\n\n    <% print(scheduleArrival(\'jen\', 1)) %>\n    ',
-  choices: ['advance-time']
-}]);
-// CONCATENATED MODULE: ./src/ld40/hour1.js
-// import _ from 'lodash';
-// import { ROOMS } from "./constants";
-
-/* harmony default export */ var hour1 = ([{
-  id: 'hour1',
-  content: '\n    # Please, Come In{.title}\n    ## A game for Ludum Dare 40 that I probably won\'t finish{.center}\n    ### by irskep and rbatistadelima{.center}\n\n    The theme of this jam is "The more you have, the worse it is." In _Please, Come In_, you\n    are hosting a party. Your guests keep inviting more people, and you are unable to say no.\n\n    Your goal is to make it to morning without property damage or lost friends.\n    ',
-  snippets: {
-    unfinished: 'I have 54 hours left, surely I will finish this, hehehe...'
-  },
-  choices: ['hour1b']
-}, {
-  id: 'hour1b',
-  autosave: true,
-  priority: 1,
-  optionText: 'Continue',
-  content: '\n    # 7:00pm\n\n    You\'ve all finished dinner.\n\n    <% getDrunker().forEach((line) => { %>\n    <%=line%>\n    <% }); %>\n\n    <% var guests = arrivingGuests(); %>\n    <% if (guests.length > 1) { %>\n      <%= chrs(\'and\', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else if (guests.length === 1) { %>\n      <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else { %>\n      No one else has shown up. Thank goodness!\n    <% } %>\n    ',
-  snippets: {},
-  choices: ['#newguests', '#freechoice']
-}]);
-// CONCATENATED MODULE: ./src/ld40/hour2.js
-// import _ from 'lodash';
-// import { ROOMS } from "./constants";
-
-/* harmony default export */ var hour2 = ([{
-  id: 'hour2',
-  content: '\n    # <%=time%>\n\n    Your roommate <%=liz%> is due home about now. You hope she doesn\'t overreact to the unexpected guests.\n    You\'ve all been hitting the wine quite a bit.\n\n    <% getDrunker().forEach((line) => { %>\n    <%=line%>\n    <% }); %>\n\n    <% var guests = arrivingGuests(); %>\n    <% if (guests.length > 1) { %>\n      <%= chrs(\'and\', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else if (guests.length === 1) { %>\n      <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality(\'room\')%>.\n      <% print(moveCharacter(\'player\', ROOMS.porch)) %>\n    <% } else { %>\n      No one else has shown up. Thank goodness!\n    <% } %>\n    ',
-  snippets: {},
-  choices: ['#newguests', '#freechoice']
-}]);
-// CONCATENATED MODULE: ./src/ld40/constants.js
-var ROOMS = {
-  porch: 'porch',
-  kitchen: 'kitchen',
-  dining: 'dining',
-  living: 'living',
-  bathroom: 'bathroom',
-  bedroom1: 'bedroom1',
-  bedroom2: 'bedroom2',
-  bedroomLiz: 'bedroom2',
-  bedroom3: 'bedroom3',
-  bedroomChris: 'bedroom3'
-};
-
-var ROOM_STATEMENTS = {
-  porch: 'on the front porch',
-  kitchen: 'in the kitchen',
-  dining: 'in the dining room',
-  living: 'in the living room',
-  bathroom: 'in the bathroom',
-  bedroom1: "in your room",
-  bedroom2: "in Liz's room",
-  bedroom3: "in Chris's room"
-};
-
-var ROOM_NAMES = {
-  porch: 'the front porch',
-  kitchen: 'the kitchen',
-  dining: 'the dining room',
-  living: 'the living room',
-  bathroom: 'the bathroom',
-  bedroom1: "your room",
-  bedroom2: "Liz's room",
-  bedroom3: "Chris's room"
-};
-
-
-// CONCATENATED MODULE: ./src/ld40/amy.js
-// import _ from 'lodash';
-
-
-/* harmony default export */ var amy = ([{
-  id: 'arrive-amy',
-  tags: ['newguests'],
-  priority: function priority(model) {
-    return model.character('amy').getQuality('room') === ROOMS.porch ? 10 : 0;
-  },
-  getCanSee: function getCanSee(model) {
-    return model.character('amy').getQuality('room') === ROOMS.porch;
-  },
-  optionText: 'Invite Amy inside',
-  content: '\n    <%=img(\'amy\')%>\n    "HIIIIII, IT\'S SO GOOD TO SEE YOUUUUUU!" <%=amy%> screams as she dives intensely into your arms for an overly-friendly hug.\n    "How have you BEEEEEN? You MUST let me see <%=maria%>!!!!!!!"\n\n    Without waiting for your answer, <%=amy%> rotates past you and scurries into the dining room.\n\n    <% print(moveCharacter(\'amy\', ROOMS.dining)) %>\n    ',
-  choices: ['#newguests', '#freechoice']
-}, {
-  id: 'amy-greet',
-  tags: ['room-dining'],
-  optionText: "Everyone is talking to Amy",
-  priority: 5,
-  getCanSee: function getCanSee(model, host, _ref) {
-    var totalVisits = _ref.totalVisits;
-
-    if (!model.charactersAreIn(ROOMS.dining, ['maria', 'amy', 'federico', 'kevin'])) return false;
-    if (totalVisits > 0) return false;
-    return true;
-  },
-  content: '\n    <%=amy%>, <%=maria%>, and <%=federico%> are excitedly catching up. Kevin\'s attention\n    is wavering, though; perhaps you\'re not the only one feeling bulldozed by Amy?\n\n    As you approach, Kevin gets up and intercepts you on your way to the table.\n\n    <%=img(\'kevin\')%>\n    "I forgot how much of a conversational tornado she can be," says Kevin.\n    ',
-  choices: ['#kevin-invites-via-amy']
-}, {
-  id: 'kevin-invites-people-1a',
-  tags: ['kevin-invites-via-amy'],
-  optionText: "Yeah. We should try to get rid of her.",
-  content: '\n    "Whoa, I didn\'t mean that! That would be so rude," says Kevin.\n\n    <%=stat(\'kevin\', \'friendliness\', -1)%>\n    \n    "Actually, I was thinking of calling for backup. I\'m going to text Blaine.\n    Don\'t worry, I\'ll have him stop at the liquor store on his way!"\n    ',
-  choices: ['kevin-invites-people-2a']
-}, {
-  id: 'kevin-invites-people-2a',
-  optionText: "Uh...",
-  content: '\n    "He\'ll be here in an hour!"\n\n    <% print(scheduleArrival(\'blaine\', globalState.hour + 1)) %>\n    ',
-  choices: ['#freechoice', '#room-dining']
-}, {
-  id: 'kevin-invites-people-1b',
-  tags: ['kevin-invites-via-amy'],
-  optionText: "She means well.",
-  content: '\n    "Yeah, you\'re right. Maybe we could redirect her a bit, though? There\'s\n    a woman I work with, <%=rachel%>, who is just as outgoing. I think I\'ll\n    text her and see if she wants to join us."\n    ',
-  choices: ['kevin-invites-people-2b']
-}, {
-  id: 'kevin-invites-people-2b',
-  optionText: "Y-yeah, such a good idea",
-  content: '\n    <% print(scheduleArrival(\'rachel\', globalState.hour + 1)) %>\n    ',
-  choices: ['#freechoice', '#room-dining']
-}]);
-// CONCATENATED MODULE: ./src/ld40/blaine.js
-// import _ from 'lodash';
-
-
-/* harmony default export */ var blaine = ([{
-  id: 'arrive-blaine',
-  tags: ['newguests'],
-  priority: function priority(model) {
-    return model.character('blaine').getQuality('room') === ROOMS.porch ? 10 : 0;
-  },
-  getCanSee: function getCanSee(model) {
-    return model.character('blaine').getQuality('room') === ROOMS.porch;
-  },
-  optionText: 'Invite Blaine inside',
-  content: '\n    <%=img(\'blaine\')%>\n\n    Blaine is waiting at the door. He\'s dressed nicely, but he gives off a vibe you don\'t like.\n\n    "Hey <%=pl%>, Kevin told me there\'d be some hot bitches here all night, I\n    hope my man wasn\'t bullshitting, because I brought a shitload of beer!"\n    ',
-  choices: ['#arrive-blaine-2']
-}, {
-  id: 'arrive-blaine-2a',
-  tags: ['arrive-blaine-2'],
-  optionText: "Ha ha...",
-  content: '\n    Kevin walks past you to the dining room without another word. By the smell\n    if his breath, you can tell he\'s got a head start on the beer.\n\n    <% print(moveCharacter(\'blaine\', ROOMS.dining)) %>\n    ',
-  choices: ['#newguests', '#freechoice']
-}, {
-  id: 'arrive-blaine-2b',
-  tags: ['arrive-blaine-2'],
-  optionText: "Yes, the ladies are fine",
-  content: '\n    "Right on!" Kevin walks past you to the dining room. By the smell\n    if his breath, you can tell he\'s got a head start on the beer.\n\n    <%=stat(\'blaine\', \'friendliness\', 2)%>\n    <% print(moveCharacter(\'blaine\', ROOMS.dining)) %>\n    ',
-  choices: ['#newguests', '#freechoice']
-}, {
-  id: 'arrive-blaine-2c',
-  tags: ['arrive-blaine-2'],
-  optionText: "Screw off, f******",
-  content: '\n    "F*** you." Kevin shoves past you to the dining room. By the smell\n    if his breath, you can tell he\'s got a head start on the beer.\n\n    <%=stat(\'blaine\', \'friendliness\', -1)%>\n    <% print(moveCharacter(\'blaine\', ROOMS.dining)) %>\n    ',
-  choices: ['#newguests', '#freechoice']
-}, {
-  id: 'blaine-greet',
-  tags: ['room-dining'],
-  optionText: "Blaine and Kevin are having a loud conversation",
-  priority: 5,
-  getCanSee: function getCanSee(model, host, _ref) {
-    var totalVisits = _ref.totalVisits;
-
-    if (!model.charactersAreIn(ROOMS.dining, ['blaine', 'kevin'])) return false;
-    if (totalVisits > 0) return false;
-    return true;
-  },
-  content: '\n    <%=blaine%> and <%=kevin%> are having some kind of ritual bro-greeting involving\n    fist bumps and back thumps. Despite all your years knowing Kevin, you\'ve never\n    seen this side of him.\n\n    Despite your initial impression, he does seem to add some positive energy to\n    the room.\n\n    <%=img(\'kevin\')%>  \n    After greeting <%=blaine%>, <%=kevin%> waves you over. "Hey <%=pl%>, I have to take\n    a wiz. Could you introduce <%=blaine%> to some people? Thanks!"\n\n    Kevin disappears before you can get a word in.\n\n    <% print(moveCharacter(\'kevin\', ROOMS.bathroom)); %>\n    <% scheduleTimer(1, \'@kevin-returns-from-the-bathroom\'); %>\n    ',
-  choices: ['#blaine-shenanigans']
-}, {
-  id: 'blaine-pickup',
-  tags: ['blaine-shenanigans'],
-  optionText: "Introduce Blaine to Liz",
-  getCanSee: function getCanSee(model, host, _ref2) {
-    var totalVisits = _ref2.totalVisits;
-
-    if (!model.charactersAreIn(ROOMS.dining, ['blaine', 'liz'])) return false;
-    if (totalVisits > 0) return false;
-    return true;
-  },
-  content: '\n    You introduce <%=blaine%> to <%=liz%>, but <%=liz%> is having none of it and gets rid of you both as soon as possible.\n    ',
-  choices: ['#blaine-shenanigans']
-}, {
-  id: 'blaine-intro-jen',
-  tags: ['blaine-shenanigans'],
-  optionText: "Introduce Blaine to Jen",
-  getCanSee: function getCanSee(model, host, _ref3) {
-    var totalVisits = _ref3.totalVisits;
-
-    if (!model.charactersAreIn(ROOMS.dining, ['blaine', 'jen'])) return false;
-    if (totalVisits > 0) return false;
-    return true;
-  },
-  content: '\n    You introduce <%=blaine%> to <%=jen%>. He immediately hits on her, and she shuts him down\n    hard.\n\n    <%=img(\'jen\')%>\n    Since <%=kevin%> isn\'t here, she glares at you instead. "Why did you even let him in?"\n    she says.\n\n    <%=stat(\'jen\', \'friendliness\', -1)%>\n    ',
-  choices: ['#room-dining', '#freechoice']
-}, {
-  id: 'blaine-intro-maria',
-  tags: ['blaine-shenanigans'],
-  optionText: "Introduce Blaine to Maria",
-  getCanSee: function getCanSee(model, host, _ref4) {
-    var totalVisits = _ref4.totalVisits;
-
-    if (!model.charactersAreIn(ROOMS.dining, ['blaine', 'maria'])) return false;
-    if (totalVisits > 0) return false;
-    return true;
-  },
-  content: '\n    You introduce <%=blaine%> to <%=maria%>. He immediately hits on her, and she looks really\n    uncomfortable. She mumbles something in response and tries to get back to her conversation\n    with <%=jenOrAmyName%>.\n\n    <%=stat(\'maria\', \'energy\', -1)%>\n\n    A few minutes later, <%=jenOrAmyName%> whispers to you angrily, "Why did you even let him in?"\n\n    <%=stat(jenOrAmyId, \'friendliness\', -1)%>\n    ',
-  choices: ['#room-dining', '#freechoice']
-}, {
-  id: 'blaine-intro-amy',
-  tags: ['blaine-shenanigans'],
-  optionText: "Introduce Blaine to Amy",
-  getCanSee: function getCanSee(model, host, _ref5) {
-    var totalVisits = _ref5.totalVisits;
-
-    if (!model.charactersAreIn(ROOMS.dining, ['blaine', 'amy'])) return false;
-    if (totalVisits > 0) return false;
-    return true;
-  },
-  content: '\n    You introduce <%=blaine%> to <%=amy%>. He immediately hits on her, and she shuts him down\n    hard.\n\n    <%=img(\'amy\')%>\n    Since <%=kevin%> isn\'t here, she glares at you instead. "Why did you even let him in?"\n    she says.\n\n    <%=stat(\'amy\', \'friendliness\', -1)%>\n    ',
-  choices: ['#room-dining', '#freechoice']
-}, {
-  id: 'blaine-intro-federico',
-  tags: ['blaine-shenanigans'],
-  optionText: "Introduce Blaine to Federico",
-  getCanSee: function getCanSee(model, host, _ref6) {
-    var totalVisits = _ref6.totalVisits;
-
-    if (!model.charactersAreIn(ROOMS.dining, ['blaine', 'federico'])) return false;
-    if (totalVisits > 0) return false;
-    return true;
-  },
-  contents: '\n    You introduce <%=blaine%> to <%=federico%>. They immedialy begin bonding over Magic: the Gathering.\n    ',
-  choices: ['#room-dining', '#freechoice']
-}]);
-// CONCATENATED MODULE: ./src/ld40/kevin.js
-// import _ from 'lodash';
-// import { ROOMS } from "./constants";
-
-/* harmony default export */ var kevin = ([{
-  id: 'kevin-returns-from-the-bathroom',
-  choices: ['#freechoice', '#newguests'],
-  content: '\n    <%=kevin%> finally returns from the bathroom after, like, an hour. You don\'t ask questions.\n\n    <%=stat(\'kevin\',\'energy\',-1)%>\n    '
-}]);
-// CONCATENATED MODULE: ./src/ld40/liz.js
-// import _ from 'lodash';
-
-
-/* harmony default export */ var liz = ([{
-  id: 'arrive-liz',
-  tags: ['newguests'],
-  priority: function priority(model) {
-    return model.character('liz').getQuality('room') === ROOMS.porch ? 10 : 0;
-  },
-  getCanSee: function getCanSee(model) {
-    return model.character('liz').getQuality('room') === ROOMS.porch;
-  },
-  optionText: 'Greet Liz',
-  content: '\n    "Um, what the hell, <%=pl%>?" Liz, your quiet roommate, wastes no time in\n    berating you. "You told me you\'d have a couple of people over for dinner,\n    but now it\'s <%=time%> and there are <%=numGuests - 2%> people here.\n    [It\'s way out of control.](>write:introvert)"\n    ',
-  choices: ['#arrive-liz-2'],
-  snippets: {
-    introvert: '\n      Liz is a hardcore introvert. She spends most of her time in her room, avoiding\n      you and Chris. Her definition of "out of control" is pretty mild.\n      '
-  }
-}, {
-  id: 'arrive-liz-2a',
-  tags: ['arrive-liz-2'],
-  optionText: 'Yeah, I know. Things have kind of snowballed. But please help yourself to the wine!',
-  choices: ['#newguests', '#freechoice'],
-  content: '\n    "Wine, you say? I guess I\'m in." Liz is a fan of wine.\n\n    <%= stat(\'liz\', \'drunkenness\', 1) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.dining)) %>\n    '
-}, {
-  id: 'arrive-liz-2b',
-  tags: ['arrive-liz-2'],
-  optionText: 'Come on, it\'s not that bad.',
-  choices: ['#newguests', '#freechoice'],
-  content: '\n    "Whatever." She stalks past you, beelining for her room.\n\n    <%= stat(\'liz\', \'friendliness\', -1) %>\n\n    <% print(moveCharacter(\'liz\', ROOMS.bedroomLiz)) %>\n    '
-}]);
-// CONCATENATED MODULE: ./src/ld40/jen.js
-// import _ from 'lodash';
-
-
-/* harmony default export */ var jen = ([{
-  id: 'arrive-jen',
-  tags: ['newguests'],
-  priority: function priority(model) {
-    return model.character('jen').getQuality('room') === ROOMS.porch ? 10 : 0;
-  },
-  getCanSee: function getCanSee(model) {
-    return model.character('jen').getQuality('room') === ROOMS.porch;
-  },
-  optionText: 'Invite Jen inside',
-  content: '\n    <%=img(\'jen\')%>\n    <%=jen%> is leaning against your porch railing in a beat-up leather jacket.\n\n    "Hey," she says.\n\n    "Hey," you say. "<%=maria%>\'s in the dining room, want to come in?\n\n    "Sure," she says.\n\n    You both walk inside.\n\n    <% print(moveCharacter(\'jen\', ROOMS.dining)) %>\n    ',
-  choices: ['#newguests', '#freechoice']
-}, {
-  id: 'jen-greet',
-  tags: ['room-dining'],
-  optionText: "Jen and Maria are catching up",
-  priority: 5,
-  getCanSee: function getCanSee(model, host, _ref) {
-    var totalVisits = _ref.totalVisits;
-
-    if (model.character('jen').getQuality('room') !== ROOMS.dining) return false;
-    if (totalVisits > 0) return false;
-    return true;
-  },
-  content: '\n    Back in the dining room, <%=maria%> is asking <%=jen%> about what she\'s been up to.\n    They seem to be getting on well.\n\n    You all talk for a while. Everything is going great, but <%=kevin%> starts to look bored.\n    You see him texting for a few minutes, then he turns to face you.\n\n    <%=img(\'kevin\')%>\n    "Hey man, you feeling left out too?"\n    ',
-  choices: ['#kevin-invites-via-jen']
-}, {
-  id: 'kevin-invites-people-3a',
-  tags: ['kevin-invites-via-jen'],
-  optionText: "Yeah, listening to these girls yap is exhausting.",
-  content: '\n    "Yeah man I get it. Hey, I\'ve been texting my buddy Blaine. He\'s coming over and\n    stopping at the liquor store on his way."\n    ',
-  choices: ['kevin-invites-people-2a']
-}, {
-  id: 'kevin-invites-people-4a',
-  optionText: "Uh...",
-  content: '\n    "He\'ll be here in an hour!"\n\n    <% print(scheduleArrival(\'blaine\', globalState.hour + 1)) %>\n    ',
-  choices: ['#freechoice', '#room-dining']
-}, {
-  id: 'kevin-invites-people-3b',
-  tags: ['kevin-invites-via-jen'],
-  optionText: "Yeah, we should mix it up.",
-  content: '\n    There\'s a woman I work with, <%=rachel%>, who is just as outgoing. I think I\'ll\n    text her and see if she wants to join us."\n    ',
-  choices: ['kevin-invites-people-2b']
-}, {
-  id: 'kevin-invites-people-4b',
-  optionText: "Sounds good!",
-  content: '\n    <% print(scheduleArrival(\'rachel\', globalState.hour + 1)) %>\n    ',
-  choices: ['#freechoice', '#room-dining']
-}]);
-// CONCATENATED MODULE: ./src/ld40/rachel.js
-// import _ from 'lodash';
-
-
-/* harmony default export */ var rachel = ([{
-  id: 'arrive-rachel',
-  tags: ['newguests'],
-  priority: function priority(model) {
-    return model.character('rachel').getQuality('room') === ROOMS.porch ? 10 : 0;
-  },
-  getCanSee: function getCanSee(model) {
-    return model.character('rachel').getQuality('room') === ROOMS.porch;
-  },
-  optionText: 'Invite Rachel inside',
-  content: '\n    <%=img(\'rachel\')%>\n\n    "HELLO!" yells Rachel, a person you have never met before, as she tumbles down the gravity well\n    of your personal space into an intense but awkward and unexpected hug. "Kevin told me about\n    this party, I can\'t wait to meet everyone!"\n\n    So it\'s a party now.\n    ',
-  choices: ['arrive-rachel-2']
-}, {
-  id: 'arrive-rachel-2',
-  optionText: 'Come on in',
-  content: '\n    <% print(moveCharacter(\'rachel\', ROOMS.dining)) %>\n    ',
-  choices: ['#newguests', '#freechoice']
-}, {
-  id: 'rachel-greet',
-  tags: ['room-dining'],
-  optionText: "Rachel is getting to know everyone",
-  priority: 5,
-  getCanSee: function getCanSee(model, host, _ref) {
-    var totalVisits = _ref.totalVisits;
-
-    if (model.character('rachel').getQuality('room') !== ROOMS.dining) return false;
-    if (totalVisits > 0) return false;
-    return true;
-  },
-  content: '\n    <%=img(\'rachel\')%>\n    Back in the dining room, <%=rachel%> is excitedly greeting everyone. They all stay happily\n    occupied for the next hour.\n    ',
-  choices: ['#newguests', '#freechoice']
-}]);
-// EXTERNAL MODULE: ./node_modules/babel-runtime/helpers/defineProperty.js
-var defineProperty = __webpack_require__("bOdI");
-var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
-
-// CONCATENATED MODULE: ./src/ld40/util.js
-
-
-
-
-
-function addHelpersToModel(model) {
-  // Define some helpers for rendering text and doing stuff, so we have to write as little JS as possible
-  // in the content field
-
-  model.extend({
-    ROOMS: ROOMS,
-
-    // Print some text in the style of a character name
-    chr: function chr(name) {
-      return '*' + name + '*{.character}';
-    },
-
-    img: function img(id) {
-      return '![' + id + ' image](./static/headshots/' + id + '.png){.headshot}';
-    },
-
-    // Format an hour 0-??? as "X:00pm/am", where 0 = 6pm.
-    formatTime: function formatTime(hour) {
-      hour = (18 + hour) % 24;
-      var amPm = hour > 12 ? 'pm' : 'am';
-      if (amPm === 'pm') hour -= 12;
-      return (hour || 12) + ':00' + amPm;
-    },
-
-    // Print a list of things, styled as character names.
-    chrs: function chrs(conj) {
-      for (var _len = arguments.length, names = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        names[_key - 1] = arguments[_key];
-      }
-
-      if (lodash_default.a.isArray(names[0])) {
-        names = names[0].map(function (n) {
-          return '*' + n + '*{.character}';
-        });
-      } else {
-        names = names.map(function (n) {
-          return '*' + n + '*{.character}';
-        });
-      }
-      if (names.length < 1) return '';
-      if (names.length === 1) return names[0];
-      if (names.length === 2) return names[0] + ' ' + conj + ' ' + names[1];
-      return lodash_default.a.initial(names).join(', ') + ', ' + conj + ' ' + lodash_default.a.last(names);
-    },
-
-    // Adjust a character quality by the given amount.
-    stat: function stat(chr, q, amt) {
-      chr = model.character(chr);
-      chr.addToQuality(q, amt);
-      var amtStr = amt > 0 ? '+' + amt : amt;
-      return '`' + chr.name + ' ' + chr.formatQualityName(q) + ' ' + amtStr + '`{.stat}';
-    },
-
-    // Schedule a character for later arrival.
-    scheduleArrival: function scheduleArrival(id, hour) {
-      model.globalState.scheduledArrivals.push({ id: id, hour: hour });
-      return '> ' + model.chr(model.character(id).name) + ' is scheduled to arrive at ' + model.formatTime(hour) + '.';
-    },
-
-    // Schedule a character for later arrival.
-    scheduleTimer: function scheduleTimer(hoursDelta, string) {
-      model.globalState.scheduledGotos.push({ hour: model.globalState.hour + hoursDelta, string: string });
-    },
-
-    // Move a character into a room.
-    moveCharacter: function moveCharacter(id, room) {
-      model.character(id).setQuality('room', room);
-      if (id === 'player') return '';
-      return '> ' + model.chr(model.character(id).name) + ' is ' + ROOM_STATEMENTS[room] + '.';
-    },
-
-    // Returns the list of guests who have just arrived. Assigns their room to 'porch'.
-    arrivingGuests: function arrivingGuests() {
-      var chars = model.globalState.scheduledArrivals.filter(function (_ref) {
-        var hour = _ref.hour;
-        return model.globalState.hour >= hour;
-      }).map(function (_ref2) {
-        var id = _ref2.id;
-        return model.character(id);
-      });
-
-      model.globalState.scheduledArrivals = model.globalState.scheduledArrivals.filter(function (_ref3) {
-        var hour = _ref3.hour;
-        return hour > model.globalState.hour;
-      });
-
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = get_iterator_default()(chars), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var c = _step.value;
-
-          c.setQuality('room', ROOMS.porch);
-          c.showInSidebar = true;
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-
-      return chars;
-    },
-
-    charactersIn: function charactersIn(room) {
-      return model.allCharacters.filter(function (c) {
-        return c.getQuality('room') === room;
-      });
-    },
-
-    charactersAreIn: function charactersAreIn(room, chars) {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
-
-      try {
-        for (var _iterator2 = get_iterator_default()(chars), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var c = _step2.value;
-
-          if (model.character(c).getQuality('room') !== room) return false;
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
-      }
-
-      return true;
-    },
-
-    // Everyone in the dining room gets drunker. Returns list of strings to dump.
-    getDrunker: function getDrunker() {
-      return model.allCharacters.filter(function (c) {
-        return c.getQuality('room') === ROOMS.dining;
-      }).map(function (c) {
-        return model.stat(c.id, 'drunkenness', 1);
-      });
-    }
-  });
-
-  // aliases
-  model.extend({
-    populatePorch: model.arrivingGuests
-  });
-
-  model.addTemplateGetters({
-    // write <%=time%> to print the current time.
-    time: function time() {
-      return model.formatTime(model.globalState.hour);
-    },
-
-    // write <%=pl%> to print the player's name.
-    pl: function pl() {
-      return '*' + model.character('player').name + '*{.character}';
-    },
-
-    numGuests: function numGuests() {
-      return model.allCharacters.filter(function (c) {
-        return c.getQuality('room');
-      }).length;
-    },
-
-    // "Lost friend" starts at least 4, ends at most 2
-    numLostFriends: function numLostFriends() {
-      return model.allCharacters.filter(function (c) {
-        if (c.id === 'player') return false;
-        return c.getQuality('friendliness') < 3 && c.getQualityInitial('friendliness') >= 4;
-      }).length;
-    },
-
-    // "Gained friend" just has to get to 4
-    numNewFriends: function numNewFriends() {
-      return model.allCharacters.filter(function (c) {
-        if (c.id === 'player') return false;
-        return c.getQuality('friendliness') >= 4 && c.getQualityInitial('friendliness') < 4;
-      }).length;
-    },
-
-    jenOrAmyName: function jenOrAmyName() {
-      return model.character('jen').getQuality('room') === ROOMS.dining ? model.chr('Jen') : model.chr('Amy');
-    },
-
-    jenOrAmyId: function jenOrAmyId() {
-      return model.character('jen').getQuality('room') === ROOMS.dining ? 'jen' : 'amy';
-    }
-  });
-
-  var _loop = function _loop(c) {
-    // write<%=<CHARACTER ID>%> to print that character's name.
-    model.addTemplateGetters(defineProperty_default()({}, c.id, function () {
-      return model.chr(c.name);
-    }));
-  };
-
-  var _iteratorNormalCompletion3 = true;
-  var _didIteratorError3 = false;
-  var _iteratorError3 = undefined;
-
-  try {
-    for (var _iterator3 = get_iterator_default()(model.allCharacters), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-      var c = _step3.value;
-
-      _loop(c);
-    }
-  } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion3 && _iterator3.return) {
-        _iterator3.return();
-      }
-    } finally {
-      if (_didIteratorError3) {
-        throw _iteratorError3;
-      }
-    }
-  }
-};
-
-
-// CONCATENATED MODULE: ./src/ld40/index.js
-
-// import _ from 'lodash';
-
-
-
-
-
-
-
-
-
-
-
-
-var importedSituations = [].concat(toConsumableArray_default()(hour0), toConsumableArray_default()(hour1), toConsumableArray_default()(hour2), toConsumableArray_default()(amy), toConsumableArray_default()(liz), toConsumableArray_default()(jen), toConsumableArray_default()(blaine), toConsumableArray_default()(rachel), toConsumableArray_default()(kevin));
-
-function standardQualities() {
-  var room = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { friendliness: 5, drunkenness: 0, energy: 5 };
-
-  return {
-    core: {
-      room: {
-        type: 'namedChoice',
-        labelMap: ROOM_STATEMENTS,
-        name: 'Location',
-        priority: 0,
-        initialValue: room
-      },
-      friendliness: {
-        type: 'wordScale',
-        words: ['enemy', 'stranger', 'acquaintance', 'friend', 'bestie'],
-        offset: -1,
-        name: "Friendliness",
-        priority: 1,
-        initialValue: opts.friendliness || 5
-      },
-      drunkenness: {
-        type: 'wordScale',
-        words: ['sober', 'buzzed', 'tipsy', 'drunk', 'wasted'],
-        name: "Drunkenness",
-        priority: 2,
-        initialValue: opts.drunkenness || 0
-      },
-      energy: {
-        type: 'integer',
-        name: "Energy level",
-        priority: 3,
-        initialValue: opts.energy || 5
-      }
-    }
-  };
-};
-
-/* harmony default export */ var ld40 = ({
-  id: 'my-game',
-  navHeader: "\n      # Please, Come In\n\n      Made for [Ludum Dare 40](https://ldjam.com) with\n      [Jumbo Grove](https://github.com/irskep/jumbogrove)\n\n      [Reset game](>resetGame)\n  ",
-  asideHeader: "\n  # Time: <%-time%>\n\n  **Your location:** <%=model.player.formatQuality('room')%>\n  ",
-  globalState: {
-    hour: 0,
-    scheduledArrivals: [{ id: 'liz', hour: 2 }, { id: 'chris', hour: 3 }],
-    scheduledGotos: [],
-    propertyDamage: 0,
-    numRoomsVisitedThisHour: 0
-  },
-
-  characters: [{ id: 'player', showInSidebar: false, qualities: standardQualities(ROOMS.dining) }, { id: 'maria', name: 'Maria', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'kevin', name: 'Kevin', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'federico', name: 'Federico', qualities: standardQualities(ROOMS.dining), showInSidebar: true }, { id: 'amy', name: 'Amy', qualities: standardQualities(null, { friendliness: 4 }), showInSidebar: false }, { id: 'jen', name: 'Jen', qualities: standardQualities(), showInSidebar: false }, { id: 'liz', name: 'Liz', qualities: standardQualities(null, {}), showInSidebar: false }, { id: 'chris', name: 'Chris', qualities: standardQualities(null, { drunkenness: 2 }), showInSidebar: false }, { id: 'rachel', name: 'Rachel', qualities: standardQualities(), showInSidebar: false }, { id: 'blaine', name: 'Blaine', qualities: standardQualities(null, { drunkenness: 2, friendliness: 2 }), showInSidebar: false }],
-
-  init: function init(model, ui, md) {
-    addHelpersToModel(model);
-  },
-
-  willEnter: function willEnter(model, ui, oldSituationId, newSituationId) {
-    if (oldSituationId) {
-      // ui.logHTML('<hr>');
-    }
-    return true;
-  },
-  situations: [].concat(toConsumableArray_default()(importedSituations), [{
-    id: 'advance-time',
-    optionText: 'Hang out',
-    tags: ['freechoice'],
-    priority: 0,
-    autosave: true,
-    willEnter: function willEnter(model, ui) {
-      model.globalState.hour += 1;
-      model.globalState.numRoomsVisitedThisHour = 0;
-
-      if (model.globalState.hour >= 6) {
-        model.do("@ending-ok");
-        return false;
-      }
-
-      for (var i = 0; i < model.globalState.scheduledGotos.length; i++) {
-        var _model$globalState$sc = model.globalState.scheduledGotos[i],
-            hour = _model$globalState$sc.hour,
-            string = _model$globalState$sc.string;
-
-        if (hour <= model.globalState.hour) {
-          model.globalState.scheduledGotos.splice(i, 1);
-          model.do(string);
-          return false;
-        }
-      }
-
-      var sid = "hour" + model.globalState.hour;
-      if (model.situation(sid)) {
-        model.do("@" + sid);
-        return false;
-      } else {
-        return true;
-      }
-    },
-    content: "\n      An hour passes.\n\n      # <%=time%>\n\n      <% var guests = arrivingGuests(); %>\n      <% if (guests.length > 1) { %>\n        <%= chrs('and', guests.map((c) => c.name)) %> have arrived and are waiting <%=guests[0].formatQuality('room')%>.\n        <% print(moveCharacter('player', ROOMS.porch)) %>\n      <% } else if (guests.length === 1) { %>\n        <%= chr(guests[0].name) %> has arrived and is waiting <%=guests[0].formatQuality('room')%>.\n        <% print(moveCharacter('player', ROOMS.porch)) %>\n      <% } else { %>\n        No one else has shown up. Thank goodness!\n      <% } %>\n      ",
-    choices: ['#freechoice', '#newguests']
-  }, {
-    id: 'ending-ok',
-    optionText: 'If you see this text, it is a bug',
-    priority: 0,
-    content: "\n      An hour passes.\n\n      # <%=time%>\n\n      It is <%=time%>, and everyone has either gone home, gone to bed, or passed out.\n\n      # The End\n\n      > You have reached the end of the content I was able to create for the jam. The consequences\n      are likely underwhelming, but I hope you were a little bit entertained!\n      > -Steve\n\n      # How you did\n\n      <% if (model.globalState.propertyDamage === 0) { %>\n      Your flat is, miraculously, still in pristine condition.\n      <% } else if (model.globalState.propertyDamage <= 3) { %>\n      Your flat is a little messy, but it's nothing you can't clean up in the morning.\n      <% } else if (model.globalState.propertyDamage <= 6) { %>\n      Your flat is pretty messy. It's going to take you all day to clean up tomorrow, and some things are\n      permanently stained or broken.\n      <% } else { %>\n      Your flat is a total disaster. Things are broken, stained, outright stolen, and in complete disarray.\n      You are likely to be evicted.\n      <% } %>\n\n      You lost <%=numLostFriends%> friends.\n\n      You gained <%=numNewFriends%> friends.\n\n      [Restart](>resetGame)\n\n      "
-  }, {
-    id: 'advance-time-fallback',
-    tags: ['freechoice'],
-    getCanSee: function getCanSee(model) {
-      return model.globalState.numRoomsVisitedThisHour >= 3;
-    },
-    optionText: 'Hang out for an hour',
-    priority: 1, // match room situations below
-    willEnter: function willEnter(model) {
-      model.goTo('advance-time');
-      return false;
-    }
-  }], toConsumableArray_default()(['dining', 'porch'].map(function (n) {
-    return {
-      id: "go-to-" + n,
-      tags: ['freechoice'],
-      priority: 1,
-      getCanSee: function getCanSee(model) {
-        return model.charactersIn(n).length > 0 && model.player.getQuality('room') !== n;
-      },
-      optionText: "Go to " + ROOM_NAMES[n],
-      content: "\n        You go to " + ROOM_NAMES[n] + ".\n\n        <% print(moveCharacter('player', '" + n + "')) %>\n        ",
-      enter: function enter(model) {
-        model.globalState.numRoomsVisitedThisHour += 1;
-      },
-      choices: ["#room-" + n, '#freechoice']
-    };
-  })))
-});
 // CONCATENATED MODULE: ./src/main.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "run", function() { return main_run; });
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "jumbogrove", function() { return main_jumbogrove; });
+/** @module jumbogrove */
 
 
 
@@ -3075,7 +2880,19 @@ vue_esm["a" /* default */].config.productionTip = false;
 
 /* eslint-disable no-new */
 
-var main_run = function run(selector, data) {
+/**
+ * The main entry point for Jumbo Grove.
+ * 
+ * @example
+ * import { jumbogrove } from 'jumbogrove';
+ * jumbogrove('#game', {
+ *  // your game here
+ * });
+ * 
+ * @param {string} selector A CSS selector for the element you want the story to be rendered in.
+ * @param {object} data Your story
+ */
+var main_jumbogrove = function jumbogrove(selector, data) {
   var director = new jg(data);
   var ui = new vueui();
   director.bindToUI(ui);
@@ -3087,13 +2904,9 @@ var main_run = function run(selector, data) {
   });
 };
 
-window.JumboGrove = {
-  run: main_run
+window.jumbogrove = {
+  jumbogrove: main_jumbogrove
 };
-
-if (window.jumboGroveExample) {
-  main_run(window.jumboGroveExample, ld40);
-}
 
 
 
@@ -3120,7 +2933,7 @@ if (window.jumboGroveExample) {
 
 /***/ }),
 
-/***/ "prTG":
+/***/ "ezzm":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -3128,4 +2941,4 @@ if (window.jumboGroveExample) {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.faf05fb04ea42597c87e.js.map
+//# sourceMappingURL=app.2326a806b605e633bbde.js.map
