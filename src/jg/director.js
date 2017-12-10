@@ -45,6 +45,11 @@ class JumboGroveDirector {
         initialSituation = 'start', 
         navHeader = '',
         asideHeader = '',
+        showNav = true,
+        showAside = true,
+        defaultStylesheet = true,
+        autoScroll = true,
+        autoMoveFocus = true,
         globalState = {},
         characters = [],
         situations = [],
@@ -67,7 +72,8 @@ class JumboGroveDirector {
         if (!id) throw new Error("You must provide an id"); 
         Object.assign(this, {
             id, willEnter, didEnter, willExit, didExit, willAct, didAct,
-            navHeader, asideHeader, init,
+            navHeader, asideHeader, init, showNav, showAside, defaultStylesheet, autoScroll,
+            autoMoveFocus,
         });
         this.modelArgs = {characters, globalState, situations, initialSituation, version};
 
@@ -178,7 +184,7 @@ class JumboGroveDirector {
     }
 
     handleCommand(cmd) {
-        console.log(cmd);
+        // console.log(cmd);
         switch (cmd.type) {
         case commands.runAction.name:
             this.runAction(cmd.name, cmd.args);
@@ -256,8 +262,8 @@ class JumboGroveDirector {
         this.didEnter(this.model, this.ui, previousId, id);
     }
 
-    focusNextElement() { focusNextElement(); }
-    focusPreviousElement() { focusPreviousElement(); }
+    focusNextElement() { if (this.autoMoveFocus) focusNextElement(); }
+    focusPreviousElement() { if (this.autoMoveFocus) focusPreviousElement(); }
 }
 
 function parseAction(s) {

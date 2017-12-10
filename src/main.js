@@ -24,11 +24,12 @@ const jumbogrove = (selector, data) => {
   const director = new JumboGroveDirector(data);
   const ui = new VueUI();
   director.bindToUI(ui);
+  const existingClasses = document.querySelector(selector).className;
   new Vue({
     el: selector,
-    template: '<App :director="director" :ui="ui" />',
+    template: '<App :director="director" :ui="ui" :class="existingClasses" />',
     components: { App },
-    data: {director, ui},
+    data: {director, ui, existingClasses},
   });
 };
 

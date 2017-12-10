@@ -36,6 +36,36 @@ class game {
         this.initialSituation = 'start';
 
         /**
+         * If you set this to `false`, the left sidebar will not be shown.
+         * Default `true`.
+         * @type {Boolean}
+         */
+        this.showNav = true;
+
+        /**
+         * If you set this to `false`, the right sidebar will not be shown.
+         * Default `true`.
+         * @type {Boolean}
+         */
+        this.showAside = true;
+
+        /**
+         * If you set this to `false`, fewer styles will be applied to
+         * the HTML.
+         * Default `true`.
+         * @type {Boolean}
+         */
+        this.defaultStylesheet = true;
+
+        /**
+         * If you set this to `false`, the browser will not scroll as new text
+         * is added.
+         * Default `true`.
+         * @type {Boolean}
+         */
+        this.autoScroll = true;
+
+        /**
          * The Markdown string you want to show at the top of the left sidebar.
          * @type {string}
          */

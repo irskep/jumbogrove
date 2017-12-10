@@ -1,7 +1,5 @@
 /** @ignore */
 function bindGamepad(director) {
-  console.log(navigator.getGamepads()[0]);
-
   const selectActiveElement = () => {
     if (document.activeElement) document.activeElement.click();
   };

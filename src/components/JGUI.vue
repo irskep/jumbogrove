@@ -1,13 +1,19 @@
 <template>
-  <div class="JGUI">
-    <JGNav :model="model"></JGNav>
+  <div :class="{
+    'JGUI': true,
+    }">
+    <JGNav v-if="director.showNav" :model="model"></JGNav>
     <article>
       <hgroup>
         <component
           v-for="item in ui.content"
           :is="ui.componentMap[item.type]"
           :key="item.id"
-          :class="{ 'm-active': item.id === currentItemId, 'm-inactive': item.id !== currentItemId, 'm-active-group': item.groupId == ui.currentGroupId }"
+          :class="{
+            'm-active': item.id === currentItemId,
+            'm-inactive': item.id !== currentItemId,
+            'm-active-group': item.groupId == ui.currentGroupId,
+          }"
           :isActive="item.id === currentItemId"
           :isActiveGroup="item.groupId === ui.currentGroupId"
           :item="item"
@@ -15,9 +21,9 @@
           :ui="ui">
         </component>
       </hgroup>
-      <div class="JGUIScrollSpacer"></div>
+      <div v-if="director.autoScroll" class="JGUIScrollSpacer"></div>
     </article>
-    <JGAside :model="model"></JGAside>
+    <JGAside  v-if="director.showAside" :model="model"></JGAside>
   </div>
 </template>
 
@@ -50,6 +56,7 @@ export default {
   },
   watch: {
     currentItemId: function() {
+      if (!this.director.autoScroll) return;
       this.$nextTick(() => {
         const topEl = _.first(document.querySelectorAll('.m-active-group'));
         const bottomEl = _.last(document.querySelectorAll('.m-active-group'));

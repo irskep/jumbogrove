@@ -87,6 +87,8 @@ export default {
       if (itemId !== this.item.id) return;
       this.writerOutputs.push(html);
       this.$nextTick(() => {
+        this.bindLinks(this.getManagedAnchors(this.$el));
+        if (!this.director.autoScroll) return;
         this.doAnimations();
         const bottomEl = _.last(document.querySelectorAll('.m-addition'));
         if (!bottomEl) return;

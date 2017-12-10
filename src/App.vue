@@ -1,5 +1,8 @@
 <template>
-  <div class="JumboGrove">
+  <div :class="{
+    'JumboGrove': true,
+    'jg-default-styles': director.defaultStylesheet
+  }">
     <JGUI :director="director" :ui="ui"></JGUI>
   </div>
 </template>
@@ -14,44 +17,47 @@ export default {
 </script>
 
 <style lang="scss">
-h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
 
-h2 {
-  font-size: 1.5rem;
-  font-weight: normal;
-}
+.jg-default-styles {
+  h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
 
-h3 {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
+  h2 {
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
 
-h4 {
-  font-size: 1.2rem;
-  font-weight: normal;
-}
+  h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
 
-// don't make safari zoom in on text fields
-input,
-input[type=text],
-input[type=number],
-textarea {
-  font-size: 18px;  // min is 16
-}
+  h4 {
+    font-size: 1.2rem;
+    font-weight: normal;
+  }
 
-blockquote {
-  font-style: italic;
-  color: #888;
-}
+  // don't make safari zoom in on text fields
+  input,
+  input[type=text],
+  input[type=number],
+  textarea {
+    font-size: 18px;  // min is 16
+  }
 
-.JumboGrove {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  blockquote {
+    font-style: italic;
+    color: #888;
+  }
+
+  &.JumboGrove {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+  }
 }
 
 .JumboGrove .JGUI > nav {
@@ -182,59 +188,9 @@ blockquote {
   }
 }
 
-.JumboGrove .m-disabled-link {
-  &.m-unavailable {
-    // text-decoration: line-through;
-    // opacity: 0.5;
-  }
-}
-
 .JGUIScrollSpacer {
   height: 2000px;
 }
-.m-active {
-  // background-color: #fffacc;
-}
-.m-active-group {
-  // background-color: #fffaee;
-}
 
-// ld40 stuff
-.JumboGrove aside ul {
-  li {
-    list-style-type: none;
-  }
-}
-.center {text-align: center;}
-.title {
-  text-align: center;
-  border-top: 1px solid black;
-  padding-top: 1rem;
-  font-size: 2rem;
-}
-.character {
-  font-style: normal;
-  font-weight: bold;
-}
-.stat {
-  background-color: #ffd;
-}
-a:focus {
-  background-color: #ddf;
-}
 
-// pixel art!
-img.headshot {
-    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
-    image-rendering: -moz-crisp-edges;          /* Firefox                        */
-    image-rendering: -o-crisp-edges;            /* Opera                          */
-    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
-    image-rendering: pixelated; /* Chrome */
-    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
-    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
-
-    display: block;
-    margin: auto;
-    width: 64px; height: 64px;
-}
 </style>

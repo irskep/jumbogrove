@@ -47,7 +47,6 @@ export default {
   data: function() { return {isOpen: false}; },
   methods: {
     onToggleVisibility: function() {
-      console.log("Go")
       this.isOpen = !this.isOpen;
     },
   },
