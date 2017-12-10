@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/jg/gameformat/game.js | Jumbo Grove</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/irskep/jumbogrove"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-jumbogrove">jumbogrove</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg">jg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/character.js~Character.html">Character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html">ui</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/model.js~model.html">model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/situation.js~Situation.html">Situation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://github.com/markdown-it/markdown-it">MarkdownIt</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-gameformat">jg/gameformat</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/character.js~character.html">character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html">game</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/situation.js~situation.html">situation</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-qualities">jg/qualities</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-flag">flag</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fudgeAdjective">fudgeAdjective</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-qualities">qualities</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-integer">integer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-namedChoice">namedChoice</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-nonZeroInteger">nonZeroInteger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-onOff">onOff</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-raw">raw</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-wordScale">wordScale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-yesNo">yesNo</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/jg/gameformat/game.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * The object you pass to the {@link jumbogrove} function.
+ * 
+ * @example
+ * const game = {
+ *     id: &apos;jg-example&apos;,
+ *     version: 1,
+ *     globalState: {
+ *         aliensHaveInvaded: false,
+ *     },
+ *     willEnter: (model, ui, previousId, nextId) =&gt; {
+ *         console.log(&quot;Transitioning from&quot;, previousId, &quot;to&quot;, nextId);
+ *     },
+ * };
+ * jumbogrove(&apos;#app&apos;, game);
+ */
+class game {
+    /** @ignore */
+    constructor() {
+        /**
+         * An ID unique to your game. Used to determine save location.
+         * @type {string}
+         */
+        this.id = null;
+
+        /**
+         * The current version of your game. Used to determine save location.
+         * @type {number}
+         */
+        this.version = null;
+
+        /**
+         * The ID of the first situation you want to show the player.
+         * @type {string}
+         */
+        this.initialSituation = &apos;start&apos;;
+
+        /**
+         * The Markdown string you want to show at the top of the left sidebar.
+         * @type {string}
+         */
+        this.navHeader = &apos;&apos;;
+
+        /**
+         * The Markdown string you want to show at the top of the right sidebar.
+         * This string is processed by the template engine before being displayed.
+         * @type {string}
+         */
+        this.asideHeader = &apos;&apos;;
+
+        /**
+         * The initial value of {@link model.globalState}. Must be JSON-safe.
+         * @type {*}
+         */
+        this.globalState = {};
+
+        /**
+         * List of {@link character} definitions.
+         * **Note:** this is not the same as the {@link Character} class!
+         * There&apos;s a difference between what you write in your game definition, and what gets passed to the
+         * various callbacks.
+         * @type {character}
+         */
+        this.characters = [];
+
+        /**
+         * List of {@link situation} definitions.
+         * **Note:** this is not the same as the {@link Situation} class!
+         * There&apos;s a difference between what you write in your game definition, and what gets passed to the
+         * various callbacks.
+         * @type {situation}
+         */
+        this.situations = [];
+    }
+
+    /**
+     * Called immediately after all initial objects have been created, but before the
+     * first situation has been entered. This is where you would add Markdown plugins.
+     * @param {model} model 
+     * @param {ui} ui 
+     * @param {MarkdownIt} markdown 
+     */
+    init(model, ui, markdown) { }
+
+    /**
+     * Called when the game has requested to enter a new situation. This function returns
+     * a truthy value (`true`) if this should be allowed, `false` if not.
+     * 
+     * It is safe to call `model.do()` or `model.goTo()` from `willEnter()`, as long as
+     * you return `false` afterward.
+     * 
+     * @param {model} model
+     * @param {ui} ui 
+     * @param {string} previousId 
+     * @param {string} nextId 
+     * @returns {Boolean}
+     */
+    willEnter(model, ui, previousId, nextId) { }
+    
+    /**
+     * Called when the game has just entered a new situation.
+     * @param {model} model 
+     * @param {ui} ui
+     * @param {string} previousId 
+     * @param {string} nextId 
+     */
+    didEnter(model, ui, previousId, nextId) { }
+
+    /**
+     * Called when the game is about to exit a situation.
+     * @param {model} model 
+     * @param {ui} ui 
+     * @param {string} thisId 
+     * @param {string} nextId 
+     */
+    willExit(model, ui, thisId, nextId) { }
+
+    /**
+     * Called when the game just exited a situation.
+     * @param {model} model 
+     * @param {ui} ui 
+     * @param {string} thisId 
+     * @param {string} nextId 
+     */
+    didExit(model, ui, thisId, nextId) { }
+
+    /**
+     * Called when the game is about to execute the given action on the given sitaution.
+     * @param {model} model 
+     * @param {ui} ui 
+     * @param {Situation} situation 
+     * @param {string} action 
+     */
+    willAct(model, ui, situation, action) { }
+
+    /**
+     * Called when the game is just executed the given action on the given sitaution.
+     * @param {model} model 
+     * @param {ui} ui 
+     * @param {Situation} situation 
+     * @param {string} action 
+     */
+    didAct(model, ui, situation, action) { }
+};
+export default game;</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

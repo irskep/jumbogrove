@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/jg/director.js | Jumbo Grove</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/irskep/jumbogrove"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-jumbogrove">jumbogrove</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg">jg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/character.js~Character.html">Character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html">ui</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/model.js~model.html">model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/situation.js~Situation.html">Situation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://github.com/markdown-it/markdown-it">MarkdownIt</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-gameformat">jg/gameformat</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/character.js~character.html">character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html">game</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/situation.js~situation.html">situation</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-qualities">jg/qualities</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-flag">flag</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fudgeAdjective">fudgeAdjective</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-qualities">qualities</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-integer">integer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-namedChoice">namedChoice</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-nonZeroInteger">nonZeroInteger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-onOff">onOff</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-raw">raw</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-wordScale">wordScale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-yesNo">yesNo</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/jg/director.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &apos;lodash&apos;;
+import WorldModel from &apos;./model&apos;;
+import commands from &quot;./commands&quot;;
+import { bindGamepad } from &quot;./gamepad&quot;;
+
+const getAnchors = () =&gt; {
+  return _.toArray(document.querySelectorAll(&apos;a&apos;))
+    .filter((a) =&gt; !!a.attributes.href.value)
+    .filter((a) =&gt; !!a.offsetParent);
+};
+
+const focus = (allAnchors, i) =&gt; {
+  const i2 = (i + allAnchors.length) % allAnchors.length;
+  allAnchors[i2].focus();
+};
+
+const focusNextElement = () =&gt; {
+  const allAnchors = getAnchors();
+  if (!allAnchors.length) return;
+  const i = allAnchors.indexOf(document.activeElement);
+  if (i &gt; -1) {
+    focus(allAnchors, i + 1);
+  } else {
+    allAnchors[0].focus();
+  }
+};
+
+const focusPreviousElement = () =&gt; {
+  const allAnchors = getAnchors();
+  if (!allAnchors.length) return;
+  const i = allAnchors.indexOf(document.activeElement);
+  if (i &gt; -1) {
+    focus(allAnchors, i - 1);
+  } else {
+    allAnchors[allAnchors.length - 1].focus();
+  }
+};
+
+const nop = () =&gt; { };
+/** @ignore */
+class JumboGroveDirector {
+    constructor({
+        id,
+        version = 1,
+        initialSituation = &apos;start&apos;, 
+        navHeader = &apos;&apos;,
+        asideHeader = &apos;&apos;,
+        globalState = {},
+        characters = [],
+        situations = [],
+        // (model, ui, markdown)
+        init = nop,
+        // Return falsey value if you want to abort the new situation
+        // (model, ui, previousId, nextId)
+        willEnter = () =&gt; true,
+        // (model, ui, previousId, nextId)
+        didEnter = nop,
+        // (model, ui, thisId, nextId)
+        willExit = nop,
+        // (model, ui, thisId, nextId)
+        didExit = nop,
+        // (model, ui, situation, action)
+        willAct = nop,
+        // (model, ui, situation, action)
+        didAct = nop,
+    }) {
+        if (!id) throw new Error(&quot;You must provide an id&quot;); 
+        Object.assign(this, {
+            id, willEnter, didEnter, willExit, didExit, willAct, didAct,
+            navHeader, asideHeader, init,
+        });
+        this.modelArgs = {characters, globalState, situations, initialSituation, version};
+
+        this.recreateModel();
+        this.interactive = true;
+    }
+
+    recreateModel() {
+        this.model = new WorldModel(this, this.modelArgs);
+    }
+
+    toString() {
+        return `Director(id=${this.id})`;
+    }
+
+    bindToUI(ui) {
+        const wasBound = !!this.ui;
+        this.ui = ui;
+        ui.bind(this);
+        this.model.navHeaderHTML = ui.renderMarkdown(this.navHeader);
+        this.model.asideHeaderHTML = () =&gt; {
+            return ui.renderMarkdownTemplate(this.asideHeader);
+        }
+        if (!wasBound) {
+            this.init(this.model, this.ui, this.ui.md);
+        }
+    }
+
+    start() {
+        if (this.model.currentSituation) {
+            return;  // vue.js is hot-reloading us
+        }
+        if (!this.load()) {
+            this.goTo(this.model._initialSituationId);
+        }
+        bindGamepad(this);
+    }
+
+    save(toSituationId) {
+        const saveId = `${this.id}-${this.version}`; 
+        localStorage[saveId] = JSON.stringify({toSituationId, model: this.model.toSave()});
+    }
+    
+    load() {
+        const saveId = `${this.id}-${this.version}`; 
+        if (!localStorage[saveId]) return false;
+        let json = null;
+        try {
+            json = JSON.parse(localStorage[saveId]);
+        } catch (e) {
+            return false;
+        }
+        if (!json.model) return false;
+        if (!json.toSituationId) return false;
+
+        try {
+            this.model.loadSave(json.model);
+            this.goTo(json.toSituationId, true);
+        } catch (e) {
+            delete localStorage[saveId];
+            this.recreateModel();
+            this.start();
+            return false;
+        }
+        return true;
+    }
+
+    isManagedLink(href) {
+        return commandsFromString(href).length &gt; 0;
+    }
+
+    getSnippetWrapperTag(id) {
+        if (!this.model.currentSituation.snippets[id]) {
+            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn&apos;t exist`);
+        }
+        return this.model.currentSituation.snippets[id].indexOf(&apos;\n&apos;) === -1 ? &apos;span&apos; : &apos;div&apos;;
+    }
+
+    getSnippetHTML(id) {
+        if (!this.model.currentSituation.snippets[id]) {
+            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn&apos;t exist`);
+        }
+        return this.ui.renderMarkdownTemplateMaybeInline(
+            this.model.currentSituation.snippets[id]);
+    }
+
+    getSnippet(id) {
+        if (!this.model.currentSituation.snippets[id]) {
+            throw new Error(`Snippet ${this.model.currentSituation.id}.${id} doesn&apos;t exist`);
+        }
+        return this.ui.renderTemplate(this.model.currentSituation.snippets[id]);
+    }
+
+    handleCommandString(s, itemId = null, sourceElId = null) {
+        let restore = false;
+        if (itemId !== null) {
+            restore = true;
+            this.activeItemId = itemId;
+            this.activeSourceElId = sourceElId;
+        }
+        for (const cmd of commandsFromString(s, this.activeItemId, this.activeSourceElId)) {
+            this.handleCommand(cmd);
+        }
+        if (restore) {
+            this.activeItemId = null;
+            this.activeSourceElId = null;
+        }
+    }
+
+    handleCommand(cmd) {
+        console.log(cmd);
+        switch (cmd.type) {
+        case commands.runAction.name:
+            this.runAction(cmd.name, cmd.args);
+            break;
+        case commands.goToSituation.name:
+            this.goTo(cmd.id);
+            break;
+        case commands.write.name:
+            this.performWrite(cmd);
+            break;
+        case commands.replace.name:
+            this.performReplace(cmd);
+            break;
+        case commands.resetGame.name:
+            this.performResetGame(cmd);
+            break;
+        default:
+            throw new Error(&quot;Unknown command: &quot; + cmd);
+        }
+    }
+
+    performWrite({itemId, snippetId}) {
+        this.ui.bus.$emit(&apos;write&apos;, {
+            &apos;itemId&apos;: itemId,
+            &apos;html&apos;: this.getSnippetHTML(snippetId),
+        });
+    }
+
+    performReplace({itemId, snippetId, elId}) {
+        this.ui.bus.$emit(&apos;replace&apos;, {
+            &apos;itemId&apos;: itemId,
+            &apos;id&apos;: elId,
+            &apos;tag&apos;: this.getSnippetWrapperTag(snippetId),
+            &apos;html&apos;: this.getSnippetHTML(snippetId),
+        });
+    }
+
+    runAction(name, args) {
+        this.willAct(this.model, this.ui, this.model.currentSituation, name, ...args);
+        this.model.currentSituation.doAct(this.model, this.ui, name, ...args);
+        this.didAct(this.model, this.ui, this.model.currentSituation, name, ...args);
+    }
+
+    performResetGame() {
+        const saveId = `${this.id}-${this.version}`; 
+        delete localStorage[saveId];
+        location.reload();
+    }
+
+    goTo(id, isFromLoad = false) {
+        const next = this.model.situation(id);
+        const previous = this.model.currentSituation;
+        const previousId = previous ? previous.id : null;
+        if (next.autosave &amp;&amp; !isFromLoad) {
+            this.save(id);
+            this.ui.writeMarkdown(&apos;&gt; Game saved.\n&apos;)
+        }
+        if (this.model.currentSituation) {
+            this.willExit(this.model, this.ui, previousId, id);
+            this.model.currentSituation.doExit(this.model, this.ui, next);
+            this.didExit(this.model, this.ui, previousId, id);
+        }
+        this.model.currentSituation = null;
+
+        // willEnter() may redirect us
+        if (!this.willEnter(this.model, this.ui, previousId, id)) {
+            return;
+        }
+        if (!next.willEnter(this.model, this.ui, previousId, id)) {
+            return;
+        }
+
+        this.model.currentSituation = next;
+        next.doEnter(this.model, this.ui, this, previous);
+        this.didEnter(this.model, this.ui, previousId, id);
+    }
+
+    focusNextElement() { focusNextElement(); }
+    focusPreviousElement() { focusPreviousElement(); }
+}
+
+function parseAction(s) {
+    return s.split(&apos;:&apos;);
+}
+
+function commandsFromString(str, itemId = null, elId = null) {
+    str = window.decodeURIComponent(str);
+    return str.split(&apos;;&apos;)
+        .map((s) =&gt; {
+            if (s.startsWith(&apos;@&apos;)) {
+                return commands.goToSituation.create(s.slice(1))
+            }
+            if (s.startsWith(&apos;&gt;&apos;)) {
+                const nameAndArgs = parseAction(s.slice(1));
+                const name = nameAndArgs[0];
+                const args = _.tail(nameAndArgs);
+                switch (name.toLowerCase()) {
+                case &apos;write&apos;: return commands.write.create(itemId, args[0]);
+                case &apos;replace&apos;: return commands.replace.create(itemId, args[0], args[0]);
+                case &apos;replaceself&apos;: return commands.replace.create(itemId, args[0], elId);
+                case &apos;resetgame&apos;: return commands.resetGame.create();
+                default: return commands.runAction.create(name, args);
+                }
+            }
+            return null;
+        })
+        .filter((cmd) =&gt; cmd !== null);
+}
+
+export default JumboGroveDirector;</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

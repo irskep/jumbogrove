@@ -1,0 +1,195 @@
+[
+  {
+    "name": "Character#addToQuality",
+    "filePath": "src/jg/character.js",
+    "lines": [
+      {
+        "lineNumber": 146,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 147,
+        "line": "     * Add an integer value to the given quality."
+      },
+      {
+        "lineNumber": 148,
+        "line": "     * "
+      },
+      {
+        "lineNumber": 149,
+        "line": "     * @param {string} id ID of the quality to modify on this character"
+      },
+      {
+        "lineNumber": 150,
+        "line": "     * @param {number} value Amount to add"
+      },
+      {
+        "lineNumber": 151,
+        "line": "     * @returns {number} The new value"
+      },
+      {
+        "lineNumber": 152,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 153,
+        "line": "    addToQuality(id, delta) {"
+      }
+    ],
+    "codeParams": [
+      "id",
+      "delta"
+    ],
+    "docParams": [
+      "id",
+      "value"
+    ]
+  },
+  {
+    "name": "ui#renderMarkdownTemplateMaybeInline",
+    "filePath": "src/jg/dataui.js",
+    "lines": [
+      {
+        "lineNumber": 154,
+        "line": "  /**"
+      },
+      {
+        "lineNumber": 155,
+        "line": "   * Like {@link renderMarkdownTemplate}, but automatically sets `inline` flag based on"
+      },
+      {
+        "lineNumber": 156,
+        "line": "   * presence of line breaks."
+      },
+      {
+        "lineNumber": 157,
+        "line": "   * @param {string} src "
+      },
+      {
+        "lineNumber": 158,
+        "line": "   * @param {Map<string,*>} args Additional template context"
+      },
+      {
+        "lineNumber": 159,
+        "line": "   * @param {Boolean} inline If true, do not parse any block-level markup or wrap in a paragraph."
+      },
+      {
+        "lineNumber": 160,
+        "line": "   */"
+      },
+      {
+        "lineNumber": 161,
+        "line": "  renderMarkdownTemplateMaybeInline(src, args = null) {"
+      }
+    ],
+    "codeParams": [
+      "src",
+      "args"
+    ],
+    "docParams": [
+      "src",
+      "args",
+      "inline"
+    ]
+  },
+  {
+    "name": "model#do",
+    "filePath": "src/jg/model.js",
+    "lines": [
+      {
+        "lineNumber": 77,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 78,
+        "line": "     * Follow a Jumbo Grove link (`@situation-id` or `>action`)."
+      },
+      {
+        "lineNumber": 79,
+        "line": "     * @param {command} string"
+      },
+      {
+        "lineNumber": 80,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 81,
+        "line": "    do(...args) {"
+      }
+    ],
+    "codeParams": [
+      "args"
+    ],
+    "docParams": [
+      "string"
+    ]
+  },
+  {
+    "name": "model#goTo",
+    "filePath": "src/jg/model.js",
+    "lines": [
+      {
+        "lineNumber": 85,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 86,
+        "line": "     * Go to the given sitaution (no `@`)."
+      },
+      {
+        "lineNumber": 87,
+        "line": "     * @param {string} id"
+      },
+      {
+        "lineNumber": 88,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 89,
+        "line": "    goTo(...args) {"
+      }
+    ],
+    "codeParams": [
+      "args"
+    ],
+    "docParams": [
+      "id"
+    ]
+  },
+  {
+    "name": "model#isManagedLink",
+    "filePath": "src/jg/model.js",
+    "lines": [
+      {
+        "lineNumber": 93,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 94,
+        "line": "     * Returns true iff the given string can be handled by Jumbo Grove (rather than being a normal HTML link)"
+      },
+      {
+        "lineNumber": 95,
+        "line": "     * @param {string} string A string to check"
+      },
+      {
+        "lineNumber": 96,
+        "line": "     * @returns {Boolean} "
+      },
+      {
+        "lineNumber": 97,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 98,
+        "line": "    isManagedLink(...args) {"
+      }
+    ],
+    "codeParams": [
+      "args"
+    ],
+    "docParams": [
+      "string"
+    ]
+  }
+]

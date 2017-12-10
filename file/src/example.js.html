@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/example.js | Jumbo Grove</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/irskep/jumbogrove"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-jumbogrove">jumbogrove</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg">jg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/character.js~Character.html">Character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html">ui</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/model.js~model.html">model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/situation.js~Situation.html">Situation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://github.com/markdown-it/markdown-it">MarkdownIt</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-gameformat">jg/gameformat</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/character.js~character.html">character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html">game</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/situation.js~situation.html">situation</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-qualities">jg/qualities</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-flag">flag</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fudgeAdjective">fudgeAdjective</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-qualities">qualities</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-integer">integer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-namedChoice">namedChoice</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-nonZeroInteger">nonZeroInteger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-onOff">onOff</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-raw">raw</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-wordScale">wordScale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-yesNo">yesNo</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/example.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">// https://github.com/idmillington/undum/blob/master/docs/src/API.md
+// http://raconteur.readthedocs.io/en/latest/oneOf/
+// https://github.com/sequitur/improv
+// https://www.npmjs.com/package/markdown-it-attrs
+// https://www.npmjs.com/package/markdown-it-block-embed
+// https://www.npmjs.com/package/markdown-it-html5-embed
+// https://www.npmjs.com/package/markdown-it-html5-media
+// https://github.com/adam-p/markdown-it-smartarrows
+// https://www.npmjs.com/package/markdown-it-classy
+// https://www.npmjs.com/package/markdown-it-external-links
+// https://www.npmjs.com/package/markdown-it-strikethrough-alt
+// https://www.npmjs.com/package/markdown-it-replacements
+import _ from &apos;lodash&apos;;
+
+/** @ignore */
+const game = {
+    id: &apos;jg-example&apos;,
+    version: 1,
+    // initialSituation: &apos;demo&apos;, 
+    navHeader: `
+    # Example game
+
+    An example game for Jumbo Grove by Steve Johnson
+    `,
+    asideHeader: `
+    # Characters
+    `,
+    globalState: {
+        aliensHaveInvaded: false,
+    },
+    willEnter: (model, ui, oldSituationId, newSituationId) =&gt; {
+        if (oldSituationId) {
+            ui.writeHTML(&apos;&lt;hr&gt;&apos;);
+        }
+        return true;
+    },
+    init(model, ui, md) {
+        // configure markdown here!
+    },
+};
+
+game.characters = [
+    {
+        id: &apos;player&apos;,
+        name: &apos;Bob&apos;,
+        description: &apos;It is you&apos;,
+        showInSidebar: true,
+        priority: 0,
+        qualities: {
+            util: {
+                hidden: true,
+            },
+            attributes: {
+                name: &apos;Attributes&apos;,
+                priority: 0,
+                hair: {
+                    type: &apos;onOff&apos;,
+                    name: &quot;widow&apos;s peak&quot;,
+                    words: [&quot;no&quot;, &quot;yes&quot;],
+                    priority: 0,
+                    initialValue: false,
+                },
+                stealthy: {
+                    type: &apos;flag&apos;,
+                    name: &quot;Stealthy&quot;,
+                    priority: 1,
+                    initialValue: false,
+                }
+            },
+            states: {
+                name: &apos;States&apos;,
+                priority: 1,
+                hunger: {
+                    type: &apos;wordScale&apos;,
+                    name: &apos;Hunger&apos;,
+                    words: [&apos;ravenous&apos;, &apos;hungry&apos;, &apos;neutral&apos;, &apos;sated&apos;, &apos;stuffed&apos;],
+                    priority: 0,
+                    offset: 2,
+                    initialValue: 0,
+                },
+            },
+        },
+        state: {
+            inventory: [],
+        },
+    },
+];
+game.situations = [];
+
+game.situations.push({
+    id: &apos;start&apos;,
+    optionText: &apos;Play the Bob Game&apos;,
+    content: `
+    ## The Bob Game
+
+    [Read more about Bob](&gt;write:aboutBob)
+
+    [Change favorite color](&gt;replace:favoriteColor)
+
+    [What am I?](&gt;replaceself:teapot)
+
+    Favorite color: **red**{#favoriteColor}
+
+    [Test](&gt;test)
+    `,
+    choices: [&apos;longboye&apos;, &apos;demo&apos;, &apos;hello&apos;],
+    actions: {
+        test: (...args) =&gt; {
+            console.log(&apos;test&apos;, ...args);
+        },
+    },
+    snippets: {
+        aboutBob: `
+            Bob is a nice guy. You should get to know him.
+        `,
+        favoriteColor: `[blue](&gt;replaceself:teapot)`,
+        teapot: &quot;I&apos;m a teapot!&quot;,
+    },
+});
+
+game.situations.push({
+    id: &apos;demo&apos;,
+    optionText: &apos;Go back to start&apos;,
+    content: `
+        &lt;% if (model.currentSituation.totalVisits &gt; 0) { %&gt;
+        You have visited &lt;%- model.currentSituation.totalVisits %&gt; times.
+        &lt;% } else { %&gt;
+        What is your [name](&gt;bob)?
+        &lt;% } %&gt;
+
+        Name presents: &lt;%- listWithAction(&apos;name&apos;, &apos;or&apos;, &apos;Andy&apos;, &apos;Kevin&apos;, &apos;Steve&apos;) %&gt;
+    `,
+    enter: (model, ui, fromSituation) =&gt; {
+        ui.promptInput({placeholder: &apos;Enter your name&apos;})
+            .then((name) =&gt; { 
+                model.player.name = name;
+                model.goTo(&apos;hello&apos;)
+            });
+    },
+    actions: {
+        name: (model, ui, value) =&gt; {
+            console.log(value);
+        },
+        bob: (model, ui) =&gt; {
+            model.player.name = &apos;Bob&apos;;
+            model.goTo(&apos;hello&apos;);
+        },
+    }
+});
+
+game.situations.push({
+    id: &apos;hello&apos;,
+    content: `
+        **You made your first choice**
+
+        Howdy, &lt;%- model.player.name %&gt;!
+
+        &lt;%- ifThen(player.name === &apos;Bob&apos;, &apos;favoritism&apos;, &apos;pessimism&apos;) %&gt;
+    `,
+    choices: [&apos;start&apos;, &apos;longboye&apos;],
+    snippets: {
+        favoritism: &quot;I like you best.\n\n&quot;,
+        pessimism: &quot;You&apos;re...alright, I guess.\n\n&quot;,
+    },
+});
+
+game.situations.push({
+    id: &apos;longboye&apos;,
+    content: _.range(0, 100).map(() =&gt; &apos;|&apos;).join(&apos;\n\n&apos;),
+    choices: [&apos;start&apos;, &apos;demo&apos;, &apos;hello&apos;]
+});
+export default game;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

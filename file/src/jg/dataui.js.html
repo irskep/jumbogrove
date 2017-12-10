@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/jg/dataui.js | Jumbo Grove</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/irskep/jumbogrove"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-jumbogrove">jumbogrove</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg">jg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/character.js~Character.html">Character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html">ui</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/model.js~model.html">model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/situation.js~Situation.html">Situation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://github.com/markdown-it/markdown-it">MarkdownIt</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-gameformat">jg/gameformat</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/character.js~character.html">character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html">game</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/situation.js~situation.html">situation</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-qualities">jg/qualities</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-flag">flag</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fudgeAdjective">fudgeAdjective</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-qualities">qualities</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-integer">integer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-namedChoice">namedChoice</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-nonZeroInteger">nonZeroInteger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-onOff">onOff</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-raw">raw</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-wordScale">wordScale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-yesNo">yesNo</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/jg/dataui.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &apos;lodash&apos;;
+import MarkdownIt from &apos;markdown-it&apos;;
+import MarkdownItAttrs from &apos;markdown-it-attrs&apos;;
+/**
+ * @external {MarkdownIt} https://github.com/markdown-it/markdown-it
+ */
+
+ /** @ignore */
+function normalizeIndent(text) {
+  if (!text) return text;
+
+  var lines = _.trimEnd(text).split(&apos;\n&apos;);
+  var indents = lines
+    .filter((l) =&gt; l !== &apos;&apos;) // Ignore empty lines
+    .map((l) =&gt; l.match(/^\s+/))
+    .map(function (m) {
+      if (m === null) return &apos;&apos;;
+      return m[0];
+    });
+  if (!indents.length) return text;
+  var smallestIndent = indents.reduce(function(max, curr) {
+    if (curr.length &lt; max.length) return curr;
+    return max;
+  }); // Find the &quot;bottom&quot; indentation level
+  return lines.map(function (l) {
+    return l.replace(new RegExp(&apos;^&apos; + smallestIndent), &apos;&apos;);
+  }).join(&apos;\n&apos;);
+}
+
+/**
+ * Direct access to the HTML transcript.
+ */
+export default class ui {
+  /** @ignore */
+  constructor() {
+    /** @ignore */
+    this.content = [];
+    /** @ignore */
+    this.currentItemId = null;
+    /** @ignore */
+    this.currentGroupId = 0;
+    /** @ignore */
+    this.nextItemId = 0;
+    /** @ignore */
+    this.templateHelperGetters = {};
+
+    /**
+     * `MarkdownIt` instance used to render Markdown. You may register additional plugins here.
+     * @type {MarkdownIt}
+     */
+    this.md = new MarkdownIt({html: true, linkify: false, typographer: true});
+    this.md.use(MarkdownItAttrs);
+
+    /** @ignore */
+    this.templateHelperFunctions = {
+      ifThen: (condition, snippetTrue, snippetFalse) =&gt; {
+        return this.director.getSnippet(condition ? snippetTrue : snippetFalse);
+      },
+      list: (conjunction, ...items) =&gt; {
+        if (items.length &lt; 1) return &apos;&apos;;
+        if (items.length === 1) return items[0];
+        return `${_.initial(items).join(&apos;, &apos;)}, ${conjunction} ${_.last(items)}`;
+      },
+      listWithAction: (action, conjunction, ...items) =&gt; {
+        if (items.length &lt; 1) return &apos;&apos;;
+        items = items.map((item) =&gt; `[${item}](&gt;${action}:${window.encodeURIComponent(item)})`)
+        if (items.length === 1) return items[0];
+        return `${_.initial(items).join(&apos;, &apos;)}, ${conjunction} ${_.last(items)}`;
+      },
+    }
+  }
+
+  /**
+   * Make the given functions (or constants) available to the template context.
+   * @param {Map&lt;string, function&gt;} fns 
+   */
+  addTemplateFunctions(fns) {
+    this.templateHelperFunctions = {...this.templateHelperFunctions, ...fns};
+  }
+
+  /**
+   * Whenever a template is rendered, evaluate all these functions and make their
+   * return values available to the template context.
+   * @param {Map&lt;string, function&gt;} fns 
+   */
+  addTemplateGetters(fns) {
+    this.templateHelperGetters = {...this.templateHelperGetters, ...fns};
+  }
+
+  /** @ignore */
+  bind(director) {
+    this.director = director;
+  }
+
+  /** @ignore */
+  templateContext() {
+    const getters = {};
+    for (const k of Object.keys(this.templateHelperGetters)) {
+      getters[k] = this.templateHelperGetters[k]();
+    }
+    for (const k of Object.keys(this.director.model.templateHelperGetters)) {
+      getters[k] = this.director.model.templateHelperGetters[k]();
+    }
+    return {
+      ...this.director.model,
+      model: this.director.model,
+      ui: this,
+      ...getters,
+      ...this.templateHelperFunctions,
+      ...this.director.model.templateHelperFunctions,
+    };
+  }
+
+  /**
+   * Render the given Markdown text to HTML. Automatically dedents the text to the 
+   * minimum indent level.
+   * @param {string} text 
+   * @param {Boolean} inline If true, do not parse any block-level markup or wrap in a paragraph.
+   */
+  renderMarkdown(text, inline = false) {
+    if (inline) {
+      // console.log(&apos;inline&apos;, text, &apos;---&apos;, this.md.renderInline(normalizeIndent(text)))
+      return this.md.renderInline(normalizeIndent(text));
+    } else {
+      // console.log(&apos;div&apos;, text, &apos;---&apos;, this.md.render(normalizeIndent(text)));
+      return this.md.render(normalizeIndent(text));
+    }
+  }
+
+  /**
+   * Process the text as a template and return the result.
+   * @param {string} src 
+   * @param {Map&lt;string,*&gt;|null} args Additional template context
+   */
+  renderTemplate(src, args = null) {
+    try {
+      return _.template(src)({...args, ...this.templateContext()});
+    } catch (e) {
+      console.error(src)
+      throw e;
+    }
+  }
+
+  /**
+   * Process the text as a template, render the resulting Markdown to HTML, and
+   * return the result. Automatically dedents the text to the minimum indent level.
+   * @param {string} src 
+   * @param {Map&lt;string,*&gt;} args Additional template context
+   * @param {Boolean} inline If true, do not parse any block-level markup or wrap in a paragraph.
+   */
+  renderMarkdownTemplate(src, args = null, inline = false) {
+    return this.renderMarkdown(this.renderTemplate(src, args), inline);
+  }
+
+  /**
+   * Like {@link renderMarkdownTemplate}, but automatically sets `inline` flag based on
+   * presence of line breaks.
+   * @param {string} src 
+   * @param {Map&lt;string,*&gt;} args Additional template context
+   * @param {Boolean} inline If true, do not parse any block-level markup or wrap in a paragraph.
+   */
+  renderMarkdownTemplateMaybeInline(src, args = null) {
+    const inline = src.indexOf(&apos;\n&apos;) === -1;
+    return this.renderMarkdownTemplate(src, args, inline);
+  }
+
+  /** @ignore */
+  nextGroup() {
+    this.currentGroupId += 1;
+  }
+
+  /** @ignore */
+  append(item) {
+    item.id = this.nextItemId;
+    this.nextItemId += 1;
+    item.groupId = this.currentGroupId;
+    this.content.push(item);
+    this.currentItemId = item.id;
+  }
+
+  /**
+   * Encode the given string so it doesn&apos;t mess up Markdown link parsing
+   * @param {String} s 
+   * @ignore
+   */
+  encode(s) {
+    return window.encodeURIComponent;
+  }
+
+  /**
+   * Render the given HTML as a template and write it to the transcript.
+   * Links are automatically bound to actions and situation transitions.
+   * @param {string} html 
+   * @param {Map&lt;string,*&gt;} args Additional template contet
+   */
+  writeHTML(html, args = null) {
+    this.append({
+      &apos;type&apos;: &apos;html&apos;,
+      html: this.renderTemplate(html, args),
+    });
+  }
+
+  /**
+   * Render the given string as a template, render the resulting Markdown as HTML, and
+   * write it to the transcript.
+   * @param {string} markdown 
+   * @param {Map&lt;string,*&gt;} args Additional template context
+   */
+  writeMarkdown(markdown, args = null) {
+    this.append({
+      &apos;type&apos;: &apos;html&apos;,
+      html: this.renderMarkdownTemplate(markdown, args)});
+  }
+
+  /**
+   * Given an array of tags or situation IDs (can be both in the same array), present
+   * the relevant choices in the transcript using the logic in {@link model.interpretChoices}.
+   * @param {string[]} arrayOfSituationIdsOrTags Array of strings containing either `#tags` or `situation-ids`.
+   */
+  presentChoices(arrayOfSituationIdsOrTags) {
+    return new Promise((resolve, reject) =&gt; {
+      const item = {
+        &apos;type&apos;: &apos;choice&apos;,
+        choices: this.director.model.interpretChoices(arrayOfSituationIdsOrTags),
+      };
+      item.callback = (situationId) =&gt; {
+        item.situationId = situationId;
+        resolve({situationId, itemId: item.id});
+      };
+      this.append(item);
+    });
+  }
+
+  /**
+   * Force the user to enter some text to continue.
+   * @param {Map&lt;string,*&gt;} options
+   * @param {string} options.placeholder Placeholder text for the input field
+   * @returns {Promise&lt;string&gt;}
+   */
+  promptInput({placeholder}) {
+    return new Promise((resolve, reject) =&gt; {
+      this.append({&apos;type&apos;: &apos;input&apos;, placeholder, callback: resolve});
+    })
+  }
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

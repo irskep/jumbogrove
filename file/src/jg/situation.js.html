@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/jg/situation.js | Jumbo Grove</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/irskep/jumbogrove"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-jumbogrove">jumbogrove</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg">jg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/character.js~Character.html">Character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html">ui</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/model.js~model.html">model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/situation.js~Situation.html">Situation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://github.com/markdown-it/markdown-it">MarkdownIt</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-gameformat">jg/gameformat</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/character.js~character.html">character</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/game.js~game.html">game</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/jg/gameformat/situation.js~situation.html">situation</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#jg-qualities">jg/qualities</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-flag">flag</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fudgeAdjective">fudgeAdjective</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-qualities">qualities</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-integer">integer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-namedChoice">namedChoice</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-nonZeroInteger">nonZeroInteger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-onOff">onOff</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-raw">raw</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-wordScale">wordScale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-yesNo">yesNo</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/jg/situation.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &apos;lodash&apos;;
+
+const nop = () =&gt; { };
+const tru = () =&gt; true;
+/**
+ */
+export default class Situation {
+    /**
+     * 
+     * @param {object} args
+     * @param {string} args.id
+     * @param {Boolean} args.autosave If true, game will save when scene is
+     *                                entered. Default false.
+     * @param {string} args.content
+     *      Markdown template to be rendered to the transcript when this
+     *      situation is entered. {@see /markup.html}
+     * @param {string[]} args.choices
+     *      List of situation IDs or tags. See
+     *      {@link model#interpretChoices} for how this works.
+     * @param {Map&lt;string,string&gt;} args.snippets
+     *      Snippets used by writers/replacers. {@see /writers_replacers.html}.
+     * @param {object|null} args.input 
+     *      If provided, prompts user for input. Looks like
+     *      `input: {placeholder: &quot;Your name&quot;, next: &quot;situation-id&quot;, store: function(model, value)}`
+     * @param {string|null} args.input.placeholder
+     *      Placeholder value for the HTML input field 
+     * @param {string} args.input.next
+     *      Situation or action to go to after user enters a value.
+     *      Must start with either `@` (for situation IDs) or `&gt;`
+     *      (for actions).
+     * @param {function(model: model, value: string)} args.input.store
+     *      Your chance to do something with the given alue
+     * @param {Boolean} args.debugChoices See {@link debugChoices}
+     * @param {function(model: model, hostSituation: Situation): Boolean} getCanChoose
+     *      If this function is provided and returns `false`, this situation
+     *      is not linkified in the choices list.
+     * @param {function(model: model, hostSituation: Situation): Boolean} getCanSee
+     *      If this function is provided and returns `false`, the situation
+     *      will not show up in the choices list for the situation presenting
+     *      the choice.
+     * @param {number|function(model: model, hostSituation: Situation): number} priority
+     *      May be a constant number, or function returning a number. This value
+     *      is used by {@link model#interpretChoices}.
+     * @param {number|function(model: model, hostSituation: Situation): number} displayOrder
+     *      May be a constant number, or function returning a number. This value
+     *      is used by {@link model#interpretChoices}.
+     * @param {string|function(model: model, hostSituation: Situation): string} optionText
+     *      Text shown to user when being presented as a choice.
+     * @param {function(model: model, ui: ui, fromSituation: Situation): Boolean} willEnter
+     *      This situation will enter, unless this function returns `false`. It
+     *      is safe to call `model.do()` from here, as long as you then return
+     *      `false`.
+     * @param {function(model: model, ui: ui, fromSituation: Situation)} enter
+     *      The situation has been entered, and {@link Situation#content} has
+     *      been written to the transcript.
+     * @param {function(model: model, ui: ui, toSituation: Situation)} exit
+     *      The situation is being exited, but the next situation has not yet
+     *      been entered.
+     * @param {function(model: model, ui: ui, action: String)} act
+     *      An action-based link has been clicked. You might just want to use
+     *      the `actions` key instead of this function if you&apos;re just mapping
+     *      action names to functions.
+     * @param {Map&lt;string,function&gt;} actions
+     *      Map of action name to function that is called when the user invokes
+     *      the action.
+     * 
+     * @example
+     *  jumbogrove(&apos;#app&apos;, {
+     *      id: &apos;situations-example&apos;,
+     *      autosave: true,
+     * 
+     *      // stuff related to this situation being a choice in another situation:
+     *      optionText: &quot;Proclaim hungriness&quot;,
+     *      getCanChoose: (model, host) =&gt; true,
+     *      getCanSee: (model, host) =&gt; true,
+     *      priority: 1,
+     *      displayOrder: 1,
+     * 
+     *      // stuff related to content and what happens inside the situation:
+     *      content: `
+     *      I am [very](&gt;replaceself:more_adjectives) hungry.
+     * 
+     *      [Eat](&gt;eat)
+     * 
+     *      [Go to restaurant](@restaurant)
+     *      `,
+     *      snippets: {
+     *          more_adjectives: &quot;very, very, very, very&quot;
+     *      },
+     *      act: (model, ui, action) =&gt; console.log(&quot;did action&quot;, action),
+     *      actions: {
+     *          eat: () =&gt; console.log(&quot;OM NOM NOM&quot;),
+     *      },
+     * 
+     *      // going to other situations:
+     *      choices: [&apos;next-situation&apos;, &apos;#situations-involving-food&apos;],
+     *      // normally you wouldn&apos;t have &apos;choices&apos; and &apos;input&apos; in the same situation.
+     *      input: {
+     *          placeholder: &quot;Please enter your favorite food.&quot;,
+     *          next: &quot;@restaurant&quot;,
+     *      },
+     *      debugChoices: false,
+     * 
+     *      // lifecycle
+     *      willEnter: (model, ui, from) =&gt; true,
+     *      enter: (model, ui, from) =&gt; console.log(&quot;entered&quot;),
+     *      exit: (model, ui, from) =&gt; console.log(&quot;exited&quot;),
+     *  });
+     */
+    constructor({
+        id,
+        tags = [],
+        totalVisits = 0,
+        autosave = false,
+        // str (rendered as HTML before enter() called)
+        content = null,
+        // [str] (if specified, presentChoices() will happen automatically)
+        choices = null,
+        snippets = {},
+        input = null,
+        debugChoices = false,
+        // (model, hostSituation)
+        getCanChoose = tru,
+        // (model, hostSituation)
+        getCanSee = tru,
+        // number or (model, hostSituation)
+        priority = 0,
+        // number or (model, hostSituation)
+        displayOrder = 0,
+        // str or (model, hostSituation)
+        optionText = null,
+        // (model, ui, fromSituation)
+        willEnter = tru,
+        // (model, ui, fromSituation)
+        enter = nop,
+        // (model, ui, action)
+        act = nop,
+        // {actionId: (model, ui) =&gt; Void}
+        actions = {},
+        // (model, ui, toSituation)
+        exit = nop,
+    }) {
+        /**
+         * ID of this situation.
+         * @type {string}
+         */
+        this.id = id;
+
+        /**
+         * Tags associated with this situation.
+         * @type {string[]}
+         */
+        this.tags = tags;
+
+        /**
+         * Number of times this situation has been successfully entered.
+         * This value persists when saving and loading.
+         * @type {number}
+         */
+        this.totalVisits = totalVisits;
+
+        /**
+         * If `true`, then presenting choices from this situation will call `debugger`
+         * so you can step through the code and see what&apos;s up.
+         * @type {Boolean}
+         */
+        this.debugChoices = debugChoices;
+
+        Object.assign(this, {
+            getCanChoose, getCanSee, priority,
+            displayOrder, optionText, enter, act, exit, content, actions, choices,
+            snippets, input, willEnter, autosave,
+        });
+    }
+
+    /** @ignore */
+    toSave() {
+        return _.pick(this, [&apos;totalVisits&apos;, &apos;id&apos;]);
+    }
+
+    /** @ignore */
+    loadSave(obj) {
+        _.assign(this, obj);
+    }
+
+    /** @ignore */
+    doEnter(model, ui) {
+        this.totalVisits += 1;
+        if (this.content) {
+            ui.writeMarkdown(this.content);
+        }
+        this.enter.apply(this, arguments);
+        if (this.input) {
+            ui.promptInput({placeholder: this.input.placeholder})
+                .then((value) =&gt; { 
+                    this.input.store(model, value);
+                    model.do(this.input.next);
+                });
+        }
+        if (this.choices) {
+            ui.presentChoices(this.choices).then(({situationId, itemId}) =&gt; {
+                model.do(`@${situationId}`, itemId, &apos;fake&apos;);
+            });
+        }
+    }
+
+    /** @ignore */
+    doExit(model, ui, toSituation) {
+        ui.nextGroup();
+        this.exit.apply(this, arguments);
+    }
+
+    /** @ignore */
+    doAct(model, ui, action, ...args) {
+        if (this.actions &amp;&amp; this.actions[action]) {
+            this.actions[action](model, ui, ...args);
+        } else {
+            this.act(model, ui, action);
+        }
+    }
+
+    /** @ignore */
+    getOptionText() {
+        if (_.isFunction(this.optionText)) {
+            return this.optionText.apply(this, arguments);
+        } else {
+            return this.optionText || this.id;
+        }
+    }
+
+    /** @ignore */
+    getPriority() {
+        if (_.isFunction(this.priority)) {
+            return this.priority.apply(this, arguments);
+        } else {
+            return this.priority;
+        }
+    }
+
+    /** @ignore */
+    getDisplayOrder() {
+        if (_.isFunction(this.displayOrder)) {
+            return this.displayOrder.apply(this, arguments);
+        } else {
+            return this.displayOrder;
+        }
+    }
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

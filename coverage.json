@@ -1,0 +1,166 @@
+{
+  "coverage": "72.67%",
+  "expectCount": 161,
+  "actualCount": 117,
+  "files": {
+    "src/example.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/character.js": {
+      "expectCount": 20,
+      "actualCount": 17,
+      "undocumentLines": [
+        4,
+        5,
+        48
+      ]
+    },
+    "src/jg/dataui.js": {
+      "expectCount": 26,
+      "actualCount": 25,
+      "undocumentLines": [
+        92
+      ]
+    },
+    "src/jg/director.js": {
+      "expectCount": 34,
+      "actualCount": 1,
+      "undocumentLines": [
+        6,
+        12,
+        17,
+        28,
+        39,
+        263,
+        267,
+        42,
+        72,
+        75,
+        78,
+        79,
+        82,
+        86,
+        88,
+        99,
+        109,
+        114,
+        138,
+        142,
+        149,
+        157,
+        164,
+        168,
+        169,
+        180,
+        203,
+        210,
+        219,
+        225,
+        231,
+        259,
+        260
+      ]
+    },
+    "src/jg/gameformat/character.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/gameformat/game.js": {
+      "expectCount": 17,
+      "actualCount": 17,
+      "undocumentLines": []
+    },
+    "src/jg/gameformat/situation.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/gamepad.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/model.js": {
+      "expectCount": 27,
+      "actualCount": 27,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/flag.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/fudgeAdjective.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/index.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/integer.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/namedChoice.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/nonZeroInteger.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/onOff.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/raw.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/wordScale.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/qualities/yesNo.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/jg/situation.js": {
+      "expectCount": 16,
+      "actualCount": 14,
+      "undocumentLines": [
+        3,
+        4
+      ]
+    },
+    "src/jg/vueui.js": {
+      "expectCount": 6,
+      "actualCount": 1,
+      "undocumentLines": [
+        9,
+        11,
+        16,
+        19,
+        27
+      ]
+    },
+    "src/main.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    }
+  }
+}
