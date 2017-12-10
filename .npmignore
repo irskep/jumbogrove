@@ -1,0 +1,9 @@
+build/
+config/
+docs_out/
+manual/
+src/
+static/
+test/
+.*
+index.html

@@ -1,7 +1,7 @@
 {
   "name": "jumbogrove",
-  "version": "0.1.0",
-  "description": "A Vue.js project",
+  "version": "0.1.3",
+  "description": "Interactive fiction game engine",
   "author": "Steve Johnson",
   "license": "MIT",
   "private": false,
@@ -15,7 +15,7 @@
     "doc": "esdoc",
     "build": "node build/build.js",
     "lib": "node build/buildlib.js",
-    "deploy": "yarn build && ghp-import -np dist",
+    "deploy": "yarn build && ghp-import -np docs_out",
     "ld40": "yarn build && ghp-import -np dist -r ld40"
   },
   "dependencies": {

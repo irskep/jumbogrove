@@ -18,6 +18,7 @@
         "manual": {
           "index": "./Readme.md",
           "globalIndex": true,
+          "asset": "dist",
           "files": [
             "./Readme.md",
             "./manual/your_first_game.md"
