@@ -1,6 +1,6 @@
 {
   "name": "jumbogrove",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A Vue.js project",
   "author": "Steve Johnson",
   "license": "MIT",
@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "animated-scroll-to": "^1.1.7",
-    "improv": "^1.0.0",
     "lodash": "^4.17.4",
     "markdown-it": "^8.4.0",
     "markdown-it-attrs": "^1.2.0",
