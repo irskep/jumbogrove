@@ -6,10 +6,14 @@ is a medium for storytelling that crosses over into video games.
 
 ## Features
 
-* Desktop & mobile support
+* Desktop, mobile, and gamepad support
 * Fully documented API
 * Packaged as a single JS file or as an NPM package
 * Many games require no "coding"
+
+## Quick Start
+
+You can put up a fresh site with Jumbo Grove in less than 30 seconds by [remixing this project on Glitch.](https://glitch.com/~jumbo-grove-demo) You can edit the game in a browser and it will live-update a real site!
 
 ## Demo
 
@@ -64,3 +68,9 @@ jumbogrove.jumbogrove('#firstdemo', {
   ]
 });
 ```
+
+## "Jumbo Grove"?
+
+Interactive Fiction = IF  
+I + 1, F + 1 = J, G  
+J[umbo] G[rove]

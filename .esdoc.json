@@ -21,7 +21,7 @@
           "asset": "dist",
           "files": [
             "./Readme.md",
-            "./manual/your_first_game.md"
+            "./manual/guide.md"
           ]
         }
       }
