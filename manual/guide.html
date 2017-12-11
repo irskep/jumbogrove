@@ -43,12 +43,327 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/guide.html"><a href="manual/guide.html" data-ice="link">Guide</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/guide.html"><a href="manual/guide.html#reference" data-ice="link">Reference</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/guide.html"><a href="manual/guide.html#tutorial--basics" data-ice="link">Tutorial: Basics</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/guide.html"><a href="manual/guide.html#introducing-situations" data-ice="link">Introducing situations</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/guide.html"><a href="manual/guide.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/guide.html"><a href="manual/guide.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/guide.html"><a href="manual/guide.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/guide.html"><a href="manual/guide.html#tutorial--game-state" data-ice="link">Tutorial: Game State</a></li>
 </ul>
   </div>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="guide">Guide</h1></div>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="guide">Guide</h1><h2 id="reference">Reference</h2><p><a href="./manual/../identifiers.html">Here is the API reference.</a>
+It has details about situations, models, qualities, and more.</p>
+<h2 id="tutorial--basics">Tutorial: Basics</h2><p>For our first game, we will create a simple maze for the player to
+solve. <strong>You won&apos;t need to write any JavaScript functions for this section.</strong></p>
+<p>To help us keep things straight, here&apos;s a map of the maze
+we&apos;ll create:</p>
+<pre><code><code class="source-code prettyprint">in +-+-+-+-+
+ --&gt; |   | |
+   + + + + +
+   |   |   |
+   + +-+ +-+
+   |   |   |
+   +-+ + + +
+   |   | | --&gt; out
+   +-+-+-+-+</code>
+</code></pre><p>All content is written in HTML and
+<a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>.
+You should read up on Markdown before continuing.
+<a href="http://markdownlivepreview.com/">Try it live in your browser here.</a></p>
+<h3 id="introducing-situations">Introducing situations</h3><p>A Jumbo Grove game is made of <strong>situations</strong>. You can also think of
+them as &quot;rooms,&quot; but we use the word &quot;situation&quot; because all they are
+is some hypertext shown to the player, and a decision to be made
+(which link to click).</p>
+<p>The bare minimum for a Jumbo Grove game is an <code>id</code> that uniquely identifies
+your game, and at least one situation:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;maze-game-2000&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,  // the situation with id=start is how the game begins
+      content: `
+        You are standing at the entrance of a maze.
+      ` // &lt;- backticks let you write multi-line strings.
+        //    You can indent multi-line strings as much as you want.
+        //    Jumbo Grove will remove the extra spaces.
+    }
+  ]
+});</code>
+</code></pre>
+<p>If you&apos;re not an experienced JavaScript programmer, you might be doing
+a lot of copying and pasting. That&apos;s OK! You might need to
+<a href="https://github.com/irskep/jumbogrove/issues/new">ask a lot of questions.</a>
+That&apos;s also OK!</p>
+<p>In fact, here is an <strong>officially sanctioned copy-paste template for situations:</strong></p>
+<pre><code class="lang-js"><code class="source-code prettyprint">{
+  id: &apos;REPLACE THIS&apos;,
+  tags: [],  // like [&apos;maze-room&apos;, &apos;castle&apos;]
+  autosave: false,
+  displayOrder: 0,  // placement in choices list
+  optionText: &apos;Go to the copy-pasted situation&apos;,
+  content: `
+    # Title, if you want
+
+    Some more text
+
+    [Append some text](&gt;write:text_to_append)
+
+    [Replace this with some text](&gt;replaceself:text_to_replace)
+
+    [Go to another situation](@some-situation-id)
+
+    [Perform an action](&gt;some_action)
+  `,
+  snippets: {
+    text_to_append: &quot;Here is some more text.&quot;,
+    text_to_replace: &quot;I&apos;m a little teapot&quot;
+  },
+  choices: [&apos;#maze-room&apos;, &apos;some-situation-id&apos;],
+  actions: {
+    some_action: function(model, ui, action) {
+      console.log(&quot;You did a&quot;, action);
+    }
+  }
+}</code>
+</code></pre>
+<p>It doesn&apos;t include absolutely everything, but it does have the most common fields.</p>
+<h3 id="laying-out-the-maze">Laying out the maze</h3><p>Let&apos;s assign letters to each square in the maze:</p>
+<pre><code><code class="source-code prettyprint">   +-+-+-+-+
+-&gt;  A|B C|D|
+   + + + + +
+   |E F|G H|
+   + +-+ +-+
+   |I J|K L|
+   +-+ + + +
+   |M N|O|P -&gt;
+   +-+-+-+-+</code>
+</code></pre><p>Looking at the upper left, you can see that the entrance of the maze leads to
+situation A.</p>
+<p>There are two ways to write that out. Here&apos;s Option 1:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;maze-game&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,  // the situation with id=start is how the game begins
+      content: `
+        You are standing at the entrance of a maze.
+
+        [Enter the maze](@A)
+      `
+    },
+    {id: &apos;A&apos;, content: &quot;You are standing in cell A.&quot;, optionText: &quot;Enter the maze&quot;}
+  ]
+});</code>
+</code></pre>
+<p><strong>When you write a Markdown link whose target starts with <code>@</code>, it links
+to the situation with that ID</strong> instead of behaving like a normal HTML link.
+<code>[Enter the maze](@A)</code> creates a link that moves the player to situation <code>&apos;A&apos;</code>.</p>
+<p>Here&apos;s Option 2:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;maze-game&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,  // the situation with id=start is how the game begins
+      content: `
+        You are standing at the entrance of a maze.
+      `,
+      choices: [&apos;A&apos;]
+    },
+    {id: &apos;A&apos;, content: &quot;You are standing in cell A.&quot;, optionText: &quot;Enter the maze&quot;}
+  ]
+});</code>
+</code></pre>
+<p>Instead of writing out the link in our <code>content</code> string, we provide a list of
+IDs that are OK to go to next, and the situation itself says what the
+choice text should say.</p>
+<p>Here&apos;s the maze game so far, running right in this page:</p>
+<p><div id="maze-1" class="jg-headless"></div>
+
+</p>
+<p>Here&apos;s the whole maze wired up the same way. The solution is <code>AEFBCGKLP</code>.</p>
+<p><div id="maze-2" class="jg-headless"></div>
+
+</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;maze-game&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,  // the situation with id=start is how the game begins
+      content: `
+        You are standing at the entrance of a maze.
+      `,
+      choices: [&apos;A&apos;]
+    },
+    { id: &apos;A&apos;, optionText: &quot;Enter the maze&quot;,
+      content: &quot;You are standing in cell A.&quot;,
+      choices: [&apos;E&apos;] },
+    { id: &apos;B&apos;, optionText: &quot;Go to B&quot;, content: &quot;You are standing in cell B.&quot;,
+      choices: [&apos;F&apos;, &apos;C&apos;]},
+    { id: &apos;C&apos;, optionText: &quot;Go to C&quot;, content: &quot;You are standing in cell C.&quot;,
+      choices: [&apos;B&apos;, &apos;G&apos;]},
+    { id: &apos;D&apos;, optionText: &quot;Go to D&quot;, content: &quot;You are standing in cell D.&quot;,
+      choices: [&apos;H&apos;]},
+    { id: &apos;E&apos;, optionText: &quot;Go to E&quot;, content: &quot;You are standing in cell E.&quot;,
+      choices: [&apos;A&apos;, &apos;I&apos;, &apos;F&apos;]},
+    { id: &apos;F&apos;, optionText: &quot;Go to F&quot;, content: &quot;You are standing in cell F.&quot;,
+      choices: [&apos;E&apos;, &apos;B&apos;]},
+    { id: &apos;G&apos;, optionText: &quot;Go to G&quot;, content: &quot;You are standing in cell G.&quot;,
+      choices: [&apos;C&apos;, &apos;K&apos;, &apos;H&apos;]},
+    { id: &apos;H&apos;, optionText: &quot;Go to H&quot;, content: &quot;You are standing in cell H.&quot;,
+      choices: [&apos;G&apos;, &apos;D&apos;]},
+    { id: &apos;I&apos;, optionText: &quot;Go to I&quot;, content: &quot;You are standing in cell I.&quot;,
+      choices: [&apos;E&apos;, &apos;J&apos;]},
+    { id: &apos;J&apos;, optionText: &quot;Go to J&quot;, content: &quot;You are standing in cell J.&quot;,
+      choices: [&apos;I&apos;, &apos;N&apos;]},
+    { id: &apos;K&apos;, optionText: &quot;Go to K&quot;, content: &quot;You are standing in cell K.&quot;,
+      choices: [&apos;G&apos;, &apos;O&apos;, &apos;L&apos;]},
+    { id: &apos;L&apos;, optionText: &quot;Go to L&quot;, content: &quot;You are standing in cell L.&quot;,
+      choices: [&apos;K&apos;, &apos;P&apos;]},
+    { id: &apos;M&apos;, optionText: &quot;Go to M&quot;, content: &quot;You are standing in cell M.&quot;,
+      choices: [&apos;N&apos;]},
+    { id: &apos;N&apos;, optionText: &quot;Go to N&quot;, content: &quot;You are standing in cell N.&quot;,
+      choices: [&apos;M&apos;, &apos;J&apos;]},
+    { id: &apos;O&apos;, optionText: &quot;Go to O&quot;, content: &quot;You are standing in cell O.&quot;,
+      choices: [&apos;K&apos;]},
+    { id: &apos;P&apos;, optionText: &quot;Go to P&quot;, content: &quot;You are standing in cell P.&quot;,
+      choices: [&apos;L&apos;, &apos;win&apos;]},
+    {
+      id: &apos;win&apos;,
+      optionText: &apos;Exit the maze&apos;,
+      content: `
+        You exit the maze victorious!
+      `
+    }
+  ]
+});</code>
+</code></pre>
+<h3 id="introducing-tags">Introducing Tags</h3><p>When you specify some <code>choices</code> for your situation, you can include a
+hashtag to refer to a <em>group</em> of situations.</p>
+<p>In this case, the <code>living-room</code> situation would provide choices for
+both the <code>bathroom</code> and <code>bedroom</code> situations:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;house-game&apos;,
+  initialSituation: &apos;living-room&apos;,  // use this instead of &apos;start&apos; if you want
+  situations: [
+    {
+      id: &apos;living-room&apos;,
+      optionText: &apos;Go to the living room&apos;,
+      content: &quot;The living room has a couch and a TV.&quot;,
+      choices: [&apos;#from-living-room&apos;]
+    },
+    {
+      id: &apos;bathroom&apos;,
+      tags: [&apos;from-living-room&apos;],
+      optionText: &quot;Enter the bathroom&quot;,
+      displayOrder: 2,  // show up AFTER the bedroom in the choices list
+      content: &quot;The bathroom contains a sink and a toilet.&quot;,
+      choices: [&apos;living-room&apos;]
+    },
+    {
+      id: &apos;bedroom&apos;,
+      tags: [&apos;from-living-room&apos;],
+      displayOrder: 1,  // show up BEFORE the bathroom in the choices list
+      optionText: &quot;Enter the bedroom&quot;,
+      content: &quot;The bedroom is filled by a queen sized bed and a dresser.&quot;,
+      choices: [&apos;living-room&apos;]
+    },
+  ]
+})</code>
+</code></pre>
+<h3 id="maze-game-teleporter-pads">Maze game teleporter pads</h3><p>We can use this feature to add teleporter pads to a few cells of our maze.
+Any teleporter room can send the user to any other teleporter room.
+If we have lots of teleporters, we don&apos;t want to have to individually
+connect them all!</p>
+<p>The marked squares will contain teleporters:</p>
+<pre><code><code class="source-code prettyprint">in +-+-+-+-+
+-&gt;   |   |D|
+   + + + + +
+   |   |   |
+   + +-+ +-+
+   |   |  L|
+   +-+ + + +
+   |M  | |  -&gt; out
+   +-+-+-+-+</code>
+</code></pre><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;maze-game&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,  // the situation with id=start is how the game begins
+      content: `
+        You are standing at the entrance of a maze.
+      `,
+      choices: [&apos;A&apos;]
+    },
+    { id: &apos;A&apos;, optionText: &quot;Enter the maze&quot;,
+      content: &quot;You are standing in cell A.&quot;,
+      choices: [&apos;E&apos;] },
+    { id: &apos;B&apos;, optionText: &quot;Go to B&quot;, content: &quot;You are standing in cell B.&quot;,
+      choices: [&apos;F&apos;, &apos;C&apos;]},
+    { id: &apos;C&apos;, optionText: &quot;Go to C&quot;, content: &quot;You are standing in cell C.&quot;,
+      choices: [&apos;B&apos;, &apos;G&apos;]},
+    {
+      id: &apos;D&apos;,
+      tags: [&apos;teleporter&apos;],
+      optionText: &quot;Go to D&quot;,
+      content: &quot;You are standing in cell D.&quot;,
+      choices: [&apos;H&apos;, &apos;#teleporter&apos;]
+    },
+    { id: &apos;E&apos;, optionText: &quot;Go to E&quot;, content: &quot;You are standing in cell E.&quot;,
+      choices: [&apos;A&apos;, &apos;I&apos;, &apos;F&apos;]},
+    { id: &apos;F&apos;, optionText: &quot;Go to F&quot;, content: &quot;You are standing in cell F.&quot;,
+      choices: [&apos;E&apos;, &apos;B&apos;]},
+    { id: &apos;G&apos;, optionText: &quot;Go to G&quot;, content: &quot;You are standing in cell G.&quot;,
+      choices: [&apos;C&apos;, &apos;K&apos;, &apos;H&apos;]},
+    { id: &apos;H&apos;, optionText: &quot;Go to H&quot;, content: &quot;You are standing in cell H.&quot;,
+      choices: [&apos;G&apos;, &apos;D&apos;]},
+    { id: &apos;I&apos;, optionText: &quot;Go to I&quot;, content: &quot;You are standing in cell I.&quot;,
+      choices: [&apos;E&apos;, &apos;J&apos;]},
+    { id: &apos;J&apos;, optionText: &quot;Go to J&quot;, content: &quot;You are standing in cell J.&quot;,
+      choices: [&apos;I&apos;, &apos;N&apos;]},
+    { id: &apos;K&apos;, optionText: &quot;Go to K&quot;, content: &quot;You are standing in cell K.&quot;,
+      choices: [&apos;G&apos;, &apos;O&apos;, &apos;L&apos;]},
+    {
+      id: &apos;L&apos;,
+      tags: [&apos;teleporter&apos;],
+      optionText: &quot;Go to L&quot;,
+      content: &quot;You are standing in cell L.&quot;,
+      choices: [&apos;K&apos;, &apos;P&apos;, &apos;#teleporter&apos;]
+    },
+    {
+      id: &apos;M&apos;,
+      tags: [&apos;teleporter&apos;],
+      optionText: &quot;Go to M&quot;,
+      content: &quot;You are standing in cell M.&quot;,
+      choices: [&apos;N&apos;, &apos;#teleporter&apos;]
+    },
+    { id: &apos;N&apos;, optionText: &quot;Go to N&quot;, content: &quot;You are standing in cell N.&quot;,
+      choices: [&apos;M&apos;, &apos;J&apos;]},
+    { id: &apos;O&apos;, optionText: &quot;Go to O&quot;, content: &quot;You are standing in cell O.&quot;,
+      choices: [&apos;K&apos;]},
+    { id: &apos;P&apos;, optionText: &quot;Go to P&quot;, content: &quot;You are standing in cell P.&quot;,
+      choices: [&apos;L&apos;, &apos;win&apos;]},
+    {
+      id: &apos;win&apos;,
+      optionText: &apos;Exit the maze&apos;,
+      content: `
+        You exit the maze victorious!
+      `
+    }
+  ]
+});</code>
+</code></pre>
+<p>The user can now take a more circuitous route to the exit:
+<code>AEIJNMLKOP</code>. Here&apos;s the running code:</p>
+<p><div id="maze-3" class="jg-headless"></div>
+
+</p>
+<p>That&apos;s most of what you can do without writing any JavaScript functions.</p>
+<h2 id="tutorial--game-state">Tutorial: Game State</h2><p>In progress.</p>
+</div>
 </div>
 
 <footer class="footer">

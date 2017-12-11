@@ -36092,7 +36092,7 @@ vue_esm["a" /* default */].config.productionTip = false;
 /* eslint-disable no-new */
 
 /**
- * The main entry point for Jumbo Grove.
+ * The main entry point for Jumbo Grove; call `jumbogrove.jumbogrove(selector, data)`
  * 
  * @example
  * import { jumbogrove } from 'jumbogrove';
@@ -36107,6 +36107,9 @@ var main_jumbogrove = function jumbogrove(selector, data) {
   var director = new jg(data);
   var ui = new vueui();
   director.bindToUI(ui);
+  if (!document.querySelector(selector)) {
+    throw new Error('Can\'t run Jumbo Grove; no selector matches ' + selector);
+  }
   var existingClasses = document.querySelector(selector).className;
   new vue_esm["a" /* default */]({
     el: selector,
