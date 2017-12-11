@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 
 /**
- * The main entry point for Jumbo Grove.
+ * The main entry point for Jumbo Grove; call `jumbogrove.jumbogrove(selector, data)`
  * 
  * @example
  * import { jumbogrove } from 'jumbogrove';
@@ -24,6 +24,9 @@ const jumbogrove = (selector, data) => {
   const director = new JumboGroveDirector(data);
   const ui = new VueUI();
   director.bindToUI(ui);
+  if (!document.querySelector(selector)) {
+    throw new Error(`Can't run Jumbo Grove; no selector matches ${selector}`);
+  }
   const existingClasses = document.querySelector(selector).className;
   new Vue({
     el: selector,
