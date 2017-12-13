@@ -15,6 +15,13 @@ is a medium for storytelling that crosses over into video games.
 
 You can put up a fresh site with Jumbo Grove in less than 30 seconds by [remixing this project on Glitch.](https://glitch.com/~jumbo-grove-demo) You can edit the game in a browser and it will live-update a real site!
 
+## Docs
+
+
+### [Tutorial](http://steveasleep.com/jumbogrove/manual/guide.html)
+
+### [API](http://steveasleep.com/jumbogrove/identifiers.html)
+
 ## Demo
 
 If you are on the [Jumbo Grove documentation site](http://steveasleep.com/jumbogrove/)
