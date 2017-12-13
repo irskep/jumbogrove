@@ -34236,10 +34236,22 @@ var situation_Situation = function () {
         });
     }
 
-    /** @ignore */
+    /**
+     * Returns `true` if this situation has the given tag, otherwise `false`.
+     * @param {string} tag The tag to check for
+     * @returns {bool}
+     */
 
 
     createClass_default()(Situation, [{
+        key: 'hasTag',
+        value: function hasTag(tag) {
+            return this.tags.indexOf(tag) !== -1;
+        }
+
+        /** @ignore */
+
+    }, {
         key: 'toSave',
         value: function toSave() {
             return lodash_default.a.pick(this, ['totalVisits', 'id']);

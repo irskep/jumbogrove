@@ -228,6 +228,15 @@ export default class Situation {
         });
     }
 
+    /**
+     * Returns `true` if this situation has the given tag, otherwise `false`.
+     * @param {string} tag The tag to check for
+     * @returns {bool}
+     */
+    hasTag(tag) {
+        return this.tags.indexOf(tag) !== -1;
+    }
+
     /** @ignore */
     toSave() {
         return _.pick(this, [&apos;totalVisits&apos;, &apos;id&apos;]);

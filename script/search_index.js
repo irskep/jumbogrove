@@ -882,6 +882,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/jg/situation.js~situation#hastag",
+    "class/src/jg/situation.js~Situation.html#instance-method-hasTag",
+    "src/jg/situation.js~Situation#hasTag",
+    "method"
+  ],
+  [
     "src/jg/situation.js~situation#id",
     "class/src/jg/situation.js~Situation.html#instance-member-id",
     "src/jg/situation.js~Situation#id",

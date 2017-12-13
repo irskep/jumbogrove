@@ -1,7 +1,7 @@
 {
-  "coverage": "73.33%",
-  "expectCount": 165,
-  "actualCount": 121,
+  "coverage": "73.49%",
+  "expectCount": 166,
+  "actualCount": 122,
   "files": {
     "src/example.js": {
       "expectCount": 1,
@@ -139,8 +139,8 @@
       "undocumentLines": []
     },
     "src/jg/situation.js": {
-      "expectCount": 16,
-      "actualCount": 14,
+      "expectCount": 17,
+      "actualCount": 15,
       "undocumentLines": [
         3,
         4

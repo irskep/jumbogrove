@@ -34,6 +34,9 @@
     <li data-ice="manualNav" class="indent-h1" data-link="manual/Readme.html"><a href="manual/Readme.html" data-ice="link">Jumbo Grove</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/Readme.html"><a href="manual/Readme.html#features" data-ice="link">Features</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/Readme.html"><a href="manual/Readme.html#quick-start" data-ice="link">Quick Start</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/Readme.html"><a href="manual/Readme.html#docs" data-ice="link">Docs</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/Readme.html"><a href="manual/Readme.html#-a-href--http---steveasleep-com-jumbogrove-manual-guide-html--tutorial--a-" data-ice="link">Tutorial</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/Readme.html"><a href="manual/Readme.html#-a-href--http---steveasleep-com-jumbogrove-identifiers-html--api--a-" data-ice="link">API</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/Readme.html"><a href="manual/Readme.html#demo" data-ice="link">Demo</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/Readme.html"><a href="manual/Readme.html#demo-source-code" data-ice="link">Demo source code</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/Readme.html"><a href="manual/Readme.html#-quot-jumbo-grove-quot--" data-ice="link">&quot;Jumbo Grove&quot;?</a></li>
@@ -49,7 +52,7 @@
 <li data-ice="manualNav" class="indent-h3" data-link="manual/guide.html"><a href="manual/guide.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/guide.html"><a href="manual/guide.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/guide.html"><a href="manual/guide.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
-<li data-ice="manualNav" class="indent-h2" data-link="manual/guide.html"><a href="manual/guide.html#tutorial--game-state" data-ice="link">Tutorial: Game State</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/guide.html"><a href="manual/guide.html#tutorial--scripting-the-choice-names" data-ice="link">Tutorial: Scripting the choice names</a></li>
 </ul>
   </div>
 </div>
@@ -309,7 +312,7 @@ connect them all!</p>
       id: &apos;D&apos;,
       tags: [&apos;teleporter&apos;],
       optionText: &quot;Go to D&quot;,
-      content: &quot;You are standing in cell D.&quot;,
+      content: &quot;You are standing in cell D. There is a teleporter here.&quot;,
       choices: [&apos;H&apos;, &apos;#teleporter&apos;]
     },
     { id: &apos;E&apos;, optionText: &quot;Go to E&quot;, content: &quot;You are standing in cell E.&quot;,
@@ -330,14 +333,14 @@ connect them all!</p>
       id: &apos;L&apos;,
       tags: [&apos;teleporter&apos;],
       optionText: &quot;Go to L&quot;,
-      content: &quot;You are standing in cell L.&quot;,
+      content: &quot;You are standing in cell L. There is a teleporter here.&quot;,
       choices: [&apos;K&apos;, &apos;P&apos;, &apos;#teleporter&apos;]
     },
     {
       id: &apos;M&apos;,
       tags: [&apos;teleporter&apos;],
       optionText: &quot;Go to M&quot;,
-      content: &quot;You are standing in cell M.&quot;,
+      content: &quot;You are standing in cell M. There is a teleporter here.&quot;,
       choices: [&apos;N&apos;, &apos;#teleporter&apos;]
     },
     { id: &apos;N&apos;, optionText: &quot;Go to N&quot;, content: &quot;You are standing in cell N.&quot;,
@@ -362,7 +365,90 @@ connect them all!</p>
 
 </p>
 <p>That&apos;s most of what you can do without writing any JavaScript functions.</p>
-<h2 id="tutorial--game-state">Tutorial: Game State</h2><p>In progress.</p>
+<h2 id="tutorial--scripting-the-choice-names">Tutorial: Scripting the choice names</h2><p>You might have noticed that when you first &quot;Enter the maze&quot; and then
+&quot;Go to E,&quot; one of the options is still &quot;Enter the maze,&quot; which takes you
+back to Cell A.</p>
+<p>We can fix this using a little bit of JavaScript. <code>situation.optionText</code> can be either
+a string, or a function! (You can see a reference for all the <code>situation</code> values
+<a href="./manual/../class/src/jg/situation.js~Situation.html">here</a>.)</p>
+<p>From here on out, when we&apos;re just modifying one situation, we&apos;ll just list out
+the code for that situation, instead of the whole game.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;maze-game&apos;,
+  situations: [
+    /* ... */
+    { id: &apos;A&apos;,
+
+      // previously, this was just &apos;Enter the maze&apos;
+      optionText: function(model, hostSituation) {
+        if (hostSituation.id === &apos;start&apos;) {
+          return &apos;Enter the maze&apos;;
+        } else {
+          return &apos;Go to A&apos;;
+        }
+      },
+
+      content: &quot;You are standing in cell A.&quot;,
+      choices: [&apos;E&apos;] },
+    /* ... */
+  ]
+})</code>
+</code></pre>
+<p>We can also add some spice to our teleporter cells. Instead of &quot;Go to X&quot;, they
+can say &quot;Teleport to X&quot;.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;maze-game&apos;,
+  situations: [
+    /* ... */
+      {
+        id: &apos;D&apos;,
+        tags: [&apos;teleporter&apos;],
+        optionText: function(model, host) {
+          if (host.hasTag(&apos;teleporter&apos;)) {
+            return &apos;Teleport to D&apos;;
+          } else {
+            return &apos;Go to D&apos;;
+          }
+        },
+        content: &quot;You are standing in cell D. There is a teleporter here.&quot;,
+        choices: [&apos;H&apos;, &apos;#teleporter&apos;]
+      },
+    /* ... */
+      {
+        id: &apos;L&apos;,
+        tags: [&apos;teleporter&apos;],
+        optionText: function(model, host) {
+          if (host.hasTag(&apos;teleporter&apos;)) {
+            return &apos;Teleport to L&apos;;
+          } else {
+            return &apos;Go to L&apos;;
+          }
+        },
+        content: &quot;You are standing in cell L. There is a teleporter here.&quot;,
+        choices: [&apos;K&apos;, &apos;P&apos;, &apos;#teleporter&apos;]
+      },
+      {
+        id: &apos;M&apos;,
+        tags: [&apos;teleporter&apos;],
+        optionText: function(model, host) {
+          if (host.hasTag(&apos;teleporter&apos;)) {
+            return &apos;Teleport to M&apos;;
+          } else {
+            return &apos;Go to M&apos;;
+          }
+        },
+        content: &quot;You are standing in cell M. There is a teleporter here.&quot;,
+        choices: [&apos;N&apos;, &apos;#teleporter&apos;]
+      },
+    /* ... */
+  ]
+})</code>
+</code></pre>
+<p>If you&apos;re an experienced JavaScript programmer you might want to consolidate that
+logic a bit. Go right ahead!</p>
+<p>Here are the changes in action. You can walk to cell D by visiting cells
+<code>AEFBCGHD</code>, where you can see the teleporter options.</p>
+<p><div id="maze-4" class="jg-headless"></div></p>
 </div>
 </div>
 
