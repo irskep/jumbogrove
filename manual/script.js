@@ -141,7 +141,7 @@ _.defer(() => {
         id: 'D',
         tags: ['teleporter'],
         optionText: "Go to D",
-        content: "You are standing in cell D.",
+        content: "You are standing in cell D. There is a teleporter here.",
         choices: ['H', '#teleporter']
       },
       { id: 'E', optionText: "Go to E", content: "You are standing in cell E.",
@@ -162,14 +162,107 @@ _.defer(() => {
         id: 'L',
         tags: ['teleporter'],
         optionText: "Go to L",
-        content: "You are standing in cell L.",
+        content: "You are standing in cell L. There is a teleporter here.",
         choices: ['K', 'P', '#teleporter']
       },
       {
         id: 'M',
         tags: ['teleporter'],
         optionText: "Go to M",
-        content: "You are standing in cell M.",
+        content: "You are standing in cell M. There is a teleporter here.",
+        choices: ['N', '#teleporter']
+      },
+      { id: 'N', optionText: "Go to N", content: "You are standing in cell N.",
+        choices: ['M', 'J']},
+      { id: 'O', optionText: "Go to O", content: "You are standing in cell O.",
+        choices: ['K']},
+      { id: 'P', optionText: "Go to P", content: "You are standing in cell P.",
+        choices: ['L', 'win']},
+      {
+        id: 'win',
+        optionText: 'Exit the maze',
+        content: `
+          You exit the maze victorious!
+        `
+      }
+    ]
+  });
+
+  tryGame('#maze-4', {
+    id: 'maze-game',
+    situations: [
+      {
+        id: 'start',  // the situation with id=start is how the game begins
+        content: `
+          You are standing at the entrance of a maze.
+        `,
+        choices: ['A']
+      },
+      { id: 'A', 
+        optionText: function(model, hostSituation) {
+          if (hostSituation.id === 'start') {
+            return 'Enter the maze';
+          } else {
+            return 'Go to A';
+          }
+        },
+        content: "You are standing in cell A.",
+        choices: ['E'] },
+      { id: 'B', optionText: "Go to B", content: "You are standing in cell B.",
+        choices: ['F', 'C']},
+      { id: 'C', optionText: "Go to C", content: "You are standing in cell C.",
+        choices: ['B', 'G']},
+      {
+        id: 'D',
+        tags: ['teleporter'],
+        optionText: function(model, host) {
+          if (host.hasTag('teleporter')) {
+            return 'Teleport to D';
+          } else {
+            return 'Go to D';
+          }
+        },
+        content: "You are standing in cell D. There is a teleporter here.",
+        choices: ['H', '#teleporter']
+      },
+      { id: 'E', optionText: "Go to E", content: "You are standing in cell E.",
+        choices: ['A', 'I', 'F']},
+      { id: 'F', optionText: "Go to F", content: "You are standing in cell F.",
+        choices: ['E', 'B']},
+      { id: 'G', optionText: "Go to G", content: "You are standing in cell G.",
+        choices: ['C', 'K', 'H']},
+      { id: 'H', optionText: "Go to H", content: "You are standing in cell H.",
+        choices: ['G', 'D']},
+      { id: 'I', optionText: "Go to I", content: "You are standing in cell I.",
+        choices: ['E', 'J']},
+      { id: 'J', optionText: "Go to J", content: "You are standing in cell J.",
+        choices: ['I', 'N']},
+      { id: 'K', optionText: "Go to K", content: "You are standing in cell K.",
+        choices: ['G', 'O', 'L']},
+      {
+        id: 'L',
+        tags: ['teleporter'],
+        optionText: function(model, host) {
+          if (host.hasTag('teleporter')) {
+            return 'Teleport to L';
+          } else {
+            return 'Go to L';
+          }
+        },
+        content: "You are standing in cell L. There is a teleporter here.",
+        choices: ['K', 'P', '#teleporter']
+      },
+      {
+        id: 'M',
+        tags: ['teleporter'],
+        optionText: function(model, host) {
+          if (host.hasTag('teleporter')) {
+            return 'Teleport to M';
+          } else {
+            return 'Go to M';
+          }
+        },
+        content: "You are standing in cell M. There is a teleporter here.",
         choices: ['N', '#teleporter']
       },
       { id: 'N', optionText: "Go to N", content: "You are standing in cell N.",

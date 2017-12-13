@@ -307,7 +307,7 @@ jumbogrove.jumbogrove('#game', {
       id: 'D',
       tags: ['teleporter'],
       optionText: "Go to D",
-      content: "You are standing in cell D.",
+      content: "You are standing in cell D. There is a teleporter here.",
       choices: ['H', '#teleporter']
     },
     { id: 'E', optionText: "Go to E", content: "You are standing in cell E.",
@@ -328,14 +328,14 @@ jumbogrove.jumbogrove('#game', {
       id: 'L',
       tags: ['teleporter'],
       optionText: "Go to L",
-      content: "You are standing in cell L.",
+      content: "You are standing in cell L. There is a teleporter here.",
       choices: ['K', 'P', '#teleporter']
     },
     {
       id: 'M',
       tags: ['teleporter'],
       optionText: "Go to M",
-      content: "You are standing in cell M.",
+      content: "You are standing in cell M. There is a teleporter here.",
       choices: ['N', '#teleporter']
     },
     { id: 'N', optionText: "Go to N", content: "You are standing in cell N.",
@@ -362,6 +362,99 @@ The user can now take a more circuitous route to the exit:
 
 That's most of what you can do without writing any JavaScript functions.
 
-## Tutorial: Game State
+## Tutorial: Scripting the choice names
 
-In progress.
+You might have noticed that when you first "Enter the maze" and then
+"Go to E," one of the options is still "Enter the maze," which takes you
+back to Cell A.
+
+We can fix this using a little bit of JavaScript. `situation.optionText` can be either
+a string, or a function! (You can see a reference for all the `situation` values
+[here](../class/src/jg/situation.js~Situation.html).)
+
+From here on out, when we're just modifying one situation, we'll just list out
+the code for that situation, instead of the whole game.
+
+```js
+jumbogrove.jumbogrove('#game', {
+  id: 'maze-game',
+  situations: [
+    /* ... */
+    { id: 'A',
+
+      // previously, this was just 'Enter the maze'
+      optionText: function(model, hostSituation) {
+        if (hostSituation.id === 'start') {
+          return 'Enter the maze';
+        } else {
+          return 'Go to A';
+        }
+      },
+
+      content: "You are standing in cell A.",
+      choices: ['E'] },
+    /* ... */
+  ]
+})
+```
+
+We can also add some spice to our teleporter cells. Instead of "Go to X", they
+can say "Teleport to X".
+
+```js
+jumbogrove.jumbogrove('#game', {
+  id: 'maze-game',
+  situations: [
+    /* ... */
+      {
+        id: 'D',
+        tags: ['teleporter'],
+        optionText: function(model, host) {
+          if (host.hasTag('teleporter')) {
+            return 'Teleport to D';
+          } else {
+            return 'Go to D';
+          }
+        },
+        content: "You are standing in cell D. There is a teleporter here.",
+        choices: ['H', '#teleporter']
+      },
+    /* ... */
+      {
+        id: 'L',
+        tags: ['teleporter'],
+        optionText: function(model, host) {
+          if (host.hasTag('teleporter')) {
+            return 'Teleport to L';
+          } else {
+            return 'Go to L';
+          }
+        },
+        content: "You are standing in cell L. There is a teleporter here.",
+        choices: ['K', 'P', '#teleporter']
+      },
+      {
+        id: 'M',
+        tags: ['teleporter'],
+        optionText: function(model, host) {
+          if (host.hasTag('teleporter')) {
+            return 'Teleport to M';
+          } else {
+            return 'Go to M';
+          }
+        },
+        content: "You are standing in cell M. There is a teleporter here.",
+        choices: ['N', '#teleporter']
+      },
+    /* ... */
+  ]
+})
+```
+
+If you're an experienced JavaScript programmer you might want to consolidate that
+logic a bit. Go right ahead!
+
+Here are the changes in action. You can walk to cell D by visiting cells
+`AEFBCGHD`, where you can see the teleporter options.
+
+<div id="maze-4" class="jg-headless"></div>
