@@ -71,64 +71,8 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="jumbo-grove">Jumbo Grove</h1><p>Jumbo Grove is a tool for writing hypertext interactive fiction. <em>Hypertext</em>
-means text with links. <em><a href="https://en.wikipedia.org/wiki/Interactive_fiction">Interactive fiction</a></em>
-is a medium for storytelling that crosses over into video games.</p>
-<h2 id="features">Features</h2><ul>
-<li>Desktop, mobile, and gamepad support</li>
-<li>Fully documented API</li>
-<li>Packaged as a single JS file or as an NPM package</li>
-<li>Many games require no &quot;coding&quot;</li>
-</ul>
-<h2 id="quick-start">Quick Start</h2><p>You can put up a fresh site with Jumbo Grove in less than 30 seconds by <a href="https://glitch.com/~jumbo-grove-demo">remixing this project on Glitch.</a> You can edit the game in a browser and it will live-update a real site!</p>
-<h2 id="docs">Docs</h2><h3 id="-a-href--http---steveasleep-com-jumbogrove-manual-tutorial-basics-html--tutorial--a-"><a href="http://steveasleep.com/jumbogrove/manual/tutorial_basics.html">Tutorial</a></h3><h3 id="-a-href--http---steveasleep-com-jumbogrove-identifiers-html--api--a-"><a href="http://steveasleep.com/jumbogrove/identifiers.html">API</a></h3><h2 id="demo">Demo</h2><p>If you are on the <a href="http://steveasleep.com/jumbogrove/">Jumbo Grove documentation site</a>
-(as opposed to reading the Readme on GitHub) then you will see a quick demo here:</p>
-<p><div id="firstdemo" class="jg-headless"></div>
-
-</p>
-<h2 id="demo-source-code">Demo source code</h2><p>Here&apos;s the source code for the above demo:</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#firstdemo&apos;, {
-  id: &apos;demo&apos;,
-  situations: [
-    {
-      id: &apos;start&apos;,
-      content: `
-      ### The Jumbo Grove Experience
-      You are looking at a [web page](&gt;write:web_page).
-      `,
-      snippets: {
-        web_page: `
-        It is the documentation for Jumbo Grove. What do you want to do?
-
-        * [Make a game](@make-a-game)
-        * [Admire the beautiful CSS](@admire-css)
-        `
-      }
-    },
-    {
-      id: &apos;make-a-game&apos;,
-      content: `
-      You type until your fingers are [sore](&gt;replaceself:sore_fingers).
-      You make something incredible.
-      `,
-      snippets: {
-        sore_fingers: &quot;sore (like, really sore)&quot;
-      },
-      choices: [&apos;admire-css&apos;],
-    },
-    {
-      id: &apos;admire-css&apos;,
-      optionText: &apos;Admire the CSS&apos;,
-      content: `
-      Your eyes trace the loving lines of the sidebar and the curves of the fonts.
-
-      ### The End
-      `
-    },
-  ]
-});</code>
-</code></pre>
-<h2 id="-quot-jumbo-grove-quot--">&quot;Jumbo Grove&quot;?</h2><p>Interactive Fiction = IF<br>I + 1, F + 1 = J, G<br>J[umbo] G[rove]</p>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="where-to-find-the-api-reference">Where to find the API reference</h1><p><a href="./manual/../identifiers.html">Here is the API reference.</a>
+It has details about situations, models, qualities, and more.</p>
 </div>
 </div>
 
