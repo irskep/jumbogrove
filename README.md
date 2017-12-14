@@ -18,7 +18,7 @@ You can put up a fresh site with Jumbo Grove in less than 30 seconds by [remixin
 ## Docs
 
 
-### [Tutorial](http://steveasleep.com/jumbogrove/manual/guide.html)
+### [Tutorial](http://steveasleep.com/jumbogrove/manual/tutorial_basics.html)
 
 ### [API](http://steveasleep.com/jumbogrove/identifiers.html)
 

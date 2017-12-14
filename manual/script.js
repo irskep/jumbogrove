@@ -281,4 +281,65 @@ _.defer(() => {
     ]
   });
 
+  tryGame("#prison-escape", {
+    id: 'prison-escape',
+    // You can specify the initial value of globalState like this
+    globalState: {
+      playerHasKey: false,
+    },
+    situations: [
+      {
+        id: 'start',
+        optionText: 'Return to your bedroom',
+        content: `
+          You are standing in a cold, damp cell. A straw mattress lies in
+          the corner.
+        `,
+        choices: ['key-room', 'door-room'],
+      },
+
+      {
+        id: 'key-room',
+        // In the ASCII map I drew this as a whole room, but the flavor
+        // text just calls it a hole in the wall.
+        optionText: 'Inspect hole in the wall',
+        getCanSee: function(model, host) {
+          // only visible if player doesn't already have the key
+          return model.globalState.playerHasKey === false;
+        },
+        enter: function(model, ui, from) {
+          model.globalState.playerHasKey = true;
+        },
+        content: `
+          There is a key hidden in the hole!
+        `,
+        choices: ['start']
+      },
+
+      {
+        id: 'door-room',
+        optionText: 'Walk to the other end of the room',
+        content: `
+          There is a locked door here.
+        `,
+        choices: ['start', 'win-the-game']
+      },
+
+      {
+        id: 'win-the-game',
+        optionText: 'Unlock the door',
+        getCanChoose: function(model, host) {
+          // only pickable if player DOES have the key
+          return model.globalState.playerHasKey === true;
+        },
+        content: `
+          You walk out into the hallway. You're free!
+
+          # Game Over
+        `
+      }
+
+    ]
+  });
+
 });
