@@ -1,4 +1,13 @@
-# Scripting
+# Scripting Choices
+
+In this guide:
+
+* `situation.optionText` as a function (`function(model, host) -> Bool`)
+* `situation.getCanSee(model, host) -> Bool`
+* `situation.getCanChoose(model, host) -> Bool`
+* `situation.enter(model, ui, fromSituation)`
+* `situation.priority`
+* `model.globalState`
 
 ## Custom option text
 
@@ -156,7 +165,7 @@ when something happens or a decision needs to be made.
   but not *take* it. This is so they know there is an option they haven't
   yet unlocked.
 * `situation.enter(model, ui, fromSituation)` is called when the player
-  enters a situation.
+  enters a situation, *after* `content` has been shown.
 
 And finally, we need to make use of the `model`. The model object
 [does a lot of things.](../class/src/jg/model.js~model.html)
@@ -244,3 +253,109 @@ jumbogrove.jumbogrove('#game', {
 ```
 
 <div id="prison-escape" class="jg-headless"></div>
+
+## Priority
+
+Imagine you're making a game about a high school crush. The player is
+at a party, and may talk to anyone. But when their crush walks in the
+room, all they can do is stammer and stare.
+
+We could write a `getCanSee` function for every person you talk to,
+but it's much simpler to use `situation.priority`!
+
+When a situation's choices have different priorities, it only shows
+choices of situations *with the highest priority.*
+
+So if situations A, B, and C have `priority: 0`, but situations E and F
+have `priority: 1`, then only E and F will be presented.
+
+All situations have priority 0 by default.
+
+Here's a small demonstration:
+
+```js
+jumbogrove.jumbogrove('#game', {
+  id: 'party-crush',
+  globalState: {
+    turnsUntilCrushEnters: 2,
+    hasTalkedToJeff: false,
+    hasTalkedToXiao: false,
+    hasTalkedToMegan: false,
+    hasTalkedToMarta: false
+  },
+  situations: [
+    {
+      id: 'start',
+      content: "You have entered a pretty chill party.",
+      choices: ['#talk-to-someone'],
+    },
+
+    {
+      id: 'jeff', tags: ['talk-to-someone'],
+      optionText: "Talk to Jeff",
+      getCanSee: function(model) { return !model.globalState.hasTalkedToJeff; },
+      enter: function(model) {
+        model.globalState.hasTalkedToJeff = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: "You catch up with Jeff. He aced his math test.",
+      choices: ['#talk-to-someone']
+    },
+
+    {
+      id: 'xiao', tags: ['talk-to-someone'],
+      optionText: "Talk to Xiao",
+      getCanSee: function(model) { return !model.globalState.hasTalkedToXiao; },
+      enter: function(model) {
+        model.globalState.hasTalkedToXiao = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: "You catch up with Xiao. He scored the winning goal at a football game.",
+      choices: ['#talk-to-someone']
+    },
+
+    {
+      id: 'megan', tags: ['talk-to-someone'],
+      optionText: "Talk to Megan",
+      getCanSee: function(model) { return !model.globalState.hasTalkedToMegan; },
+      enter: function(model) {
+        model.globalState.hasTalkedToMegan = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: "You catch up with Megan. She tells you about a short story she wrote.",
+      choices: ['#talk-to-someone']
+    },
+
+    {
+      id: 'marta', tags: ['talk-to-someone'],
+      optionText: "Talk to Marta",
+      getCanSee: function(model) { return !model.globalState.hasTalkedToMarta; },
+      enter: function(model) {
+        model.globalState.hasTalkedToMarta = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: "You catch up with Marta. She just beat her personal best deadlift.",
+      choices: ['#talk-to-someone']
+    },
+
+    {
+      id: 'crush', tags: ['talk-to-someone'],
+      optionText: "Your crush is here",
+      priority: 1,
+      getCanSee: function(model) {
+        return model.globalState.turnsUntilCrushEnters <= 0;
+      },
+      content: `
+      You see your crush enter the party. You immediately forget how to speak.
+      You stammer uncontrollably, trying to excuse yourself while you escape
+      out the back door.
+
+      # The End
+      `
+    }
+
+  ]
+});
+```
+
+<div id="party-crush" class="jg-headless"></div>

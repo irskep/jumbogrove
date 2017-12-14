@@ -1,5 +1,14 @@
 # The Basics
 
+In this guide:
+
+* Situations: what are they?
+* Tags
+* Writing text
+* Presenting choices
+
+## The Maze
+
 For our first game, we will create a simple maze for the player to
 solve. **You won't need to write any JavaScript functions for this section.**
 
@@ -23,7 +32,7 @@ All content is written in HTML and
 You should read up on Markdown before continuing.
 [Try it live in your browser here.](http://markdownlivepreview.com/)
 
-### Introducing situations
+## Introducing situations
 
 A Jumbo Grove game is made of **situations**. You can also think of
 them as "rooms," but we use the word "situation" because all they are
@@ -61,7 +70,7 @@ In fact, here is an **officially sanctioned copy-paste template for situations:*
   id: 'REPLACE THIS',
   tags: [],  // like ['maze-room', 'castle']
   autosave: false,
-  displayOrder: 0,  // placement in choices list
+  displayOrder: 0,  // determines placement in choices list (higher = farther down)
   optionText: 'Go to the copy-pasted situation',
   content: `
     # Title, if you want
@@ -91,7 +100,7 @@ In fact, here is an **officially sanctioned copy-paste template for situations:*
 
 It doesn't include absolutely everything, but it does have the most common fields.
 
-### Laying out the maze
+## Laying out the maze
 
 Let's assign letters to each square in the maze:
 
@@ -218,7 +227,7 @@ jumbogrove.jumbogrove('#game', {
 });
 ```
 
-### Introducing Tags
+## Introducing Tags
 
 When you specify some `choices` for your situation, you can include a
 hashtag to refer to a _group_ of situations.
@@ -257,7 +266,7 @@ jumbogrove.jumbogrove('#game', {
 })
 ```
 
-### Maze game teleporter pads
+## Maze game teleporter pads
 
 We can use this feature to add teleporter pads to a few cells of our maze.
 Any teleporter room can send the user to any other teleporter room.

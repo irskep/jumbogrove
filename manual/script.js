@@ -342,4 +342,87 @@ _.defer(() => {
     ]
   });
 
+  tryGame("#party-crush", {
+    id: 'party-crush',
+    globalState: {
+      turnsUntilCrushEnters: 2,
+      hasTalkedToJeff: false,
+      hasTalkedToXiao: false,
+      hasTalkedToMegan: false,
+      hasTalkedToMarta: false
+    },
+    situations: [
+      {
+        id: 'start',
+        content: "You have entered a pretty chill party.",
+        choices: ['#talk-to-someone'],
+      },
+
+      {
+        id: 'jeff', tags: ['talk-to-someone'],
+        optionText: "Talk to Jeff",
+        getCanSee: function(model) { return !model.globalState.hasTalkedToJeff; },
+        enter: function(model) {
+          model.globalState.hasTalkedToJeff = true;
+          model.globalState.turnsUntilCrushEnters -= 1;
+        },
+        content: "You catch up with Jeff. He aced his math test.",
+        choices: ['#talk-to-someone']
+      },
+
+      {
+        id: 'xiao', tags: ['talk-to-someone'],
+        optionText: "Talk to Xiao",
+        getCanSee: function(model) { return !model.globalState.hasTalkedToXiao; },
+        enter: function(model) {
+          model.globalState.hasTalkedToXiao = true;
+          model.globalState.turnsUntilCrushEnters -= 1;
+        },
+        content: "You catch up with Xiao. He scored the winning goal at a football game.",
+        choices: ['#talk-to-someone']
+      },
+
+      {
+        id: 'megan', tags: ['talk-to-someone'],
+        optionText: "Talk to Megan",
+        getCanSee: function(model) { return !model.globalState.hasTalkedToMegan; },
+        enter: function(model) {
+          model.globalState.hasTalkedToMegan = true;
+          model.globalState.turnsUntilCrushEnters -= 1;
+        },
+        content: "You catch up with Megan. She tells you about a short story she wrote.",
+        choices: ['#talk-to-someone']
+      },
+
+      {
+        id: 'marta', tags: ['talk-to-someone'],
+        optionText: "Talk to Marta",
+        getCanSee: function(model) { return !model.globalState.hasTalkedToMarta; },
+        enter: function(model) {
+          model.globalState.hasTalkedToMarta = true;
+          model.globalState.turnsUntilCrushEnters -= 1;
+        },
+        content: "You catch up with Marta. She just beat her personal best deadlift.",
+        choices: ['#talk-to-someone']
+      },
+
+      {
+        id: 'crush', tags: ['talk-to-someone'],
+        optionText: "Your crush is here",
+        priority: 1,
+        getCanSee: function(model) {
+          return model.globalState.turnsUntilCrushEnters <= 0;
+        },
+        content: `
+        You see your crush enter the party. You immediately forget how to speak.
+        You stammer uncontrollably, trying to excuse yourself while you escape
+        out the back door.
+
+        # The End
+        `
+      }
+
+    ]
+  });
+
 });
