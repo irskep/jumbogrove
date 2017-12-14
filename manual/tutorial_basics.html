@@ -52,26 +52,35 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html" data-ice="link">The Basics</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-situations" data-ice="link">Introducing situations</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#the-maze" data-ice="link">The Maze</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-situations" data-ice="link">Introducing situations</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
 </ul>
   </div>
 <div data-ice="manual">
     <ul class="manual-toc">
       
-    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html" data-ice="link">Scripting</a></li>
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html" data-ice="link">Scripting Choices</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#custom-option-text" data-ice="link">Custom option text</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#remembering-things" data-ice="link">Remembering things</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#model-globalstate" data-ice="link">model.globalState</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#tiny-maze-example" data-ice="link">Tiny maze example</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#priority" data-ice="link">Priority</a></li>
 </ul>
   </div>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="the-basics">The Basics</h1><p>For our first game, we will create a simple maze for the player to
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="the-basics">The Basics</h1><p>In this guide:</p>
+<ul>
+<li>Situations: what are they?</li>
+<li>Tags</li>
+<li>Writing text</li>
+<li>Presenting choices</li>
+</ul>
+<h2 id="the-maze">The Maze</h2><p>For our first game, we will create a simple maze for the player to
 solve. <strong>You won&apos;t need to write any JavaScript functions for this section.</strong></p>
 <p>To help us keep things straight, here&apos;s a map of the maze
 we&apos;ll create:</p>
@@ -88,7 +97,7 @@ we&apos;ll create:</p>
 <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>.
 You should read up on Markdown before continuing.
 <a href="http://markdownlivepreview.com/">Try it live in your browser here.</a></p>
-<h3 id="introducing-situations">Introducing situations</h3><p>A Jumbo Grove game is made of <strong>situations</strong>. You can also think of
+<h2 id="introducing-situations">Introducing situations</h2><p>A Jumbo Grove game is made of <strong>situations</strong>. You can also think of
 them as &quot;rooms,&quot; but we use the word &quot;situation&quot; because all they are
 is some hypertext shown to the player, and a decision to be made
 (which link to click).</p>
@@ -117,7 +126,7 @@ That&apos;s also OK!</p>
   id: &apos;REPLACE THIS&apos;,
   tags: [],  // like [&apos;maze-room&apos;, &apos;castle&apos;]
   autosave: false,
-  displayOrder: 0,  // placement in choices list
+  displayOrder: 0,  // determines placement in choices list (higher = farther down)
   optionText: &apos;Go to the copy-pasted situation&apos;,
   content: `
     # Title, if you want
@@ -145,7 +154,7 @@ That&apos;s also OK!</p>
 }</code>
 </code></pre>
 <p>It doesn&apos;t include absolutely everything, but it does have the most common fields.</p>
-<h3 id="laying-out-the-maze">Laying out the maze</h3><p>Let&apos;s assign letters to each square in the maze:</p>
+<h2 id="laying-out-the-maze">Laying out the maze</h2><p>Let&apos;s assign letters to each square in the maze:</p>
 <pre><code><code class="source-code prettyprint">   +-+-+-+-+
 -&gt;  A|B C|D|
    + + + + +
@@ -255,7 +264,7 @@ choice text should say.</p>
   ]
 });</code>
 </code></pre>
-<h3 id="introducing-tags">Introducing Tags</h3><p>When you specify some <code>choices</code> for your situation, you can include a
+<h2 id="introducing-tags">Introducing Tags</h2><p>When you specify some <code>choices</code> for your situation, you can include a
 hashtag to refer to a <em>group</em> of situations.</p>
 <p>In this case, the <code>living-room</code> situation would provide choices for
 both the <code>bathroom</code> and <code>bedroom</code> situations:</p>
@@ -288,7 +297,7 @@ both the <code>bathroom</code> and <code>bedroom</code> situations:</p>
   ]
 })</code>
 </code></pre>
-<h3 id="maze-game-teleporter-pads">Maze game teleporter pads</h3><p>We can use this feature to add teleporter pads to a few cells of our maze.
+<h2 id="maze-game-teleporter-pads">Maze game teleporter pads</h2><p>We can use this feature to add teleporter pads to a few cells of our maze.
 Any teleporter room can send the user to any other teleporter room.
 If we have lots of teleporters, we don&apos;t want to have to individually
 connect them all!</p>

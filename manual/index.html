@@ -52,20 +52,22 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html" data-ice="link">The Basics</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-situations" data-ice="link">Introducing situations</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#the-maze" data-ice="link">The Maze</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-situations" data-ice="link">Introducing situations</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
 </ul>
   </div>
 <div data-ice="manual">
     <ul class="manual-toc">
       
-    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html" data-ice="link">Scripting</a></li>
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html" data-ice="link">Scripting Choices</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#custom-option-text" data-ice="link">Custom option text</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#remembering-things" data-ice="link">Remembering things</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#model-globalstate" data-ice="link">model.globalState</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#tiny-maze-example" data-ice="link">Tiny maze example</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#priority" data-ice="link">Priority</a></li>
 </ul>
   </div>
 </div>
@@ -201,7 +203,12 @@ It has details about situations, models, qualities, and more.</p></div>
     </div>
 <div class="manual-card-wrap" data-ice="cards">
       <div class="manual-card">
-        <div data-ice="card"><h1>The Basics</h1><p>For our first game, we will create a simple maze for the player to
+        <div data-ice="card"><h1>The Basics</h1><p>In this guide:</p><ul>
+<li>Situations: what are they?</li>
+<li>Tags</li>
+<li>Writing text</li>
+<li>Presenting choices</li>
+</ul><h2>The Maze</h2><p>For our first game, we will create a simple maze for the player to
 solve. <strong>You won&apos;t need to write any JavaScript functions for this section.</strong></p><p>To help us keep things straight, here&apos;s a map of the maze
 we&apos;ll create:</p><pre><code><code class="source-code prettyprint">in +-+-+-+-+
  --&gt; |   | |
@@ -215,7 +222,7 @@ we&apos;ll create:</p><pre><code><code class="source-code prettyprint">in +-+-+-
 </code></pre><p>All content is written in HTML and
 <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>.
 You should read up on Markdown before continuing.
-<a href="http://markdownlivepreview.com/">Try it live in your browser here.</a></p><h3>Introducing situations</h3><p>A Jumbo Grove game is made of <strong>situations</strong>. You can also think of
+<a href="http://markdownlivepreview.com/">Try it live in your browser here.</a></p><h2>Introducing situations</h2><p>A Jumbo Grove game is made of <strong>situations</strong>. You can also think of
 them as &quot;rooms,&quot; but we use the word &quot;situation&quot; because all they are
 is some hypertext shown to the player, and a decision to be made
 (which link to click).</p><p>The bare minimum for a Jumbo Grove game is an <code>id</code> that uniquely identifies
@@ -239,7 +246,7 @@ That&apos;s also OK!</p><p>In fact, here is an <strong>officially sanctioned cop
   id: &apos;REPLACE THIS&apos;,
   tags: [],  // like [&apos;maze-room&apos;, &apos;castle&apos;]
   autosave: false,
-  displayOrder: 0,  // placement in choices list
+  displayOrder: 0,  // determines placement in choices list (higher = farther down)
   optionText: &apos;Go to the copy-pasted situation&apos;,
   content: `
     # Title, if you want
@@ -265,7 +272,7 @@ That&apos;s also OK!</p><p>In fact, here is an <strong>officially sanctioned cop
     }
   }
 }</code>
-</code></pre><p>It doesn&apos;t include absolutely everything, but it does have the most common fields.</p><h3>Laying out the maze</h3><p>Let&apos;s assign letters to each square in the maze:</p><pre><code><code class="source-code prettyprint">   +-+-+-+-+
+</code></pre><p>It doesn&apos;t include absolutely everything, but it does have the most common fields.</p><h2>Laying out the maze</h2><p>Let&apos;s assign letters to each square in the maze:</p><pre><code><code class="source-code prettyprint">   +-+-+-+-+
 -&gt;  A|B C|D|
    + + + + +
    |E F|G H|
@@ -362,7 +369,7 @@ choice text should say.</p><p>Here&apos;s the maze game so far, running right in
     }
   ]
 });</code>
-</code></pre><h3>Introducing Tags</h3><p>When you specify some <code>choices</code> for your situation, you can include a
+</code></pre><h2>Introducing Tags</h2><p>When you specify some <code>choices</code> for your situation, you can include a
 hashtag to refer to a <em>group</em> of situations.</p><p>In this case, the <code>living-room</code> situation would provide choices for
 both the <code>bathroom</code> and <code>bedroom</code> situations:</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
   id: &apos;house-game&apos;,
@@ -392,7 +399,7 @@ both the <code>bathroom</code> and <code>bedroom</code> situations:</p><pre><cod
     },
   ]
 })</code>
-</code></pre><h3>Maze game teleporter pads</h3><p>We can use this feature to add teleporter pads to a few cells of our maze.
+</code></pre><h2>Maze game teleporter pads</h2><p>We can use this feature to add teleporter pads to a few cells of our maze.
 Any teleporter room can send the user to any other teleporter room.
 If we have lots of teleporters, we don&apos;t want to have to individually
 connect them all!</p><p>The marked squares will contain teleporters:</p><pre><code><code class="source-code prettyprint">in +-+-+-+-+
@@ -480,7 +487,14 @@ connect them all!</p><p>The marked squares will contain teleporters:</p><pre><co
     </div>
 <div class="manual-card-wrap" data-ice="cards">
       <div class="manual-card">
-        <div data-ice="card"><h1>Scripting</h1><h2>Custom option text</h2><p><em>This section builds on the code from <a href="./manual/tutorial_basics.html">the previous section</a>.</em></p><p>You might have noticed that when you first &quot;Enter the maze&quot; and then
+        <div data-ice="card"><h1>Scripting Choices</h1><p>In this guide:</p><ul>
+<li><code>situation.optionText</code> as a function (<code>function(model, host) -&gt; Bool</code>)</li>
+<li><code>situation.getCanSee(model, host) -&gt; Bool</code></li>
+<li><code>situation.getCanChoose(model, host) -&gt; Bool</code></li>
+<li><code>situation.enter(model, ui, fromSituation)</code></li>
+<li><code>situation.priority</code></li>
+<li><code>model.globalState</code></li>
+</ul><h2>Custom option text</h2><p><em>This section builds on the code from <a href="./manual/tutorial_basics.html">the previous section</a>.</em></p><p>You might have noticed that when you first &quot;Enter the maze&quot; and then
 &quot;Go to E,&quot; one of the options is still &quot;Enter the maze,&quot; which takes you
 back to Cell A.</p><p>We can fix this using a little bit of JavaScript. <code>situation.optionText</code> can be either
 a string, or a function! (<a href="./manual/../class/src/jg/situation.js~Situation.html">You can see a reference for all the <code>situation</code> values
@@ -599,7 +613,7 @@ this situation as a choice by returning <code>false</code>.</li>
 but not <em>take</em> it. This is so they know there is an option they haven&apos;t
 yet unlocked.</li>
 <li><code>situation.enter(model, ui, fromSituation)</code> is called when the player
-enters a situation.</li>
+enters a situation, <em>after</em> <code>content</code> has been shown.</li>
 </ul><p>And finally, we need to make use of the <code>model</code>. The model object
 <a href="./manual/../class/src/jg/model.js~model.html">does a lot of things.</a>
 What we care about right now is the <code>model.globalState</code> object.</p><h3>model.globalState</h3><p>This object may contain anything you like, as long as it is safe too
@@ -668,7 +682,96 @@ convert it to JSON. <code>globalState</code> is part of your game&apos;s <em>sav
 
   ]
 });</code>
-</code></pre><p><div id="prison-escape" class="jg-headless"></div></p></div>
+</code></pre><p><div id="prison-escape" class="jg-headless"></div>
+
+</p><h2>Priority</h2><p>Imagine you&apos;re making a game about a high school crush. The player is
+at a party, and may talk to anyone. But when their crush walks in the
+room, all they can do is stammer and stare.</p><p>We could write a <code>getCanSee</code> function for every person you talk to,
+but it&apos;s much simpler to use <code>situation.priority</code>!</p><p>When a situation&apos;s choices have different priorities, it only shows
+choices of situations <em>with the highest priority.</em></p><p>So if situations A, B, and C have <code>priority: 0</code>, but situations E and F
+have <code>priority: 1</code>, then only E and F will be presented.</p><p>All situations have priority 0 by default.</p><p>Here&apos;s a small demonstration:</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;party-crush&apos;,
+  globalState: {
+    turnsUntilCrushEnters: 2,
+    hasTalkedToJeff: false,
+    hasTalkedToXiao: false,
+    hasTalkedToMegan: false,
+    hasTalkedToMarta: false
+  },
+  situations: [
+    {
+      id: &apos;start&apos;,
+      content: &quot;You have entered a pretty chill party.&quot;,
+      choices: [&apos;#talk-to-someone&apos;],
+    },
+
+    {
+      id: &apos;jeff&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Talk to Jeff&quot;,
+      getCanSee: function(model) { return !model.globalState.hasTalkedToJeff; },
+      enter: function(model) {
+        model.globalState.hasTalkedToJeff = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: &quot;You catch up with Jeff. He aced his math test.&quot;,
+      choices: [&apos;#talk-to-someone&apos;]
+    },
+
+    {
+      id: &apos;xiao&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Talk to Xiao&quot;,
+      getCanSee: function(model) { return !model.globalState.hasTalkedToXiao; },
+      enter: function(model) {
+        model.globalState.hasTalkedToXiao = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: &quot;You catch up with Xiao. He scored the winning goal at a football game.&quot;,
+      choices: [&apos;#talk-to-someone&apos;]
+    },
+
+    {
+      id: &apos;megan&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Talk to Megan&quot;,
+      getCanSee: function(model) { return !model.globalState.hasTalkedToMegan; },
+      enter: function(model) {
+        model.globalState.hasTalkedToMegan = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: &quot;You catch up with Megan. She tells you about a short story she wrote.&quot;,
+      choices: [&apos;#talk-to-someone&apos;]
+    },
+
+    {
+      id: &apos;marta&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Talk to Marta&quot;,
+      getCanSee: function(model) { return !model.globalState.hasTalkedToMarta; },
+      enter: function(model) {
+        model.globalState.hasTalkedToMarta = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: &quot;You catch up with Marta. She just beat her personal best deadlift.&quot;,
+      choices: [&apos;#talk-to-someone&apos;]
+    },
+
+    {
+      id: &apos;crush&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Your crush is here&quot;,
+      priority: 1,
+      getCanSee: function(model) {
+        return model.globalState.turnsUntilCrushEnters &lt;= 0;
+      },
+      content: `
+      You see your crush enter the party. You immediately forget how to speak.
+      You stammer uncontrollably, trying to excuse yourself while you escape
+      out the back door.
+
+      # The End
+      `
+    }
+
+  ]
+});</code>
+</code></pre><p><div id="party-crush" class="jg-headless"></div></p></div>
         <a data-ice="link" href="manual/tutorial_scripting.html"></a>
       </div>
     </div>

@@ -52,26 +52,37 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html" data-ice="link">The Basics</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-situations" data-ice="link">Introducing situations</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#the-maze" data-ice="link">The Maze</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-situations" data-ice="link">Introducing situations</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
 </ul>
   </div>
 <div data-ice="manual">
     <ul class="manual-toc">
       
-    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html" data-ice="link">Scripting</a></li>
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html" data-ice="link">Scripting Choices</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#custom-option-text" data-ice="link">Custom option text</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#remembering-things" data-ice="link">Remembering things</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#model-globalstate" data-ice="link">model.globalState</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#tiny-maze-example" data-ice="link">Tiny maze example</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#priority" data-ice="link">Priority</a></li>
 </ul>
   </div>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="scripting">Scripting</h1><h2 id="custom-option-text">Custom option text</h2><p><em>This section builds on the code from <a href="./manual/tutorial_basics.html">the previous section</a>.</em></p>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="scripting-choices">Scripting Choices</h1><p>In this guide:</p>
+<ul>
+<li><code>situation.optionText</code> as a function (<code>function(model, host) -&gt; Bool</code>)</li>
+<li><code>situation.getCanSee(model, host) -&gt; Bool</code></li>
+<li><code>situation.getCanChoose(model, host) -&gt; Bool</code></li>
+<li><code>situation.enter(model, ui, fromSituation)</code></li>
+<li><code>situation.priority</code></li>
+<li><code>model.globalState</code></li>
+</ul>
+<h2 id="custom-option-text">Custom option text</h2><p><em>This section builds on the code from <a href="./manual/tutorial_basics.html">the previous section</a>.</em></p>
 <p>You might have noticed that when you first &quot;Enter the maze&quot; and then
 &quot;Go to E,&quot; one of the options is still &quot;Enter the maze,&quot; which takes you
 back to Cell A.</p>
@@ -208,7 +219,7 @@ this situation as a choice by returning <code>false</code>.</li>
 but not <em>take</em> it. This is so they know there is an option they haven&apos;t
 yet unlocked.</li>
 <li><code>situation.enter(model, ui, fromSituation)</code> is called when the player
-enters a situation.</li>
+enters a situation, <em>after</em> <code>content</code> has been shown.</li>
 </ul>
 <p>And finally, we need to make use of the <code>model</code>. The model object
 <a href="./manual/../class/src/jg/model.js~model.html">does a lot of things.</a>
@@ -285,7 +296,104 @@ convert it to JSON. <code>globalState</code> is part of your game&apos;s <em>sav
   ]
 });</code>
 </code></pre>
-<p><div id="prison-escape" class="jg-headless"></div></p>
+<p><div id="prison-escape" class="jg-headless"></div>
+
+</p>
+<h2 id="priority">Priority</h2><p>Imagine you&apos;re making a game about a high school crush. The player is
+at a party, and may talk to anyone. But when their crush walks in the
+room, all they can do is stammer and stare.</p>
+<p>We could write a <code>getCanSee</code> function for every person you talk to,
+but it&apos;s much simpler to use <code>situation.priority</code>!</p>
+<p>When a situation&apos;s choices have different priorities, it only shows
+choices of situations <em>with the highest priority.</em></p>
+<p>So if situations A, B, and C have <code>priority: 0</code>, but situations E and F
+have <code>priority: 1</code>, then only E and F will be presented.</p>
+<p>All situations have priority 0 by default.</p>
+<p>Here&apos;s a small demonstration:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;party-crush&apos;,
+  globalState: {
+    turnsUntilCrushEnters: 2,
+    hasTalkedToJeff: false,
+    hasTalkedToXiao: false,
+    hasTalkedToMegan: false,
+    hasTalkedToMarta: false
+  },
+  situations: [
+    {
+      id: &apos;start&apos;,
+      content: &quot;You have entered a pretty chill party.&quot;,
+      choices: [&apos;#talk-to-someone&apos;],
+    },
+
+    {
+      id: &apos;jeff&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Talk to Jeff&quot;,
+      getCanSee: function(model) { return !model.globalState.hasTalkedToJeff; },
+      enter: function(model) {
+        model.globalState.hasTalkedToJeff = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: &quot;You catch up with Jeff. He aced his math test.&quot;,
+      choices: [&apos;#talk-to-someone&apos;]
+    },
+
+    {
+      id: &apos;xiao&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Talk to Xiao&quot;,
+      getCanSee: function(model) { return !model.globalState.hasTalkedToXiao; },
+      enter: function(model) {
+        model.globalState.hasTalkedToXiao = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: &quot;You catch up with Xiao. He scored the winning goal at a football game.&quot;,
+      choices: [&apos;#talk-to-someone&apos;]
+    },
+
+    {
+      id: &apos;megan&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Talk to Megan&quot;,
+      getCanSee: function(model) { return !model.globalState.hasTalkedToMegan; },
+      enter: function(model) {
+        model.globalState.hasTalkedToMegan = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: &quot;You catch up with Megan. She tells you about a short story she wrote.&quot;,
+      choices: [&apos;#talk-to-someone&apos;]
+    },
+
+    {
+      id: &apos;marta&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Talk to Marta&quot;,
+      getCanSee: function(model) { return !model.globalState.hasTalkedToMarta; },
+      enter: function(model) {
+        model.globalState.hasTalkedToMarta = true;
+        model.globalState.turnsUntilCrushEnters -= 1;
+      },
+      content: &quot;You catch up with Marta. She just beat her personal best deadlift.&quot;,
+      choices: [&apos;#talk-to-someone&apos;]
+    },
+
+    {
+      id: &apos;crush&apos;, tags: [&apos;talk-to-someone&apos;],
+      optionText: &quot;Your crush is here&quot;,
+      priority: 1,
+      getCanSee: function(model) {
+        return model.globalState.turnsUntilCrushEnters &lt;= 0;
+      },
+      content: `
+      You see your crush enter the party. You immediately forget how to speak.
+      You stammer uncontrollably, trying to excuse yourself while you escape
+      out the back door.
+
+      # The End
+      `
+    }
+
+  ]
+});</code>
+</code></pre>
+<p><div id="party-crush" class="jg-headless"></div></p>
 </div>
 </div>
 
