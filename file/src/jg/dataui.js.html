@@ -133,35 +133,43 @@ export default class ui {
     };
 
     /** @ignore */
-    this.templateHelperFunctions = {
-      ifThen: (condition, snippetTrue, snippetFalse) =&gt; {
-        return this.director.getSnippet(condition ? snippetTrue : snippetFalse);
-      },
-      list: (conjunction, ...items) =&gt; {
-        if (items.length &lt; 1) return &apos;&apos;;
-        if (items.length === 1) return items[0];
-        return `${_.initial(items).join(&apos;, &apos;)}, ${conjunction} ${_.last(items)}`;
-      },
-      listWithAction: (action, conjunction, ...items) =&gt; {
-        if (items.length &lt; 1) return &apos;&apos;;
-        items = items.map((item) =&gt; `[${item}](&gt;${action}:${window.encodeURIComponent(item)})`)
-        if (items.length === 1) return items[0];
-        return `${_.initial(items).join(&apos;, &apos;)}, ${conjunction} ${_.last(items)}`;
-      },
-    }
+    this.templateHelperFunctions = {};
   }
 
   /**
-   * Make the given functions (or constants) available to the template context.
+   * Make the given objects or values available to the template context.
    * @param {Map&lt;string, function&gt;} fns 
    */
-  addTemplateFunctions(fns) {
+  addTemplateContext(fns) {
     this.templateHelperFunctions = {...this.templateHelperFunctions, ...fns};
   }
 
   /**
    * Whenever a template is rendered, evaluate all these functions and make their
    * return values available to the template context.
+   * 
+   * **All template getters are called whenever you render any template.**
+   * 
+   * @example
+   * 
+   * // If you add a getter like this:
+   * jumbogrove.jumbogrove(&apos;#game&apos;, {
+   *   init: (model, ui) =&gt; {
+   *     ui.addTemplateGetters({
+   *       randomNumber: () =&gt; Math.random()
+   *     });
+   *   }
+   * });
+   * 
+   * // Then you may use it in a template like this:
+   * 
+   * `
+   * {{ randomNumber }}
+   * `
+   * 
+   * // and it will show the function&apos;s return value (in this case, a random
+   * // number 0-1).
+   * 
    * @param {Map&lt;string, function&gt;} fns 
    */
   addTemplateGetters(fns) {
@@ -185,11 +193,10 @@ export default class ui {
     return {
       ...this.director.model.globalState,
       ...this.director.model,
-      model: this.director.model,
-      ui: this,
       ...getters,
       ...this.templateHelperFunctions,
-      ...this.director.model.templateHelperFunctions,
+      model: this.director.model,
+      ui: this,
     };
   }
 

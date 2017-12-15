@@ -160,12 +160,12 @@ class game {
 
     /**
      * Called immediately after all initial objects have been created, but before the
-     * first situation has been entered. This is where you would add Markdown plugins.
+     * first situation has been entered. This is where you would add Markdown plugins
+     * and Nunjucks filters.
      * @param {model} model 
      * @param {ui} ui 
-     * @param {MarkdownIt} markdown 
      */
-    init(model, ui, markdown) { }
+    init(model, ui) { }
 
     /**
      * Called when the game has requested to enter a new situation. This function returns

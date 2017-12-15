@@ -34409,10 +34409,6 @@ var model_model = function () {
         this._situations = {};
         /** @ignore */
         this._initialSituationId = initialSituation;
-        /** @ignore */
-        this.templateHelperFunctions = {};
-        /** @ignore */
-        this.templateHelperGetters = {};
 
         // These will be injected when the UI is bound to the director
         /** @ignore */
@@ -34513,28 +34509,6 @@ var model_model = function () {
         key: 'extend',
         value: function extend(fns) {
             assign_default()(this, fns);
-            assign_default()(this.templateHelperFunctions, fns);
-        }
-
-        /**
-         * Make dynamically-evaluated values available to templates.
-         * 
-         * For example, if you do this:
-         * 
-         * ```
-         * model.addTemplateGetters({minutes: () => new Date().getMinutes()});
-         * ```
-         * 
-         * then whenever you write `<%= minutes %>` in your template, the return
-         * value of the function will appear in the text.
-         * 
-         * @param {Map<string, function>} fns Mapping of name to getter
-         */
-
-    }, {
-        key: 'addTemplateGetters',
-        value: function addTemplateGetters(fns) {
-            assign_default()(this.templateHelperGetters, fns);
         }
 
         /**
@@ -35023,9 +34997,7 @@ var director_JumboGroveDirector = function () {
             this.model.asideHeaderHTML = function () {
                 return ui.renderMarkdownTemplate(_this.asideHeader);
             };
-            if (!wasBound) {
-                this.init(this.model, this.ui, this.ui.md);
-            }
+            this.init(this.model, this.ui, wasBound);
         }
     }, {
         key: 'start',
@@ -35419,49 +35391,47 @@ var dataui_ui = function () {
     };
 
     /** @ignore */
-    this.templateHelperFunctions = {
-      ifThen: function ifThen(condition, snippetTrue, snippetFalse) {
-        return _this.director.getSnippet(condition ? snippetTrue : snippetFalse);
-      },
-      list: function list(conjunction) {
-        for (var _len = arguments.length, items = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-          items[_key - 1] = arguments[_key];
-        }
-
-        if (items.length < 1) return '';
-        if (items.length === 1) return items[0];
-        return lodash_default.a.initial(items).join(', ') + ', ' + conjunction + ' ' + lodash_default.a.last(items);
-      },
-      listWithAction: function listWithAction(action, conjunction) {
-        for (var _len2 = arguments.length, items = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-          items[_key2 - 2] = arguments[_key2];
-        }
-
-        if (items.length < 1) return '';
-        items = items.map(function (item) {
-          return '[' + item + '](>' + action + ':' + window.encodeURIComponent(item) + ')';
-        });
-        if (items.length === 1) return items[0];
-        return lodash_default.a.initial(items).join(', ') + ', ' + conjunction + ' ' + lodash_default.a.last(items);
-      }
-    };
+    this.templateHelperFunctions = {};
   }
 
   /**
-   * Make the given functions (or constants) available to the template context.
+   * Make the given objects or values available to the template context.
    * @param {Map<string, function>} fns 
    */
 
 
   createClass_default()(ui, [{
-    key: 'addTemplateFunctions',
-    value: function addTemplateFunctions(fns) {
+    key: 'addTemplateContext',
+    value: function addTemplateContext(fns) {
       this.templateHelperFunctions = extends_default()({}, this.templateHelperFunctions, fns);
     }
 
     /**
      * Whenever a template is rendered, evaluate all these functions and make their
      * return values available to the template context.
+     * 
+     * **All template getters are called whenever you render any template.**
+     * 
+     * @example
+     * 
+     * // If you add a getter like this:
+     * jumbogrove.jumbogrove('#game', {
+     *   init: (model, ui) => {
+     *     ui.addTemplateGetters({
+     *       randomNumber: () => Math.random()
+     *     });
+     *   }
+     * });
+     * 
+     * // Then you may use it in a template like this:
+     * 
+     * `
+     * {{ randomNumber }}
+     * `
+     * 
+     * // and it will show the function's return value (in this case, a random
+     * // number 0-1).
+     * 
      * @param {Map<string, function>} fns 
      */
 
@@ -35535,10 +35505,10 @@ var dataui_ui = function () {
         }
       }
 
-      return extends_default()({}, this.director.model.globalState, this.director.model, {
+      return extends_default()({}, this.director.model.globalState, this.director.model, getters, this.templateHelperFunctions, {
         model: this.director.model,
         ui: this
-      }, getters, this.templateHelperFunctions, this.director.model.templateHelperFunctions);
+      });
     }
 
     /**

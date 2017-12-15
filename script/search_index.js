@@ -492,9 +492,9 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "src/jg/dataui.js~ui#addtemplatefunctions",
-    "class/src/jg/dataui.js~ui.html#instance-method-addTemplateFunctions",
-    "src/jg/dataui.js~ui#addTemplateFunctions",
+    "src/jg/dataui.js~ui#addtemplatecontext",
+    "class/src/jg/dataui.js~ui.html#instance-method-addTemplateContext",
+    "src/jg/dataui.js~ui#addTemplateContext",
     "method"
   ],
   [
@@ -730,12 +730,6 @@ window.esdocSearchIndex = [
     "file/src/jg/model.js.html",
     "src/jg/model.js",
     "file"
-  ],
-  [
-    "src/jg/model.js~model#addtemplategetters",
-    "class/src/jg/model.js~model.html#instance-method-addTemplateGetters",
-    "src/jg/model.js~model#addTemplateGetters",
-    "method"
   ],
   [
     "src/jg/model.js~model#allcharacters",

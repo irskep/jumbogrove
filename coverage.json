@@ -1,7 +1,7 @@
 {
-  "coverage": "73.8%",
-  "expectCount": 168,
-  "actualCount": 124,
+  "coverage": "73.33%",
+  "expectCount": 165,
+  "actualCount": 121,
   "files": {
     "src/example.js": {
       "expectCount": 1,
@@ -21,7 +21,7 @@
       "expectCount": 28,
       "actualCount": 27,
       "undocumentLines": [
-        118
+        126
       ]
     },
     "src/jg/director.js": {
@@ -33,8 +33,8 @@
         17,
         28,
         39,
-        269,
-        273,
+        267,
+        271,
         42,
         78,
         81,
@@ -43,24 +43,24 @@
         88,
         92,
         94,
-        105,
-        115,
-        120,
-        144,
-        148,
-        155,
-        163,
-        170,
-        174,
-        175,
-        186,
-        209,
-        216,
-        225,
-        231,
-        237,
-        265,
-        266
+        103,
+        113,
+        118,
+        142,
+        146,
+        153,
+        161,
+        168,
+        172,
+        173,
+        184,
+        207,
+        214,
+        223,
+        229,
+        235,
+        263,
+        264
       ]
     },
     "src/jg/gameformat/character.js": {
@@ -84,8 +84,8 @@
       "undocumentLines": []
     },
     "src/jg/model.js": {
-      "expectCount": 27,
-      "actualCount": 27,
+      "expectCount": 24,
+      "actualCount": 24,
       "undocumentLines": []
     },
     "src/jg/qualities/flag.js": {

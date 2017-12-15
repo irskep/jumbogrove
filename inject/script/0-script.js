@@ -459,4 +459,69 @@ _.defer(() => {
     ]
   });
 
+  tryGame('#custom-filter-demo', {
+    id: 'custom-filter-demo',
+    globalState: { isAwesome: true },
+    init: function(model, ui) {
+      ui.nunjucks.addFilter('yesNo', function(val) {
+        if (val) { return "yes"; } else { return "no"; }
+      });
+    },
+    situations: [
+      {
+        id: 'start',
+        // Am I awesome? YES!
+        content: "Am I awesome? {{ isAwesome|yesNo|upper }}!"
+      }
+    ]
+  });
+
+  tryGame('#whitespace-example-1', {
+    id: 'whitespace-example-1',
+    situations: [
+      {
+        id: 'start',
+        content: `
+        Hello.
+
+        {% if true %}
+            This will show up as code!
+        {% else %}
+        This would be a normal paragraph.
+        {% endif %}
+        `
+      }
+    ]
+  });
+
+  tryGame('#whitespace-example-2', {
+    id: 'whitespace-example-2',
+    situations: [
+      {
+        id: 'start',
+        content: `
+        Hey, my name is
+        {% if name == 'brad' -%}
+          Brad
+        {%- else -%}
+          Jeff
+        {%- endif %}.
+        `
+      }
+    ]
+  });
+
+  tryGame('#markdown-it-attrs-demo', {
+    id: 'markdown-it-attrs-demo',
+    situations: [
+      {
+        id: 'start',
+        content: `
+        The last word is **pink**{.demo-pink}! Use your browser's
+        inspector tool to look at the CSS on it.
+        `
+      }
+    ]
+  });
+
 });

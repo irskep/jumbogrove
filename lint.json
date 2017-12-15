@@ -50,35 +50,35 @@
     "filePath": "src/jg/dataui.js",
     "lines": [
       {
-        "lineNumber": 181,
+        "lineNumber": 188,
         "line": "  /**"
       },
       {
-        "lineNumber": 182,
+        "lineNumber": 189,
         "line": "   * Like {@link renderMarkdownTemplate}, but automatically sets `inline` flag based on"
       },
       {
-        "lineNumber": 183,
+        "lineNumber": 190,
         "line": "   * presence of line breaks."
       },
       {
-        "lineNumber": 184,
+        "lineNumber": 191,
         "line": "   * @param {string} src "
       },
       {
-        "lineNumber": 185,
+        "lineNumber": 192,
         "line": "   * @param {Map<string,*>} args Additional template context"
       },
       {
-        "lineNumber": 186,
+        "lineNumber": 193,
         "line": "   * @param {Boolean} inline If true, do not parse any block-level markup or wrap in a paragraph."
       },
       {
-        "lineNumber": 187,
+        "lineNumber": 194,
         "line": "   */"
       },
       {
-        "lineNumber": 188,
+        "lineNumber": 195,
         "line": "  renderMarkdownTemplateMaybeInline(src, args = null) {"
       }
     ],
@@ -97,23 +97,23 @@
     "filePath": "src/jg/model.js",
     "lines": [
       {
-        "lineNumber": 77,
+        "lineNumber": 73,
         "line": "    /**"
       },
       {
-        "lineNumber": 78,
+        "lineNumber": 74,
         "line": "     * Follow a Jumbo Grove link (`@situation-id` or `>action`)."
       },
       {
-        "lineNumber": 79,
+        "lineNumber": 75,
         "line": "     * @param {command} string"
       },
       {
-        "lineNumber": 80,
+        "lineNumber": 76,
         "line": "     */"
       },
       {
-        "lineNumber": 81,
+        "lineNumber": 77,
         "line": "    do(...args) {"
       }
     ],
@@ -129,23 +129,23 @@
     "filePath": "src/jg/model.js",
     "lines": [
       {
-        "lineNumber": 85,
+        "lineNumber": 81,
         "line": "    /**"
       },
       {
-        "lineNumber": 86,
+        "lineNumber": 82,
         "line": "     * Go to the given sitaution (no `@`)."
       },
       {
-        "lineNumber": 87,
+        "lineNumber": 83,
         "line": "     * @param {string} id"
       },
       {
-        "lineNumber": 88,
+        "lineNumber": 84,
         "line": "     */"
       },
       {
-        "lineNumber": 89,
+        "lineNumber": 85,
         "line": "    goTo(...args) {"
       }
     ],
@@ -161,27 +161,27 @@
     "filePath": "src/jg/model.js",
     "lines": [
       {
-        "lineNumber": 93,
+        "lineNumber": 89,
         "line": "    /**"
       },
       {
-        "lineNumber": 94,
+        "lineNumber": 90,
         "line": "     * Returns true iff the given string can be handled by Jumbo Grove (rather than being a normal HTML link)"
       },
       {
-        "lineNumber": 95,
+        "lineNumber": 91,
         "line": "     * @param {string} string A string to check"
       },
       {
-        "lineNumber": 96,
+        "lineNumber": 92,
         "line": "     * @returns {Boolean} "
       },
       {
-        "lineNumber": 97,
+        "lineNumber": 93,
         "line": "     */"
       },
       {
-        "lineNumber": 98,
+        "lineNumber": 94,
         "line": "    isManagedLink(...args) {"
       }
     ],

@@ -75,6 +75,11 @@
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html" data-ice="link">Templates</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#world--39-s-simplest-puzzle" data-ice="link">World&apos;s Simplest Puzzle</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#template-context" data-ice="link">Template Context</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#custom-filters" data-ice="link">Custom Filters</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#with-markdown--amp--whitespace" data-ice="link">With Markdown &amp; Whitespace</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#adding-css" data-ice="link">Adding CSS</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#changing-template-engines" data-ice="link">Changing Template Engines</a></li>
 </ul>
   </div>
 </div>
@@ -787,7 +792,17 @@ have <code>priority: 1</code>, then only E and F will be presented.</p><p>All si
         <div data-ice="card"><h1>Templates</h1><p>A situation doesn&apos;t always have to have the same text every time the
 player sees it. You can use
 <a href="https://mozilla.github.io/nunjucks/templating.html">Nunjucks template syntax</a>
-to do all kinds of cool stuff!</p><h2>World&apos;s Simplest Puzzle</h2><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+to do all kinds of cool stuff!</p><p>The Nunjucks documentation is pretty good, so this part of the tutorial
+won&apos;t really dive into the ins and outs of writing templates, but there
+are a few interesting topics to cover:</p><ul>
+<li>Basic usage</li>
+<li>Template context: what variables are accessible in templates?</li>
+<li>Custom filters</li>
+<li>How Jumbo Grove uses both Nunjucks and Markdown to render text</li>
+<li>Advanced Markdown usage</li>
+</ul><h2>World&apos;s Simplest Puzzle</h2><p>Here&apos;s a quick demonstration of an if-statement that reads a value from
+<code>model.globalState</code>. The template context includes <code>model.globalState</code>
+for convenience, so you can check it really easily.</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
   id: &apos;simple-puzzle&apos;,
   globalState: { hasPulledLever: false },
   situations: [
@@ -820,7 +835,106 @@ to do all kinds of cool stuff!</p><h2>World&apos;s Simplest Puzzle</h2><pre><cod
 
   ]
 })</code>
-</code></pre><p><div id="simple-puzzle" class="jg-headless"></div></p></div>
+</code></pre><p><div id="simple-puzzle" class="jg-headless"></div>
+
+</p><h2>Template Context</h2><p>The <em>template context</em> is the set of variables accessible directly
+in a template.</p><p><code>model</code> and <code>ui</code> are always accessible in the template context,
+so this will always work:</p><pre><code class="lang-js"><code class="source-code prettyprint">{% if model.globalState.someVar %}some text{% endif %}</code>
+</code></pre><p>Here&apos;s how the template context is created each time a template is rendered:</p><ul>
+<li>Add everything from <code>model.globalState</code></li>
+<li>Add <code>player</code>, if there is a player <a href="./manual/../class/src/jg/character.js~Character.html">character</a></li>
+<li>Add everything you put in <a href="./manual/../class/src/jg/dataui.js~ui.html#instance-method-addTemplateGetters">ui.addTemplateGetters()</a></li>
+<li>Add everything you put in <a href="./manual/../class/src/jg/dataui.js~ui.html#instance-method-addTemplateContext">ui.addTemplateContext()</a></li>
+<li>Add <code>model</code> and <code>ui</code></li>
+</ul><h2>Custom Filters</h2><p>You can add custom filters to templates using the <code>init</code> hook. This function
+is called as soon as Jumbo Grove has parsed your game.</p><p>Here&apos;s an example of adding a <code>| yesNo</code> filter to boolean values, so you can
+write <code>{{ myVal|yesNo }}</code> to get a &quot;yes&quot; or &quot;no&quot; in your text instead of
+&quot;true&quot; or &quot;false&quot;:</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;custom-filter-demo&apos;,
+  globalState: { isAwesome: true },
+  init: function(model, ui) {
+    ui.nunjucks.addFilter(&apos;yesNo&apos;, function(val) {
+      if (val) { return &quot;yes&quot;; } else { return &quot;no&quot;; }
+    });
+  },
+  situations: [
+    {
+      id: &apos;start&apos;,
+      // Am I awesome? YES!
+      content: &quot;Am I awesome? {{ isAwesome|yesNo|upper }}!&quot;
+    }
+  ]
+});</code>
+</code></pre><p><div id="custom-filter-demo" class="jg-headless"></div>
+
+</p><p>For more on Nunjucks filters, <a href="https://mozilla.github.io/nunjucks/api.html#custom-filters">check out the Nunjucks docs.</a></p><h2>With Markdown &amp; Whitespace</h2><p>Any time you write the <code>content</code> for a situation, or the
+<code>navHeader</code> or <code>asideHeader</code>, text is processed like this:</p><ol>
+<li>Remove left indentation</li>
+<li>Run Nunjucks</li>
+<li>Run MarkdownIt</li>
+</ol><p>Normally this will have straightforward results. But you have to be
+careful not to add indentation when you don&apos;t mean to, because Markdown
+treats indented text as a code block:</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;whitespace-example-1&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,
+      content: `
+      Hello.
+
+      {% if true %}
+          This will show up as code!
+      {% endif %}
+
+      {% if true %}
+      This is a normal paragraph.
+      {% endif %}
+      `
+    }
+  ]
+});</code>
+</code></pre><p><div id="whitespace-example-1" class="jg-headless"></div>
+
+</p><p>You can &quot;eat&quot; the whitespace before a <code>{%</code> or after a <code>%}</code> by adding a
+dash character (<code>{%-</code> / <code>-%}</code>):</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;whitespace-example-2&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,
+      content: `
+      Hey, my name is
+      {% if name == &apos;brad&apos; -%}
+        Brad
+      {%- else -%}
+        Jeff
+      {%- endif %}.
+      `
+    }
+  ]
+});</code>
+</code></pre><p><div id="whitespace-example-2" class="jg-headless"></div>
+
+</p><h2>Adding CSS</h2><p>Jumbo Grove makes games for web browsers. It would be a shame if you couldn&apos;t
+take advantage of all those great web styling features. Fortunately,
+Jumbo Grove includes a MarkdownIt extension called
+<a href="https://www.npmjs.com/package/markdown-it-attrs">markdown-it-attrs</a>,
+which lets you add CSS classes to things!</p><p>You can add additional MarkdownIt extensions in your <code>init</code> callback
+using <code>ui.md</code>, a <code>MarkdownIt</code> instance.</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;markdown-it-attrs-demo&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,
+      content: `
+      The last word is **pink**{.demo-pink}! Use your browser&apos;s
+      inspector tool to look at the CSS on it.
+      `
+    }
+  ]
+});</code>
+</code></pre><p><div id="markdown-it-attrs-demo" class="jg-headless"></div>
+
+</p><h2>Changing Template Engines</h2><p>It is possible to do this, but it is not in this guide because it
+should only be done if you really, really know what you are doing.</p></div>
         <a data-ice="link" href="manual/tutorial_templates.html"></a>
       </div>
     </div>
