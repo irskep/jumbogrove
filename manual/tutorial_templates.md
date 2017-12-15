@@ -200,6 +200,13 @@ jumbogrove.jumbogrove('#game', {
 
 <div id="markdown-it-attrs-demo" class="jg-headless"></div>
 
+## Template Comment Syntax
+
+Because Nunjucks's comment syntax (`{# blah blah blah %}`) conflicts
+with `markdown-it-attrs`'s HTML ID syntax (`{#some-id}`), Nunjucks is
+configured by default to use `{## blah blah blah ##}` for comments
+(two hashes instead of one on each side).
+
 ## Changing Template Engines
 
 It is possible to do this, but it is not in this guide because it

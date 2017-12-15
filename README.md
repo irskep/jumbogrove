@@ -13,7 +13,9 @@ is a medium for storytelling that crosses over into video games.
 
 ## Quick Start
 
-You can put up a fresh site with Jumbo Grove in less than 30 seconds by [remixing this project on Glitch.](https://glitch.com/~jumbo-grove-demo) You can edit the game in a browser and it will live-update a real site!
+You can put up a fresh site with Jumbo Grove in less than 30 seconds by
+[remixing this project on Glitch.](https://glitch.com/edit/#!/remix/jumbo-grove-demo)
+You can edit the game in a browser and it will live-update a real site!
 
 ## Docs
 
