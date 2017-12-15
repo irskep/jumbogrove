@@ -5,3 +5,12 @@
   border: 1px solid red;
   padding: 0 1rem;
 }
+
+.JumboGrove .JGHTMLItem p:first-child {
+  margin-top: 1rem;
+}
+
+.demo-pink {
+  color: fuchsia;
+}
+

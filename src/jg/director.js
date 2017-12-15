@@ -97,9 +97,7 @@ class JumboGroveDirector {
         this.model.asideHeaderHTML = () => {
             return ui.renderMarkdownTemplate(this.asideHeader);
         }
-        if (!wasBound) {
-            this.init(this.model, this.ui, this.ui.md);
-        }
+        this.init(this.model, this.ui, wasBound);
     }
 
     start() {

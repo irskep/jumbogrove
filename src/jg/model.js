@@ -30,10 +30,6 @@ export default class model {
         this._situations = {};
         /** @ignore */
         this._initialSituationId = initialSituation;
-        /** @ignore */
-        this.templateHelperFunctions = {};
-        /** @ignore */
-        this.templateHelperGetters = {};
 
         // These will be injected when the UI is bound to the director
         /** @ignore */
@@ -110,25 +106,6 @@ export default class model {
      */
     extend(fns) {
         Object.assign(this, fns);
-        Object.assign(this.templateHelperFunctions, fns);
-    }
-
-    /**
-     * Make dynamically-evaluated values available to templates.
-     * 
-     * For example, if you do this:
-     * 
-     * ```
-     * model.addTemplateGetters({minutes: () => new Date().getMinutes()});
-     * ```
-     * 
-     * then whenever you write `<%= minutes %>` in your template, the return
-     * value of the function will appear in the text.
-     * 
-     * @param {Map<string, function>} fns Mapping of name to getter
-     */
-    addTemplateGetters(fns) {
-        Object.assign(this.templateHelperGetters, fns);
     }
 
     /**

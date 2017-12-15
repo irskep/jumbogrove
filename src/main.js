@@ -18,7 +18,7 @@ Vue.config.productionTip = false
  * });
  * 
  * @param {string} selector A CSS selector for the element you want the story to be rendered in.
- * @param {object} data Your story
+ * @param {game} data Your story
  */
 const jumbogrove = (selector, data) => {
   const director = new JumboGroveDirector(data);

@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import MarkdownIt from 'markdown-it';
 import MarkdownItAttrs from 'markdown-it-attrs';
+import nunjucks from 'nunjucks';
+
 /**
  * @external {MarkdownIt} https://github.com/markdown-it/markdown-it
  */
@@ -45,42 +47,74 @@ export default class ui {
     this.templateHelperGetters = {};
 
     /**
-     * `MarkdownIt` instance used to render Markdown. You may register additional plugins here.
+     * {@link MarkdownIt} instance used to render Markdown. You may use it
+     * to register additional plugins.
      * @type {MarkdownIt}
      */
     this.md = new MarkdownIt({html: true, linkify: false, typographer: true});
     this.md.use(MarkdownItAttrs);
 
+    /**
+     * {@link nunjucks} instance used to render templates. You may use it
+     * to add custom tags, filters, or globals. (See [the "Environment" section
+     * of this page.](https://mozilla.github.io/nunjucks/api.html))
+     */
+    this.nunjucks = new nunjucks.Environment({ autoescape: false });
+
+    /**
+     * You may replace this property if you want to use a template
+     * language other than [Nunjucks](https://mozilla.github.io/nunjucks/).
+     * 
+     * It is a function that takes a string and returns a function that takes
+     * attrs and returns a rendered string. Like this:
+     * 
+     * ```
+     * (src) => (attrs) => render(src, attrs)
+     * ```
+     * @param {function(src: string): function} src 
+     */
+    this.createTemplate = (src) => (attrs) => {
+      return this.nunjucks.renderString(src, attrs);
+    };
+
     /** @ignore */
-    this.templateHelperFunctions = {
-      ifThen: (condition, snippetTrue, snippetFalse) => {
-        return this.director.getSnippet(condition ? snippetTrue : snippetFalse);
-      },
-      list: (conjunction, ...items) => {
-        if (items.length < 1) return '';
-        if (items.length === 1) return items[0];
-        return `${_.initial(items).join(', ')}, ${conjunction} ${_.last(items)}`;
-      },
-      listWithAction: (action, conjunction, ...items) => {
-        if (items.length < 1) return '';
-        items = items.map((item) => `[${item}](>${action}:${window.encodeURIComponent(item)})`)
-        if (items.length === 1) return items[0];
-        return `${_.initial(items).join(', ')}, ${conjunction} ${_.last(items)}`;
-      },
-    }
+    this.templateHelperFunctions = {};
   }
 
   /**
-   * Make the given functions (or constants) available to the template context.
+   * Make the given objects or values available to the template context.
    * @param {Map<string, function>} fns 
    */
-  addTemplateFunctions(fns) {
+  addTemplateContext(fns) {
     this.templateHelperFunctions = {...this.templateHelperFunctions, ...fns};
   }
 
   /**
    * Whenever a template is rendered, evaluate all these functions and make their
    * return values available to the template context.
+   * 
+   * **All template getters are called whenever you render any template.**
+   * 
+   * @example
+   * 
+   * // If you add a getter like this:
+   * jumbogrove.jumbogrove('#game', {
+   *   init: (model, ui) => {
+   *     ui.addTemplateGetters({
+   *       randomNumber: () => Math.random()
+   *     });
+   *   }
+   * });
+   * 
+   * // Then you may use it in a template like this:
+   * 
+   * `
+   * {{ randomNumber }}
+   * `
+   * 
+   * // and it will show the function's return value (in this case, a random
+   * // number 0-1).
+   * 
    * @param {Map<string, function>} fns 
    */
   addTemplateGetters(fns) {
@@ -102,12 +136,12 @@ export default class ui {
       getters[k] = this.director.model.templateHelperGetters[k]();
     }
     return {
+      ...this.director.model.globalState,
       ...this.director.model,
-      model: this.director.model,
-      ui: this,
       ...getters,
       ...this.templateHelperFunctions,
-      ...this.director.model.templateHelperFunctions,
+      model: this.director.model,
+      ui: this,
     };
   }
 
@@ -134,7 +168,7 @@ export default class ui {
    */
   renderTemplate(src, args = null) {
     try {
-      return _.template(src)({...args, ...this.templateContext()});
+      return this.createTemplate(src)({...args, ...this.templateContext()});
     } catch (e) {
       console.error(src)
       throw e;

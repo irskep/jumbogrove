@@ -24,7 +24,8 @@
             "./Readme.md",
             "./manual/where_to_find_the_api.md",
             "./manual/tutorial_basics.md",
-            "./manual/tutorial_scripting.md"
+            "./manual/tutorial_scripting.md",
+            "./manual/tutorial_templates.md"
           ]
 
         }

@@ -425,4 +425,103 @@ _.defer(() => {
     ]
   });
 
+  tryGame('#simple-puzzle', {
+    id: 'simple-puzzle',
+    globalState: { hasPulledLever: false },
+    situations: [
+
+      { id: 'start',
+        optionText: 'OK',
+        content: `
+        You are standing in a room with a thick shag carpet and purple velvet walls.
+
+        {% if hasPulledLever %}
+        The north wall has opened up into a huge cavern.
+        {% else %}
+        There is a lever on the west wall.
+        {% endif %}
+        `,
+        choices: ['pull-lever']
+      },
+
+      { id: 'pull-lever',
+        optionText: 'Pull the lever',
+        getCanSee: function(model) { return !model.globalState.hasPulledLever; },
+        enter: function(model) {
+          model.globalState.hasPulledLever = true;
+        },
+        content: `
+          You pull the lever. A rumbling sound starts beneath your feet.
+        `,
+        choices: ['start']
+      },
+
+    ]
+  });
+
+  tryGame('#custom-filter-demo', {
+    id: 'custom-filter-demo',
+    globalState: { isAwesome: true },
+    init: function(model, ui) {
+      ui.nunjucks.addFilter('yesNo', function(val) {
+        if (val) { return "yes"; } else { return "no"; }
+      });
+    },
+    situations: [
+      {
+        id: 'start',
+        // Am I awesome? YES!
+        content: "Am I awesome? {{ isAwesome|yesNo|upper }}!"
+      }
+    ]
+  });
+
+  tryGame('#whitespace-example-1', {
+    id: 'whitespace-example-1',
+    situations: [
+      {
+        id: 'start',
+        content: `
+        Hello.
+
+        {% if true %}
+            This will show up as code!
+        {% else %}
+        This would be a normal paragraph.
+        {% endif %}
+        `
+      }
+    ]
+  });
+
+  tryGame('#whitespace-example-2', {
+    id: 'whitespace-example-2',
+    situations: [
+      {
+        id: 'start',
+        content: `
+        Hey, my name is
+        {% if name == 'brad' -%}
+          Brad
+        {%- else -%}
+          Jeff
+        {%- endif %}.
+        `
+      }
+    ]
+  });
+
+  tryGame('#markdown-it-attrs-demo', {
+    id: 'markdown-it-attrs-demo',
+    situations: [
+      {
+        id: 'start',
+        content: `
+        The last word is **pink**{.demo-pink}! Use your browser's
+        inspector tool to look at the CSS on it.
+        `
+      }
+    ]
+  });
+
 });
