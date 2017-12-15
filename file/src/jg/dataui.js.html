@@ -187,9 +187,6 @@ export default class ui {
     for (const k of Object.keys(this.templateHelperGetters)) {
       getters[k] = this.templateHelperGetters[k]();
     }
-    for (const k of Object.keys(this.director.model.templateHelperGetters)) {
-      getters[k] = this.director.model.templateHelperGetters[k]();
-    }
     return {
       ...this.director.model.globalState,
       ...this.director.model,

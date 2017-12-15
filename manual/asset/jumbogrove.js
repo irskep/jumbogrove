@@ -35480,31 +35480,6 @@ var dataui_ui = function () {
         }
       }
 
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
-
-      try {
-        for (var _iterator2 = get_iterator_default()(keys_default()(this.director.model.templateHelperGetters)), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var _k = _step2.value;
-
-          getters[_k] = this.director.model.templateHelperGetters[_k]();
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
-      }
-
       return extends_default()({}, this.director.model.globalState, this.director.model, getters, this.templateHelperFunctions, {
         model: this.director.model,
         ui: this
