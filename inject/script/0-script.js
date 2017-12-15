@@ -486,8 +486,14 @@ _.defer(() => {
 
         {% if true %}
             This will show up as code!
-        {% else %}
-        This would be a normal paragraph.
+        {% endif %}
+
+        {% if true %}
+        This is a normal paragraph.
+        {% endif %}
+
+        {% if true %}
+          This only uses 2 spaces and is also a normal paragraph.
         {% endif %}
         `
       }

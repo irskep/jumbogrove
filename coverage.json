@@ -21,7 +21,7 @@
       "expectCount": 28,
       "actualCount": 27,
       "undocumentLines": [
-        126
+        132
       ]
     },
     "src/jg/director.js": {

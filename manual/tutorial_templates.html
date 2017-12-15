@@ -79,7 +79,26 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#custom-filters" data-ice="link">Custom Filters</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#with-markdown--amp--whitespace" data-ice="link">With Markdown &amp; Whitespace</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#adding-css" data-ice="link">Adding CSS</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#template-comment-syntax" data-ice="link">Template Comment Syntax</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#changing-template-engines" data-ice="link">Changing Template Engines</a></li>
+</ul>
+  </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html" data-ice="link">Actions</a></li>
+</ul>
+  </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html" data-ice="link">Characters</a></li>
+</ul>
+  </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html" data-ice="link">Saving &amp; Loading</a></li>
 </ul>
   </div>
 </div>
@@ -188,7 +207,7 @@ write <code>{{ myVal|yesNo }}</code> to get a &quot;yes&quot; or &quot;no&quot; 
 </ol>
 <p>Normally this will have straightforward results. But you have to be
 careful not to add indentation when you don&apos;t mean to, because Markdown
-treats indented text as a code block:</p>
+treats indented text as a code block if you use four or more spaces:</p>
 <pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
   id: &apos;whitespace-example-1&apos;,
   situations: [
@@ -203,6 +222,10 @@ treats indented text as a code block:</p>
 
       {% if true %}
       This is a normal paragraph.
+      {% endif %}
+
+      {% if true %}
+        This only uses 2 spaces and is also a normal paragraph.
       {% endif %}
       `
     }
@@ -257,6 +280,10 @@ using <code>ui.md</code>, a <code>MarkdownIt</code> instance.</p>
 <p><div id="markdown-it-attrs-demo" class="jg-headless"></div>
 
 </p>
+<h2 id="template-comment-syntax">Template Comment Syntax</h2><p>Because Nunjucks&apos;s comment syntax (<code>{# blah blah blah %}</code>) conflicts
+with <code>markdown-it-attrs</code>&apos;s HTML ID syntax (<code>{#some-id}</code>), Nunjucks is
+configured by default to use <code>{## blah blah blah ##}</code> for comments
+(two hashes instead of one on each side).</p>
 <h2 id="changing-template-engines">Changing Template Engines</h2><p>It is possible to do this, but it is not in this guide because it
 should only be done if you really, really know what you are doing.</p>
 </div>

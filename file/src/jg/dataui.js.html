@@ -114,7 +114,13 @@ export default class ui {
      * to add custom tags, filters, or globals. (See [the &quot;Environment&quot; section
      * of this page.](https://mozilla.github.io/nunjucks/api.html))
      */
-    this.nunjucks = new nunjucks.Environment({ autoescape: false });
+    this.nunjucks = new nunjucks.Environment([], {
+      autoescape: false,
+      tags: {
+        commentStart: &apos;{##&apos;,
+        commentEnd: &apos;##}&apos;,
+      },
+    });
 
     /**
      * You may replace this property if you want to use a template
