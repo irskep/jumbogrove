@@ -56,6 +56,8 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &apos;lodash&apos;;
 import MarkdownIt from &apos;markdown-it&apos;;
 import MarkdownItAttrs from &apos;markdown-it-attrs&apos;;
+import nunjucks from &apos;nunjucks&apos;;
+
 /**
  * @external {MarkdownIt} https://github.com/markdown-it/markdown-it
  */
@@ -100,11 +102,35 @@ export default class ui {
     this.templateHelperGetters = {};
 
     /**
-     * `MarkdownIt` instance used to render Markdown. You may register additional plugins here.
+     * {@link MarkdownIt} instance used to render Markdown. You may use it
+     * to register additional plugins.
      * @type {MarkdownIt}
      */
     this.md = new MarkdownIt({html: true, linkify: false, typographer: true});
     this.md.use(MarkdownItAttrs);
+
+    /**
+     * {@link nunjucks} instance used to render templates. You may use it
+     * to add custom tags, filters, or globals. (See [the &quot;Environment&quot; section
+     * of this page.](https://mozilla.github.io/nunjucks/api.html))
+     */
+    this.nunjucks = new nunjucks.Environment({ autoescape: false });
+
+    /**
+     * You may replace this property if you want to use a template
+     * language other than [Nunjucks](https://mozilla.github.io/nunjucks/).
+     * 
+     * It is a function that takes a string and returns a function that takes
+     * attrs and returns a rendered string. Like this:
+     * 
+     * ```
+     * (src) =&gt; (attrs) =&gt; render(src, attrs)
+     * ```
+     * @param {function(src: string): function} src 
+     */
+    this.createTemplate = (src) =&gt; (attrs) =&gt; {
+      return this.nunjucks.renderString(src, attrs);
+    };
 
     /** @ignore */
     this.templateHelperFunctions = {
@@ -157,6 +183,7 @@ export default class ui {
       getters[k] = this.director.model.templateHelperGetters[k]();
     }
     return {
+      ...this.director.model.globalState,
       ...this.director.model,
       model: this.director.model,
       ui: this,
@@ -189,7 +216,7 @@ export default class ui {
    */
   renderTemplate(src, args = null) {
     try {
-      return _.template(src)({...args, ...this.templateContext()});
+      return this.createTemplate(src)({...args, ...this.templateContext()});
     } catch (e) {
       console.error(src)
       throw e;

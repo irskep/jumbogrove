@@ -504,6 +504,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/jg/dataui.js~ui#createtemplate",
+    "class/src/jg/dataui.js~ui.html#instance-member-createTemplate",
+    "src/jg/dataui.js~ui#createTemplate",
+    "member"
+  ],
+  [
     "src/jg/dataui.js~ui#director",
     "class/src/jg/dataui.js~ui.html#instance-member-director",
     "src/jg/dataui.js~ui#director",
@@ -513,6 +519,12 @@ window.esdocSearchIndex = [
     "src/jg/dataui.js~ui#md",
     "class/src/jg/dataui.js~ui.html#instance-member-md",
     "src/jg/dataui.js~ui#md",
+    "member"
+  ],
+  [
+    "src/jg/dataui.js~ui#nunjucks",
+    "class/src/jg/dataui.js~ui.html#instance-member-nunjucks",
+    "src/jg/dataui.js~ui#nunjucks",
     "member"
   ],
   [

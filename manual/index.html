@@ -70,6 +70,13 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_scripting.html"><a href="manual/tutorial_scripting.html#priority" data-ice="link">Priority</a></li>
 </ul>
   </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html" data-ice="link">Templates</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#world--39-s-simplest-puzzle" data-ice="link">World&apos;s Simplest Puzzle</a></li>
+</ul>
+  </div>
 </div>
 </nav>
 
@@ -773,6 +780,48 @@ have <code>priority: 1</code>, then only E and F will be presented.</p><p>All si
 });</code>
 </code></pre><p><div id="party-crush" class="jg-headless"></div></p></div>
         <a data-ice="link" href="manual/tutorial_scripting.html"></a>
+      </div>
+    </div>
+<div class="manual-card-wrap" data-ice="cards">
+      <div class="manual-card">
+        <div data-ice="card"><h1>Templates</h1><p>A situation doesn&apos;t always have to have the same text every time the
+player sees it. You can use
+<a href="https://mozilla.github.io/nunjucks/templating.html">Nunjucks template syntax</a>
+to do all kinds of cool stuff!</p><h2>World&apos;s Simplest Puzzle</h2><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;simple-puzzle&apos;,
+  globalState: { hasPulledLever: false },
+  situations: [
+
+    { id: &apos;start&apos;,
+      optionText: &apos;OK&apos;,
+      content: `
+      You are standing in a room with a thick shag carpet and purple velvet walls.
+
+      {% if hasPulledLever %}
+      The north wall has opened up into a huge cavern.
+      {% else %}
+      There is a lever on the west wall.
+      {% endif %}
+      `,
+      choices: [&apos;pull-lever&apos;]
+    },
+
+    { id: &apos;pull-lever&apos;,
+      optionText: &apos;Pull the lever&apos;,
+      getCanSee: function(model) { return !model.globalState.hasPulledLever; },
+      enter: function(model) {
+        model.globalState.hasPulledLever = true;
+      },
+      content: `
+        You pull the lever. A rumbling sound starts beneath your feet.
+      `,
+      choices: [&apos;start&apos;]
+    },
+
+  ]
+})</code>
+</code></pre><p><div id="simple-puzzle" class="jg-headless"></div></p></div>
+        <a data-ice="link" href="manual/tutorial_templates.html"></a>
       </div>
     </div>
 </div>

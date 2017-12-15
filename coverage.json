@@ -1,7 +1,7 @@
 {
-  "coverage": "73.49%",
-  "expectCount": 166,
-  "actualCount": 122,
+  "coverage": "73.8%",
+  "expectCount": 168,
+  "actualCount": 124,
   "files": {
     "src/example.js": {
       "expectCount": 1,
@@ -18,10 +18,10 @@
       ]
     },
     "src/jg/dataui.js": {
-      "expectCount": 26,
-      "actualCount": 25,
+      "expectCount": 28,
+      "actualCount": 27,
       "undocumentLines": [
-        92
+        118
       ]
     },
     "src/jg/director.js": {

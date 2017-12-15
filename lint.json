@@ -50,35 +50,35 @@
     "filePath": "src/jg/dataui.js",
     "lines": [
       {
-        "lineNumber": 154,
+        "lineNumber": 181,
         "line": "  /**"
       },
       {
-        "lineNumber": 155,
+        "lineNumber": 182,
         "line": "   * Like {@link renderMarkdownTemplate}, but automatically sets `inline` flag based on"
       },
       {
-        "lineNumber": 156,
+        "lineNumber": 183,
         "line": "   * presence of line breaks."
       },
       {
-        "lineNumber": 157,
+        "lineNumber": 184,
         "line": "   * @param {string} src "
       },
       {
-        "lineNumber": 158,
+        "lineNumber": 185,
         "line": "   * @param {Map<string,*>} args Additional template context"
       },
       {
-        "lineNumber": 159,
+        "lineNumber": 186,
         "line": "   * @param {Boolean} inline If true, do not parse any block-level markup or wrap in a paragraph."
       },
       {
-        "lineNumber": 160,
+        "lineNumber": 187,
         "line": "   */"
       },
       {
-        "lineNumber": 161,
+        "lineNumber": 188,
         "line": "  renderMarkdownTemplateMaybeInline(src, args = null) {"
       }
     ],

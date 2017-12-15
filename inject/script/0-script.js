@@ -425,4 +425,38 @@ _.defer(() => {
     ]
   });
 
+  tryGame('#simple-puzzle', {
+    id: 'simple-puzzle',
+    globalState: { hasPulledLever: false },
+    situations: [
+
+      { id: 'start',
+        optionText: 'OK',
+        content: `
+        You are standing in a room with a thick shag carpet and purple velvet walls.
+
+        {% if hasPulledLever %}
+        The north wall has opened up into a huge cavern.
+        {% else %}
+        There is a lever on the west wall.
+        {% endif %}
+        `,
+        choices: ['pull-lever']
+      },
+
+      { id: 'pull-lever',
+        optionText: 'Pull the lever',
+        getCanSee: function(model) { return !model.globalState.hasPulledLever; },
+        enter: function(model) {
+          model.globalState.hasPulledLever = true;
+        },
+        content: `
+          You pull the lever. A rumbling sound starts beneath your feet.
+        `,
+        choices: ['start']
+      },
+
+    ]
+  });
+
 });

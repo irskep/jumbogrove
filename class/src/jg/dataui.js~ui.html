@@ -53,13 +53,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import ui from &apos;<span><a href="file/src/jg/dataui.js.html#lineNumber33">jumbogrove/src/jg/dataui.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import ui from &apos;<span><a href="file/src/jg/dataui.js.html#lineNumber35">jumbogrove/src/jg/dataui.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/jg/dataui.js.html#lineNumber33">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/jg/dataui.js.html#lineNumber35">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -113,6 +113,36 @@
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html#instance-member-createTemplate">createTemplate</a></span></span><span class="code" data-ice="signature">(src: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span><span>(src: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span></span>): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>You may replace this property if you want to use a template
+language other than <a href="https://mozilla.github.io/nunjucks/">Nunjucks</a>.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html#instance-member-director">director</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
         </p>
       </div>
@@ -147,7 +177,36 @@
       <div>
         
         
-        <div data-ice="description"><p><code>MarkdownIt</code> instance used to render Markdown.</p>
+        <div data-ice="description"><p><span><a href="https://github.com/markdown-it/markdown-it">MarkdownIt</a></span> instance used to render Markdown.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html#instance-member-nunjucks">nunjucks</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p><span><a href="class/src/jg/dataui.js~ui.html#instance-member-nunjucks">nunjucks</a></span> instance used to render templates.</p>
 </div>
       </div>
     </td>
@@ -470,6 +529,54 @@ write it to the transcript.</p>
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-createTemplate">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">createTemplate</span><span class="code" data-ice="signature">(src: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span><span>(src: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span></span>): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber76">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>You may replace this property if you want to use a template
+language other than <a href="https://mozilla.github.io/nunjucks/">Nunjucks</a>.</p>
+<p>It is a function that takes a string and returns a function that takes
+attrs and returns a rendered string. Like this:</p>
+<pre><code><code class="source-code prettyprint">(src) =&gt; (attrs) =&gt; render(src, attrs)</code>
+</code></pre></div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-director">
     <span class="access" data-ice="access">public</span>
     
@@ -481,7 +588,7 @@ write it to the transcript.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber92">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber118">source</a></span></span>
     </span>
   </h3>
 
@@ -524,14 +631,61 @@ write it to the transcript.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber51">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber54">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p><code>MarkdownIt</code> instance used to render Markdown. You may register additional plugins here.</p>
+  <div data-ice="description"><p><span><a href="https://github.com/markdown-it/markdown-it">MarkdownIt</a></span> instance used to render Markdown. You may use it
+to register additional plugins.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-nunjucks">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">nunjucks</span><span class="code" data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber62">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p><span><a href="class/src/jg/dataui.js~ui.html#instance-member-nunjucks">nunjucks</a></span> instance used to render templates. You may use it
+to add custom tags, filters, or globals. (See <a href="https://mozilla.github.io/nunjucks/api.html">the &quot;Environment&quot; section
+of this page.</a>)</p>
 </div>
 
   
@@ -571,7 +725,7 @@ write it to the transcript.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber77">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber103">source</a></span></span>
     </span>
   </h3>
 
@@ -631,7 +785,7 @@ write it to the transcript.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber86">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber112">source</a></span></span>
     </span>
   </h3>
 
@@ -692,7 +846,7 @@ return values available to the template context.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber220">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber247">source</a></span></span>
     </span>
   </h3>
 
@@ -766,7 +920,7 @@ the relevant choices in the transcript using the logic in <span><a href="class/s
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber240">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber267">source</a></span></span>
     </span>
   </h3>
 
@@ -845,7 +999,7 @@ the relevant choices in the transcript using the logic in <span><a href="class/s
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber120">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber147">source</a></span></span>
     </span>
   </h3>
 
@@ -925,7 +1079,7 @@ minimum indent level.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber151">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber178">source</a></span></span>
     </span>
   </h3>
 
@@ -1012,7 +1166,7 @@ return the result. Automatically dedents the text to the minimum indent level.</
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber162">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber189">source</a></span></span>
     </span>
   </h3>
 
@@ -1099,7 +1253,7 @@ presence of line breaks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber135">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber162">source</a></span></span>
     </span>
   </h3>
 
@@ -1178,7 +1332,7 @@ presence of line breaks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber196">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber223">source</a></span></span>
     </span>
   </h3>
 
@@ -1246,7 +1400,7 @@ Links are automatically bound to actions and situation transitions.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber209">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber236">source</a></span></span>
     </span>
   </h3>
 
