@@ -122,7 +122,7 @@ Any time you write the `content` for a situation, or the
 
 Normally this will have straightforward results. But you have to be
 careful not to add indentation when you don't mean to, because Markdown
-treats indented text as a code block:
+treats indented text as a code block if you use four or more spaces:
 
 ```js
 jumbogrove.jumbogrove('#game', {
@@ -139,6 +139,10 @@ jumbogrove.jumbogrove('#game', {
 
       {% if true %}
       This is a normal paragraph.
+      {% endif %}
+
+      {% if true %}
+        This only uses 2 spaces and is also a normal paragraph.
       {% endif %}
       `
     }
