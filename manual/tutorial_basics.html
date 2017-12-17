@@ -87,6 +87,12 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html" data-ice="link">Actions</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#what-are-actions-" data-ice="link">What are actions?</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#built-in-actions" data-ice="link">Built-in Actions</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#-code-write--code-" data-ice="link">write</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#-code-replaceself--code-" data-ice="link">replaceself</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#-code-replace--code-" data-ice="link">replace</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#multiple-actions--one-link" data-ice="link">Multiple Actions, One Link</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -215,7 +221,9 @@ situation A.</p>
 </code></pre>
 <p><strong>When you write a Markdown link whose target starts with <code>@</code>, it links
 to the situation with that ID</strong> instead of behaving like a normal HTML link.
-<code>[Enter the maze](@A)</code> creates a link that moves the player to situation <code>&apos;A&apos;</code>.</p>
+<code>[Enter the maze](@A)</code> creates a link that moves the player to situation <code>&apos;A&apos;</code>.
+Whenever you show the user any HTML, Jumbo Grove scans it for specially formatted
+links like this.</p>
 <p>Here&apos;s Option 2:</p>
 <pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
   id: &apos;maze-game&apos;,

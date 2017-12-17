@@ -564,6 +564,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/jg/dataui.js~ui#write",
+    "class/src/jg/dataui.js~ui.html#instance-method-write",
+    "src/jg/dataui.js~ui#write",
+    "method"
+  ],
+  [
     "src/jg/dataui.js~ui#writehtml",
     "class/src/jg/dataui.js~ui.html#instance-method-writeHTML",
     "src/jg/dataui.js~ui#writeHTML",
@@ -790,6 +796,12 @@ window.esdocSearchIndex = [
     "class/src/jg/model.js~model.html#instance-member-player",
     "src/jg/model.js~model#player",
     "member"
+  ],
+  [
+    "src/jg/model.js~model#presentchoices",
+    "class/src/jg/model.js~model.html#instance-method-presentChoices",
+    "src/jg/model.js~model#presentChoices",
+    "method"
   ],
   [
     "src/jg/model.js~model#random",

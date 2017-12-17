@@ -472,6 +472,36 @@ presence of line breaks.</p>
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html#instance-method-write">write</a></span></span><span class="code" data-ice="signature">(markdown: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, args: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, <span>*</span>&gt;)</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Render the given HTML as a template and write it to the transcript
+WITHIN THE CURRENT SECTION.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/jg/dataui.js~ui.html#instance-method-writeHTML">writeHTML</a></span></span><span class="code" data-ice="signature">(html: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, args: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, <span>*</span>&gt;)</span>
         </p>
       </div>
@@ -871,7 +901,7 @@ jumbogrove.jumbogrove(&apos;#game&apos;, {
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber257">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber282">source</a></span></span>
     </span>
   </h3>
 
@@ -945,7 +975,7 @@ the relevant choices in the transcript using the logic in <span><a href="class/s
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber277">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber302">source</a></span></span>
     </span>
   </h3>
 
@@ -1346,6 +1376,75 @@ presence of line breaks.</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-write">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">write</span><span class="code" data-ice="signature">(markdown: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, args: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, <span>*</span>&gt;)</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber266">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Render the given HTML as a template and write it to the transcript
+WITHIN THE CURRENT SECTION. If you are writing HTML from inside
+an action function, this is probably what you want.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">markdown</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">args</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a></span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, <span>*</span>&gt;</td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>Additional template context</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-writeHTML">
     <span class="access" data-ice="access">public</span>
     
@@ -1357,7 +1456,7 @@ presence of line breaks.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber233">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber236">source</a></span></span>
     </span>
   </h3>
 
@@ -1366,6 +1465,8 @@ presence of line breaks.</p>
   
   <div data-ice="description"><p>Render the given HTML as a template and write it to the transcript.
 Links are automatically bound to actions and situation transitions.</p>
+<p>The output comes after ALL HTML in the current section, If you are
+presenting a choice, the HTML will be written BELOW the choice.</p>
 </div>
 
   
@@ -1425,7 +1526,7 @@ Links are automatically bound to actions and situation transitions.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber246">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/jg/dataui.js.html#lineNumber252">source</a></span></span>
     </span>
   </h3>
 
@@ -1434,6 +1535,8 @@ Links are automatically bound to actions and situation transitions.</p>
   
   <div data-ice="description"><p>Render the given string as a template, render the resulting Markdown as HTML, and
 write it to the transcript.</p>
+<p>The output comes after ALL HTML in the current section, If you are
+presenting a choice, the text will be written BELOW the choice.</p>
 </div>
 
   

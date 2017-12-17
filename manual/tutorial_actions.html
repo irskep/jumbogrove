@@ -87,6 +87,12 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html" data-ice="link">Actions</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#what-are-actions-" data-ice="link">What are actions?</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#built-in-actions" data-ice="link">Built-in Actions</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#-code-write--code-" data-ice="link">write</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#-code-replaceself--code-" data-ice="link">replaceself</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#-code-replace--code-" data-ice="link">replace</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_actions.html"><a href="manual/tutorial_actions.html#multiple-actions--one-link" data-ice="link">Multiple Actions, One Link</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -104,7 +110,219 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="actions">Actions</h1></div>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="actions">Actions</h1><p>In this guide:</p>
+<ul>
+<li>What are actions?</li>
+<li>Writing your own actions</li>
+<li>Built-in actions; snippets</li>
+<li>Multiple actions in one link</li>
+</ul>
+<h2 id="what-are-actions-">What are actions?</h2><p>So far, this manual has talked about <strong>situations</strong> and <strong>choices</strong>.
+There has been a simple game loop: read a situation, make a decision,
+repeat.</p>
+<p>But we can do so much more with hypertext! <strong>Actions</strong> let you add
+some nonlinearity and interactivity to your situations.</p>
+<p>In Jumbo Grove, an action is when you write a link like this:</p>
+<pre><code class="lang-md"><code class="source-code prettyprint">Blah blah blah [link text](&gt;action_name:action_argument)</code>
+</code></pre>
+<p>You add a link to your Markdown and have the link target start with <code>&gt;</code>.
+When Jumbo Grove renders your text, it looks over the output to find
+specially formatted links like this. (You may recall that you can do
+something similar with situation links, if you use <code>@</code>.)</p>
+<p>You can add as many arguments as you want, or no arguments:</p>
+<pre><code class="lang-md"><code class="source-code prettyprint">[link text](&gt;action_name)  &lt;!-- no arguments --&gt;
+[link text](&gt;action_name:arg1:arg2)  &lt;!-- two arguments arguments --&gt;</code>
+</code></pre>
+<p>When the user clicks the link, Jumbo Grove calls the <em>action function</em>
+you define, or a built-in action.</p>
+<p>Here&apos;s a simple example. The player is in a gym and they can work out
+on the various machines.</p>
+<p><div id="workout" class="jg-headless"></div>
+
+</p>
+<p>Here&apos;s the source code for that example:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;workout&apos;,
+  init: function(model, ui) {
+    ui.nunjucks.addFilter(&apos;formatSwoleness&apos;, function(str) {
+      const n = parseInt(str, 10);
+      if (!n) return &apos;Do you even lift&apos;;
+      switch (n) {
+        case 1: return &apos;Average&apos;;
+        case 2: return &apos;Swole&apos;;
+        case 3: return &apos;Mad swole&apos;;
+        default: return &apos;Jacked&apos;;
+      }
+    });
+  },
+  globalState: {
+    swoleness: 0,
+  },
+  situations: [
+    {
+      id: &apos;start&apos;,
+      content: `
+      You are in Sgt. McBeefy&apos;s Gym for People Who Want To Get Strong, because you
+      want to get strong.
+
+      There are some [dumbbells](&gt;workout:dumbbells).
+
+      There is a [leg press machine](&gt;workout:leg_press).
+
+      There is a [pull-up bar](&gt;workout:pull_ups).
+
+      There is a [squat rack](&gt;workout:squat_rack).
+      `,
+      actions: {
+        // after &apos;model&apos; and &apos;ui&apos;, function arguments come from
+        // the link in the original Markdown.
+        workout: function(model, ui, whichMachine) {
+          console.log(&quot;go&quot;);
+          model.globalState.swoleness += 1;
+
+          switch (whichMachine) {
+            // You can write stuff to the end of the transcript manually with
+            // `ui.write()`. These strings include an extra `\n`
+            // character because otherwise Jumbo Grove won&apos;t add a surrounding
+            // &lt;p&gt; tag.
+            case &apos;dumbbells&apos;:
+              ui.write(&quot;You lift some dumbbells.\n&quot;); break;
+            case &apos;leg_press&apos;:
+              ui.write(&quot;You use the leg press.\n&quot;); break;
+            case &apos;pull_ups&apos;:
+              ui.write(&quot;You use the pull-up bar.\n&quot;); break;
+            case &apos;squat_rack&apos;:
+              ui.write(&quot;You do some squats.\n&quot;); break;
+          }
+
+          ui.write(`
+          Your strength level is: **{{ swoleness|formatSwoleness }}**
+          `);
+
+          if (model.globalState.swoleness &gt;= 4) {
+            ui.write(`
+            [Hit the showers](@end)
+            `);
+          }
+        }
+      }
+    },
+    {
+      id: &apos;end&apos;,
+      content: &quot;Congrats on getting jacked!&quot;
+    }
+  ]
+
+});</code>
+</code></pre>
+<h2 id="built-in-actions">Built-in Actions</h2><p>There is a popular kind of interactive fiction presentation where you
+click links and they expand text or just write text to the end of the
+transcript, or some specific point. Jumbo Grove has built-in actions
+for all of these cases.</p>
+<p>Here is a quick example:</p>
+<p><div id="woods" class="jg-headless"></div>
+
+</p>
+<p>Here&apos;s how it works:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;woods&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,
+      content: `
+      You are [standing](&gt;replaceself:be_quiet) under a [tree](&gt;write:hear_the_wind).
+
+      A *blue*{#make_the_bird_red} [bird](&gt;replace:make_the_bird_red) sits on a
+      branch above you.
+      `,
+      snippets: {
+        // Snippets may contain more actions!
+        be_quiet: `standing [quietly](&gt;replaceself:be_noisy)`,
+        be_noisy: `noisily`,
+        hear_the_wind: `
+          The wind rustles the leaves above your head.
+        `,
+        make_the_bird_red: `*red*`,
+      }
+    }
+  ]
+});</code>
+</code></pre>
+<p>You can get really fancy with these things. You could write a whole game with
+just one situation!</p>
+<p>The built-in actions use the special <code>snippets</code> object. It&apos;s a mapping of IDs
+to Markdown templates.</p>
+<p>It&apos;s OK to put action links, situation links, and template syntax
+in your snippets!</p>
+<h3 id="-code-write--code-"><code>write</code></h3><p>The <code>write</code> action appends a snippet to the transcript.</p>
+<p>If you have some text like this:</p>
+<pre><code class="lang-md"><code class="source-code prettyprint">I am listening to [the wind](&gt;write:hear_the_wind)</code>
+</code></pre>
+<p>And a snippet like this:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">snippets: {
+  hear_the_wind: &quot;The wind rustles the leaves.&quot;
+}</code>
+</code></pre>
+<p>Then when you click the link, the link will turn into plain text,
+and the text &quot;The wind rustles the leaves&quot; will be added to the end
+of your content.</p>
+<h3 id="-code-replaceself--code-"><code>replaceself</code></h3><p>The <code>replaceself</code> action replaces the link with the contents of a snippet.
+If you have some text like this:</p>
+<pre><code class="lang-md"><code class="source-code prettyprint">Demo of [a snippet](&gt;replaceself:be_cool)</code>
+</code></pre>
+<p>and you have a snippet like this:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">snippets: {
+  be_cool: &quot;a really cool snippet&quot;
+}</code>
+</code></pre>
+<p>Then when you click the link &quot;a snippet&quot;, it will be replaced with non-linked
+text that says &quot;a really cool snippet&quot;.</p>
+<h3 id="-code-replace--code-"><code>replace</code></h3><p>This is a tricky one. The <code>replaceself</code> action replaces <em>the DOM element
+with the same ID as the snippet</em>, with the contents of the snippet.</p>
+<p>So if you have some text like this:</p>
+<pre><code class="lang-md"><code class="source-code prettyprint">This paragraph will be replaced. {#replacement_example}
+
+[Replace the paragraph](&gt;replace:replacement_example)</code>
+</code></pre>
+<p>And a snippet like this:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">snippets: {
+  replacement_example: &quot;This is the new text!&quot;
+}</code>
+</code></pre>
+<p>Then when you click &quot;Replace the paragraph&quot;, the first paragraph will be replaced
+with the contents of the snippet.</p>
+<p>In the Markdown part of the example, the <code>{#replacement_example}</code> part is what
+assigns the ID attribute to the paragraph element. For details about using this
+syntax, read <a href="https://www.npmjs.com/package/markdown-it-attrs">the markdown-it-attrs docs.</a></p>
+<h2 id="multiple-actions--one-link">Multiple Actions, One Link</h2><p>It is possible to trigger multiple actions from one link. Just separate them
+with a <code>;</code> character.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;multi-action&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,
+      content: `
+      There is a [red](&gt;replaceself:blue;&gt;write:fly_away) bird here.
+      `,
+      snippets: {
+        blue: &apos;blue&apos;,
+        fly_away: `
+        It flies away.
+        `
+      }
+    }
+  ]
+});</code>
+</code></pre>
+<p><div id="multi-action" class="jg-headless"></div>
+
+</p>
+<p>You can use this technique to save yourself having to write a lot of
+custom action JavaScript if all you want to do is replace some text
+and go to another situation.</p>
+<p>Here&apos;s a rewrite of the gym example using this technique:</p>
+<p><div id="workout-2" class="jg-headless"></div></p>
+</div>
 </div>
 
 <footer class="footer">

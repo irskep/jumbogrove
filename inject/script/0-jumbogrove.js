@@ -34783,6 +34783,27 @@ var model_model = function () {
                 return !isEnabled;
             }));
         }
+
+        /**
+         * Given an array of tags or situation IDs (can be both in the same array),
+         * present the relevant choices in the transcript using the logic in
+         * {@link model.interpretChoices}, then go to the situation chosen by the
+         * player.
+         * @param {string[]} arrayOfSituationIdsOrTags Array of strings containing either `#tags` or `situation-ids`.
+         */
+
+    }, {
+        key: 'presentChoices',
+        value: function presentChoices(arrayOfSituationIdsOrTags) {
+            var _this3 = this;
+
+            this._director.ui.presentChoices(arrayOfSituationIdsOrTags).then(function (_ref5) {
+                var situationId = _ref5.situationId,
+                    itemId = _ref5.itemId;
+
+                _this3.do('@' + situationId, itemId, 'fake');
+            });
+        }
     }]);
 
     return model;
@@ -35115,7 +35136,6 @@ var director_JumboGroveDirector = function () {
     }, {
         key: 'handleCommand',
         value: function handleCommand(cmd) {
-            // console.log(cmd);
             switch (cmd.type) {
                 case commands.runAction.name:
                     this.runAction(cmd.name, cmd.args);
@@ -35601,6 +35621,9 @@ var dataui_ui = function () {
     /**
      * Render the given HTML as a template and write it to the transcript.
      * Links are automatically bound to actions and situation transitions.
+     * 
+     * The output comes after ALL HTML in the current section, If you are
+     * presenting a choice, the HTML will be written BELOW the choice.
      * @param {string} html 
      * @param {Map<string,*>} args Additional template contet
      */
@@ -35619,6 +35642,9 @@ var dataui_ui = function () {
     /**
      * Render the given string as a template, render the resulting Markdown as HTML, and
      * write it to the transcript.
+     * 
+     * The output comes after ALL HTML in the current section, If you are
+     * presenting a choice, the text will be written BELOW the choice.
      * @param {string} markdown 
      * @param {Map<string,*>} args Additional template context
      */
@@ -35631,6 +35657,28 @@ var dataui_ui = function () {
       this.append({
         'type': 'html',
         html: this.renderMarkdownTemplate(markdown, args) });
+    }
+
+    /**
+     * Render the given HTML as a template and write it to the transcript
+     * WITHIN THE CURRENT SECTION. If you are writing HTML from inside
+     * an action function, this is probably what you want.
+     * 
+     * @param {string} markdown 
+     * @param {Map<string,*>} args Additional template context
+     */
+
+  }, {
+    key: 'write',
+    value: function write(markdown, args) {
+      if (this.director.activeItemId !== null) {
+        this.bus.$emit('write', {
+          'itemId': this.director.activeItemId,
+          'html': this.renderMarkdownTemplate(markdown, args)
+        });
+      } else {
+        this.writeMarkdown(markdown, args);
+      }
     }
 
     /**
@@ -35758,6 +35806,9 @@ function replace(el, tag, html) {
           _this2.director.focusNextElement();
           var replacement = removeLink(el, 'm-unavailable');
           _this2.director.handleCommandString(href.value, _this2.item.id, replacement.id);
+          _this2.$nextTick(function () {
+            return _this2.doAnimations();
+          });
         });
       });
     },
@@ -35828,14 +35879,14 @@ function replace(el, tag, html) {
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-119fe3a5","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGHTMLItem.vue
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-b072e0e8","hasScoped":false,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGHTMLItem.vue
 var JGHTMLItem_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"JGHTMLItem",attrs:{"data-itemid":_vm.item.id}},[_c('div',{domProps:{"innerHTML":_vm._s(_vm.item.html)}}),_vm._v(" "),_vm._l((_vm.writerOutputs),function(html,i){return _c('div',{key:i,staticClass:"JGHTMLAddition m-addition",domProps:{"innerHTML":_vm._s(html)}})})],2)}
 var JGHTMLItem_staticRenderFns = []
 var JGHTMLItem_esExports = { render: JGHTMLItem_render, staticRenderFns: JGHTMLItem_staticRenderFns }
 /* harmony default export */ var components_JGHTMLItem = (JGHTMLItem_esExports);
 // CONCATENATED MODULE: ./src/components/JGHTMLItem.vue
 function JGHTMLItem_injectStyle (ssrContext) {
-  __webpack_require__("v/P1")
+  __webpack_require__("h0y4")
 }
 var JGHTMLItem_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -46750,6 +46801,13 @@ module.exports=/[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/
 
 /***/ }),
 
+/***/ "h0y4":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "h65t":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49825,13 +49883,6 @@ LinkifyIt.prototype.onCompile = function onCompile() {
 
 module.exports = LinkifyIt;
 
-
-/***/ }),
-
-/***/ "v/P1":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
