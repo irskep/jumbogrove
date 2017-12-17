@@ -1146,7 +1146,72 @@ with a <code>;</code> character.</p><pre><code class="lang-js"><code class="sour
 
 </p><p>You can use this technique to save yourself having to write a lot of
 custom action JavaScript if all you want to do is replace some text
-and go to another situation.</p><p>Here&apos;s a rewrite of the gym example using this technique:</p><p><div id="workout-2" class="jg-headless"></div></p></div>
+and go to another situation.</p><p>Here&apos;s a rewrite of the gym example using this technique:</p><p><div id="workout-2" class="jg-headless"></div>
+
+</p><p>Source:</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;workout-2&apos;,
+  init: function(model, ui) {
+    ui.nunjucks.addFilter(&apos;formatSwoleness&apos;, function(str) {
+      const n = parseInt(str, 10);
+      if (!n) return &apos;Do you even lift&apos;;
+      switch (n) {
+        case 1: return &apos;Average&apos;;
+        case 2: return &apos;Swole&apos;;
+        case 3: return &apos;Mad swole&apos;;
+        default: return &apos;Jacked&apos;;
+      }
+    });
+  },
+  globalState: {
+    swoleness: 0,
+  },
+  situations: [
+    {
+      id: &apos;start&apos;,
+      content: `
+      You are in Sgt. McBeefy&apos;s Gym for People Who Want To Get Strong, because you
+      want to get strong.
+
+      There are some [dumbbells](&gt;write:dumbbells;&gt;show_progress).
+
+      There is a [leg press machine](&gt;write:leg_press;&gt;show_progress).
+
+      There is a [pull-up bar](&gt;write:pull_ups;&gt;show_progress).
+
+      There is a [squat rack](&gt;write:squat_rack;&gt;show_progress).
+      `,
+      snippets: {
+        dumbbells: &quot;You lift some dumbbells.\n&quot;,
+        leg_press: &quot;You use the leg press.\n&quot;,
+        pull_ups: &quot;You use the pull-up bar.\n&quot;,
+        squat_rack: &quot;You do some squats.\n&quot;
+      },
+      actions: {
+        show_progress: function(model, ui) {
+          model.globalState.swoleness += 1;
+
+          // no more gross switch statement!
+
+          ui.write(`
+          Your strength level is: **{{ swoleness|formatSwoleness }}**
+          `);
+
+          if (model.globalState.swoleness &gt;= 4) {
+            ui.write(`
+            [Hit the showers](@end)
+            `);
+          }
+        }
+      }
+    },
+    {
+      id: &apos;end&apos;,
+      content: &quot;Congrats on getting jacked!&quot;
+    }
+  ]
+
+});</code>
+</code></pre></div>
         <a data-ice="link" href="manual/tutorial_actions.html"></a>
       </div>
     </div>
