@@ -530,4 +530,184 @@ _.defer(() => {
     ]
   });
 
+  tryGame('#workout', {
+    id: 'workout',
+    init: function(model, ui) {
+      ui.nunjucks.addFilter('formatSwoleness', function(str) {
+        const n = parseInt(str, 10);
+        if (!n) return 'Do you even lift';
+        switch (n) {
+          case 1: return 'Average';
+          case 2: return 'Swole';
+          case 3: return 'Mad swole';
+          default: return 'Jacked';
+        }
+      });
+    },
+    globalState: {
+      swoleness: 0,
+    },
+    situations: [
+      {
+        id: 'start',
+        content: `
+        You are in Sgt. McBeefy's Gym for People Who Want To Get Strong, because you
+        want to get strong.
+
+        There are some [dumbbells](>workout:dumbbells).
+
+        There is a [leg press machine](>workout:leg_press).
+
+        There is a [pull-up bar](>workout:pull_ups).
+
+        There is a [squat rack](>workout:squat_rack).
+        `,
+        actions: {
+          // after 'model' and 'ui', function arguments come from
+          // the link in the original Markdown.
+          workout: function(model, ui, whichMachine) {
+            console.log("go");
+            model.globalState.swoleness += 1;
+
+            switch (whichMachine) {
+              // You can write stuff to the end of the transcript manually with
+              // `ui.write()`. These strings include an extra `\n`
+              // character because otherwise Jumbo Grove won't add a surrounding
+              // <p> tag.
+              case 'dumbbells':
+                ui.write("You lift some dumbbells.\n"); break;
+              case 'leg_press':
+                ui.write("You use the leg press.\n"); break;
+              case 'pull_ups':
+                ui.write("You use the pull-up bar.\n"); break;
+              case 'squat_rack':
+                ui.write("You do some squats.\n"); break;
+            }
+
+            ui.write(`
+            Your strength level is: **{{ swoleness|formatSwoleness }}**
+            `);
+
+            if (model.globalState.swoleness >= 4) {
+              ui.write(`
+              [Hit the showers](@end)
+              `);
+            }
+          }
+        }
+      },
+      {
+        id: 'end',
+        content: "Congrats on getting jacked!"
+      }
+    ]
+    
+  });
+
+  tryGame('#woods', {
+    id: 'woods',
+    situations: [
+      {
+        id: 'start',
+        content: `
+        You are [standing](>replaceself:be_quiet) under a [tree](>write:hear_the_wind).
+
+        A *blue*{#make_the_bird_red} [bird](>replace:make_the_bird_red) sits on a
+        branch above you.
+        `,
+        snippets: {
+          // Snippets may contain more actions!
+          be_quiet: `standing [quietly](>replaceself:be_noisy)`,
+          be_noisy: `noisily`,
+          hear_the_wind: `
+            The wind rustles the leaves above your head.
+          `,
+          make_the_bird_red: `*red*`,
+        }
+      }
+    ]
+  });
+
+  tryGame('#multi-action', {
+    id: 'multi-action',
+    situations: [
+      {
+        id: 'start',
+        content: `
+        There is a [red](>replaceself:blue;>write:fly_away) bird here.
+        `,
+        snippets: {
+          blue: 'blue',
+          fly_away: `
+          It flies away.
+          `
+        }
+      }
+    ]
+  });
+
+  tryGame('#workout-2', {
+    id: 'workout-2',
+    init: function(model, ui) {
+      ui.nunjucks.addFilter('formatSwoleness', function(str) {
+        const n = parseInt(str, 10);
+        if (!n) return 'Do you even lift';
+        switch (n) {
+          case 1: return 'Average';
+          case 2: return 'Swole';
+          case 3: return 'Mad swole';
+          default: return 'Jacked';
+        }
+      });
+    },
+    globalState: {
+      swoleness: 0,
+    },
+    situations: [
+      {
+        id: 'start',
+        content: `
+        You are in Sgt. McBeefy's Gym for People Who Want To Get Strong, because you
+        want to get strong.
+
+        There are some [dumbbells](>write:dumbbells;>show_progress).
+
+        There is a [leg press machine](>write:leg_press;>show_progress).
+
+        There is a [pull-up bar](>write:pull_ups;>show_progress).
+
+        There is a [squat rack](>write:squat_rack;>show_progress).
+        `,
+        snippets: {
+          dumbbells: "You lift some dumbbells.\n",
+          leg_press: "You use the leg press.\n",
+          pull_ups: "You use the pull-up bar.\n",
+          squat_rack: "You do some squats.\n"
+        },
+        actions: {
+          show_progress: function(model, ui) {
+            model.globalState.swoleness += 1;
+
+            // no more gross switch statement!
+
+            ui.write(`
+            Your strength level is: **{{ swoleness|formatSwoleness }}**
+            `);
+
+            if (model.globalState.swoleness >= 4) {
+              ui.write(`
+              [Hit the showers](@end)
+              `);
+            }
+          }
+        }
+      },
+      {
+        id: 'end',
+        content: "Congrats on getting jacked!"
+      }
+    ]
+    
+  })
+
 });

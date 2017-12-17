@@ -141,6 +141,8 @@ jumbogrove.jumbogrove('#game', {
 **When you write a Markdown link whose target starts with `@`, it links
 to the situation with that ID** instead of behaving like a normal HTML link.
 `[Enter the maze](@A)` creates a link that moves the player to situation `'A'`.
+Whenever you show the user any HTML, Jumbo Grove scans it for specially formatted
+links like this.
 
 Here's Option 2:
 

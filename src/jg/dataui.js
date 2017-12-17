@@ -227,6 +227,9 @@ export default class ui {
   /**
    * Render the given HTML as a template and write it to the transcript.
    * Links are automatically bound to actions and situation transitions.
+   * 
+   * The output comes after ALL HTML in the current section, If you are
+   * presenting a choice, the HTML will be written BELOW the choice.
    * @param {string} html 
    * @param {Map<string,*>} args Additional template contet
    */
@@ -240,6 +243,9 @@ export default class ui {
   /**
    * Render the given string as a template, render the resulting Markdown as HTML, and
    * write it to the transcript.
+   * 
+   * The output comes after ALL HTML in the current section, If you are
+   * presenting a choice, the text will be written BELOW the choice.
    * @param {string} markdown 
    * @param {Map<string,*>} args Additional template context
    */
@@ -247,6 +253,25 @@ export default class ui {
     this.append({
       'type': 'html',
       html: this.renderMarkdownTemplate(markdown, args)});
+  }
+
+  /**
+   * Render the given HTML as a template and write it to the transcript
+   * WITHIN THE CURRENT SECTION. If you are writing HTML from inside
+   * an action function, this is probably what you want.
+   * 
+   * @param {string} markdown 
+   * @param {Map<string,*>} args Additional template context
+   */
+  write(markdown, args) {
+    if (this.director.activeItemId !== null) {
+      this.bus.$emit('write', {
+          'itemId': this.director.activeItemId,
+          'html': this.renderMarkdownTemplate(markdown, args),
+      });
+    } else {
+      this.writeMarkdown(markdown, args);
+    }
   }
 
   /**

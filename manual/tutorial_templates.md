@@ -13,7 +13,8 @@ are a few interesting topics to cover:
 * Template context: what variables are accessible in templates?
 * Custom filters
 * How Jumbo Grove uses both Nunjucks and Markdown to render text
-* Advanced Markdown usage
+* Advanced Markdown + CSS
+* How to use another template engine instead of Nunjucks
 
 ## World's Simplest Puzzle
 

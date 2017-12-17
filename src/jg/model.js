@@ -251,4 +251,18 @@ export default class model {
         });
         return allChoices.filter(({isEnabled}) => isEnabled).concat(allChoices.filter(({isEnabled}) => !isEnabled));
     }
+
+    /**
+     * Given an array of tags or situation IDs (can be both in the same array),
+     * present the relevant choices in the transcript using the logic in
+     * {@link model.interpretChoices}, then go to the situation chosen by the
+     * player.
+     * @param {string[]} arrayOfSituationIdsOrTags Array of strings containing either `#tags` or `situation-ids`.
+     */
+    presentChoices(arrayOfSituationIdsOrTags) {
+        this._director.ui.presentChoices(arrayOfSituationIdsOrTags)
+            .then(({situationId, itemId}) => {
+                this.do(`@${situationId}`, itemId, 'fake');
+            });
+    }
 }

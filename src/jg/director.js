@@ -182,7 +182,6 @@ class JumboGroveDirector {
     }
 
     handleCommand(cmd) {
-        // console.log(cmd);
         switch (cmd.type) {
         case commands.runAction.name:
             this.runAction(cmd.name, cmd.args);

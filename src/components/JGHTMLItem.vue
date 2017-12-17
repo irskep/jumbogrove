@@ -67,6 +67,7 @@ export default {
           this.director.focusNextElement();
           const replacement = removeLink(el, 'm-unavailable');
           this.director.handleCommandString(href.value, this.item.id, replacement.id);
+          this.$nextTick(() => this.doAnimations());
         });
       });
     },

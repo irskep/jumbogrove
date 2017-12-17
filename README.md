@@ -26,6 +26,8 @@ You can edit the game in a browser and it will live-update a real site!
 
 ## Demo
 
+Jumbo Grove was used to make [this unfinished Ludum Dare game.](http://steveasleep.com/please-come-in)
+
 If you are on the [Jumbo Grove documentation site](http://steveasleep.com/jumbogrove/)
 (as opposed to reading the Readme on GitHub) then you will see a quick demo here:
 
