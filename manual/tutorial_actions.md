@@ -272,3 +272,71 @@ and go to another situation.
 Here's a rewrite of the gym example using this technique:
 
 <div id="workout-2" class="jg-headless"></div>
+
+Source:
+
+```js
+jumbogrove.jumbogrove('#game', {
+  id: 'workout-2',
+  init: function(model, ui) {
+    ui.nunjucks.addFilter('formatSwoleness', function(str) {
+      const n = parseInt(str, 10);
+      if (!n) return 'Do you even lift';
+      switch (n) {
+        case 1: return 'Average';
+        case 2: return 'Swole';
+        case 3: return 'Mad swole';
+        default: return 'Jacked';
+      }
+    });
+  },
+  globalState: {
+    swoleness: 0,
+  },
+  situations: [
+    {
+      id: 'start',
+      content: `
+      You are in Sgt. McBeefy's Gym for People Who Want To Get Strong, because you
+      want to get strong.
+
+      There are some [dumbbells](>write:dumbbells;>show_progress).
+
+      There is a [leg press machine](>write:leg_press;>show_progress).
+
+      There is a [pull-up bar](>write:pull_ups;>show_progress).
+
+      There is a [squat rack](>write:squat_rack;>show_progress).
+      `,
+      snippets: {
+        dumbbells: "You lift some dumbbells.\n",
+        leg_press: "You use the leg press.\n",
+        pull_ups: "You use the pull-up bar.\n",
+        squat_rack: "You do some squats.\n"
+      },
+      actions: {
+        show_progress: function(model, ui) {
+          model.globalState.swoleness += 1;
+
+          // no more gross switch statement!
+
+          ui.write(`
+          Your strength level is: **{{ swoleness|formatSwoleness }}**
+          `);
+
+          if (model.globalState.swoleness >= 4) {
+            ui.write(`
+            [Hit the showers](@end)
+            `);
+          }
+        }
+      }
+    },
+    {
+      id: 'end',
+      content: "Congrats on getting jacked!"
+    }
+  ]
+  
+});
+```
