@@ -123,47 +123,11 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="saving--amp--loading">Saving &amp; Loading</h1><p>Jumbo Grove games are saved to <em>browser local storage</em>. If you players
-use Incognito Mode/Private Browsing, it won&apos;t work.</p>
-<p>The game only saves when entering situations with <code>autosave: true</code>.</p>
-<p>When loading a game, the whole transcript is <em>not</em> replayed. The game
-picks up where the player left off, without showing the whole history.</p>
-<h2 id="version-numbers">Version Numbers</h2><p>In addition to an <code>id</code>, you should define a <code>version</code> for your game, because
-the game&apos;s savefile location is based on the version number.</p>
-<h2 id="resetting-the-game">Resetting the Game</h2><p>There is a special </p>
-<h2 id="quick-example">Quick Example</h2><p>Try navigating to a new scene and reloading the page.</p>
-<p><div id="save-example" class="jg-with-sidebar"></div>
-
-</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
-  id: &apos;save-example&apos;,
-  showNav: true,
-  gameSaveMessage: &apos;&gt; Game saved.&apos;,
-  navHeader: `
-  ### A Game You Can Save
-
-  [Start over](&gt;resetGame)
-  `,
-  situations: [
-    {
-      id: &apos;start&apos;,
-      autosave: true,
-      content: `
-      You are at START.
-      `,
-      choices: [&apos;the-other-scene&apos;]
-    },
-    {
-      id: &apos;the-other-scene&apos;,
-      autosave: true,
-      content: `
-      You are at THE OTHER SCENE.
-      `,
-      choices: [&apos;start&apos;]
-    }
-  ]
-};</code>
-</code></pre>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="gamepad-support">Gamepad Support</h1><p>If a gamepad is detected with the HTML5 gamepad API, then the player
+will be able to use it to navigate between links.</p>
+<p>It doesn&apos;t really work on this documentation site because there are
+multiple instances on most pages, but it should work fine if there&apos;s
+just one instance.</p>
 </div>
 </div>
 

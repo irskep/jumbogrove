@@ -57,6 +57,7 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#clearing-the-transcript" data-ice="link">Clearing the Transcript</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -81,6 +82,7 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#adding-css" data-ice="link">Adding CSS</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#template-comment-syntax" data-ice="link">Template Comment Syntax</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#changing-template-engines" data-ice="link">Changing Template Engines</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#built-in-filters" data-ice="link">Built-in Filters</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -99,12 +101,23 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html" data-ice="link">Characters</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html#characters-and-qualities" data-ice="link">Characters and Qualities</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html#character-state" data-ice="link">Character State</a></li>
 </ul>
   </div>
 <div data-ice="manual">
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html" data-ice="link">Saving &amp; Loading</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html#version-numbers" data-ice="link">Version Numbers</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html#resetting-the-game" data-ice="link">Resetting the Game</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html#quick-example" data-ice="link">Quick Example</a></li>
+</ul>
+  </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_gamepad.html"><a href="manual/tutorial_gamepad.html" data-ice="link">Gamepad Support</a></li>
 </ul>
   </div>
 </div>
@@ -423,6 +436,97 @@ connect them all!</p>
 <p><div id="maze-3" class="jg-headless"></div>
 
 </p>
+<h2 id="clearing-the-transcript">Clearing the Transcript</h2><p>If you don&apos;t like the continuous scrolling style and prefer something more like
+Twine, you can add <code>clear: true</code> to your situation. Here&apos;s the maze example,
+with each situation clearing the screen.</p>
+<p><div id="maze-clear-example" class="jg-headless"></div>
+
+</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos; {
+  id: &apos;maze-game&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,  // the situation with id=start is how the game begins
+      content: `
+        You are standing at the entrance of a maze.
+      `,
+      choices: [&apos;A&apos;]
+    },
+    { id: &apos;A&apos;, optionText: &quot;Enter the maze&quot;,
+      clear: true,
+      content: &quot;You are standing in cell A.&quot;,
+      choices: [&apos;E&apos;] },
+    { id: &apos;B&apos;, optionText: &quot;Go to B&quot;, content: &quot;You are standing in cell B.&quot;,
+      clear: true,
+      choices: [&apos;F&apos;, &apos;C&apos;]},
+    { id: &apos;C&apos;, optionText: &quot;Go to C&quot;, content: &quot;You are standing in cell C.&quot;,
+      clear: true,
+      choices: [&apos;B&apos;, &apos;G&apos;]},
+    {
+      id: &apos;D&apos;,
+      tags: [&apos;teleporter&apos;],
+      optionText: &quot;Go to D&quot;,
+      clear: true,
+      content: &quot;You are standing in cell D. There is a teleporter here.&quot;,
+      choices: [&apos;H&apos;, &apos;#teleporter&apos;]
+    },
+    { id: &apos;E&apos;, optionText: &quot;Go to E&quot;, content: &quot;You are standing in cell E.&quot;,
+      clear: true,
+      choices: [&apos;A&apos;, &apos;I&apos;, &apos;F&apos;]},
+    { id: &apos;F&apos;, optionText: &quot;Go to F&quot;, content: &quot;You are standing in cell F.&quot;,
+      clear: true,
+      choices: [&apos;E&apos;, &apos;B&apos;]},
+    { id: &apos;G&apos;, optionText: &quot;Go to G&quot;, content: &quot;You are standing in cell G.&quot;,
+      clear: true,
+      choices: [&apos;C&apos;, &apos;K&apos;, &apos;H&apos;]},
+    { id: &apos;H&apos;, optionText: &quot;Go to H&quot;, content: &quot;You are standing in cell H.&quot;,
+      clear: true,
+      choices: [&apos;G&apos;, &apos;D&apos;]},
+    { id: &apos;I&apos;, optionText: &quot;Go to I&quot;, content: &quot;You are standing in cell I.&quot;,
+      clear: true,
+      choices: [&apos;E&apos;, &apos;J&apos;]},
+    { id: &apos;J&apos;, optionText: &quot;Go to J&quot;, content: &quot;You are standing in cell J.&quot;,
+      clear: true,
+      choices: [&apos;I&apos;, &apos;N&apos;]},
+    { id: &apos;K&apos;, optionText: &quot;Go to K&quot;, content: &quot;You are standing in cell K.&quot;,
+      clear: true,
+      choices: [&apos;G&apos;, &apos;O&apos;, &apos;L&apos;]},
+    {
+      id: &apos;L&apos;,
+      tags: [&apos;teleporter&apos;],
+      optionText: &quot;Go to L&quot;,
+      clear: true,
+      content: &quot;You are standing in cell L. There is a teleporter here.&quot;,
+      choices: [&apos;K&apos;, &apos;P&apos;, &apos;#teleporter&apos;]
+    },
+    {
+      id: &apos;M&apos;,
+      tags: [&apos;teleporter&apos;],
+      optionText: &quot;Go to M&quot;,
+      clear: true,
+      content: &quot;You are standing in cell M. There is a teleporter here.&quot;,
+      choices: [&apos;N&apos;, &apos;#teleporter&apos;]
+    },
+    { id: &apos;N&apos;, optionText: &quot;Go to N&quot;, content: &quot;You are standing in cell N.&quot;,
+      clear: true,
+      choices: [&apos;M&apos;, &apos;J&apos;]},
+    { id: &apos;O&apos;, optionText: &quot;Go to O&quot;, content: &quot;You are standing in cell O.&quot;,
+      clear: true,
+      choices: [&apos;K&apos;]},
+    { id: &apos;P&apos;, optionText: &quot;Go to P&quot;, content: &quot;You are standing in cell P.&quot;,
+      clear: true,
+      choices: [&apos;L&apos;, &apos;win&apos;]},
+    {
+      id: &apos;win&apos;,
+      optionText: &apos;Exit the maze&apos;,
+      clear: true,
+      content: `
+        You exit the maze victorious!
+      `
+    }
+  ]
+});</code>
+</code></pre>
 <p>That&apos;s most of what you can do without writing any JavaScript functions.</p>
 </div>
 </div>

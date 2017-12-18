@@ -57,6 +57,7 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#clearing-the-transcript" data-ice="link">Clearing the Transcript</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -81,6 +82,7 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#adding-css" data-ice="link">Adding CSS</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#template-comment-syntax" data-ice="link">Template Comment Syntax</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#changing-template-engines" data-ice="link">Changing Template Engines</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#built-in-filters" data-ice="link">Built-in Filters</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -99,18 +101,126 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html" data-ice="link">Characters</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html#characters-and-qualities" data-ice="link">Characters and Qualities</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html#character-state" data-ice="link">Character State</a></li>
 </ul>
   </div>
 <div data-ice="manual">
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html" data-ice="link">Saving &amp; Loading</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html#version-numbers" data-ice="link">Version Numbers</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html#resetting-the-game" data-ice="link">Resetting the Game</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html#quick-example" data-ice="link">Quick Example</a></li>
+</ul>
+  </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_gamepad.html"><a href="manual/tutorial_gamepad.html" data-ice="link">Gamepad Support</a></li>
 </ul>
   </div>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="characters">Characters</h1></div>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="characters">Characters</h1><p>In this guide:</p>
+<ul>
+<li>What is a character?</li>
+<li>What is a quality?</li>
+<li>Working with characters and qualities</li>
+</ul>
+<h2 id="characters-and-qualities">Characters and Qualities</h2><p>It&apos;s possible to use only <code>model.globalState</code> to store your game&apos;s state,
+sometimes even desirable, but Jumbo Grove includes another way: <em>characters</em>.</p>
+<p>A character is a collection of <em>qualities</em>. A quality is a value (string,
+number, or boolean) with a human-readable name.</p>
+<p>As an example, consider a game about a group&apos;s survival in a zombie apocalypse.
+Here&apos;s what each character&apos;s qualities would look like:</p>
+<ul>
+<li>Integer value 1-10 representing hunger, displayed as one of these words:
+(stuffed, full, satisfied, not hungry, a little hungry, very hungry,
+ super hungry, famished, ravenous, starving)</li>
+<li>Boolean value for whether they are sleeping or not</li>
+</ul>
+<p>All characters must be defined at the start of the game. It is not currently
+possible to add or remove characters.</p>
+<p>Here&apos;s a quick example of working with characters in a function:</p>
+<p><div id="character-example" class="jg-with-sidebar"></div>
+
+</p>
+<p>Here&apos;s the code for the example:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;character-example&apos;,
+  showAside: true,
+  asideHeader: &quot;Qualities:&quot;,
+  showNav: true,
+  navHeader: &quot;Qualities: the game!&quot;,
+  characters: [
+    {
+      // &apos;player&apos; is a special character accessible at model.player
+      id: &apos;player&apos;,  
+      name: &apos;You&apos;,
+      // this is like globalState but just for this character.
+      state: {},  
+
+      qualities: {
+        // Qualities are always grouped.
+        main: {
+          name: &apos;Main&apos;,  // optional group heading
+          priority: 0,   // higher priority = higher in list
+          hidden: false, // default true; if false, not shown in sidebar
+          hunger: {
+            name: &quot;Hunger&quot;,
+            type: &apos;wordScale&apos;,
+            words: [
+              &apos;stuffed&apos;, &apos;full&apos;, &apos;satisfied&apos;, &apos;not hungry&apos;,
+              &apos;a little hungry&apos;, &apos;very hungry&apos;, &apos;super hungry&apos;, &apos;famished&apos;,
+              &apos;ravenous&apos;, &apos;starving&apos;
+            ],
+            offset: -1,  // wordScale is 0-indexed, but value is 1-indexed, so
+                          // subtract 1 when looking up words
+            initialValue: 4,  // &quot;not hungry&quot;
+          }
+        }
+      }
+    }
+  ],
+
+  situations: [
+    {
+      id: &apos;start&apos;,
+      enter: function(model, ui) {
+        model.character(&apos;player&apos;).addToQuality(&apos;hunger&apos;, 1);
+        ui.write(`
+        After adding 1 to player hunger, player is now:
+        `);
+        ui.write(model.player.formatQuality(&apos;hunger&apos;));
+      },
+      content: `
+        Quality name: {{ model.character(&apos;player&apos;)|qualityName(&apos;hunger&apos;) }}
+
+        Quality value: {{ model.character(&apos;player&apos;)|quality(&apos;hunger&apos;) }}
+      `,
+      choices: [&apos;eat&apos;],
+    },
+    {
+      id: &apos;eat&apos;,
+      enter: function(model, ui) {
+        model.character(&apos;player&apos;).addToQuality(&apos;hunger&apos;, -1);
+      },
+      content: `
+      Look at the sidebar; the value changed
+      `
+    }
+  ]
+});</code>
+</code></pre>
+<p>Since this feature requires more JavaScript knowledge, this guide won&apos;t dig
+in to qualities, since you can probably figure it out from the API. Please
+<a href="https://github.com/irskep/jumbogrove/issues/new">open a GitHub issue</a> if
+you have trouble.</p>
+<h2 id="character-state">Character State</h2><p>You can store whatever JSON-safe values you like on the <code>.state</code> attribute of
+a character. These values are restored when you save and load.</p>
+</div>
 </div>
 
 <footer class="footer">

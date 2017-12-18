@@ -504,6 +504,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/jg/dataui.js~ui#clear",
+    "class/src/jg/dataui.js~ui.html#instance-method-clear",
+    "src/jg/dataui.js~ui#clear",
+    "method"
+  ],
+  [
     "src/jg/dataui.js~ui#createtemplate",
     "class/src/jg/dataui.js~ui.html#instance-member-createTemplate",
     "src/jg/dataui.js~ui#createTemplate",
@@ -640,6 +646,12 @@ window.esdocSearchIndex = [
     "class/src/jg/gameformat/game.js~game.html#instance-method-didExit",
     "src/jg/gameformat/game.js~game#didExit",
     "method"
+  ],
+  [
+    "src/jg/gameformat/game.js~game#gamesavemessage",
+    "class/src/jg/gameformat/game.js~game.html#instance-member-gameSaveMessage",
+    "src/jg/gameformat/game.js~game#gameSaveMessage",
+    "member"
   ],
   [
     "src/jg/gameformat/game.js~game#globalstate",

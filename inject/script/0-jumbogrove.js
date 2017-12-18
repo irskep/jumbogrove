@@ -33342,6 +33342,13 @@ var Component = normalizeComponent(
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -33358,17 +33365,20 @@ var Component = normalizeComponent(
     }
   }
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-b190c190","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGAside.vue
-var JGAside_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('aside',{class:{'JGAside': true, 'm-open': _vm.isOpen, 'm-closed': !_vm.isOpen}},[_c('div',{staticClass:"JGAsideToggle",on:{"click":function($event){$event.stopPropagation();_vm.onToggleVisibility($event)}}},[_vm._v("\n    "+_vm._s(_vm.isOpen ? '×' : 'i')+"\n  ")]),_vm._v(" "),_c('div',{staticClass:"JGAsideContents"},[_c('JGNav',{staticClass:"m-within-aside",attrs:{"model":_vm.model}}),_vm._v(" "),_c('hgroup',[_c('div',{domProps:{"innerHTML":_vm._s(_vm.model.asideHeaderHTML())}}),_vm._v(" "),_c('ul',{staticClass:"Characters"},_vm._l((_vm.model.allCharacters),function(character){return (character.showInSidebar)?_c('li',{key:character.id},[_c('h2',[_vm._v(_vm._s(character.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualityGroups"},_vm._l((character.sortedQualityGroups),function(group){return (!group.hidden)?_c('li',{key:group.id},[_c('h3',[_vm._v(_vm._s(group.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualities"},_vm._l((character.sortedQualities(group.id)),function(quality){return ((
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-73f405de","hasScoped":true,"transformToRequire":{"video":"src","source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/JGAside.vue
+var JGAside_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('aside',{class:{'JGAside': true, 'm-open': _vm.isOpen, 'm-closed': !_vm.isOpen}},[_c('div',{staticClass:"JGAsideToggle",on:{"click":function($event){$event.stopPropagation();_vm.onToggleVisibility($event)}}},[_vm._v("\n    "+_vm._s(_vm.isOpen ? '×' : 'i')+"\n  ")]),_vm._v(" "),_c('div',{staticClass:"JGAsideContents"},[_c('JGNav',{staticClass:"m-within-aside",attrs:{"model":_vm.model}}),_vm._v(" "),_c('hgroup',[_c('div',{domProps:{"innerHTML":_vm._s(_vm.model.asideHeaderHTML())}}),_vm._v(" "),_c('ul',{staticClass:"Characters"},_vm._l((_vm.model.allCharacters),function(character){return (character.showInSidebar)?_c('li',{key:character.id},[_c('h2',[_vm._v(_vm._s(character.name))]),_vm._v(" "),_c('ul',{staticClass:"CharacterQualityGroups"},_vm._l((character.sortedQualityGroups),function(group){return (!group.hidden)?_c('li',{key:group.id},[(group.name)?_c('h3',[_vm._v(_vm._s(group.name))]):_vm._e(),_vm._v(" "),_c('ul',{staticClass:"CharacterQualities"},_vm._l((character.sortedQualities(group.id)),function(quality){return ((
                       !quality.hidden &&
-                      (!quality.isVisible || quality.isVisible(character, quality, quality.value))
-                    ))?_c('li',{key:quality.id},[(quality.isLabeled && quality.isLabeled(character, quality, quality.value))?[_vm._v("\n                    "+_vm._s(character.formatQuality(quality.id))+"\n                  ")]:[_c('strong',[_vm._v(_vm._s(quality.name)+":")]),_vm._v(" "+_vm._s(character.formatQuality(quality.id)))]],2):_vm._e()}))]):_vm._e()}))]):_vm._e()}))])],1)])}
+                      (!quality.isVisible ||
+                       quality.isVisible(character, quality, quality.value))
+                    ))?_c('li',{key:quality.id},[((
+                    quality.isLabeled &&
+                    quality.isLabeled(character, quality, quality.value)))?[_vm._v("\n                    "+_vm._s(character.formatQuality(quality.id))+"\n                  ")]:[_c('strong',[_vm._v(_vm._s(quality.name)+":")]),_vm._v("\n                    "+_vm._s(character.formatQuality(quality.id))+"\n                  ")]],2):_vm._e()}))]):_vm._e()}))]):_vm._e()}))])],1)])}
 var JGAside_staticRenderFns = []
 var JGAside_esExports = { render: JGAside_render, staticRenderFns: JGAside_staticRenderFns }
 /* harmony default export */ var components_JGAside = (JGAside_esExports);
 // CONCATENATED MODULE: ./src/components/JGAside.vue
 function JGAside_injectStyle (ssrContext) {
-  __webpack_require__("jzjE")
+  __webpack_require__("PaGb")
 }
 var JGAside_normalizeComponent = __webpack_require__("VU/8")
 /* script */
@@ -33380,7 +33390,7 @@ var JGAside___vue_template_functional__ = false
 /* styles */
 var JGAside___vue_styles__ = JGAside_injectStyle
 /* scopeId */
-var JGAside___vue_scopeId__ = "data-v-b190c190"
+var JGAside___vue_scopeId__ = "data-v-73f405de"
 /* moduleIdentifier (server only) */
 var JGAside___vue_module_identifier__ = null
 var JGAside_Component = JGAside_normalizeComponent(
@@ -33813,7 +33823,7 @@ var qualities_qualities = {
 
 var _prioritySort = function _prioritySort(_ref) {
     var priority = _ref.priority;
-    return priority || 0;
+    return -priority || 0;
 };
 var _groupOmitKeys = ['id', 'name', 'priority', 'hidden'];
 
@@ -34037,7 +34047,6 @@ var character_Character = function () {
     }, {
         key: 'addToQuality',
         value: function addToQuality(id, delta) {
-            this._shallowQualities[id].value += delta;
             return this._shallowQualities[id].value += delta;
         }
     }]);
@@ -34066,6 +34075,8 @@ var situation_Situation = function () {
      * @param {string} args.id
      * @param {Boolean} args.autosave If true, game will save when scene is
      *                                entered. Default false.
+     * @param {Boolean} args.autosave If true, transcript will be cleared when
+     *                                scene is entered. Default false.
      * @param {string} args.content
      *      Markdown template to be rendered to the transcript when this
      *      situation is entered. {@see /markup.html}
@@ -34170,6 +34181,8 @@ var situation_Situation = function () {
             totalVisits = _ref$totalVisits === undefined ? 0 : _ref$totalVisits,
             _ref$autosave = _ref.autosave,
             autosave = _ref$autosave === undefined ? false : _ref$autosave,
+            _ref$clear = _ref.clear,
+            clear = _ref$clear === undefined ? false : _ref$clear,
             _ref$content = _ref.content,
             content = _ref$content === undefined ? null : _ref$content,
             _ref$choices = _ref.choices,
@@ -34230,7 +34243,7 @@ var situation_Situation = function () {
         this.debugChoices = debugChoices;
 
         assign_default()(this, {
-            getCanChoose: getCanChoose, getCanSee: getCanSee, priority: priority,
+            getCanChoose: getCanChoose, getCanSee: getCanSee, priority: priority, clear: clear,
             displayOrder: displayOrder, optionText: optionText, enter: enter, act: act, exit: exit, content: content, actions: actions, choices: choices,
             snippets: snippets, input: input, willEnter: willEnter, autosave: autosave
         });
@@ -34273,6 +34286,9 @@ var situation_Situation = function () {
             var _this = this;
 
             this.totalVisits += 1;
+            if (this.clear) {
+                ui.clear();
+            }
             if (this.content) {
                 ui.writeMarkdown(this.content);
             }
@@ -34965,6 +34981,8 @@ var director_JumboGroveDirector = function () {
             characters = _ref$characters === undefined ? [] : _ref$characters,
             _ref$situations = _ref.situations,
             situations = _ref$situations === undefined ? [] : _ref$situations,
+            _ref$gameSaveMessage = _ref.gameSaveMessage,
+            gameSaveMessage = _ref$gameSaveMessage === undefined ? null : _ref$gameSaveMessage,
             _ref$init = _ref.init,
             init = _ref$init === undefined ? director_nop : _ref$init,
             _ref$willEnter = _ref.willEnter,
@@ -34987,10 +35005,12 @@ var director_JumboGroveDirector = function () {
         if (!id) throw new Error("You must provide an id");
         assign_default()(this, {
             id: id, willEnter: willEnter, didEnter: didEnter, willExit: willExit, didExit: didExit, willAct: willAct, didAct: didAct,
-            navHeader: navHeader, asideHeader: asideHeader, init: init, showNav: showNav, showAside: showAside, defaultStylesheet: defaultStylesheet, autoScroll: autoScroll,
-            autoMoveFocus: autoMoveFocus
+            navHeader: navHeader, asideHeader: asideHeader, init: init, showNav: showNav, showAside: showAside,
+            defaultStylesheet: defaultStylesheet, autoScroll: autoScroll, autoMoveFocus: autoMoveFocus, gameSaveMessage: gameSaveMessage
         });
         this.modelArgs = { characters: characters, globalState: globalState, situations: situations, initialSituation: initialSituation, version: version };
+
+        this.activeItemId = null;
 
         this.recreateModel();
         this.interactive = true;
@@ -35207,7 +35227,9 @@ var director_JumboGroveDirector = function () {
             var previousId = previous ? previous.id : null;
             if (next.autosave && !isFromLoad) {
                 this.save(id);
-                this.ui.writeMarkdown('> Game saved.\n');
+                if (this.gameSaveMessage) {
+                    this.ui.writeMarkdown(this.gameSaveMessage);
+                }
             }
             if (this.model.currentSituation) {
                 this.willExit(this.model, this.ui, previousId, id);
@@ -35396,6 +35418,14 @@ var dataui_ui = function () {
         commentStart: '{##',
         commentEnd: '##}'
       }
+    });
+
+    this.nunjucks.addFilter('qualityName', function (char, q) {
+      return char.formatQualityName(q);
+    });
+
+    this.nunjucks.addFilter('quality', function (char, q) {
+      return char.formatQuality(q);
     });
 
     /**
@@ -35679,6 +35709,16 @@ var dataui_ui = function () {
       } else {
         this.writeMarkdown(markdown, args);
       }
+    }
+
+    /**
+     * Remove all content from the transcript and start fresh.
+     */
+
+  }, {
+    key: 'clear',
+    value: function clear() {
+      this.content = [];
     }
 
     /**
@@ -36295,6 +36335,13 @@ module.exports = function text_collapse(state) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__("oM7Q"), __esModule: true };
+
+/***/ }),
+
+/***/ "PaGb":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -47012,13 +47059,6 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 
 module.exports = __webpack_require__("ukGi");
 
-
-/***/ }),
-
-/***/ "jzjE":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 

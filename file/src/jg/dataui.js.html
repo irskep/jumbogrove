@@ -122,6 +122,14 @@ export default class ui {
       },
     });
 
+    this.nunjucks.addFilter(&apos;qualityName&apos;, (char, q) =&gt; {
+      return char.formatQualityName(q);
+    });
+
+    this.nunjucks.addFilter(&apos;quality&apos;, (char, q) =&gt; {
+      return char.formatQuality(q);
+    });
+
     /**
      * You may replace this property if you want to use a template
      * language other than [Nunjucks](https://mozilla.github.io/nunjucks/).
@@ -327,6 +335,13 @@ export default class ui {
     } else {
       this.writeMarkdown(markdown, args);
     }
+  }
+
+  /**
+   * Remove all content from the transcript and start fresh.
+   */
+  clear() {
+    this.content = [];
   }
 
   /**

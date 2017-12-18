@@ -57,6 +57,7 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#laying-out-the-maze" data-ice="link">Laying out the maze</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#introducing-tags" data-ice="link">Introducing Tags</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#maze-game-teleporter-pads" data-ice="link">Maze game teleporter pads</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_basics.html"><a href="manual/tutorial_basics.html#clearing-the-transcript" data-ice="link">Clearing the Transcript</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -81,6 +82,7 @@
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#adding-css" data-ice="link">Adding CSS</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#template-comment-syntax" data-ice="link">Template Comment Syntax</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#changing-template-engines" data-ice="link">Changing Template Engines</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_templates.html"><a href="manual/tutorial_templates.html#built-in-filters" data-ice="link">Built-in Filters</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -99,12 +101,23 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html" data-ice="link">Characters</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html#characters-and-qualities" data-ice="link">Characters and Qualities</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_characters.html"><a href="manual/tutorial_characters.html#character-state" data-ice="link">Character State</a></li>
 </ul>
   </div>
 <div data-ice="manual">
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html" data-ice="link">Saving &amp; Loading</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html#version-numbers" data-ice="link">Version Numbers</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html#resetting-the-game" data-ice="link">Resetting the Game</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/tutorial_saving.html"><a href="manual/tutorial_saving.html#quick-example" data-ice="link">Quick Example</a></li>
+</ul>
+  </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/tutorial_gamepad.html"><a href="manual/tutorial_gamepad.html" data-ice="link">Gamepad Support</a></li>
 </ul>
   </div>
 </div>
@@ -525,7 +538,95 @@ connect them all!</p><p>The marked squares will contain teleporters:</p><pre><co
 </code></pre><p>The user can now take a more circuitous route to the exit:
 <code>AEIJNMLKOP</code>. Here&apos;s the running code:</p><p><div id="maze-3" class="jg-headless"></div>
 
-</p><p>That&apos;s most of what you can do without writing any JavaScript functions.</p></div>
+</p><h2>Clearing the Transcript</h2><p>If you don&apos;t like the continuous scrolling style and prefer something more like
+Twine, you can add <code>clear: true</code> to your situation. Here&apos;s the maze example,
+with each situation clearing the screen.</p><p><div id="maze-clear-example" class="jg-headless"></div>
+
+</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos; {
+  id: &apos;maze-game&apos;,
+  situations: [
+    {
+      id: &apos;start&apos;,  // the situation with id=start is how the game begins
+      content: `
+        You are standing at the entrance of a maze.
+      `,
+      choices: [&apos;A&apos;]
+    },
+    { id: &apos;A&apos;, optionText: &quot;Enter the maze&quot;,
+      clear: true,
+      content: &quot;You are standing in cell A.&quot;,
+      choices: [&apos;E&apos;] },
+    { id: &apos;B&apos;, optionText: &quot;Go to B&quot;, content: &quot;You are standing in cell B.&quot;,
+      clear: true,
+      choices: [&apos;F&apos;, &apos;C&apos;]},
+    { id: &apos;C&apos;, optionText: &quot;Go to C&quot;, content: &quot;You are standing in cell C.&quot;,
+      clear: true,
+      choices: [&apos;B&apos;, &apos;G&apos;]},
+    {
+      id: &apos;D&apos;,
+      tags: [&apos;teleporter&apos;],
+      optionText: &quot;Go to D&quot;,
+      clear: true,
+      content: &quot;You are standing in cell D. There is a teleporter here.&quot;,
+      choices: [&apos;H&apos;, &apos;#teleporter&apos;]
+    },
+    { id: &apos;E&apos;, optionText: &quot;Go to E&quot;, content: &quot;You are standing in cell E.&quot;,
+      clear: true,
+      choices: [&apos;A&apos;, &apos;I&apos;, &apos;F&apos;]},
+    { id: &apos;F&apos;, optionText: &quot;Go to F&quot;, content: &quot;You are standing in cell F.&quot;,
+      clear: true,
+      choices: [&apos;E&apos;, &apos;B&apos;]},
+    { id: &apos;G&apos;, optionText: &quot;Go to G&quot;, content: &quot;You are standing in cell G.&quot;,
+      clear: true,
+      choices: [&apos;C&apos;, &apos;K&apos;, &apos;H&apos;]},
+    { id: &apos;H&apos;, optionText: &quot;Go to H&quot;, content: &quot;You are standing in cell H.&quot;,
+      clear: true,
+      choices: [&apos;G&apos;, &apos;D&apos;]},
+    { id: &apos;I&apos;, optionText: &quot;Go to I&quot;, content: &quot;You are standing in cell I.&quot;,
+      clear: true,
+      choices: [&apos;E&apos;, &apos;J&apos;]},
+    { id: &apos;J&apos;, optionText: &quot;Go to J&quot;, content: &quot;You are standing in cell J.&quot;,
+      clear: true,
+      choices: [&apos;I&apos;, &apos;N&apos;]},
+    { id: &apos;K&apos;, optionText: &quot;Go to K&quot;, content: &quot;You are standing in cell K.&quot;,
+      clear: true,
+      choices: [&apos;G&apos;, &apos;O&apos;, &apos;L&apos;]},
+    {
+      id: &apos;L&apos;,
+      tags: [&apos;teleporter&apos;],
+      optionText: &quot;Go to L&quot;,
+      clear: true,
+      content: &quot;You are standing in cell L. There is a teleporter here.&quot;,
+      choices: [&apos;K&apos;, &apos;P&apos;, &apos;#teleporter&apos;]
+    },
+    {
+      id: &apos;M&apos;,
+      tags: [&apos;teleporter&apos;],
+      optionText: &quot;Go to M&quot;,
+      clear: true,
+      content: &quot;You are standing in cell M. There is a teleporter here.&quot;,
+      choices: [&apos;N&apos;, &apos;#teleporter&apos;]
+    },
+    { id: &apos;N&apos;, optionText: &quot;Go to N&quot;, content: &quot;You are standing in cell N.&quot;,
+      clear: true,
+      choices: [&apos;M&apos;, &apos;J&apos;]},
+    { id: &apos;O&apos;, optionText: &quot;Go to O&quot;, content: &quot;You are standing in cell O.&quot;,
+      clear: true,
+      choices: [&apos;K&apos;]},
+    { id: &apos;P&apos;, optionText: &quot;Go to P&quot;, content: &quot;You are standing in cell P.&quot;,
+      clear: true,
+      choices: [&apos;L&apos;, &apos;win&apos;]},
+    {
+      id: &apos;win&apos;,
+      optionText: &apos;Exit the maze&apos;,
+      clear: true,
+      content: `
+        You exit the maze victorious!
+      `
+    }
+  ]
+});</code>
+</code></pre><p>That&apos;s most of what you can do without writing any JavaScript functions.</p></div>
         <a data-ice="link" href="manual/tutorial_basics.html"></a>
       </div>
     </div>
@@ -974,7 +1075,12 @@ using <code>ui.md</code>, a <code>MarkdownIt</code> instance.</p><pre><code clas
 with <code>markdown-it-attrs</code>&apos;s HTML ID syntax (<code>{#some-id}</code>), Nunjucks is
 configured by default to use <code>{## blah blah blah ##}</code> for comments
 (two hashes instead of one on each side).</p><h2>Changing Template Engines</h2><p>It is possible to do this, but it is not in this guide because it
-should only be done if you really, really know what you are doing.</p></div>
+should only be done if you really, really know what you are doing.</p><h2>Built-in Filters</h2><ul>
+<li><code>character|quality(qualityId)</code> formats the current value of a
+character&apos;s quality. (See next guide for what that is.)</li>
+<li><code>character|qualityName(qualityId)</code> shows the <code>name</code> value of
+the character&apos;s quality.</li>
+</ul></div>
         <a data-ice="link" href="manual/tutorial_templates.html"></a>
       </div>
     </div>
@@ -1217,14 +1323,140 @@ and go to another situation.</p><p>Here&apos;s a rewrite of the gym example usin
     </div>
 <div class="manual-card-wrap" data-ice="cards">
       <div class="manual-card">
-        <div data-ice="card"><h1>Characters</h1></div>
+        <div data-ice="card"><h1>Characters</h1><p>In this guide:</p><ul>
+<li>What is a character?</li>
+<li>What is a quality?</li>
+<li>Working with characters and qualities</li>
+</ul><h2>Characters and Qualities</h2><p>It&apos;s possible to use only <code>model.globalState</code> to store your game&apos;s state,
+sometimes even desirable, but Jumbo Grove includes another way: <em>characters</em>.</p><p>A character is a collection of <em>qualities</em>. A quality is a value (string,
+number, or boolean) with a human-readable name.</p><p>As an example, consider a game about a group&apos;s survival in a zombie apocalypse.
+Here&apos;s what each character&apos;s qualities would look like:</p><ul>
+<li>Integer value 1-10 representing hunger, displayed as one of these words:
+(stuffed, full, satisfied, not hungry, a little hungry, very hungry,
+ super hungry, famished, ravenous, starving)</li>
+<li>Boolean value for whether they are sleeping or not</li>
+</ul><p>All characters must be defined at the start of the game. It is not currently
+possible to add or remove characters.</p><p>Here&apos;s a quick example of working with characters in a function:</p><p><div id="character-example" class="jg-with-sidebar"></div>
+
+</p><p>Here&apos;s the code for the example:</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;character-example&apos;,
+  showAside: true,
+  asideHeader: &quot;Qualities:&quot;,
+  showNav: true,
+  navHeader: &quot;Qualities: the game!&quot;,
+  characters: [
+    {
+      // &apos;player&apos; is a special character accessible at model.player
+      id: &apos;player&apos;,  
+      name: &apos;You&apos;,
+      // this is like globalState but just for this character.
+      state: {},  
+
+      qualities: {
+        // Qualities are always grouped.
+        main: {
+          name: &apos;Main&apos;,  // optional group heading
+          priority: 0,   // higher priority = higher in list
+          hidden: false, // default true; if false, not shown in sidebar
+          hunger: {
+            name: &quot;Hunger&quot;,
+            type: &apos;wordScale&apos;,
+            words: [
+              &apos;stuffed&apos;, &apos;full&apos;, &apos;satisfied&apos;, &apos;not hungry&apos;,
+              &apos;a little hungry&apos;, &apos;very hungry&apos;, &apos;super hungry&apos;, &apos;famished&apos;,
+              &apos;ravenous&apos;, &apos;starving&apos;
+            ],
+            offset: -1,  // wordScale is 0-indexed, but value is 1-indexed, so
+                          // subtract 1 when looking up words
+            initialValue: 4,  // &quot;not hungry&quot;
+          }
+        }
+      }
+    }
+  ],
+
+  situations: [
+    {
+      id: &apos;start&apos;,
+      enter: function(model, ui) {
+        model.character(&apos;player&apos;).addToQuality(&apos;hunger&apos;, 1);
+        ui.write(`
+        After adding 1 to player hunger, player is now:
+        `);
+        ui.write(model.player.formatQuality(&apos;hunger&apos;));
+      },
+      content: `
+        Quality name: {{ model.character(&apos;player&apos;)|qualityName(&apos;hunger&apos;) }}
+
+        Quality value: {{ model.character(&apos;player&apos;)|quality(&apos;hunger&apos;) }}
+      `,
+      choices: [&apos;eat&apos;],
+    },
+    {
+      id: &apos;eat&apos;,
+      enter: function(model, ui) {
+        model.character(&apos;player&apos;).addToQuality(&apos;hunger&apos;, -1);
+      },
+      content: `
+      Look at the sidebar; the value changed
+      `
+    }
+  ]
+});</code>
+</code></pre><p>Since this feature requires more JavaScript knowledge, this guide won&apos;t dig
+in to qualities, since you can probably figure it out from the API. Please
+<a href="https://github.com/irskep/jumbogrove/issues/new">open a GitHub issue</a> if
+you have trouble.</p><h2>Character State</h2><p>You can store whatever JSON-safe values you like on the <code>.state</code> attribute of
+a character. These values are restored when you save and load.</p></div>
         <a data-ice="link" href="manual/tutorial_characters.html"></a>
       </div>
     </div>
 <div class="manual-card-wrap" data-ice="cards">
       <div class="manual-card">
-        <div data-ice="card"><h1>Saving &amp; Loading</h1></div>
+        <div data-ice="card"><h1>Saving &amp; Loading</h1><p>Jumbo Grove games are saved to <em>browser local storage</em>. If you players
+use Incognito Mode/Private Browsing, it won&apos;t work.</p><p>The game only saves when entering situations with <code>autosave: true</code>.</p><p>When loading a game, the whole transcript is <em>not</em> replayed. The game
+picks up where the player left off, without showing the whole history.</p><h2>Version Numbers</h2><p>In addition to an <code>id</code>, you should define a <code>version</code> for your game, because
+the game&apos;s savefile location is based on the version number.</p><h2>Resetting the Game</h2><p>There is a special </p><h2>Quick Example</h2><p>Try navigating to a new scene and reloading the page.</p><p><div id="save-example" class="jg-with-sidebar"></div>
+
+</p><pre><code class="lang-js"><code class="source-code prettyprint">jumbogrove.jumbogrove(&apos;#game&apos;, {
+  id: &apos;save-example&apos;,
+  showNav: true,
+  gameSaveMessage: &apos;&gt; Game saved.&apos;,
+  navHeader: `
+  ### A Game You Can Save
+
+  [Start over](&gt;resetGame)
+  `,
+  situations: [
+    {
+      id: &apos;start&apos;,
+      autosave: true,
+      content: `
+      You are at START.
+      `,
+      choices: [&apos;the-other-scene&apos;]
+    },
+    {
+      id: &apos;the-other-scene&apos;,
+      autosave: true,
+      content: `
+      You are at THE OTHER SCENE.
+      `,
+      choices: [&apos;start&apos;]
+    }
+  ]
+};</code>
+</code></pre></div>
         <a data-ice="link" href="manual/tutorial_saving.html"></a>
+      </div>
+    </div>
+<div class="manual-card-wrap" data-ice="cards">
+      <div class="manual-card">
+        <div data-ice="card"><h1>Gamepad Support</h1><p>If a gamepad is detected with the HTML5 gamepad API, then the player
+will be able to use it to navigate between links.</p><p>It doesn&apos;t really work on this documentation site because there are
+multiple instances on most pages, but it should work fine if there&apos;s
+just one instance.</p></div>
+        <a data-ice="link" href="manual/tutorial_gamepad.html"></a>
       </div>
     </div>
 </div>
