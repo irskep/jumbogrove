@@ -4,11 +4,14 @@ Jumbo Grove is a tool for writing hypertext interactive fiction. *Hypertext*
 means text with links. *[Interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction)*
 is a medium for storytelling that crosses over into video games.
 
+Jumbo Grove requires beginner-level knowledge of JavaScript, but more
+experienced developers will find plenty of useful stuff!
+
 ## Features
 
 * Desktop, mobile, and gamepad support
 * Fully documented API
-* Packaged as a single JS file or as an NPM package
+* Packaged as a single JS file _or_ as an NPM package
 * Many games require no "coding"
 
 ## Quick Start
@@ -16,6 +19,13 @@ is a medium for storytelling that crosses over into video games.
 You can put up a fresh site with Jumbo Grove in less than 30 seconds by
 [remixing this project on Glitch.](https://glitch.com/edit/#!/remix/jumbo-grove-demo)
 You can edit the game in a browser and it will live-update a real site!
+
+If you're using a bundler like Webpack, you can simply `npm install jumbogrove`
+and `import {jumbogrove} from 'jumbogrove'`.
+
+If that's too much trouble for you, please grab
+[jumbogrove.js](https://github.com/irskep/jumbogrove/raw/standalone/jumbogrove.js)
+and [jumbogrove.css](https://github.com/irskep/jumbogrove/raw/standalone/static/css/app.css).
 
 ## Docs
 
@@ -32,6 +42,8 @@ If you are on the [Jumbo Grove documentation site](http://steveasleep.com/jumbog
 (as opposed to reading the Readme on GitHub) then you will see a quick demo here:
 
 <div id="firstdemo" class="jg-headless"></div>
+
+There are many more live demos in the guides!
 
 ## Demo source code 
 

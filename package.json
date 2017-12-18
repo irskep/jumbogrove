@@ -16,7 +16,8 @@
     "build": "node build/build.js",
     "lib": "node build/buildlib.js",
     "standalone": "node build/buildstandalone.js",
-    "deploy": "yarn lib && yarn standalone && yarn doc && ghp-import -np docs_out",
+    "deploy": "yarn lib && yarn standalone && yarn doc && ghp-import -np docs_out && ghp-import dist -pb standalone",
+    "deploydocs": "yarn doc && ghp-import -np docs_out",
     "ld40": "yarn build && ghp-import -np dist -r ld40"
   },
   "dependencies": {
