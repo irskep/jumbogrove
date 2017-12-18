@@ -268,6 +268,8 @@ jumbogrove.jumbogrove('#game', {
 })
 ```
 
+<div id="house-game" class="jg-headless"></div>
+
 ## Maze game teleporter pads
 
 We can use this feature to add teleporter pads to a few cells of our maze.
