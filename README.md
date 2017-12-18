@@ -10,9 +10,10 @@ experienced developers will find plenty of useful stuff!
 ## Features
 
 * Desktop, mobile, and gamepad support
-* Fully documented API
+* Fully documented API with tutorials
 * Packaged as a single JS file _or_ as an NPM package
 * Many games require no "coding"
+* Friendly template language; never write raw HTML
 
 ## Quick Start
 
@@ -29,10 +30,9 @@ and [jumbogrove.css](https://github.com/irskep/jumbogrove/raw/standalone/static/
 
 ## Docs
 
+If you're new, [read the tutorial](http://steveasleep.com/jumbogrove/manual/tutorial_basics.html).
 
-### [Tutorial](http://steveasleep.com/jumbogrove/manual/tutorial_basics.html)
-
-### [API](http://steveasleep.com/jumbogrove/identifiers.html)
+If you're not, [check out the API](http://steveasleep.com/jumbogrove/identifiers.html).
 
 ## Demo
 
