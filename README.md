@@ -85,3 +85,27 @@ jumbogrove.jumbogrove('#firstdemo', {
 Interactive Fiction = IF  
 I + 1, F + 1 = J, G  
 J[umbo] G[rove]
+
+## Related Projects
+
+### Beginner
+
+[Twine.](http://twinery.org)
+
+### Intermediate
+
+The biggest inspiration for this project is
+[Undum](https://github.com/sequitur/undum) and the
+[Raconteur](http://raconteur.readthedocs.io/en/latest/) layer on top of it.
+This project was prompted by a desire to make "Undum done right," with
+2017-era best practices and great documentation.
+
+[Salet](https://salet.su/en/guide) is another similar project with slightly
+different goals, a different API, and different features. If Jumbo Grove isn't
+quite right for you, Salet is probably what you're looking for.
+
+### Expert
+
+[Windrift](https://github.com/lizadaly/windrift) is very linear-story-oriented,
+and requires a high level of JavaScript expertise, but has been used to make
+some really great stuff and is well-designed.
