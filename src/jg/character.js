@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import qualities from "./qualities/index";
 
-const _prioritySort = ({priority}) => priority || 0;
+const _prioritySort = ({priority}) => -priority || 0;
 const _groupOmitKeys = ['id', 'name', 'priority', 'hidden'];
 
 /**
@@ -152,7 +152,6 @@ export default class Character {
      * @returns {number} The new value
      */
     addToQuality(id, delta) {
-        this._shallowQualities[id].value += delta;
         return this._shallowQualities[id].value += delta;
     }
 }

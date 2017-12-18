@@ -79,6 +79,12 @@ class game {
         this.asideHeader = '';
 
         /**
+         * The Markdown string you want to show whenever the game is saved.
+         * @type {string}
+         */
+        this.gameSaveMessage = null;
+
+        /**
          * The initial value of {@link model.globalState}. Must be JSON-safe.
          * @type {*}
          */

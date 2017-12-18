@@ -28,7 +28,8 @@
             "./manual/tutorial_templates.md",
             "./manual/tutorial_actions.md",
             "./manual/tutorial_characters.md",
-            "./manual/tutorial_saving.md"
+            "./manual/tutorial_saving.md",
+            "./manual/tutorial_gamepad.md"
           ]
 
         }

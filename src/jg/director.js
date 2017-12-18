@@ -53,6 +53,7 @@ class JumboGroveDirector {
         globalState = {},
         characters = [],
         situations = [],
+        gameSaveMessage = null,
         // (model, ui, markdown)
         init = nop,
         // Return falsey value if you want to abort the new situation
@@ -72,10 +73,12 @@ class JumboGroveDirector {
         if (!id) throw new Error("You must provide an id"); 
         Object.assign(this, {
             id, willEnter, didEnter, willExit, didExit, willAct, didAct,
-            navHeader, asideHeader, init, showNav, showAside, defaultStylesheet, autoScroll,
-            autoMoveFocus,
+            navHeader, asideHeader, init, showNav, showAside,
+            defaultStylesheet, autoScroll, autoMoveFocus, gameSaveMessage,
         });
         this.modelArgs = {characters, globalState, situations, initialSituation, version};
+
+        this.activeItemId = null;
 
         this.recreateModel();
         this.interactive = true;
@@ -237,7 +240,9 @@ class JumboGroveDirector {
         const previousId = previous ? previous.id : null;
         if (next.autosave && !isFromLoad) {
             this.save(id);
-            this.ui.writeMarkdown('> Game saved.\n')
+            if (this.gameSaveMessage) {
+                this.ui.writeMarkdown(this.gameSaveMessage);
+            }
         }
         if (this.model.currentSituation) {
             this.willExit(this.model, this.ui, previousId, id);

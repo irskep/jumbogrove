@@ -216,3 +216,10 @@ configured by default to use `{## blah blah blah ##}` for comments
 
 It is possible to do this, but it is not in this guide because it
 should only be done if you really, really know what you are doing.
+
+## Built-in Filters
+
+* `character|quality(qualityId)` formats the current value of a
+  character's quality. (See next guide for what that is.)
+* `character|qualityName(qualityId)` shows the `name` value of
+  the character's quality.

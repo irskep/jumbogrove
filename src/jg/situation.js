@@ -11,6 +11,8 @@ export default class Situation {
      * @param {string} args.id
      * @param {Boolean} args.autosave If true, game will save when scene is
      *                                entered. Default false.
+     * @param {Boolean} args.autosave If true, transcript will be cleared when
+     *                                scene is entered. Default false.
      * @param {string} args.content
      *      Markdown template to be rendered to the transcript when this
      *      situation is entered. {@see /markup.html}
@@ -112,32 +114,21 @@ export default class Situation {
         tags = [],
         totalVisits = 0,
         autosave = false,
-        // str (rendered as HTML before enter() called)
+        clear = false,
         content = null,
-        // [str] (if specified, presentChoices() will happen automatically)
         choices = null,
         snippets = {},
         input = null,
         debugChoices = false,
-        // (model, hostSituation)
         getCanChoose = tru,
-        // (model, hostSituation)
         getCanSee = tru,
-        // number or (model, hostSituation)
         priority = 0,
-        // number or (model, hostSituation)
         displayOrder = 0,
-        // str or (model, hostSituation)
         optionText = null,
-        // (model, ui, fromSituation)
         willEnter = tru,
-        // (model, ui, fromSituation)
         enter = nop,
-        // (model, ui, action)
         act = nop,
-        // {actionId: (model, ui) => Void}
         actions = {},
-        // (model, ui, toSituation)
         exit = nop,
     }) {
         /**
@@ -167,7 +158,7 @@ export default class Situation {
         this.debugChoices = debugChoices;
 
         Object.assign(this, {
-            getCanChoose, getCanSee, priority,
+            getCanChoose, getCanSee, priority, clear,
             displayOrder, optionText, enter, act, exit, content, actions, choices,
             snippets, input, willEnter, autosave,
         });
@@ -195,6 +186,9 @@ export default class Situation {
     /** @ignore */
     doEnter(model, ui) {
         this.totalVisits += 1;
+        if (this.clear) {
+            ui.clear();
+        }
         if (this.content) {
             ui.writeMarkdown(this.content);
         }

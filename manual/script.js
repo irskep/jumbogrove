@@ -708,6 +708,279 @@ _.defer(() => {
       }
     ]
     
-  })
+  });
+
+  tryGame('#character-example', {
+    id: 'character-example',
+    showAside: true,
+    asideHeader: "Qualities:",
+    showNav: true,
+    navHeader: "Qualities: the game!",
+    characters: [
+      {
+        // 'player' is a special character accessible at model.player
+        id: 'player',  
+        name: 'You',
+        // this is like globalState but just for this character.
+        state: {},  
+
+        qualities: {
+          // Qualities are always grouped.
+          main: {
+            name: 'Main',  // optional group heading
+            priority: 0,   // higher priority = higher in list
+            hidden: false, // default true; if false, not shown in sidebar
+            hunger: {
+              name: "Hunger",
+              type: 'wordScale',
+              words: [
+                'stuffed', 'full', 'satisfied', 'not hungry',
+                'a little hungry', 'very hungry', 'super hungry', 'famished',
+                'ravenous', 'starving'
+              ],
+              offset: -1,  // wordScale is 0-indexed, but value is 1-indexed, so
+                           // subtract 1 when looking up words
+              initialValue: 4,  // "not hungry"
+            }
+          }
+        }
+      }
+    ],
+
+    situations: [
+      {
+        id: 'start',
+        enter: function(model, ui) {
+          model.character('player').addToQuality('hunger', 1);
+          ui.write(`
+          After adding 1 to player hunger, player is now:
+          `);
+          ui.write(model.player.formatQuality('hunger'));
+        },
+        content: `
+          Quality name: {{ model.character('player')|qualityName('hunger') }}
+
+          Quality value: {{ model.character('player')|quality('hunger') }}
+        `,
+        choices: ['eat'],
+      },
+      {
+        id: 'eat',
+        enter: function(model, ui) {
+          model.character('player').addToQuality('hunger', -1);
+        },
+        content: `
+        Look at the sidebar; the value changed
+        `
+      }
+    ]
+  });
+
+  tryGame('#maze-clear-example', {
+    id: 'maze-game',
+    situations: [
+      {
+        id: 'start',  // the situation with id=start is how the game begins
+        content: `
+          You are standing at the entrance of a maze.
+        `,
+        choices: ['A']
+      },
+      { id: 'A', optionText: "Enter the maze",
+        clear: true,
+        content: "You are standing in cell A.",
+        choices: ['E'] },
+      { id: 'B', optionText: "Go to B", content: "You are standing in cell B.",
+        clear: true,
+        choices: ['F', 'C']},
+      { id: 'C', optionText: "Go to C", content: "You are standing in cell C.",
+        clear: true,
+        choices: ['B', 'G']},
+      {
+        id: 'D',
+        tags: ['teleporter'],
+        optionText: "Go to D",
+        clear: true,
+        content: "You are standing in cell D. There is a teleporter here.",
+        choices: ['H', '#teleporter']
+      },
+      { id: 'E', optionText: "Go to E", content: "You are standing in cell E.",
+        clear: true,
+        choices: ['A', 'I', 'F']},
+      { id: 'F', optionText: "Go to F", content: "You are standing in cell F.",
+        clear: true,
+        choices: ['E', 'B']},
+      { id: 'G', optionText: "Go to G", content: "You are standing in cell G.",
+        clear: true,
+        choices: ['C', 'K', 'H']},
+      { id: 'H', optionText: "Go to H", content: "You are standing in cell H.",
+        clear: true,
+        choices: ['G', 'D']},
+      { id: 'I', optionText: "Go to I", content: "You are standing in cell I.",
+        clear: true,
+        choices: ['E', 'J']},
+      { id: 'J', optionText: "Go to J", content: "You are standing in cell J.",
+        clear: true,
+        choices: ['I', 'N']},
+      { id: 'K', optionText: "Go to K", content: "You are standing in cell K.",
+        clear: true,
+        choices: ['G', 'O', 'L']},
+      {
+        id: 'L',
+        tags: ['teleporter'],
+        optionText: "Go to L",
+        clear: true,
+        content: "You are standing in cell L. There is a teleporter here.",
+        choices: ['K', 'P', '#teleporter']
+      },
+      {
+        id: 'M',
+        tags: ['teleporter'],
+        optionText: "Go to M",
+        clear: true,
+        content: "You are standing in cell M. There is a teleporter here.",
+        choices: ['N', '#teleporter']
+      },
+      { id: 'N', optionText: "Go to N", content: "You are standing in cell N.",
+        clear: true,
+        choices: ['M', 'J']},
+      { id: 'O', optionText: "Go to O", content: "You are standing in cell O.",
+        clear: true,
+        choices: ['K']},
+      { id: 'P', optionText: "Go to P", content: "You are standing in cell P.",
+        clear: true,
+        choices: ['L', 'win']},
+      {
+        id: 'win',
+        optionText: 'Exit the maze',
+        clear: true,
+        content: `
+          You exit the maze victorious!
+        `
+      }
+    ]
+  });
+
+  tryGame('#maze-4', {
+    id: 'maze-game',
+    situations: [
+      {
+        id: 'start',  // the situation with id=start is how the game begins
+        content: `
+          You are standing at the entrance of a maze.
+        `,
+        choices: ['A']
+      },
+      { id: 'A', 
+        optionText: function(model, hostSituation) {
+          if (hostSituation.id === 'start') {
+            return 'Enter the maze';
+          } else {
+            return 'Go to A';
+          }
+        },
+        content: "You are standing in cell A.",
+        choices: ['E'] },
+      { id: 'B', optionText: "Go to B", content: "You are standing in cell B.",
+        choices: ['F', 'C']},
+      { id: 'C', optionText: "Go to C", content: "You are standing in cell C.",
+        choices: ['B', 'G']},
+      {
+        id: 'D',
+        tags: ['teleporter'],
+        optionText: function(model, host) {
+          if (host.hasTag('teleporter')) {
+            return 'Teleport to D';
+          } else {
+            return 'Go to D';
+          }
+        },
+        content: "You are standing in cell D. There is a teleporter here.",
+        choices: ['H', '#teleporter']
+      },
+      { id: 'E', optionText: "Go to E", content: "You are standing in cell E.",
+        choices: ['A', 'I', 'F']},
+      { id: 'F', optionText: "Go to F", content: "You are standing in cell F.",
+        choices: ['E', 'B']},
+      { id: 'G', optionText: "Go to G", content: "You are standing in cell G.",
+        choices: ['C', 'K', 'H']},
+      { id: 'H', optionText: "Go to H", content: "You are standing in cell H.",
+        choices: ['G', 'D']},
+      { id: 'I', optionText: "Go to I", content: "You are standing in cell I.",
+        choices: ['E', 'J']},
+      { id: 'J', optionText: "Go to J", content: "You are standing in cell J.",
+        choices: ['I', 'N']},
+      { id: 'K', optionText: "Go to K", content: "You are standing in cell K.",
+        choices: ['G', 'O', 'L']},
+      {
+        id: 'L',
+        tags: ['teleporter'],
+        optionText: function(model, host) {
+          if (host.hasTag('teleporter')) {
+            return 'Teleport to L';
+          } else {
+            return 'Go to L';
+          }
+        },
+        content: "You are standing in cell L. There is a teleporter here.",
+        choices: ['K', 'P', '#teleporter']
+      },
+      {
+        id: 'M',
+        tags: ['teleporter'],
+        optionText: function(model, host) {
+          if (host.hasTag('teleporter')) {
+            return 'Teleport to M';
+          } else {
+            return 'Go to M';
+          }
+        },
+        content: "You are standing in cell M. There is a teleporter here.",
+        choices: ['N', '#teleporter']
+      },
+      { id: 'N', optionText: "Go to N", content: "You are standing in cell N.",
+        choices: ['M', 'J']},
+      { id: 'O', optionText: "Go to O", content: "You are standing in cell O.",
+        choices: ['K']},
+      { id: 'P', optionText: "Go to P", content: "You are standing in cell P.",
+        choices: ['L', 'win']},
+      {
+        id: 'win',
+        optionText: 'Exit the maze',
+        content: `
+          You exit the maze victorious!
+        `
+      }
+    ]
+  });
+
+  tryGame('#save-example', {
+    id: 'save-example',
+    showNav: true,
+    gameSaveMessage: '> Game saved.',
+    navHeader: `
+    ### A Game You Can Save
+
+    [Start over](>resetGame)
+    `,
+    situations: [
+      {
+        id: 'start',
+        autosave: true,
+        content: `
+        You are at START.
+        `,
+        choices: ['the-other-scene']
+      },
+      {
+        id: 'the-other-scene',
+        autosave: true,
+        content: `
+        You are at THE OTHER SCENE.
+        `,
+        choices: ['start']
+      }
+    ]
+  });
 
 });

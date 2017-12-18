@@ -364,4 +364,99 @@ The user can now take a more circuitous route to the exit:
 
 <div id="maze-3" class="jg-headless"></div>
 
+## Clearing the Transcript
+
+If you don't like the continuous scrolling style and prefer something more like
+Twine, you can add `clear: true` to your situation. Here's the maze example,
+with each situation clearing the screen.
+
+<div id="maze-clear-example" class="jg-headless"></div>
+
+```js
+jumbogrove.jumbogrove('#game' {
+  id: 'maze-game',
+  situations: [
+    {
+      id: 'start',  // the situation with id=start is how the game begins
+      content: `
+        You are standing at the entrance of a maze.
+      `,
+      choices: ['A']
+    },
+    { id: 'A', optionText: "Enter the maze",
+      clear: true,
+      content: "You are standing in cell A.",
+      choices: ['E'] },
+    { id: 'B', optionText: "Go to B", content: "You are standing in cell B.",
+      clear: true,
+      choices: ['F', 'C']},
+    { id: 'C', optionText: "Go to C", content: "You are standing in cell C.",
+      clear: true,
+      choices: ['B', 'G']},
+    {
+      id: 'D',
+      tags: ['teleporter'],
+      optionText: "Go to D",
+      clear: true,
+      content: "You are standing in cell D. There is a teleporter here.",
+      choices: ['H', '#teleporter']
+    },
+    { id: 'E', optionText: "Go to E", content: "You are standing in cell E.",
+      clear: true,
+      choices: ['A', 'I', 'F']},
+    { id: 'F', optionText: "Go to F", content: "You are standing in cell F.",
+      clear: true,
+      choices: ['E', 'B']},
+    { id: 'G', optionText: "Go to G", content: "You are standing in cell G.",
+      clear: true,
+      choices: ['C', 'K', 'H']},
+    { id: 'H', optionText: "Go to H", content: "You are standing in cell H.",
+      clear: true,
+      choices: ['G', 'D']},
+    { id: 'I', optionText: "Go to I", content: "You are standing in cell I.",
+      clear: true,
+      choices: ['E', 'J']},
+    { id: 'J', optionText: "Go to J", content: "You are standing in cell J.",
+      clear: true,
+      choices: ['I', 'N']},
+    { id: 'K', optionText: "Go to K", content: "You are standing in cell K.",
+      clear: true,
+      choices: ['G', 'O', 'L']},
+    {
+      id: 'L',
+      tags: ['teleporter'],
+      optionText: "Go to L",
+      clear: true,
+      content: "You are standing in cell L. There is a teleporter here.",
+      choices: ['K', 'P', '#teleporter']
+    },
+    {
+      id: 'M',
+      tags: ['teleporter'],
+      optionText: "Go to M",
+      clear: true,
+      content: "You are standing in cell M. There is a teleporter here.",
+      choices: ['N', '#teleporter']
+    },
+    { id: 'N', optionText: "Go to N", content: "You are standing in cell N.",
+      clear: true,
+      choices: ['M', 'J']},
+    { id: 'O', optionText: "Go to O", content: "You are standing in cell O.",
+      clear: true,
+      choices: ['K']},
+    { id: 'P', optionText: "Go to P", content: "You are standing in cell P.",
+      clear: true,
+      choices: ['L', 'win']},
+    {
+      id: 'win',
+      optionText: 'Exit the maze',
+      clear: true,
+      content: `
+        You exit the maze victorious!
+      `
+    }
+  ]
+});
+```
+
 That's most of what you can do without writing any JavaScript functions.

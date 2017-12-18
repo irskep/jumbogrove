@@ -6,6 +6,16 @@
   padding: 0 1rem;
 }
 
+.jg-with-sidebar .JGUI {
+  position: relative;
+  min-height: 15rem;
+}
+
+.jg-with-sidebar .JGUI > aside, .jg-with-sidebar .JGUI > nav {
+  position: absolute !important;
+  bottom: auto !important;
+}
+
 .JumboGrove .JGHTMLItem p:first-child {
   margin-top: 1rem;
 }
