@@ -8,7 +8,15 @@
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-<link rel="stylesheet" href="./inject/css/0-app.css"><link rel="stylesheet" href="./inject/css/0-style.css"><script src="./inject/script/0-jumbogrove.js"></script><script src="./inject/script/0-script.js"></script><meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
+<link rel="stylesheet" href="./inject/css/0-app.css"><link rel="stylesheet" href="./inject/css/0-style.css"><script src="./inject/script/0-jumbogrove.js"></script><script src="./inject/script/0-script.js"></script><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4517625-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', UA-4517625-7);
+</script><meta name="description" content="An interactive fiction game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Jumbo Grove"><meta property="twitter:description" content="An interactive fiction game engine"></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -275,7 +283,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/jg/character.js~Character.html#instance-method-addToQuality">addToQuality</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/jg/character.js~Character.html#instance-method-addToQuality">addToQuality</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, delta: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
         </p>
       </div>
       <div>
@@ -739,7 +747,7 @@
     
     
     
-    <span class="code" data-ice="name">addToQuality</span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+    <span class="code" data-ice="name">addToQuality</span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, delta: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
     <span class="right-info">
       
       
@@ -771,7 +779,7 @@
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">value</td>
+      <td data-ice="name" class="code" data-depth="0">delta</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>Amount to add</p>

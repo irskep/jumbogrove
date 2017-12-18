@@ -1,51 +1,5 @@
 [
   {
-    "name": "Character#addToQuality",
-    "filePath": "src/jg/character.js",
-    "lines": [
-      {
-        "lineNumber": 146,
-        "line": "    /**"
-      },
-      {
-        "lineNumber": 147,
-        "line": "     * Add an integer value to the given quality."
-      },
-      {
-        "lineNumber": 148,
-        "line": "     * "
-      },
-      {
-        "lineNumber": 149,
-        "line": "     * @param {string} id ID of the quality to modify on this character"
-      },
-      {
-        "lineNumber": 150,
-        "line": "     * @param {number} value Amount to add"
-      },
-      {
-        "lineNumber": 151,
-        "line": "     * @returns {number} The new value"
-      },
-      {
-        "lineNumber": 152,
-        "line": "     */"
-      },
-      {
-        "lineNumber": 153,
-        "line": "    addToQuality(id, delta) {"
-      }
-    ],
-    "codeParams": [
-      "id",
-      "delta"
-    ],
-    "docParams": [
-      "id",
-      "value"
-    ]
-  },
-  {
     "name": "ui#renderMarkdownTemplateMaybeInline",
     "filePath": "src/jg/dataui.js",
     "lines": [

@@ -7642,7 +7642,7 @@
                 "trailingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\n     * Add an integer value to the given quality.\n     * \n     * @param {string} id ID of the quality to modify on this character\n     * @param {number} value Amount to add\n     * @returns {number} The new value\n     ",
+                    "value": "*\n     * Add an integer value to the given quality.\n     * \n     * @param {string} id ID of the quality to modify on this character\n     * @param {number} delta Amount to add\n     * @returns {number} The new value\n     ",
                     "start": 4496,
                     "end": 4719,
                     "loc": {
@@ -7916,7 +7916,7 @@
                 "leadingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\n     * Add an integer value to the given quality.\n     * \n     * @param {string} id ID of the quality to modify on this character\n     * @param {number} value Amount to add\n     * @returns {number} The new value\n     ",
+                    "value": "*\n     * Add an integer value to the given quality.\n     * \n     * @param {string} id ID of the quality to modify on this character\n     * @param {number} delta Amount to add\n     * @returns {number} The new value\n     ",
                     "start": 4496,
                     "end": 4719,
                     "loc": {
@@ -8235,7 +8235,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n     * Add an integer value to the given quality.\n     * \n     * @param {string} id ID of the quality to modify on this character\n     * @param {number} value Amount to add\n     * @returns {number} The new value\n     ",
+      "value": "*\n     * Add an integer value to the given quality.\n     * \n     * @param {string} id ID of the quality to modify on this character\n     * @param {number} delta Amount to add\n     * @returns {number} The new value\n     ",
       "start": 4496,
       "end": 4719,
       "loc": {
@@ -22112,7 +22112,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n     * Add an integer value to the given quality.\n     * \n     * @param {string} id ID of the quality to modify on this character\n     * @param {number} value Amount to add\n     * @returns {number} The new value\n     ",
+      "value": "*\n     * Add an integer value to the given quality.\n     * \n     * @param {string} id ID of the quality to modify on this character\n     * @param {number} delta Amount to add\n     * @returns {number} The new value\n     ",
       "start": 4496,
       "end": 4719,
       "loc": {
