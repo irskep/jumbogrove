@@ -148,7 +148,7 @@ export default class Character {
      * Add an integer value to the given quality.
      * 
      * @param {string} id ID of the quality to modify on this character
-     * @param {number} value Amount to add
+     * @param {number} delta Amount to add
      * @returns {number} The new value
      */
     addToQuality(id, delta) {
