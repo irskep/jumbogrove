@@ -14,42 +14,124 @@ _.defer(() => {
   }
 
   tryGame('#firstdemo', {
+    globalState: {numDocs: 0},
     situations: [
       {
         id: 'start',
         content: `
         ### The Jumbo Grove Experience
-        You are looking at a [web page](>write:web_page).
+
+        You are [sitting in the back](>replaceself:patrons_back) of a
+        [coffee shop](>write:describe_coffee_shop).
+
+        You stare blankly at the address bar of your web browser.
         `,
         snippets: {
-          web_page: `
-          It is the documentation for Jumbo Grove. What do you want to do?
-
-          * [Make a game](@make-a-game)
-          * [Admire the beautiful CSS](@admire-css)
+          patrons_back: `sitting, laptop open, hunched forward, in the back`,
+          describe_coffee_shop: `
+          You come here a lot. It's your only interaction with humans
+          in real life, other than grocery store cashiers. You've been
+          working on your interactive fiction game design for months
+          now.
           `
-        }
-      },
-      {
-        id: 'make-a-game',
-        content: `
-        You type until your fingers are [sore](>replaceself:sore_fingers).
-        You make something incredible.
-        `,
-        snippets: {
-          sore_fingers: "sore (like, really sore)"
         },
-        choices: ['admire-css'],
+        choices: ['drink-coffee', 'read-reddit', 'view-documentation']
       },
       {
-        id: 'admire-css',
-        optionText: 'Admire the CSS',
+        id: 'drink-coffee',
+        optionText: 'Drink your coffee',
         content: `
-        Your eyes trace the loving lines of the sidebar and the curves of the fonts.
-
-        ### The End
-        `
+        You sip your coffee. You stare at your laptop screen.
+        `,
+        choices: ['read-reddit', 'view-documentation']
       },
+      {
+        id: 'read-reddit',
+        optionText: 'Read Reddit',
+        content: `
+        You browse /new page of \`/r/interactivefiction\` for the fifth time
+        in the last hour. It brings you no joy.
+        `,
+        choices: ['view-documentation'],
+      },
+      {
+        id: 'view-documentation',
+        optionText: 'Read the JumboGrove documentation',
+        content: `
+        Finally, you decide to do some actual work. You crack open the
+        documentation for Jumbo Grove, an amazing new interactive fiction
+        game engine that all your cool friends are raving about.
+        `,
+        choices: ['#docs']
+      },
+
+      {
+        tags: ['docs'], id: 'docs-basics', optionText: 'Read the intro tutorial',
+        getCanSee: (model) => !model.globalState.docsBasics,
+        enter: (model) => {
+          model.globalState.docsBasics = true;
+          model.globalState.numDocs += 1;
+        },
+        choices: ['#docs'],
+        content: `
+        You follow the introductory tutorial and learn about the basics
+        of Jumbo Grove.
+        `,
+      },
+
+      {
+        tags: ['docs'], id: 'docs-choices', optionText: 'Read about choices',
+        getCanSee: (model) => !model.globalState.docsChoices,
+        enter: (model) => {
+          model.globalState.docsChoices = true;
+          model.globalState.numDocs += 1;
+        },
+        choices: ['#docs'],
+        content: `
+        You read the guide to choices and scripting, learning how you can give
+        the player complex decisions to make.
+        `,
+      },
+
+      {
+        tags: ['docs'], id: 'docs-templates', optionText: 'Read about templates',
+        getCanSee: (model) => !model.globalState.docsTemplates,
+        enter: (model) => {
+          model.globalState.docsTemplates = true;
+          model.globalState.numDocs += 1;
+        },
+        choices: ['#docs'],
+        content: `
+        You read about how to show different text depending on the game state,
+        and how to write your own tools to save typing.
+        `,
+      },
+
+      {
+        tags: ['docs'], id: 'docs-actions', optionText: 'Read about actions',
+        getCanSee: (model) => !model.globalState.docsActions,
+        enter: (model) => {
+          model.globalState.docsActions = true;
+          model.globalState.numDocs += 1;
+        },
+        choices: ['#docs'],
+        content: `
+        You read about actions, and how they can add interactivity to a scene
+        in interesting ways.
+        `,
+      },
+
+      {
+        tags: ['docs'], id: 'docs-end', optionText: 'Write your game',
+        getCanSee: (model) => model.globalState.numDocs >= 3,
+        content: `
+        You feel like you know enough about Jumbo Grove to get started.
+        You start typing and don't stop for hours. By the time the barista finally
+        kicks you out, you've written a masterpiece.
+
+        # The End
+        `
+      }
     ]
   });
 

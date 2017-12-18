@@ -1,4 +1,4 @@
-# Jumbo Grove
+# Jumbo Grove: Interactive Fiction in JavaScript
 
 Jumbo Grove is a tool for writing hypertext interactive fiction. *Hypertext*
 means text with links. *[Interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction)*
