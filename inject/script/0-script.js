@@ -120,6 +120,35 @@ _.defer(() => {
     ]
   });
 
+  tryGame('#house-game', {
+    id: 'house-game',
+    initialSituation: 'living-room',  // use this instead of 'start' if you want
+    situations: [
+      {
+        id: 'living-room',
+        optionText: 'Go to the living room',
+        content: "The living room has a couch and a TV.",
+        choices: ['#from-living-room']
+      },
+      {
+        id: 'bathroom',
+        tags: ['from-living-room'],
+        optionText: "Enter the bathroom",
+        displayOrder: 2,  // show up AFTER the bedroom in the choices list
+        content: "The bathroom contains a sink and a toilet.",
+        choices: ['living-room']
+      },
+      {
+        id: 'bedroom',
+        tags: ['from-living-room'],
+        displayOrder: 1,  // show up BEFORE the bathroom in the choices list
+        optionText: "Enter the bedroom",
+        content: "The bedroom is filled by a queen sized bed and a dresser.",
+        choices: ['living-room']
+      },
+    ]
+  });
+
   tryGame('#maze-3', {
     id: 'maze-game',
     situations: [
