@@ -7,6 +7,8 @@ is a medium for storytelling that crosses over into video games.
 Jumbo Grove requires beginner-level knowledge of JavaScript, but more
 experienced developers will find plenty of useful stuff!
 
+Jumbo Grove is free and open source under the MIT License.
+
 ## Features
 
 * Desktop, mobile, and gamepad support
