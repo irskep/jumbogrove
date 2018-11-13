@@ -30,9 +30,16 @@ const jumbogrove = (selector, data) => {
   const existingClasses = document.querySelector(selector).className;
   new Vue({
     el: selector,
-    template: '<App :director="director" :ui="ui" :class="existingClasses" />',
     components: { App },
-    data: {director, ui, existingClasses},
+    render: function(createElement) {
+      return createElement(App, {
+        props: {
+          director,
+          ui,
+          class: existingClasses
+        },
+      });
+    }
   });
 };
 

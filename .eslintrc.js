@@ -31,6 +31,7 @@ module.exports = {
     'object-property-newline': 0,
     'no-unreachable': 0,
     'padded-blocks': 0,
+    'object-curly-spacing': 0,
 
     // allow paren-less arrow functions
     'arrow-parens': 0,
