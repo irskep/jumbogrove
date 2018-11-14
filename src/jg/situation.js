@@ -11,7 +11,7 @@ export default class Situation {
      * @param {string} args.id
      * @param {Boolean} args.autosave If true, game will save when scene is
      *                                entered. Default false.
-     * @param {Boolean} args.autosave If true, transcript will be cleared when
+     * @param {Boolean} args.clear    If true, transcript will be cleared when
      *                                scene is entered. Default false.
      * @param {string} args.content
      *      Markdown template to be rendered to the transcript when this
