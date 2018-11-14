@@ -27,6 +27,7 @@ module.exports = {
     'quotes': 0,
     'no-return-assign': 0,
     'no-multiple-empty-lines': 0,
+    'no-multi-spaces': 0,
     'import/first': 0,
     'object-property-newline': 0,
     'no-unreachable': 0,

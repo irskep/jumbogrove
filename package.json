@@ -7,9 +7,9 @@
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build src/main.js",
     "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib --name jumbogrove src/main.js",
+    "lib": "vue-cli-service build --target lib --formats commonjs --name jumbogrove src/main.js",
     "doc": "esdoc",
     "deploydocs": "yarn doc && ghp-import -np docs_out"
   },

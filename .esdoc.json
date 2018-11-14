@@ -38,11 +38,11 @@
     {"name": "esdoc-ecmascript-proposal-plugin", "option": {"all": true}},
     {
       "name": "esdoc-inject-style-plugin",
-      "option": {"enable": true, "styles": ["./dist/static/css/app.css", "./manual/style.css"]}
+      "option": {"enable": true, "styles": ["./dist/css/app.css", "./manual/style.css"]}
     },
     {
       "name": "esdoc-inject-script-plugin",
-      "option": {"enable": true, "scripts": ["./dist/jumbogrove.js", "./manual/script.js"]}
+      "option": {"enable": true, "scripts": ["./dist/js/app.js", "./manual/script.js"]}
     },
     {
       "name": "./GoogleAnalyticsESDocPlugin.js",
