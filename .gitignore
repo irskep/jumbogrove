@@ -21,3 +21,4 @@ docs_out/
 *.sln
 *.sw*
 old/
+test/unit/coverage

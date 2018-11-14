@@ -11,7 +11,10 @@
     "lint": "vue-cli-service lint",
     "lib": "vue-cli-service build --target lib --formats commonjs --name jumbogrove src/main.js",
     "doc": "esdoc",
-    "deploydocs": "yarn doc && ghp-import -np docs_out"
+    "deploydocs": "yarn build && yarn doc && ghp-import -np docs_out",
+    "test": "jest '.*.test.js'",
+    "testplus": "jest '.*.test.js' --coverage",
+    "watchtest": "jest '.*.test.js' --watch"
   },
   "files": [
     "dist/*",
@@ -34,6 +37,10 @@
     "@vue/cli-plugin-eslint": "^3.1.5",
     "@vue/cli-service": "^3.1.4",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
     "esdoc": "^1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-inject-script-plugin": "^1.0.0",
@@ -47,7 +54,9 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^5.0.0-0",
+    "jest": "^23.6.0",
     "sass-loader": "^7.1.0",
+    "vue-jest": "^3.0.0",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
@@ -68,6 +77,31 @@
     "plugins": {
       "autoprefixer": {}
     }
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    },
+    "setupFiles": [
+      "<rootDir>/test/unit/setup"
+    ],
+    "mapCoverage": true,
+    "coverageDirectory": "<rootDir>/test/unit/coverage",
+    "collectCoverageFrom": [
+      "src/**/*.{js,vue}",
+      "!src/main.js",
+      "!src/router/index.js",
+      "!**/node_modules/**"
+    ]
   },
   "browserslist": [
     "> 1%",
