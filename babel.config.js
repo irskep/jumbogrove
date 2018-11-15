@@ -1,14 +1,14 @@
 module.exports = {
   presets: [
     '@vue/app',
-    ["env", {
-      "modules": false
-    }],
-    "stage-2"
+    // ["env", {
+    //   "modules": false
+    // }],
+    // "stage-2"
   ],
-  "plugins": ["transform-runtime"],
+  // "plugins": ["transform-runtime"],
   "env": {
-    "test": {
-      "presets": ["env", "stage-2"]    }
+    // "test": {
+    //   "presets": ["env", "stage-2"]    }
   }
 }
