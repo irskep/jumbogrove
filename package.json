@@ -10,7 +10,6 @@
     "build": "vue-cli-service build src/main.js",
     "lint": "vue-cli-service lint",
     "lib": "vue-cli-service build --target lib --formats commonjs --name jumbogrove src/main.js",
-    "watch": "vue-cli-service build --watch --target lib --formats commonjs --name jumbogrove src/main.js",
     "doc": "esdoc",
     "deploydocs": "yarn build && yarn doc && ghp-import -np docs_out",
     "test": "jest '.*.test.js'",
